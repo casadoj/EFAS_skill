@@ -1,0 +1,47 @@
+station_id,version__origin__name,version__version,StationName,StationLon,StationLat,Alive,CAL_TYPE,Calibration ID,Catchment,Country code,DrainingArea.km2.LDD,DrainingArea.km2.Provider,EC_Catchments,EC_calib,Exclude,FixedRepPoint,HasD,HasHD,HasHWL,HasRTD,HasRTWL,HasWL,Height,LSFCalib,LisfloodX,LisfloodY,MdlStep,ModelFile,Notes,ObsID,PostProcess,Provider ID,RealTime,River
+870,EFAS,12,Ilok,19.37825,45.230444,1,NRT_6h,,Danube,HR,255550.0,253737.0,Danube,3.0,0,True,1,1,1,1,1,1,73.97,True,5052500.0,2502500.0,6.0,ID_870.mod,outliers removed after qc,870,True,1031,True,Danube
+19,EFAS,12,Neu Darchau,10.8888,53.232262,1,NRT_6h,C172,Elbe,DE,131450.0,131950.0,Elbe,3.0,0,True,1,1,1,1,1,1,5.68,True,4377500.0,3352500.0,6.0,ID_19.mod,,19,True,1004,True,Elbe
+26,EFAS,12,Hohensaaten-Finow,14.141123,52.864739,1,NRT_6h,C178,Oder,DE,109875.0,109564.0,Oder,3.0,0,True,1,1,1,1,1,1,0.16,True,4602500.0,3307500.0,6.0,ID_26.mod,,26,True,1004,True,Oder
+153,EFAS,12,Lobith,6.108333,51.844444,1,NRT_6h,C368,Rhine,NL,159675.0,160800.0,Rhine,3.0,0,True,1,1,1,1,1,1,13.0,True,4052500.0,3202500.0,6.0,ID_153.mod,,153,True,1008,True,Rhine
+132,EFAS,12,"Ounasjoki, Marraskoski",25.420245,66.798477,1,NRT_6h,C242,Kemijoki,FI,12900.0,12303.0,Kemijoki,3.0,0,True,1,1,1,1,0,0,93.0,True,4997500.0,4932500.0,6.0,ID_132.mod,,132,True,1011,True,Ounasjoki
+136,EFAS,12,"Muonionjoki, Muonio",23.660143,67.945748,1,NRT_6h,C625,Torne,FI,9250.0,9259.0,Torne,3.0,0,True,1,1,1,1,0,0,233.0,True,4887500.0,5042500.0,6.0,ID_136.mod,,136,True,1011,True,Muonio
+1077,EFAS,12,Polmak nye,28.016008,70.070345,1,NRT_6h,,Tana,NO,13850.0,14158.06,Tana,3.0,0,True,1,1,0,1,0,0,10.0,True,5002500.0,5307500.0,6.0,ID_1077.mod,,1077,True,1002,True,Tana
+142,EFAS,12,Juutuanjoki,26.925191,68.889188,1,NRT_6h,C612,Paatsjoki,FI,5250.0,5160.0,Paatsjoki,3.0,0,True,1,1,1,1,0,0,140.0,True,4997500.0,5162500.0,6.0,ID_142.mod,,142,True,1011,True,Juutuanjoki
+830,EFAS,12,Aarschot,4.822323,50.987652,1,NRT_6h,,Scheldt,BE,2100.0,2146.42,Scheldt,3.0,0,True,1,1,0,1,0,0,,True,3962500.0,3112500.0,6.0,ID_830.mod,,830,True,1022,True,Demer
+1041,EFAS,12,Blaker,11.299323,60.004052,1,NRT_6h,,Glomma,NO,38650.0,38588.11,Glomma,3.0,0,True,1,1,0,1,0,0,90.0,True,4387500.0,4097500.0,6.0,ID_1041.mod,Negative discharge  and zeros,1041,True,1002,True,Glomma
+323,EFAS,12,Strømstøa,10.138882,60.314604,1,NRT_6h,C645,Drammen,NO,4750.0,4631.48,Drammen,3.0,0,True,1,1,0,1,0,0,150.0,True,4327500.0,4137500.0,6.0,ID_323.mod,dam but not in lsf,323,True,1002,True,Adalselva
+393,EFAS,12,Pontelagoscuro,11.608072,44.888296,1,NRT_6h,C140,Po,IT,71175.0,70091.0,Po,3.0,0,True,1,1,1,1,1,1,8.0,True,4447500.0,2422500.0,6.0,ID_393.mod,,393,True,1016,True,Po
+366,EFAS,12,"Geneve, Bout Du Monde",6.159361,46.180286,1,NRT_6h,,Rhone,CH,1925.0,1976.0,Rhone,3.0,0,True,1,1,1,1,1,1,380.0,True,4027500.0,2572500.0,6.0,ID_366.mod,,366,True,1003,True,Arve
+606,EFAS,12,Ebro En Tortosa,0.520716,40.813296,1,NRT_6h,C118,Ebro,ES,85050.0,84230.0,Ebro,3.0,0,True,1,1,1,1,1,1,25.0,True,3522500.0,2022500.0,6.0,ID_606.mod,Dams oscillations,606,True,1012,True,Ebro
+953,EFAS,12,St. Pieter Noord,5.697333,50.830306,1,NRT_6h,,Meuse,NL,21075.0,21100.0,Meuse,3.0,0,True,1,1,1,1,1,1,46.0,True,4017500.0,3082500.0,6.0,ID_953.mod,Small Oscillations,953,True,1008,True,Meuse
+968,EFAS,12,Corbones_Ca,-5.606802,37.563713,1,NRT_6h,C495,Guadalquivir,ES,1750.0,1377.0,Guadalquivir,3.0,0,True,1,1,0,1,1,1,35.0,True,2942500.0,1747500.0,6.0,ID_968.mod,,968,True,1030,True,Corbones
+1017,EFAS,12,Nybergsund,12.322496,61.259078,1,NRT_6h,C398,Gota,NO,4375.0,4420.24,Gota,3.0,0,True,1,1,0,1,0,0,353.0,True,4447500.0,4237500.0,6.0,ID_1017.mod,,1017,True,1002,True,Trysilelva / Klaralven
+1020,EFAS,12,Iijärvi - luusua,28.037857,69.509454,1,NRT_6h,,Naatamo,FI,800.0,744.0,Naatamo,3.0,0,True,1,1,1,1,0,0,193.0,True,5022500.0,5242500.0,6.0,ID_1020.mod,,1020,True,1011,True,Iijarvi
+1026,EFAS,12,Viksvatn (Hestadfjorden),5.886256,61.333056,1,NRT_6h,,Gaula (Sande),NO,500.0,508.13,Gaula_Sande,3.0,0,True,1,1,0,1,0,0,143.0,True,4102500.0,4252500.0,6.0,ID_1026.mod,,1026,True,1002,True,Gaula (Sande)
+1037,EFAS,12,Bertnem,12.058677,64.468065,1,NRT_6h,C397,Namsen,NO,5175.0,5161.54,Namsen,3.0,0,True,1,1,0,1,0,0,7.0,True,4427500.0,4597500.0,6.0,ID_1037.mod,outlier removed with qc,1037,True,1002,True,Namsen
+1036,EFAS,12,Syrstad,9.727708,63.032252,1,NRT_6h,C652,Orkla,NO,2275.0,2278.13,Orkla,3.0,0,True,1,1,0,1,0,0,140.0,True,4307500.0,4437500.0,6.0,ID_1036.mod,outlier  oscillations,1036,True,1002,True,Orkla
+1040,EFAS,12,Svartfossberget,21.381661,69.52854,1,NRT_6h,,Reisaelva,NO,1950.0,1932.29,Reisaelva,3.0,0,True,1,1,0,1,0,0,90.0,True,4767500.0,5192500.0,6.0,ID_1040.mod,,1040,True,1002,True,Reisaelva
+1048,EFAS,12,Stuvane,7.619074,61.044155,1,NRT_6h,,Laerdalselva,NO,975.0,994.19,Laerdalselva,3.0,0,True,1,1,0,1,0,0,73.0,True,4192500.0,4217500.0,6.0,ID_1048.mod,,1048,True,1002,True,Laerdalselva
+1056,EFAS,12,Bulken (Vangsvatnet),6.292537,60.628683,1,NRT_6h,C390,Vosso,NO,1075.0,1092.04,Vosso,3.0,0,True,1,1,0,1,0,0,47.0,True,4117500.0,4177500.0,6.0,ID_1056.mod,,1056,True,1002,True,Vosso
+1060,EFAS,12,Driva v/Elverhøy bru,8.694089,62.64874,1,NRT_6h,,Driva,NO,2425.0,2437.41,Driva,3.0,0,True,1,1,0,1,0,0,34.0,True,4252500.0,4392500.0,6.0,ID_1060.mod,,1060,True,1002,True,Driva
+1099,EFAS,12,Gaulfoss,10.229018,63.108479,1,NRT_6h,C396,Gaula (Melhus),NO,3200.0,3086.41,Gaula,3.0,0,True,1,1,0,1,0,0,54.0,True,4332500.0,4447500.0,6.0,ID_1099.mod,,1099,True,1002,True,Gaula (Melhus)
+1068,EFAS,12,Selfors bru,14.698448,66.996977,1,NRT_6h,,Beiarelva,NO,775.0,788.34,Beiarelva,3.0,0,True,1,1,0,1,0,0,10.0,True,4527500.0,4882500.0,6.0,ID_1068.mod,,1068,True,1002,True,Beiarelva
+1075,EFAS,12,Rauma v/Horgheim,7.78144,62.473214,1,NRT_6h,,Rauma,NO,1125.0,1099.42,Rauma,3.0,0,True,1,1,0,1,0,0,61.0,True,4212500.0,4372500.0,6.0,ID_1075.mod,negative values,1075,True,1002,True,Rauma
+1076,EFAS,12,Rathe,10.390233,63.384904,1,NRT_6h,,Nea,NO,3050.0,3057.88,Nea,3.0,0,True,1,1,0,1,0,0,14.0,True,4342500.0,4472500.0,6.0,ID_1076.mod,Dam strongly regulated,1076,True,1002,True,Nea
+1082,EFAS,12,Øvrevatn,17.941075,68.857619,1,NRT_6h,,Salangs,NO,525.0,526.02,Salangs,3.0,0,True,1,1,0,1,0,0,8.0,True,4647500.0,5102500.0,6.0,ID_1082.mod,,1082,True,1002,True,Svartdalsbekken
+1083,EFAS,12,Omnesfoss,8.993231,59.611714,1,NRT_6h,,Skien,NO,875.0,807.71,Skien,3.0,0,True,1,1,0,1,0,0,61.0,True,4262500.0,4057500.0,6.0,ID_1083.mod,,1083,True,1002,True,Heddola
+1086,EFAS,12,Flaksvatn,8.203061,58.330464,1,NRT_6h,,Tovdal,NO,1825.0,1780.66,Tovdal,3.0,0,True,1,1,0,1,0,0,19.0,True,4217500.0,3917500.0,6.0,ID_1086.mod,,1086,True,1002,True,Tovdal
+1088,EFAS,12,Fustvatn,13.307593,65.905237,1,NRT_6h,,Fusta,NO,550.0,525.69,Fusta,3.0,0,True,1,1,0,1,0,0,39.0,True,4472500.0,4757500.0,6.0,ID_1088.mod,,1088,True,1002,True,Fusta
+1114,EFAS,12,Laksfors,13.291557,65.621554,1,NRT_6h,C399,Vefsna,NO,3575.0,3653.4,Vefsna,3.0,0,True,1,1,0,1,0,0,40.0,True,4472500.0,4727500.0,6.0,ID_1114.mod,,1114,True,1002,True,Vefsna
+1101,EFAS,12,Masi,23.635036,69.420041,1,NRT_6h,C401,Altaelva,NO,5675.0,5620.81,Altaelva,3.0,0,True,1,1,0,1,0,0,0.0,True,4857500.0,5197500.0,6.0,ID_1101.mod,,1101,True,1002,True,Kautokeinoelva
+1103,EFAS,12,Gjedlakleiv,6.066195,58.573402,1,NRT_6h,,Bjerkreim,NO,600.0,635.15,Bjerkreim,3.0,0,True,1,1,0,1,0,0,49.0,True,4087500.0,3942500.0,6.0,ID_1103.mod,,1103,True,1002,True,Bjerkreim
+1107,EFAS,12,Malangsfoss,18.658337,69.034928,1,NRT_6h,C400,Malselv,NO,2975.0,3110.65,Malselv,3.0,0,True,1,1,0,1,0,0,23.0,True,4672500.0,5122500.0,6.0,ID_1107.mod,,1107,True,1002,True,Malselv
+1110,EFAS,12,Grunnfoss,11.809693,63.79118,1,NRT_6h,,Verdal,NO,900.0,880.37,Verdal,3.0,0,True,1,1,0,1,0,0,38.0,True,4412500.0,4522500.0,6.0,ID_1110.mod,,1110,True,1002,True,Helgaa
+1119,EFAS,12,Kjølemo,7.52813,58.120242,1,NRT_6h,C649,Mandal,NO,1750.0,1757.7,Mandal,3.0,0,True,1,1,0,1,0,0,10.0,True,4177500.0,3897500.0,6.0,ID_1119.mod,,1119,True,1002,True,Mandal
+1131,EFAS,12,Holmfoss i Numedalslågen,9.993582,59.189643,1,NRT_6h,,Lagen,NO,5150.0,5201.8,Lagen,3.0,0,True,1,1,0,1,0,0,12.0,True,4317500.0,4017500.0,6.0,ID_1131.mod,,1131,True,1002,True,Lagen
+1132,EFAS,12,Håkkadalbrua,11.503843,64.020191,1,NRT_6h,,Byaelva,NO,2125.0,2141.01,Byaelva,3.0,0,True,1,1,0,1,0,0,6.0,True,4397500.0,4547500.0,6.0,ID_1132.mod,,1132,True,1002,True,Byaelva
+1140,EFAS,12,Hegra bru,11.1156,63.461762,1,NRT_6h,C650,Stjørdal,NO,1900.0,1873.48,Stjordal,3.0,0,True,1,1,0,1,0,0,10.0,True,4372500.0,4482500.0,6.0,ID_1140.mod,,1140,True,1002,True,Stjørdal
+1141,EFAS,12,Heisel,7.951435,58.247549,1,NRT_6h,C391,Otra,NO,3600.0,3687.09,Otra,3.0,0,True,1,1,0,1,0,0,18.0,True,4197500.0,3902500.0,6.0,ID_1141.mod,,1141,True,1002,True,Otra
+1181,EFAS,12,Zamora,-5.7189,41.514432,1,NRT_6h,C113,Douro,ES,46025.0,46225.45,Duero,3.0,0,True,1,1,0,1,1,1,628.0,True,3007500.0,2182500.0,6.0,ID_1181.mod,,1181,True,1039,True,Douro
+1263,EFAS,12,Río Miño en Cela Brazo derecho,-7.60459,43.13946,1,NRT_6h,,Minho,ES,1075.0,1004.71,Minho,3.0,0,True,1,1,1,1,1,1,385.78,True,2897500.0,2392500.0,6.0,ID_1263.mod,,1263,True,1036,True,Minho
+1281,EFAS,12,Río Limia en Ponteliñares,-7.883539,42.021176,1,NRT_6h,,Limia,ES,700.0,693.02,Lima,3.0,0,True,1,1,1,1,1,1,610.78,True,2852500.0,2277500.0,6.0,ID_1281.mod,,1281,True,1036,True,Limia
