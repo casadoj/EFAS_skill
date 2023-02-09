@@ -178,7 +178,7 @@ def plot_events_map(x, y, n_events, save=None, rivers=None, ax=None, **kwargs):
         
         
         
-def plot_map_stations(x, y, z, rivers=None, ax=None, save=None, **kwargs):
+def plot_map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
     """It plots a map of Europe with the reporting points and their number of flood events
     
     Inputs:
@@ -195,8 +195,8 @@ def plot_map_stations(x, y, z, rivers=None, ax=None, save=None, **kwargs):
     
     # define projection
     if ax is None:
-        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000,
-                                              globe=ccrs.Globe(ellipse='GRS80'))
+        fig = plt.figure(figsize=kwargs.get('figsize', None))
+        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
         ax = plt.axes(projection=proj)
     
     # plot coatslines and country borders
@@ -208,22 +208,26 @@ def plot_map_stations(x, y, z, rivers=None, ax=None, save=None, **kwargs):
         rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
     
     # plot all the stations
-    ax.scatter(x, y, s=kwargs.get('size', 1) / 10, c='dimgray', alpha=kwargs.get('alpha', .5), label='stations w/o events')
+    if mask is not None:
+        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 10, c='dimgray', alpha=kwargs.get('alpha', .5), label='stations w/o events')
     
     # plot stations with flood events
-    stns = z[~z.isnull()].index
-    sct = ax.scatter(x[stns], y[stns], c=z[stns], s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
+    if mask is not None:
+        x = x[~mask]
+        y = y[~mask]
+        z = z[~mask]
+    sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
                     alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
-    plot_events_map.colorbar = sct
+    plot_map_stations.colorbar = sct
     
     # settings
     if ax is None:
-        plt.colorbar(im, location='bottom', shrink=.4, label='no. events')
+        plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
         plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
         # ax.set_extent([-13, 45, 30, 70])
         ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
     else:
-        plot_events_map.legend = ax.get_legend_handles_labels()
+        plot_map_stations.legend = ax.get_legend_handles_labels()
     ax.axis('off')
     
     if 'title' in kwargs:
@@ -778,7 +782,7 @@ def heatmap_forecast(da, events=None, leadtime_grid=4, forecast_grid=10, ax=None
     
     
 def dataarray_events(events, forecast, leadtime):
-    """It creates a binary, 2D DataArray describing the outbreak of a flood event.
+    """It creates a binary, 2D DataArray describing the onset of a flood event.
     
     Inputs:
     -------
@@ -918,7 +922,8 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
             ax.set_yticklabels(da[ydim].data[1::step], rotation=0)
             if j == 0:
                 ax.set_ylabel(f'{ydim} (-)')
-                ax.text(-8, len(da[ydim]) / 2, row, fontsize=13, rotation=90, verticalalignment='center')
+                # ax.text(-8, len(da[ydim]) / 2, row, fontsize=13, rotation=90, verticalalignment='center')
+                ax.text(-.15, .5, row, fontsize=13, rotation=90, verticalalignment='center', transform=ax.transAxes)
             # else:
             #     ax.set_yticks([])
             if i == 0:
@@ -1058,3 +1063,112 @@ def compute_metrics(hits, dims_agg=None):
         skill['leadtime'] = (skill.leadtime / 3600e9).astype(int)
     
     return skill
+
+
+
+def df2da(df, dims, plot=False, **kwargs):
+    """It converts a pandas.DataFrame into a xarray.DataArray
+    
+    Inputs:
+    -------
+    df:    pandas.DataFrame
+    dims:  list (2,). Names of the dimensions for the DataArray. The first dimension corresponds to the columns in the DataFrame, and the second dimension to the index
+    plot:  boolean. Whether to plot or not a heat map of the data
+    """
+    
+    da = xr.DataArray(df.transpose(), dims=dims, coords={dims[0]: df.columns.tolist(), dims[1]: df.index.tolist()})
+    
+    if plot:
+        kwargs['xticklabels'] = df.index
+        kwargs['yticklabels'] = df.columns
+        plot_da(da, **kwargs)
+        
+    return da
+
+
+
+def plot_da(da, ax=None, **kwargs):
+    """It creates a heatmap plot of a 2D DataArray
+    
+    Input:
+    ------
+    da:   xarray.DataArray (n,m)
+    ax:   matplotlib.axes
+    """
+    
+    # extract kwargs
+    figsize = kwargs.get('figsize', (16, 2))
+    xtick_step = kwargs.get('xtick_step', 60)
+    ytick_step = kwargs.get('ytick_step', 3)
+    cmap = kwargs.get('cmap', 'magma')
+    vmin = kwargs.get('vmin', None)
+    vmax = kwargs.get('vmax', None)
+    cbar = kwargs.get('cbar', True)
+    cbar_kws = kwargs.get('cbar_kws', None)
+    
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    
+    if len(da.shape) == 2:
+        da_plot = da
+        dimy, dimx = da.dims
+    elif len(da.shape) == 1:
+        da_plot = np.array(da)[np.newaxis,:]
+        dimx = da.dims[0]
+    sns.heatmap(da_plot, cmap=cmap, ax=ax, vmin=vmin, vmax=vmax, cbar=cbar, cbar_kws=cbar_kws)
+    
+    # if 'yticklabels' in kwargs:
+    if 'dimy' in locals():
+        yticklabels = kwargs.get('yticklabels', da[dimy].data)
+        yticks = np.arange(0, len(yticklabels), ytick_step) + .5
+        ax.set_yticks(yticks)
+        if yticklabels.dtype == '<M8[ns]':
+            yticklabels = [datetime.strftime(idx, '%Y-%m-%d') for idx in pd.to_datetime(yticklabels[::ytick_step])]
+        else:
+            yticklabels = yticklabels[::ytick_step]
+        ax.set_yticklabels(yticklabels, rotation=0)
+    
+    # if 'xticklabels' in kwargs:
+    if 'dimx' in locals():
+        xticklabels = kwargs.get('xticklabels', da[dimx].data)
+        xticks = np.arange(0, len(xticklabels), xtick_step) + .5
+        ax.set_xticks(xticks)
+        if xticklabels.dtype == '<M8[ns]':
+            xticklabels = [datetime.strftime(idx, '%Y-%m-%d') for idx in pd.to_datetime(xticklabels[::xtick_step])]
+        else:
+            xticklabels = xticklabels[::xtick_step]
+        ax.set_xticklabels(xticklabels, rotation=90)
+    
+    if 'title' in kwargs:
+        ax.set_title(kwargs['title'])
+    if 'ylabel' in kwargs:
+        ax.set_ylabel(kwargs['ylabel'])
+    if 'xlabel' in kwargs:
+        ax.set_xlabel(kwargs['xlabel'])
+    
+    ax.tick_params(length=0);
+
+    
+    
+def reshape_da(da, coords, loop_dim='leadtime'):
+    """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
+    
+    Inputs:
+    -------
+    da:       xarray.DataArray. Original DataArray
+    coords:   dict. Coordinates of the new DataArray to be created
+    loop_dim: string. Dimension in the original DataArray over which the reshaping will be done.
+    """
+    
+    # loop_dim = list(set(da.dims).difference(list(coords)))[0]
+    
+    da_new = xr.DataArray(coords=coords, dims=list(coords))
+    
+    new_shape = list(da.shape[:-1])
+    new_shape[-1] *= 2 # the temporal resolution of the model is double as the frequency of forecasts
+
+    for j, k in enumerate(np.arange(0, len(da[loop_dim]), 2)):
+        aux = da.isel({loop_dim: slice(k, k + 2)}).data.reshape(new_shape)
+        da_new[:, :, j, k:k + aux.shape[2]] = aux
+        
+    return da_new
