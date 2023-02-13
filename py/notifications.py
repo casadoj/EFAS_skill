@@ -912,7 +912,7 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
                 cbar = True
             else:
                 cbar = False
-            sns.heatmap(da.sel({rowdim: row}).transpose(), ax=ax, cmap='Blues', vmin=0, vmax=1,
+            sns.heatmap(da.sel({rowdim: row}).transpose(), ax=ax, cmap=kwargs.get('cmap', 'Blues'), vmin=0, vmax=1,
                         cbar=cbar, cbar_kws={'label': '(-)', 'shrink': .9})
             ax.add_patch(plt.Rectangle((0, best_model_i.sel({rowdim: row})), len(skill[xdim]), 1,
                                        fc="none", edgecolor='red'))
@@ -935,7 +935,7 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
             ax.tick_params(length=0)
 
             ax = fig.add_subplot(gs[3, j])
-            sns.heatmap(best_metric_model, cmap='Blues', vmin=0, vmax=1, cbar=False, ax=ax)
+            sns.heatmap(best_metric_model, cmap=kwargs.get('cmap', 'Greys'), vmin=0, vmax=1, cbar=False, ax=ax)
             for i, row in enumerate(best_model[rowdim]):
                 txt = '{0}'.format(best_model.sel({rowdim: row}).data)
                 ax.text(len(da[xdim]) + .5, i + .5, txt,
