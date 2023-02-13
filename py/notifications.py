@@ -926,50 +926,47 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
             ax.set_yticklabels(da[ydim].data[1::step], rotation=0)
             if j == 0:
                 ax.set_ylabel(f'{ydim} (-)')
-                # ax.text(-8, len(da[ydim]) / 2, row, fontsize=13, rotation=90, verticalalignment='center')
                 ax.text(-.15, .5, row, fontsize=13, rotation=90, verticalalignment='center', transform=ax.transAxes)
-            # else:
-            #     ax.set_yticks([])
             if i == 0:
-                ax.set_title(metric)
+                ax.set_title(metric, fontsize=12, fontweight='bold')
             ax.tick_params(length=0)
 
-            ax = fig.add_subplot(gs[3, j])
-            sns.heatmap(best_metric_model, cmap=kwargs.get('cmap', 'Greys'), vmin=0, vmax=1, cbar=False, ax=ax)
+            ax_summary = fig.add_subplot(gs[len(skill[rowdim]), j])
+            sns.heatmap(best_metric_model, cmap=kwargs.get('cmap', 'Blues'), vmin=0, vmax=1, cbar=False, ax=ax_summary)
             for i, row in enumerate(best_model[rowdim]):
                 txt = '{0}'.format(best_model.sel({rowdim: row}).data)
-                ax.text(len(da[xdim]) + .5, i + .5, txt,
+                ax_summary.text(len(da[xdim]) + .5, i + .5, txt,
                         verticalalignment='center', color='red')
-            ax.set_xticks([])
+            ax_summary.set_xticks([])
             if j == 0:
-                ax.set_yticks(np.arange(len(da[rowdim])) + .5)
-                ax.set_yticklabels(da[rowdim].data, rotation=0)
+                ax_summary.set_yticks(np.arange(len(da[rowdim])) + .5)
+                ax_summary.set_yticklabels(da[rowdim].data, rotation=0)
             else:
-                ax.set_yticks([])
+                ax_summary.set_yticks([])
             if n_events is None:
                 xticks = np.arange(len(skill[xdim])) + .5
                 step = kwargs.get('xtick_step', 2)
-                ax.set_xticks(xticks[1::step])
-                ax.set_xticklabels(skill[xdim].data[1::step], rotation=90)
-                ax.set_xlabel(kwargs.get('xlabel', xdim))
-            ax.tick_params(length=0);
+                ax_summary.set_xticks(xticks[1::step])
+                ax_summary.set_xticklabels(skill[xdim].data[1::step], rotation=90)
+                ax_summary.set_xlabel(kwargs.get('xlabel', xdim))
+            ax_summary.tick_params(length=0);
             
             if n_events is not None:
-                ax = fig.add_subplot(gs[4, j])
+                ax_events = fig.add_subplot(gs[len(skill[rowdim]), j])
                 if j == ncols - 1:
                     cbar = True
                 else:
                     cbar = False
                 sns.heatmap(n_events[np.newaxis,:], mask=n_events[np.newaxis,:] == 0, cmap='Greys',
-                            vmin=0, cbar=cbar, cbar_kws={'label': '(-)'}, ax=ax)
+                            vmin=0, cbar=cbar, cbar_kws={'label': '(-)'}, ax=ax_events)
                 xticks = np.arange(n_events.shape[-1]) + .5
                 step = kwargs.get('xtick_step', 2)
-                ax.set_xticks(xticks[1::step])
-                ax.set_xticklabels(n_events.index[1::step], rotation=90)
-                ax.set_xlabel(kwargs.get('xlabel', xdim))
-                ax.set_title('no. event')
-                ax.set_yticks([])
-                ax.tick_params(length=0)
+                ax_events.set_xticks(xticks[1::step])
+                ax_events.set_xticklabels(n_events.index[1::step], rotation=90)
+                ax_events.set_xlabel(kwargs.get('xlabel', xdim))
+                ax_events.set_title('no. event')
+                ax_events.set_yticks([])
+                ax_events.tick_params(length=0)
                 
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
@@ -1091,7 +1088,7 @@ def df2da(df, dims, plot=False, **kwargs):
 
 
 
-def plot_da(da, ax=None, **kwargs):
+def plot_DataArray(da, ax=None, **kwargs):
     """It creates a heatmap plot of a 2D DataArray
     
     Input:
@@ -1154,7 +1151,7 @@ def plot_da(da, ax=None, **kwargs):
 
     
     
-def reshape_da(da, coords, loop_dim='leadtime'):
+def reshape_DataArray(da, coords, loop_dim='leadtime'):
     """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
     
     Inputs:
