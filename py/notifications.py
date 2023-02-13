@@ -616,7 +616,7 @@ def compare_discharge(discharge, stations, threshold=None, **kwargs):
         
         
         
-def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, **kwargs):
+def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, ax=None, save=None, **kwargs):
     """It creates a timeline with the exceedances of the discharge thresholds
     
     Input:
@@ -633,7 +633,8 @@ def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, 
 
     discharge = discharge.loc[:, stations.index]
     
-    fig, ax = plt.subplots(figsize=kwargs.get('figsize', (12, 6)))
+    if ax is None:
+        fig, ax = plt.subplots(figsize=kwargs.get('figsize', (12, 6)))
     n_stn = stations.shape[0]
     ax.set(xlim=(discharge.index[0], discharge.index[-1]), ylim=(0, n_stn + 1), ylabel='stations')
     if yticks:
@@ -658,6 +659,9 @@ def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, 
             if exceed[stn].any():
                 ts = exceed.index[exceed[stn]]
                 ax.scatter(ts, [i + 1] * len(ts), marker='_', lw=1.2, color=colors[rl])
+                
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
                 
                 
                 
