@@ -1,0 +1,2 @@
+station_id,name,X,Y,area,subcatchment,river,catchment,country,strahler,pfafstetter,rl1.5,rl2,rl5,rl10,rl20,rl50,rl100,rl200,rl500,n_events_5
+2868,Lankoski,4937500.0,4352500.0,2900.0,Kokemaenjoki-Archipelago Sea-Bothnian Sea,Merikarvianjoki,Karvianjoki,FI,1.0,1.0,47.46272814632153,59.26360629021714,88.30523596725843,107.53332180903891,125.97736338691,149.85128332634085,167.7414267523736,185.56629205017953,209.08281714023636,1
