@@ -882,6 +882,14 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
     rowdim:   str. Name of the dimension that will be split across the graph rows
     """
     
+    # reorganize Dataset according to the ordering of dimensions
+    try:
+        skill = skill.transpose(ydim, xdim, rowdim)
+    except:
+        print("ERROR. The plot dimensions ({0}) don't fit the Dataset dimensions".format(*[xdim, ydim, rowdim],
+                                                                                         *list(skill.dims)))
+        return
+    
     fig = plt.figure(constrained_layout=True, figsize=kwargs.get('figsize', (24, 9)))
     ncols = len(skill)
     widths = [1] * ncols
@@ -912,7 +920,7 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
                 cbar = True
             else:
                 cbar = False
-            sns.heatmap(da.sel({rowdim: row}).transpose(), ax=ax, cmap=kwargs.get('cmap', 'Blues'), vmin=0, vmax=1,
+            sns.heatmap(da.sel({rowdim: row}), ax=ax, cmap=kwargs.get('cmap', 'Blues'), vmin=0, vmax=1,
                         cbar=cbar, cbar_kws={'label': '(-)', 'shrink': .9})
             ax.add_patch(plt.Rectangle((0, best_model_i.sel({rowdim: row})), len(skill[xdim]), 1,
                                        fc="none", edgecolor='red'))
@@ -936,7 +944,7 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
             for i, row in enumerate(best_model[rowdim]):
                 txt = '{0}'.format(best_model.sel({rowdim: row}).data)
                 ax_summary.text(len(da[xdim]) + .5, i + .5, txt,
-                        verticalalignment='center', color='red')
+                                verticalalignment='center', color='red')
             ax_summary.set_xticks([])
             if j == 0:
                 ax_summary.set_yticks(np.arange(len(da[rowdim])) + .5)
@@ -952,7 +960,9 @@ def plot_skill(skill, n_events=None, xdim='id', ydim='probability', rowdim='mode
             ax_summary.tick_params(length=0);
             
             if n_events is not None:
-                ax_events = fig.add_subplot(gs[len(skill[rowdim]), j])
+                if isinstance(n_events, xr.DataArray):
+                    n_events = n_eventso.to_pandas()
+                ax_events = fig.add_subplot(gs[len(skill[rowdim]) + 1, j])
                 if j == ncols - 1:
                     cbar = True
                 else:
