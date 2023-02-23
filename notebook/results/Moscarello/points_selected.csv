@@ -1,2 +1,0 @@
-station_id,name,X,Y,area,subcatchment,river,catchment,country,strahler,pfafstetter,rl1.5,rl2,rl5,rl10,rl20,rl50,rl100,rl200,rl500,n_events_5
-4157,Moscarello a Borgo S.Maria,4557500.0,2042500.0,700.0,High Water Channel / Moscarello,Moscarello,Moscarello,IT,1.0,1.0,57.18259602010788,86.22805289374273,157.70810649983125,205.03412167175134,250.43037165359692,309.19116077029906,353.22410331981354,397.0963770584917,454.97751158019054,1
