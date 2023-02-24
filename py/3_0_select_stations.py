@@ -132,7 +132,7 @@ for catchment in catchments:
     print(f'\n{catchment.upper()}')
     print('-' * len(catchment))
 
-    out_folder = f'../results/select_reporting_points/{catchment}/'
+    out_folder = f'../results/reporting_points/{catchment}/'
     if os.path.exists(out_folder) is False:
         os.makedirs(out_folder)
         
