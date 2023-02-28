@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from datetime import datetime, timedelta
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
@@ -1113,13 +1114,16 @@ def plot_DataArray(da, ax=None, **kwargs):
     
     # extract kwargs
     figsize = kwargs.get('figsize', (16, 2))
-    xtick_step = kwargs.get('xtick_step', 60)
-    ytick_step = kwargs.get('ytick_step', 3)
+    xtick_step = kwargs.get('xtick_step', 1)
+    ytick_step = kwargs.get('ytick_step', 1)
     cmap = kwargs.get('cmap', 'magma')
+    norm = kwargs.get('norm', None)
     vmin = kwargs.get('vmin', None)
     vmax = kwargs.get('vmax', None)
     cbar = kwargs.get('cbar', True)
     cbar_kws = kwargs.get('cbar_kws', None)
+    xrotation = kwargs.get('xrotation', 90)
+    yrotation = kwargs.get('yrotation', 0)
     
     if ax is None:
         fig, ax = plt.subplots(figsize=figsize)
@@ -1130,29 +1134,37 @@ def plot_DataArray(da, ax=None, **kwargs):
     elif len(da.shape) == 1:
         da_plot = np.array(da)[np.newaxis,:]
         dimx = da.dims[0]
-    sns.heatmap(da_plot, cmap=cmap, ax=ax, vmin=vmin, vmax=vmax, cbar=cbar, cbar_kws=cbar_kws)
+    hm = sns.heatmap(da_plot, cmap=cmap, norm=norm, ax=ax, vmin=vmin, vmax=vmax, cbar=cbar, cbar_kws=cbar_kws)
+    if cbar is False:
+        plot_DataArray.colorbar = hm
     
     # if 'yticklabels' in kwargs:
     if 'dimy' in locals():
         yticklabels = kwargs.get('yticklabels', da[dimy].data)
+        if isinstance(yticklabels, list):
+            yticklabels = np.array(yticklabels)
         yticks = np.arange(0, len(yticklabels), ytick_step) + .5
-        ax.set_yticks(yticks)
         if yticklabels.dtype == '<M8[ns]':
             yticklabels = [datetime.strftime(idx, '%Y-%m-%d') for idx in pd.to_datetime(yticklabels[::ytick_step])]
         else:
             yticklabels = yticklabels[::ytick_step]
-        ax.set_yticklabels(yticklabels, rotation=0)
+        ax.set_yticks(yticks)
+        ax.set_yticklabels(yticklabels, rotation=yrotation)
+    else:
+        ax.set_yticks([])
     
     # if 'xticklabels' in kwargs:
     if 'dimx' in locals():
         xticklabels = kwargs.get('xticklabels', da[dimx].data)
+        if isinstance(xticklabels, list):
+            xticklabels = np.array(xticklabels)
         xticks = np.arange(0, len(xticklabels), xtick_step) + .5
-        ax.set_xticks(xticks)
         if xticklabels.dtype == '<M8[ns]':
             xticklabels = [datetime.strftime(idx, '%Y-%m-%d') for idx in pd.to_datetime(xticklabels[::xtick_step])]
         else:
             xticklabels = xticklabels[::xtick_step]
-        ax.set_xticklabels(xticklabels, rotation=90)
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(xticklabels, rotation=xrotation)
     
     if 'title' in kwargs:
         ax.set_title(kwargs['title'])
@@ -1187,3 +1199,37 @@ def reshape_DataArray(da, coords, loop_dim='leadtime'):
         da_new[:, :, j, k:k + aux.shape[2]] = aux
         
     return da_new
+
+
+
+def plot_skill_eventwise(skill, save=None, **kwargs):
+    """Plot heatmaps of recall, precision and f1-score for the eventwise skill analysis
+    
+    Inputs:
+    -------
+    skill:  xr.Dataset. It must contain a DataArray for each metric, whose dimensions are 'model' and 'probability'
+    save:   str. Filename (including directory and extension) where the image might be saved.
+    """
+    
+    cmap = kwargs.get('cmap', 'Blues')
+    norm = kwargs.get('norm', None)
+    figsize = kwargs.get('figsize', (9, 5.5))
+
+    best_idx = skill['f1'].argmax('probability')
+    best_p = skill['f1'].idxmax('probability')
+
+    fig, axes = plt.subplots(nrows=len(skill), figsize=figsize, sharex=True, sharey=True, constrained_layout=True)
+    for ax, (metric, da) in zip(axes, skill.items()):
+        # plot heatmap
+        plot_DataArray(da, ax=ax, cmap=cmap, norm=norm, title=metric, cbar=False, yrotation=0)
+        # add rectangles and text with the best performing model
+        for y, model in enumerate(skill.model.data):
+            x = best_idx.sel(model=model).data
+            ax.add_patch(plt.Rectangle((x, y), 1, 1, fc="none", edgecolor='red'))
+            txt = '{0:.2f}'.format(skill[metric].sel(model=model, probability=best_p.sel(model=model)).data)
+            ax.text(x + .5, y + .5, txt, horizontalalignment='center', verticalalignment='center', color='w', fontsize=9)
+    ax.set(xlabel='probability (-)')
+    fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=axes[:], shrink=.5, label='metric (-)');
+    
+    if save is not None:
+        plt.savefig(save, bbox_inches='tight', dpi=300)
