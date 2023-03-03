@@ -1202,6 +1202,39 @@ def reshape_DataArray(da, coords, loop_dim='leadtime'):
 
 
 
+def reshape_DataArray(da, trim=False):
+    """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
+    
+    Inputs:
+    -------
+    da:       xarray.DataArray. Original DataArray
+    trim:     boolean. Remove timesteps (at the beginning and end) for which all forecasts are not available
+    """
+
+    freq_lt, freq_fc = [np.diff(da[dim]).mean() for dim in ['leadtime', 'forecast']]
+    freq_lt, freq_fc = [(x / np.timedelta64(1, 'h')).astype(int) if isinstance(x, np.timedelta64) else x.astype(int) for x in [freq_lt, freq_fc]]
+    ratio = int(freq_fc / freq_lt)
+    st, en = [pd.to_datetime((da.forecast[i] + da.leadtime[i]).data) for i in [0, -1]]
+
+    coords = {dim: da[dim] for dim in da.dims if dim not in ['leadtime', 'forecast']}
+    coords['leadtime'] = (np.arange(1, len(da.leadtime) / ratio + 1) * freq_fc).astype(int)
+    coords['datetime'] = pd.date_range(st, en, freq=f'{freq_lt}h')
+    da_new = xr.DataArray(coords=coords, dims=list(coords))
+
+    new_shape = list(da.shape[:-1])
+    new_shape[-1] *= ratio # the temporal resolution of the model is double as the frequency of forecasts
+
+    for j, k in enumerate(np.arange(0, len(da.leadtime), ratio)):
+        aux = da.isel(dict(leadtime=slice(k, k + 2))).data.reshape(new_shape)
+        da_new[dict(leadtime=j, datetime=slice(k, k + new_shape[-1]))] = aux
+
+    if trim:
+        mask = da_new.isnull().any('leadtime')
+        da_new = da_new.loc[dict(datetime=~mask)]
+    
+    return da_new
+
+
 def plot_skill_eventwise(skill, save=None, **kwargs):
     """Plot heatmaps of recall, precision and f1-score for the eventwise skill analysis
     
@@ -1233,3 +1266,129 @@ def plot_skill_eventwise(skill, save=None, **kwargs):
     
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300)
+        
+        
+
+def compute_events(da, probability, persistence=(1, 1), min_leadtime=None):
+    """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
+    The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
+    
+    Inputs:
+    -------
+    da:           xr.DataArray. A matrix of exceedances over probability threshold. It must have a dimension called 'leadtime', over which the function will compute persistence
+    persistence:  tuple (a, b). Two values that define the width of the window function (a) and the number of exceedances in that window needed to be considered an event (b)
+    
+    Output:
+    -------
+    As objetcs:
+    events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
+    As method:
+    exceedance:   xr.DataArray. Matrix of cells that exceed the 'probability' threshold
+    """
+    
+    # compute exceedance over the probability threshold
+    exceedance = (da >= probability).astype(int)
+    compute_events.exceedance = exceedance
+    
+    # compute persistence (rolling sum over a window exceeds a number of forecast positives)
+    events = exceedance.rolling({'leadtime': persistence[0]}).sum() >= persistence[1]
+    
+    # check if there's any predicted event
+    if min_leadtime is None:
+        return events.any('leadtime').astype(int)
+    else:
+        return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
+
+    
+    
+def buffer_events(da, center=True, w=5):
+    """It creates a buffer around the matrix of predicted events to allow for short lags between observation and prediction. 
+    It applys a rolling sum of window 'w' to the input matrix. The window function can be centered or not.
+    
+    Inputs:
+    -------
+    da:     xr.DataArray. Matrix of predicted events
+    center: boolean. Whereas the rolling sum must be centered or right sided
+    w:      int. Width of the rolling sum window
+    
+    Output:
+    -------
+    buffer: xr.DataArray. Matrix with the same size as the input matrix, but in which the events have been 'enlarged'
+    """
+    
+    if center:
+        mp = int(w / 2) + 1
+        buffer = (da.rolling({'datetime': w}, center=True, min_periods=mp).sum() > 0).astype(int)
+    else:
+        mp = 1 # int(w / 2)
+        buffer = (da.rolling({'datetime': w}, center=False, min_periods=mp).sum() > 0).astype(int)
+        
+    return buffer
+
+
+
+def count_events(da):
+    """Given a boolean DataArray of exceedances over probability threshold, it counts the number of events in the timeseries
+    
+    Input:
+    ------
+    da:       xr.DataArray. Boolean matrix of exceedances over probability threshold. It must contain a 'datetime' dimension
+    
+    Output:
+    -------
+    n_events: xr.DataArray. A matrix with the counts of events over the dimension 'datetime' (which collapses)"""
+    
+    # compute onsets: difference equal to 1
+    onsets = (xr.concat([da.isel(datetime=[0]), da.diff('datetime')], dim='datetime') == 1).astype(int)
+    # count events
+    n_events= onsets.sum('datetime').data
+    
+    return n_events
+
+
+
+def compute_hits(obs, pred, center=True, w=1, verbose=True):
+    """It computes the hits, misses and false alarms between two matrixes of observations and predictions.
+    To allow for some lags in the predictions, a buffer can be applied by giving the attribute 'w' a value larger than 1
+    
+    Inputs:
+    -------
+    obs:     xr.DataArray. Boolean matrix of observed exceedances over threshold
+    pred:    xr.DataArray. Boolean matrix of predicted exceedances over threshold
+    center:  boolean. Whereas the rolling sum must be centered or right sided
+    w:       int. Width of the rolling sum window
+    verbose: boolean. Whether to print or not the summary of results
+    
+    Output:
+    -------
+    As an object:
+    hits:    xr.Dataset. Contains three variables: TP, true positives; FN, false negatives; FP, false positives
+    As methods:
+    buffer:  xr.DataArray. The buffered matrix of predicted events
+    tp:      xr.DataArray. A timeseries of correctly predicted events
+    """
+    
+    # number of observed and predicted events
+    n_obs, n_pred = [count_events(da) for da in [obs, pred]]
+    
+    # buffer the predicted events
+    buff = buffer_events(pred, center=center, w=w)
+    compute_hits.buffer = buff
+    
+    # compute the true positive timeseries
+    tp = buff.where(obs == 1) # apply observed mask on the buffered prediction
+    tp = (tp == 1).astype(int) # ones in the masked array are true positives
+    compute_hits.true_positives = tp
+    
+    # compute performance metrics
+    TP = count_events(tp)
+    TP = xr.ufuncs.minimum(TP, n_obs)
+    FN = n_obs - TP
+    FP = max(0, n_pred - TP)
+    if verbose:
+        print(f'TP:\t{TP}\nFN:\t{FN}\nFP:\t{FP}')
+        print('recall:\t\t{0:.3f}\nprecision:\t{1:.3f}\nf1:\t\t{2:.3f}'.format(TP / (TP + FN),
+                                                                                TP / (TP + FP),
+                                                                                2 * TP / (2 * TP + FP + FN)))
+        
+    return xr.Dataset({'TP': TP, 'FN': FN, 'FP': FP})
