@@ -10,10 +10,12 @@ import cartopy.crs as ccrs
 import cartopy.feature as cf
 from sklearn.metrics import f1_score, recall_score, precision_score, confusion_matrix
 
+# models
 models = {'COS': {'members': 20, 'leadtimes': 22},
           'DWD': {'members': 1, 'leadtimes': 28},
           'EUD': {'members': 1, 'leadtimes': 40},
           'EUE': {'members': 51, 'leadtimes': 40},}
+
 
 def identify_events(discharge, upper_bound, lower_bound=None):
     """It identifies the start of flood events given the discharge series and the thresholds.
@@ -1202,40 +1204,53 @@ def reshape_DataArray(da, coords, loop_dim='leadtime'):
 
 
 
-def reshape_DataArray(da, trim=False):
+def reshape_DataArray(da, trim=False, chunks=None):
     """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
     
     Inputs:
     -------
     da:       xarray.DataArray. Original DataArray
     trim:     boolean. Remove timesteps (at the beginning and end) for which all forecasts are not available
+    chunks:   dict. A dictionary that specifies the size of Dask chunks in which the DataArray will be segmented
     """
-
+    
+    # compute frequencies of leadtime and forecast, and start and end datetime in the input DataArray
     freq_lt, freq_fc = [np.diff(da[dim]).mean() for dim in ['leadtime', 'forecast']]
     freq_lt, freq_fc = [(x / np.timedelta64(1, 'h')).astype(int) if isinstance(x, np.timedelta64) else x.astype(int) for x in [freq_lt, freq_fc]]
     ratio = int(freq_fc / freq_lt)
     st, en = [pd.to_datetime((da.forecast[i] + da.leadtime[i]).data) for i in [0, -1]]
 
-    coords = {dim: da[dim] for dim in da.dims if dim not in ['leadtime', 'forecast']}
+    # define coordinates and create the empty new DataArray
+    coords = {dim: da[dim].data for dim in da.dims if dim not in ['leadtime', 'forecast']}
     coords['leadtime'] = (np.arange(1, len(da.leadtime) / ratio + 1) * freq_fc).astype(int)
     coords['datetime'] = pd.date_range(st, en, freq=f'{freq_lt}h')
     da_new = xr.DataArray(coords=coords, dims=list(coords))
 
-    new_shape = list(da.shape[:-1])
-    new_shape[-1] *= ratio # the temporal resolution of the model is double as the frequency of forecasts
-
+    # iteratively fill the new DataArray
+    new_shape = [len(da[dim]) for dim in da.dims if dim not in ['leadtime', 'forecast']]
+    new_shape += [len(da.forecast) * ratio] # the temporal resolution of the model is double as the frequency of forecasts
     for j, k in enumerate(np.arange(0, len(da.leadtime), ratio)):
         aux = da.isel(dict(leadtime=slice(k, k + 2))).data.reshape(new_shape)
         da_new[dict(leadtime=j, datetime=slice(k, k + new_shape[-1]))] = aux
-
-    if trim:
-        mask = da_new.isnull().any('leadtime')
-        da_new = da_new.loc[dict(datetime=~mask)]
     
+    # if desired, remove timesteps for which at least one forcast is missing
+    if trim:
+        if 'id'in da_new.dims:
+            mask = da_new.mean('id')
+        else:
+            mask = da_new
+        if 'model' in mask.dims:
+            mask = mask.mean('model')
+        mask = mask.isnull().any('leadtime')
+        da_new = da_new.loc[dict(datetime=~mask)]
+        
+    if chunks is not None:
+        da_new = da_new.chunk(chunks)
+
     return da_new
 
 
-def plot_skill_eventwise(skill, save=None, **kwargs):
+def plot_skill_eventwise(skill, xdim='probability', ydim='combination', save=None, **kwargs):
     """Plot heatmaps of recall, precision and f1-score for the eventwise skill analysis
     
     Inputs:
@@ -1244,39 +1259,42 @@ def plot_skill_eventwise(skill, save=None, **kwargs):
     save:   str. Filename (including directory and extension) where the image might be saved.
     """
     
+    # extract keyword arguments
     cmap = kwargs.get('cmap', 'Blues')
     norm = kwargs.get('norm', None)
     figsize = kwargs.get('figsize', (9, 5.5))
-
-    best_idx = skill['f1'].argmax('probability')
-    best_p = skill['f1'].idxmax('probability')
-
+    
+    # find the value of 'xdim' that maximizes f1
+    best_idx = skill['f1'].argmax(xdim)
+    best_p = skill['f1'].idxmax(xdim)
+    
     fig, axes = plt.subplots(nrows=len(skill), figsize=figsize, sharex=True, sharey=True, constrained_layout=True)
     for ax, (metric, da) in zip(axes, skill.items()):
         # plot heatmap
         plot_DataArray(da, ax=ax, cmap=cmap, norm=norm, title=metric, cbar=False, yrotation=0)
         # add rectangles and text with the best performing model
-        for y, model in enumerate(skill.model.data):
-            x = best_idx.sel(model=model).data
+        for y, model in enumerate(skill[ydim].data):
+            x = best_idx.sel({ydim: model}).data
             ax.add_patch(plt.Rectangle((x, y), 1, 1, fc="none", edgecolor='red'))
-            txt = '{0:.2f}'.format(skill[metric].sel(model=model, probability=best_p.sel(model=model)).data)
+            txt = '{0:.2f}'.format(skill[metric].sel({xdim: best_p.sel({ydim: model}), ydim: model}).data)
             ax.text(x + .5, y + .5, txt, horizontalalignment='center', verticalalignment='center', color='w', fontsize=9)
     ax.set(xlabel='probability (-)')
     fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=axes[:], shrink=.5, label='metric (-)');
-    
+
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300)
         
         
 
-def compute_events(da, probability, persistence=(1, 1), min_leadtime=None):
+def compute_events(da, probability=None, persistence=(1, 1), min_leadtime=None):
     """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
     The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
     
     Inputs:
     -------
     da:           xr.DataArray. A matrix of exceedances over probability threshold. It must have a dimension called 'leadtime', over which the function will compute persistence
-    persistence:  tuple (a, b). Two values that define the width of the window function (a) and the number of exceedances in that window needed to be considered an event (b)
+    persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
+    min_leadtime: int. Minimum number of hours in advance necessary to raise an event notification
     
     Output:
     -------
@@ -1287,11 +1305,14 @@ def compute_events(da, probability, persistence=(1, 1), min_leadtime=None):
     """
     
     # compute exceedance over the probability threshold
-    exceedance = (da >= probability).astype(int)
+    if probability is None:
+        exceedance = da
+    else:
+        exceedance = (da >= probability).astype(int)
     compute_events.exceedance = exceedance
     
     # compute persistence (rolling sum over a window exceeds a number of forecast positives)
-    events = exceedance.rolling({'leadtime': persistence[0]}).sum() >= persistence[1]
+    events = exceedance.rolling({'leadtime': persistence[1]}).sum() >= persistence[0]
     
     # check if there's any predicted event
     if min_leadtime is None:
@@ -1341,13 +1362,13 @@ def count_events(da):
     # compute onsets: difference equal to 1
     onsets = (xr.concat([da.isel(datetime=[0]), da.diff('datetime')], dim='datetime') == 1).astype(int)
     # count events
-    n_events= onsets.sum('datetime').data
+    n_events= onsets.sum('datetime')#.data
     
     return n_events
 
 
 
-def compute_hits(obs, pred, center=True, w=1, verbose=True):
+def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     """It computes the hits, misses and false alarms between two matrixes of observations and predictions.
     To allow for some lags in the predictions, a buffer can be applied by giving the attribute 'w' a value larger than 1
     
@@ -1367,28 +1388,147 @@ def compute_hits(obs, pred, center=True, w=1, verbose=True):
     buffer:  xr.DataArray. The buffered matrix of predicted events
     tp:      xr.DataArray. A timeseries of correctly predicted events
     """
-    
+
     # number of observed and predicted events
     n_obs, n_pred = [count_events(da) for da in [obs, pred]]
-    
+
     # buffer the predicted events
     buff = buffer_events(pred, center=center, w=w)
     compute_hits.buffer = buff
-    
+
     # compute the true positive timeseries
     tp = buff.where(obs == 1) # apply observed mask on the buffered prediction
     tp = (tp == 1).astype(int) # ones in the masked array are true positives
     compute_hits.true_positives = tp
-    
+
     # compute performance metrics
     TP = count_events(tp)
     TP = xr.ufuncs.minimum(TP, n_obs)
     FN = n_obs - TP
-    FP = max(0, n_pred - TP)
-    if verbose:
-        print(f'TP:\t{TP}\nFN:\t{FN}\nFP:\t{FP}')
-        print('recall:\t\t{0:.3f}\nprecision:\t{1:.3f}\nf1:\t\t{2:.3f}'.format(TP / (TP + FN),
-                                                                                TP / (TP + FP),
-                                                                                2 * TP / (2 * TP + FP + FN)))
-        
+
+    FP = xr.ufuncs.maximum(0, n_pred - TP) #max(0, n_pred - TP)
+    # if verbose:
+    #     print(f'TP:\t{TP}\nFN:\t{FN}\nFP:\t{FP}')
+    #     print('recall:\t\t{0:.3f}\nprecision:\t{1:.3f}\nf1:\t\t{2:.3f}'.format(TP / (TP + FN),
+    #                                                                             TP / (TP + FP),
+    #                                                                             2 * TP / (2 * TP + FP + FN)))
+
     return xr.Dataset({'TP': TP, 'FN': FN, 'FP': FP})
+
+
+
+def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', bestvar=None, yscale='log', save=None, **kwargs):
+    """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created, where columns are the metrics (variables).
+    
+    Inputs:
+    -------
+    ds:       xr.Dataset. Contains the results. The variables will correspond to the columns in the graph. The use of the different dimensions is controlled by the following attributes
+    xdim:     string. It defines the dimension in 'ds' that will correspond to the X axis in the plots
+    rowdim:   string. It defines the dimension in 'ds' that will correspond to the rows in which the graph will be divided
+    linedime: string. It defines the dimension in 'ds' that will correspond to the different lines in the plots
+    bestvar:  string. If used, it is the variable in 'ds' used  to select the best performing model
+    yscale:   string. Type of scaling of the Y axis
+    save:     string. Directory and filename (including extension) where the graph will be saved
+    
+    Output:
+    -------
+    """
+
+    nrows, ncols = len(ds[rowdim]), len(list(ds))
+    figsize = kwargs.get('figsize', (ncols * 3, nrows * 3))
+    if yscale == 'log':
+        r = 10**kwargs.get('round', 4)
+    elif yscale == 'linear':
+        r = kwargs.get('round', 1000)
+    ymax = [ds[var].max().data for var in list(ds)]
+    ymax = np.ceil(np.max(ymax) / r) * r
+    ylim = (0, ymax)
+    xlim = kwargs.get('xlim', (ds[xdim].min(), ds[xdim].max()))
+    alpha = kwargs.get('alpha', .66)
+    
+    # find the value of 'xdim' that maximizes f1
+    if bestvar is not None:
+        best = ds[bestvar].idxmax(xdim)
+
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize, sharex=True, sharey=True)
+    for j, (col, da) in enumerate(ds.items()):
+        for i, row in enumerate(da[rowdim].data):
+            ax = axes[i, j]
+            ax.set_yscale(yscale)
+            for c, line in enumerate(da[linedim].data):
+                ax.plot(da[xdim], da.sel({rowdim: row, linedim: line}), lw=1, c=f'C{c}', alpha=alpha, label=line)
+                if bestvar is not None:
+                    x = best.sel({rowdim: row, linedim: line}).data
+                    y = da.sel({xdim: x, rowdim: row, linedim: line}).data
+                    ax.vlines(x, ylim[0], y, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
+                    ax.hlines(y, xlim[0], x, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
+                    ax.scatter(x, y, marker='+', color=f'C{c}')
+            if i == 0:
+                ax.set_title(col, fontsize=11)
+            elif i == nrows - 1:
+                ax.set_xlabel('probability (-)')
+            if j == 0:
+                ax.set_ylabel(f'persistence {row}', fontsize=11)
+            if 'aspect' in kwargs:
+                ax.set_aspect(kwargs['aspect'])
+
+    ax.set(xlim=xlim, ylim=ylim)
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, loc=8, ncol=len(ds[linedim]), bbox_to_anchor=[.1, .01 * len(ds[rowdim]), .8, .1])
+    
+    if save is not None:
+        plt.savefig(save, bbox_inches='tight', dpi=300)
+        
+        
+        
+def create_cmap(cmap, bounds, name=''):
+    """Given the name of a colour map and the boundaries, it creates a discrete colour ramp for future plots
+    
+    Inputs:
+    ------
+    cmap:   string. Matplotlib's name of a colourmap. E.g. 'coolwarm', 'Blues'...
+    bounds: list. Values that define the limits of the discrete colour ramp
+    name:   string. Optional. Name given to the colour ramp
+    
+    Outputs:
+    --------
+    cmap:   List of colours
+    norm:   List of boundaries
+    """
+    
+    cmap = plt.get_cmap(cmap)
+    cmaplist = [cmap(i) for i in range(cmap.N)]
+    cmap = mpl.colors.LinearSegmentedColormap.from_list(name, cmaplist, cmap.N)
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+    
+    return cmap, norm
+
+
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+
+
+def size_objects(n=20):
+    """
+    """
+
+    # get all the objects in the notebook namespace
+    all_objects = globals().items()
+
+    # get the size of each object and store it in a dictionary
+    sizes = {}
+    for key, value in all_objects:
+        if key.startswith('_'):
+            continue
+        sizes[key] = sys.getsizeof(value)
+
+    # sort the objects by their size in descending order
+    sorted_objects = sorted(sizes.items(), key=operator.itemgetter(1), reverse=True)
+    
+    # print the objects and their sizes
+    for i, (obj, size) in enumerate(sorted_objects):
+        print(obj, ":", size)
+        if i == n:
+            break
