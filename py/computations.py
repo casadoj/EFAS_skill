@@ -741,7 +741,6 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     TP = count_events(tp)
     TP = xr.ufuncs.minimum(TP, n_obs)
     FN = n_obs - TP
-
     FP = xr.ufuncs.maximum(0, n_pred - TP) #max(0, n_pred - TP)
     # if verbose:
     #     print(f'TP:\t{TP}\nFN:\t{FN}\nFP:\t{FP}')
@@ -750,10 +749,6 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     #                                                                             2 * TP / (2 * TP + FP + FN)))
 
     return xr.Dataset({'TP': TP, 'FN': FN, 'FP': FP})
-
-
-
-
 
 
 

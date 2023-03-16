@@ -646,7 +646,7 @@ def plot_skill_eventwise(skill, xdim='probability', ydim='combination', save=Non
         
         
         
-def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', bestvar=None, yscale='log', save=None, **kwargs):
+def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', bestvar=None, yscale='log', verbose=True, save=None, **kwargs):
     """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created, where columns are the metrics (variables).
     
     Inputs:
@@ -679,6 +679,18 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
     # find the value of 'xdim' that maximizes f1
     if bestvar is not None:
         best = ds[bestvar].idxmax(xdim)
+        
+        if verbose:
+            best_criteria = ds['f1'].argmax(list(ds.dims))
+            best_criteria = {dim: ds.isel(best_criteria)[dim].data for dim in best_criteria}
+            lineplot_skill.best_criteria = best_criteria
+            print('Best criteria:')
+            print('--------------\n')
+            for dim in ds.dims:
+                print('{0}:\t{1}'.format(dim, best_criteria[dim]))
+            print()
+            for var in list(ds):
+                print('{0:>10} = {1:.3f}'.format(var, ds[var].sel(best_criteria).data))
 
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize, sharex=True, sharey=True)
     for j, (col, da) in enumerate(ds.items()):
