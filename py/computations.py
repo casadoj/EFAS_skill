@@ -641,7 +641,7 @@ def compute_events(da, probability=None, persistence=(1, 1), resample=None, min_
     compute_events.exceedance = exceedance
 
     # compute persistence (rolling sum over a window exceeds a number of forecast positives)
-    events = exceedance.rolling({'leadtime': persistence[1]}, min_periods=1).sum() >= persistence[0]
+    events = (exceedance.rolling({'leadtime': persistence[1]}, min_periods=1).sum() >= persistence[0]) & exceedance
     events = events.isel(leadtime=slice(None, None, -1))
 
     if resample is not None:
@@ -730,23 +730,18 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
 
     # buffer the predicted events
     buff = buffer_events(pred, center=center, w=w)
-    compute_hits.buffer = buff
+    #compute_hits.buffer = buff
 
     # compute the true positive timeseries
     tp = buff.where(obs == 1) # apply observed mask on the buffered prediction
     tp = (tp == 1).astype(int) # ones in the masked array are true positives
-    compute_hits.true_positives = tp
+    #compute_hits.true_positives = tp
 
     # compute performance metrics
     TP = count_events(tp)
     TP = xr.ufuncs.minimum(TP, n_obs)
     FN = n_obs - TP
     FP = xr.ufuncs.maximum(0, n_pred - TP) #max(0, n_pred - TP)
-    # if verbose:
-    #     print(f'TP:\t{TP}\nFN:\t{FN}\nFP:\t{FP}')
-    #     print('recall:\t\t{0:.3f}\nprecision:\t{1:.3f}\nf1:\t\t{2:.3f}'.format(TP / (TP + FN),
-    #                                                                             TP / (TP + FP),
-    #                                                                             2 * TP / (2 * TP + FP + FN)))
 
     return xr.Dataset({'TP': TP, 'FN': FN, 'FP': FP})
 

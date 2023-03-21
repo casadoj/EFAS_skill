@@ -646,7 +646,7 @@ def plot_skill_eventwise(skill, xdim='probability', ydim='combination', save=Non
         
         
         
-def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', bestvar=None, yscale='log', verbose=True, save=None, **kwargs):
+def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', obs=None, bestvar=None, yscale='log', verbose=True, save=None, **kwargs):
     """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created, where columns are the metrics (variables).
     
     Inputs:
@@ -655,7 +655,8 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
     xdim:     string. It defines the
     dimension in 'ds' that will correspond to the X axis in the plots
     rowdim:   string. It defines the dimension in 'ds' that will correspond to the rows in which the graph will be divided
-    linedime: string. It defines the dimension in 'ds' that will correspond to the different lines in the plots
+    linedim:  string. It defines the dimension in 'ds' that will correspond to the different lines in the plots
+    obs:      int. Number of observed events
     bestvar:  string. If used, it is the variable in 'ds' used  to select the best performing model
     yscale:   string. Type of scaling of the Y axis
     save:     string. Directory and filename (including extension) where the graph will be saved
@@ -675,6 +676,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
     ylim = (0, ymax)
     xlim = kwargs.get('xlim', (ds[xdim].min(), ds[xdim].max()))
     alpha = kwargs.get('alpha', .66)
+    lw = kwargs.get('linewidth', .8)
     
     # find the value of 'xdim' that maximizes f1
     if bestvar is not None:
@@ -697,8 +699,10 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
         for i, row in enumerate(da[rowdim].data):
             ax = axes[i, j]
             ax.set_yscale(yscale)
+            if obs is not None:
+                ax.hlines(obs, xlim[0], xlim[1], color='k', ls='-', lw=lw)
             for c, line in enumerate(da[linedim].data):
-                ax.plot(da[xdim], da.sel({rowdim: row, linedim: line}), lw=1, c=f'C{c}', alpha=alpha, label=line)
+                ax.plot(da[xdim], da.sel({rowdim: row, linedim: line}), lw=lw, c=f'C{c}', alpha=alpha, label=line)
                 if bestvar is not None:
                     x = best.sel({rowdim: row, linedim: line}).data
                     y = da.sel({xdim: x, rowdim: row, linedim: line}).data
