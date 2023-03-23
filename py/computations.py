@@ -125,55 +125,55 @@ def compute_exceedance(files, station, threshold):
     
     
 
-# def compute_exceedance_2(model_files, thresholds, verbose=True):
-#     """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
+def compute_exceedance_2(model_files, thresholds, verbose=True):
+    """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
     
-#     Inputs:
-#     -------
-#     model_files: dictionary. The keys are the different NWP (numerical weather predicitons) models and the values a list of file names
-#     threshold:   xarray.DataArray (id,). Matrix of 1 dimension (station ID) containint the discharge threshold
+    Inputs:
+    -------
+    model_files: dictionary. The keys are the different NWP (numerical weather predicitons) models and the values a list of file names
+    threshold:   xarray.DataArray (id,). Matrix of 1 dimension (station ID) containint the discharge threshold
     
-#     Output:
-#     -------
-#     A xarray.DataArray with a boolean matrix of exceedance/non-exceedance of the threshold. This DataArray has 4 dimensions: id, model, forecast, leadtime
-#     """
+    Output:
+    -------
+    A xarray.DataArray with a boolean matrix of exceedance/non-exceedance of the threshold. This DataArray has 4 dimensions: id, model, forecast, leadtime
+    """
     
-#     exceedance = {}
-#     for model, files in model_files.items():
-#         dct = {}
-#         for file in files:
+    exceedance = {}
+    for model, files in model_files.items():
+        dct = {}
+        for file in files:
             
-#             if verbose:
-#                 print(f'{model}\t{file}', end='\r')
+            if verbose:
+                print(f'{model}\t{file}', end='\r')
 
-#             # open dataaray with dicharge data
-#             dis = xr.open_dataarray(file)
-#             # limit the forecast to 10 days
-#             if len(dis.time) > models[model]['leadtimes']:
-#                 dis = dis.isel(time=slice(None, models[model]['leadtimes']))
-#             # reformat the 'time' dimension into 'leadtime'
-#             dis = dis.rename({'time': 'leadtime', 'stations': 'id'})
-#             dis['leadtime'] = [timedelta(hours=(i + 1) * 6) for i in range(len(dis.leadtime))]
+            # open dataaray with dicharge data
+            dis = xr.open_dataarray(file)
+            # limit the forecast to 10 days
+            if len(dis.time) > models[model]['leadtimes']:
+                dis = dis.isel(time=slice(None, models[model]['leadtimes']))
+            # reformat the 'time' dimension into 'leadtime'
+            dis = dis.rename({'time': 'leadtime', 'stations': 'id'})
+            dis['leadtime'] = [timedelta(hours=(i + 1) * 6) for i in range(len(dis.leadtime))]
 
-#             # compute mean exceedance over the threshod
-#             # this steps also select the stations
-#             exc = dis > thresholds
-#             if 'member' in exc.dims:
-#                 exc = exc.mean('member')
+            # compute mean exceedance over the threshod
+            # this steps also select the stations
+            exc = dis > thresholds
+            if 'member' in exc.dims:
+                exc = exc.mean('member')
 
-#             # save in the dictionary
-#             forecast = datetime.strptime(file[-13:-3], '%Y%m%d%H')
-#             dct[forecast] = exc
+            # save in the dictionary
+            forecast = datetime.strptime(file[-13:-3], '%Y%m%d%H')
+            dct[forecast] = exc
 
-#         # join the exceedance of all the files of a model into one dataset
-#         exceedance[model] = xr.Dataset(dct).to_array(dim='forecast', name=model)
+        # join the exceedance of all the files of a model into one dataset
+        exceedance[model] = xr.Dataset(dct).to_array(dim='forecast', name=model)
         
-#         print()
+        print()
         
-#     # join all the models into one dataset
-#     exceedance = xr.Dataset(exceedance).to_array(dim='model', name='exceedance')
+    # join all the models into one dataset
+    exceedance = xr.Dataset(exceedance).to_array(dim='model', name='exceedance')
     
-#     return exceedance
+    return exceedance
 
     
     
@@ -638,10 +638,10 @@ def compute_events(da, probability=None, persistence=(1, 1), resample=None, min_
         exceedance = da
     else:
         exceedance = (da >= probability).astype(int)
-    compute_events.exceedance = exceedance
+    #compute_events.exceedance = exceedance.isel(leadtime=slice(None, None, -1))
 
     # compute persistence (rolling sum over a window exceeds a number of forecast positives)
-    events = (exceedance.rolling({'leadtime': persistence[1]}, min_periods=1).sum() >= persistence[0]) & exceedance
+    events = (exceedance.rolling({'leadtime': persistence[1]}, center=False, min_periods=1).sum() >= persistence[0]) & exceedance
     events = events.isel(leadtime=slice(None, None, -1))
 
     if resample is not None:
@@ -657,6 +657,117 @@ def compute_events(da, probability=None, persistence=(1, 1), resample=None, min_
         return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
 
     
+    
+def compute_events(da, probability=None, persistence=(1, 1), by_leadtime=False, resample=None, min_leadtime=None):
+    """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
+    The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
+    
+    Inputs:
+    -------
+    da:           xr.DataArray. A matrix of exceedances over probability threshold. It must have a dimension called 'leadtime', over which the function will compute persistence
+    persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
+    resample:     string. 
+    
+    Output:
+    -------
+    As objetcs:
+    events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
+    As method:
+    exceedance:   xr.DataArray. Matrix of cells that exceed the 'probability' threshold
+    """
+    
+    # invert 'leadtime' order from longer to shorter lead times
+    da = da.isel(leadtime=slice(None, None, -1))
+
+    # compute exceedance over the probability threshold
+    if probability is None:
+        exceedance = da
+    else:
+        exceedance = (da >= probability).astype(int)
+    #compute_events.exceedance = exceedance.isel(leadtime=slice(None, None, -1))
+
+    # compute persistence (rolling sum over a window exceeds a number of forecast positives)
+    events = (exceedance.rolling({'leadtime': persistence[1]}, center=False, min_periods=1).sum() >= persistence[0]) & exceedance
+    events = events.isel(leadtime=slice(None, None, -1))
+    
+    if by_leadtime:
+        events_agg = events.copy()
+        for lt in events_agg.leadtime.data:
+            events_agg.loc[dict(leadtime=lt)] = events.sel(leadtime=slice(lt, None)).any('leadtime').astype(int)
+        return events_agg
+
+    if resample is not None:
+        # convert 'leadtime' from integer hours to timedelta
+        events['leadtime'] = pd.to_timedelta(events.leadtime, 'h')
+        # resample
+        events = events.resample({'leadtime': resample}).any().astype(int)
+        # reconvert 'leadtime' back to intege hours
+        events['leadtime'] = (events.leadtime / np.timedelta64(1, 'h')).astype(int)
+        return events.sel(leadtime=slice(min_leadtime, None))
+    else:
+        # check if there's any predicted event
+        return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
+        
+        
+        
+def compute_events2D(da, probability=None, persistence=(1, 1), resample=None, min_leadtime=None):
+    """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
+    The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
+    
+    Inputs:
+    -------
+    da:           xr.DataArray. A matrix of exceedances over probability threshold. It must have a dimension called 'leadtime', over which the function will compute persistence
+    probability:  float or xr.DataArray. Probability thresholds over which a forecast is considered an event
+    persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
+    resample:     string. Time resolution at which resample the leadtime data, e.g., '12h'.
+    min_leadtime: int. Minimun number of leadtime hours required to raise the notification for an event
+    
+    Output:
+    -------
+    As objetcs:
+    events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
+    As method:
+    exceedance:   xr.DataArray. Matrix of cells that exceed the 'probability' threshold
+    """
+    
+    # invert 'leadtime' order from longer to shorter lead times
+    da = da.isel(leadtime=slice(None, None, -1))
+
+    # compute exceedance over the probability threshold
+    if probability is None:
+        exceedance = da
+    else:
+        exceedance = (da >= probability).astype(int)
+    compute_events2D.exceedance = exceedance.isel(leadtime=slice(None, None, -1))
+    
+    # define custom function to apply to rolling window
+    def compute_persistence(da):
+        return da.fillna(0).any('dt').sum('lt')
+
+    # apply custom function to 2D window of size (2,2)
+    exc_rolling = exceedance.rolling(leadtime=persistence[1], datetime=3, center={'leadtime': False, 'datetime': True}, min_periods=1)
+    exc_rolling = exc_rolling.construct(leadtime='lt', datetime='dt')
+    events = xr.DataArray(np.zeros(exceedance.shape), dims=exceedance.dims, coords=exceedance.coords)
+    for i in range(exc_rolling.shape[0]):
+        for j in range(exc_rolling.shape[1]):
+            loc = dict(leadtime=i, datetime=j)
+            mask = (compute_persistence(exc_rolling[loc]) >= persistence[0]) & exceedance[loc].astype(bool)
+            events[loc] = events[loc].where(~mask, other=1)
+    events = events.isel(leadtime=slice(None, None, -1))
+    
+    if resample is not None:
+        # convert 'leadtime' from integer hours to timedelta
+        events['leadtime'] = pd.to_timedelta(events.leadtime, 'h')
+        # resample
+        events = events.resample({'leadtime': resample}).any().astype(int)
+        # reconvert 'leadtime' back to integer hours
+        events['leadtime'] = (events.leadtime / np.timedelta64(1, 'h')).astype(int)
+        return events.sel(leadtime=slice(min_leadtime, None))
+    else:
+        # check if there's any predicted event
+        return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
+        
+        
     
 def buffer_events(da, center=True, w=5):
     """It creates a buffer around the matrix of predicted events to allow for short lags between observation and prediction. 
@@ -730,12 +841,12 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
 
     # buffer the predicted events
     buff = buffer_events(pred, center=center, w=w)
-    #compute_hits.buffer = buff
+    compute_hits.buffer = buff
 
     # compute the true positive timeseries
     tp = buff.where(obs == 1) # apply observed mask on the buffered prediction
     tp = (tp == 1).astype(int) # ones in the masked array are true positives
-    #compute_hits.true_positives = tp
+    compute_hits.true_positives = tp
 
     # compute performance metrics
     TP = count_events(tp)

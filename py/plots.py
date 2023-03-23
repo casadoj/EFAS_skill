@@ -700,7 +700,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
             ax = axes[i, j]
             ax.set_yscale(yscale)
             if obs is not None:
-                ax.hlines(obs, xlim[0], xlim[1], color='k', ls='-', lw=lw)
+                ax.hlines(obs, xlim[0], xlim[1], color='k', ls='-', lw=lw, zorder=0)
             for c, line in enumerate(da[linedim].data):
                 ax.plot(da[xdim], da.sel({rowdim: row, linedim: line}), lw=lw, c=f'C{c}', alpha=alpha, label=line)
                 if bestvar is not None:
@@ -714,7 +714,8 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approa
             elif i == nrows - 1:
                 ax.set_xlabel('probability (-)')
             if j == 0:
-                ax.set_ylabel(f'{rowdim} {row}', fontsize=11)
+                ax.set_ylabel(kwargs.get('ylabel', 'performance (-)'))
+                ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
             if 'aspect' in kwargs:
                 ax.set_aspect(kwargs['aspect'])
 
@@ -810,7 +811,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, save=None, **kwargs):
         plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
         ax_hist.spines[['right', 'top']].set_visible(False)
         if i == 0:
-            ylabel = 'count (-)'
+            ylabel = 'no. points (-)'
         else:
             ylabel = None
         ax_hist.set(ylim=(0, ymax), ylabel=ylabel)
@@ -868,7 +869,7 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         ax_hist.hist(stations[col], bins=bins, width=1/bins, alpha=.66)
         ax_hist.spines[['right', 'top']].set_visible(False)
         if i == 0:
-            ylabel = 'count (-)'
+            ylabel = 'no. points (-)'
         else:
             ylabel = None
         ax_hist.set(xlim=(0, 1), ylim=(0, ymax), ylabel=ylabel)
@@ -952,3 +953,42 @@ def compare_discharge(discharge, stations, threshold=None, **kwargs):
     
     if 'title' in kwargs:
         fig.text(.5, .995, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontweight='bold')
+        
+        
+        
+def lineplot_hits(hits, obs=None, xdim='probability', coldim='persistence', rowdim=None, linedim='approach', yscale='linear', xtick_step=4, save=None, **kwargs):
+    """
+    """
+    
+    ncols = len(hits[coldim])
+    fig, axes = plt.subplots(ncols=ncols, figsize=(3 * ncols, 2.75), sharex=True, sharey=True)
+    
+    for j, col in enumerate(hits[coldim].data):
+        ax = axes[j]
+        ax.set_yscale(yscale)
+        # true positives (TP)
+        tp = hits['TP'].sel({coldim: col})
+        # false positives (FP)
+        fp = hits['FP'].sel({coldim: col})
+        for k, line in enumerate(hits[linedim]):
+            ax.plot(hits[xdim], tp.sel({linedim: line}).data, ls='-', lw=.8, alpha=.66, c=f'C{k}', label=f'{line.data}: TP')
+            ax.plot(hits[xdim], tp.sel({linedim: line}).data + fp.sel({linedim: line}).data, lw=.5, ls=':', alpha=.66, c=f'C{k}', label=f'{line.data}: TP+FP')
+        
+        xmin, xmax = hits[xdim].min(), hits[xdim].max()
+        if obs is not None:
+            ax.hlines(obs, xmin, xmax, lw=.8, ls='-', color='k', label='observed events')
+        ax.set_title(f'{coldim} {col}')
+        ax.set_xlabel('probability (-)')
+        
+        ax.set(xlim=(xmin, xmax))#, ylim=(0, None))
+        xticks = hits[xdim][1::xtick_step]
+        ax.set_xticks(xticks)
+        
+        if j == 0:
+            ax.set_ylabel('count (-)')
+    
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, ncol=len(hits[linedim]) + 1, loc=8, bbox_to_anchor=[.1, -.25, .8, .1])
+    
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
