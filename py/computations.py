@@ -658,22 +658,20 @@ def compute_events(da, probability=None, persistence=(1, 1), resample=None, min_
 
     
     
-def compute_events(da, probability=None, persistence=(1, 1), by_leadtime=False, resample=None, min_leadtime=None):
+def compute_events(da, probability=None, persistence=(1, 1), min_leadtime='all'):
     """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
     The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
     
     Inputs:
     -------
-    da:           xr.DataArray. A matrix of exceedances over probability threshold. It must have a dimension called 'leadtime', over which the function will compute persistence
+    da:           xr.DataArray. A matrix of exceedances over probability threshold, or a matrix of probability of exceedance (in that case the attribute 'probability' is required). It must have a dimension called 'leadtime', over which the function will compute persistence
+    probability:  float or xr.DataArray. Probability thresholds used to convert a 'da' of exceedance probability into a DataArray of exceedances over threshold. If None, the function implies that 'da' is already a DataArray of exceedances over threshold
     persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
-    resample:     string. 
+    min_leadtime: str of int. The minimum leadtime (in hours) above which the events will be notified. If 'all', the computation will be done for every leadtime in 'da.leadtime'
     
     Output:
     -------
-    As objetcs:
     events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
-    As method:
-    exceedance:   xr.DataArray. Matrix of cells that exceed the 'probability' threshold
     """
     
     # invert 'leadtime' order from longer to shorter lead times
@@ -689,24 +687,17 @@ def compute_events(da, probability=None, persistence=(1, 1), by_leadtime=False, 
     # compute persistence (rolling sum over a window exceeds a number of forecast positives)
     events = (exceedance.rolling({'leadtime': persistence[1]}, center=False, min_periods=1).sum() >= persistence[0]) & exceedance
     events = events.isel(leadtime=slice(None, None, -1))
-    
-    if by_leadtime:
+
+    if min_leadtime == 'all':
         events_agg = events.copy()
         for lt in events_agg.leadtime.data:
-            events_agg.loc[dict(leadtime=lt)] = events.sel(leadtime=slice(lt, None)).any('leadtime').astype(int)
-        return events_agg
-
-    if resample is not None:
-        # convert 'leadtime' from integer hours to timedelta
-        events['leadtime'] = pd.to_timedelta(events.leadtime, 'h')
-        # resample
-        events = events.resample({'leadtime': resample}).any().astype(int)
-        # reconvert 'leadtime' back to intege hours
-        events['leadtime'] = (events.leadtime / np.timedelta64(1, 'h')).astype(int)
-        return events.sel(leadtime=slice(min_leadtime, None))
-    else:
+            events_agg.loc[dict(leadtime=lt)] = events.sel(leadtime=slice(lt, None)).any('leadtime')
+        return events_agg.astype(int)
+    elif min_leadtime in da.leadtime:
         # check if there's any predicted event
         return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
+    else:
+        return "ERROR. The attribute 'min_leadtime' must be 'all' or a value in 'da.leadtime'."
         
         
         
