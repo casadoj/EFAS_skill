@@ -956,39 +956,116 @@ def compare_discharge(discharge, stations, threshold=None, **kwargs):
         
         
         
-def lineplot_hits(hits, obs=None, xdim='probability', coldim='persistence', rowdim=None, linedim='approach', yscale='linear', xtick_step=4, save=None, **kwargs):
+def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, linedim='approach', yscale='linear', xtick_step=4, save=None, **kwargs):
+    """It creates several lineplots of hits (TP), misses (FN) and false alarms (FP).
+    
+    Depending on the dimensions of the analysis, a plot will be created for each combination of 'rowdim' and 'coldim'.
+    
+    Inputs:
+    -------
+    ds:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms). Its dimensions must be those defined in `xdim`, `coldim`, `rowdim` and `linedim
+    xdim:       string. Dimension in `ds` that will be represented in the X axis of the plots
+    coldim:     string. Dimension in `ds` that will be used to create several columns of plots
+    rowdim:     string. Dimension in `ds` that will be used to create several rows of plots. If None, there will be only one single line of plots
+    yscale:     string. Type of scaling used in the Y axis, e.g., 'linear' or 'log'
+    xtick_step: int. Frequency of the labels in the X axis
+    save:       str. Directory where a JPG file of the plot will be saved
     """
-    """
     
-    ncols = len(hits[coldim])
-    fig, axes = plt.subplots(ncols=ncols, figsize=(3 * ncols, 2.75), sharex=True, sharey=True)
+    xmin, xmax = ds[xdim].min(), ds[xdim].max()
     
-    for j, col in enumerate(hits[coldim].data):
-        ax = axes[j]
-        ax.set_yscale(yscale)
-        # true positives (TP)
-        tp = hits['TP'].sel({coldim: col})
-        # false positives (FP)
-        fp = hits['FP'].sel({coldim: col})
-        for k, line in enumerate(hits[linedim]):
-            ax.plot(hits[xdim], tp.sel({linedim: line}).data, ls='-', lw=.8, alpha=.66, c=f'C{k}', label=f'{line.data}: TP')
-            ax.plot(hits[xdim], tp.sel({linedim: line}).data + fp.sel({linedim: line}).data, lw=.5, ls=':', alpha=.66, c=f'C{k}', label=f'{line.data}: TP+FP')
+    # compute f1 score and select best-performing criteria
+    f1 = 2 * ds['TP'] / (2 * ds['TP'] + ds['FP'] + ds['FN'])
+    agg_metric = f1.max(linedim)
+    best_x = agg_metric.idxmax(xdim)
+    best_metric = agg_metric.max(xdim)
         
-        xmin, xmax = hits[xdim].min(), hits[xdim].max()
-        if obs is not None:
-            ax.hlines(obs, xmin, xmax, lw=.8, ls='-', color='k', label='observed events')
-        ax.set_title(f'{coldim} {col}')
-        ax.set_xlabel('probability (-)')
-        
-        ax.set(xlim=(xmin, xmax))#, ylim=(0, None))
-        xticks = hits[xdim][1::xtick_step]
-        ax.set_xticks(xticks)
-        
-        if j == 0:
-            ax.set_ylabel('count (-)')
+    if rowdim is None:
+        ncols = len(ds[coldim])
+        fig, axes = plt.subplots(ncols=ncols, figsize=(3 * ncols, 2.75), sharex=True, sharey=True)
+
+        for j, col in enumerate(ds[coldim].data):
+            ax = axes[j]
+            ax.set_yscale(yscale)
+            loc = {coldim: col}
+
+            # true positives (FP)
+            tp = ds['TP'].sel(loc)
+            ax.plot(tp[xdim], tp.data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label=f'TP', zorder=4)
+
+            # total predicted events: TP + FP
+            pred = tp + ds['FP'].sel(loc)
+            ax.plot(pred[xdim], pred.data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label=f'predicted', zorder=3)
+
+            # total observed events: TP + FN
+            obs = tp + ds['FN'].sel(loc)
+            ax.plot(obs[xdim], obs.data.transpose(), lw=.5, ls='-', color='k', label='observed', zorder=5)
+            
+            # best-performing x value
+            x = best_x.sel(loc).data
+            text = 'f1 = {0:.2f}'.format(best_metric.sel(loc).data)
+            ax.text((x - xmin) / xmax, .975, text, horizontalalignment='right', verticalalignment='top', rotation=90, transform=ax.transAxes)
+            ax.axvline(x, color='k', ls='--', lw=.8)
+            
+            # config
+            ax.set_title(f'{coldim} {col}')
+            ax.set_xlabel(f'{xdim}')
+            ax.set(xlim=(xmin, xmax), ylim=kwargs.get('ylim', (0, None)))
+            xticks = ds[xdim][1::xtick_step]
+            ax.set_xticks(xticks)
+            if j == 0:
+                ax.set_ylabel('count (-)')
     
-    handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, ncol=len(hits[linedim]) + 1, loc=8, bbox_to_anchor=[.1, -.25, .8, .1])
-    
+    else:
+        ncols, nrows = len(ds[coldim]), len(ds[rowdim])
+        fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
+
+        for i, row in enumerate(ds[rowdim].data):
+            for j, col in enumerate(ds[coldim].data):
+                ax = axes[i,j]
+                ax.set(xlim=(xmin, xmax), ylim=kwargs.get('ylim', (0, None)))
+                ax.set_yscale(yscale)
+                loc = {rowdim: row, coldim: col}
+                
+                # true positives (FP)
+                tp = ds['TP'].sel(loc)
+                ax.plot(tp[xdim], tp.data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label=f'TP', zorder=4)
+                
+                # total predicted events: TP + FP
+                pred = tp + ds['FP'].sel(loc)
+                ax.plot(pred[xdim], pred.data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label=f'predicted', zorder=3)
+                
+                # total observed events: TP + FN
+                obs = tp + ds['FN'].sel(loc)
+                ax.plot(obs[xdim], obs.data.transpose(), lw=.5, ls='-', color='k', label='observed', zorder=5)
+                
+                # best-performing x value
+                x = best_x.sel(loc).data
+                text = 'f1 = {0:.2f}'.format(best_metric.sel(loc).data)
+                ax.text((x - xmin) / xmax, .975, text, horizontalalignment='right', verticalalignment='top', rotation=90, transform=ax.transAxes)
+                ax.axvline(x, color='k', ls='--', lw=.8)
+                
+                # best-performing x value
+                x = best_x.sel(loc).data
+                text = 'f1 = {0:.2f}'.format(best_metric.sel(loc).data)
+                ax.text((x - xmin) / xmax, .975, text, horizontalalignment='right', verticalalignment='top', rotation=90, transform=ax.transAxes)
+                ax.axvline(x, color='k', ls='--', lw=.8)
+                
+                if i == 0:
+                    ax.set_title(f'{coldim} {col}')
+                elif i == nrows - 1:
+                    ax.set_xlabel(f'{xdim}')
+                    xticks = ds[xdim][1::xtick_step]
+                    ax.set_xticks(xticks)
+                if j == 0:
+                    ax.set_ylabel('count (-)')
+                    ax.text(-.35, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
+        
+    # legend
+    hndls, lbls = ax.get_legend_handles_labels()
+    hndls = hndls[::len(ds[linedim])]
+    lbls = lbls[::len(ds[linedim])]
+    fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.2, -.04, .5, .1]), ncol=len(ds));
+
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')

@@ -9,6 +9,7 @@ import seaborn as sns
 import cartopy.crs as ccrs
 import cartopy.feature as cf
 from sklearn.metrics import f1_score, recall_score, precision_score, confusion_matrix
+from tqdm import tqdm_notebook
 
 # models
 models = {'COS': {'members': 20, 'leadtimes': 22},
@@ -75,57 +76,57 @@ def identify_events(discharge, upper_bound, lower_bound=None):
 
         
     
-def compute_exceedance(files, station, threshold):
-    """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
+# def compute_exceedance(files, station, threshold):
+    # """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
     
-    Inputs:
-    -------
-    files:      list. NetCDF files corresponding with EFAS' discharge forecast
-    station:    str. Station ID
-    threshold:  float. Discharge threshold
+    # Inputs:
+    # -------
+    # files:      list. NetCDF files corresponding with EFAS' discharge forecast
+    # station:    str. Station ID
+    # threshold:  float. Discharge threshold
     
-    Output:
-    -------
-    A xarray.DataArray with a boolean matrix of exceedance/non-exceedance of the threshold. If the forecast is deterministic, the output DataArray will have two dimensions (number of forecast, number of timesteps in each forecast). If the forecast is probabilistic, the output DataArray will have three dimensions (no. forecast, no. memebers, no.timesteps)
-    """
+    # Output:
+    # -------
+    # A xarray.DataArray with a boolean matrix of exceedance/non-exceedance of the threshold. If the forecast is deterministic, the output DataArray will have two dimensions (number of forecast, number of timesteps in each forecast). If the forecast is probabilistic, the output DataArray will have three dimensions (no. forecast, no. memebers, no.timesteps)
+    # """
     
     # load an example file to extract dimensions
-    aux = xr.open_dataarray(files[0])
-    n_time = len(aux.time)
-    if 'member' in aux.dims:
-        member = aux.member.data
-        arr = np.empty((len(files), len(member), n_time))
-    else:
-        arr = np.empty((len(files), n_time))
-        if 'member' in locals():
-            del n_member
-    forecast = []
-    leadtime = [timedelta(hours=(i + 1) * 6) for i in range(n_time)]
-    aux.close()
+    # aux = xr.open_dataarray(files[0])
+    # n_time = len(aux.time)
+    # if 'member' in aux.dims:
+        # member = aux.member.data
+        # arr = np.empty((len(files), len(member), n_time))
+    # else:
+        # arr = np.empty((len(files), n_time))
+        # if 'member' in locals():
+            # del n_member
+    # forecast = []
+    # leadtime = [timedelta(hours=(i + 1) * 6) for i in range(n_time)]
+    # aux.close()
 
     # read each file and compute exceedance
-    for i, file in enumerate(files):
+    # for i, file in enumerate(files):
         # compute exceedance of the threshold
-        da = xr.open_dataarray(file)
-        exc = da.sel(stations=station) >= threshold
-        if len(exc.shape) == 2:
-            arr[i,:,:] = exc
-        elif len(exc.shape) == 1:
-            arr[i,:] = exc
-        da.close()
+        # da = xr.open_dataarray(file)
+        # exc = da.sel(stations=station) >= threshold
+        # if len(exc.shape) == 2:
+            # arr[i,:,:] = exc
+        # elif len(exc.shape) == 1:
+            # arr[i,:] = exc
+        # da.close()
 
         # add forecast to the list
-        forecast.append(datetime.strptime(file[-13:-3], '%Y%m%d%H'))
+        # forecast.append(datetime.strptime(file[-13:-3], '%Y%m%d%H'))
         
     # build the xarray.DataArray
-    if len(arr.shape) == 3:
-        return xr.DataArray(arr, dims=('forecast', 'member', 'leadtime'), coords={'forecast': forecast, 'member': member, 'leadtime': leadtime})
-    elif len(arr.shape) == 2:
-        return xr.DataArray(arr, dims=('forecast', 'leadtime'), coords={'forecast': forecast, 'leadtime': leadtime})
+    # if len(arr.shape) == 3:
+        # return xr.DataArray(arr, dims=('forecast', 'member', 'leadtime'), coords={'forecast': forecast, 'member': member, 'leadtime': leadtime})
+    # elif len(arr.shape) == 2:
+        # return xr.DataArray(arr, dims=('forecast', 'leadtime'), coords={'forecast': forecast, 'leadtime': leadtime})
     
     
 
-def compute_exceedance_2(model_files, thresholds, verbose=True):
+def compute_exceedance(model_files, thresholds, verbose=True):
     """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
     
     Inputs:
@@ -139,16 +140,17 @@ def compute_exceedance_2(model_files, thresholds, verbose=True):
     """
     
     exceedance = {}
-    for model, files in model_files.items():
+    for model, files in tqdm_notebook(model_files.items()):
         dct = {}
-        for file in files:
+        for file in tqdm_notebook(files):
             
             if verbose:
                 print(f'{model}\t{file}', end='\r')
 
             # open dataaray with dicharge data
-            dis = xr.open_dataarray(file)
-            # limit the forecast to 10 days
+            dis = xr.open_dataarray(file).isel(time=slice(1, None))
+            dis['time'] = dis.time - np.timedelta64(6, 'h')
+            # limit the forecast to its maximum leadtime
             if len(dis.time) > models[model]['leadtimes']:
                 dis = dis.isel(time=slice(None, models[model]['leadtimes']))
             # reformat the 'time' dimension into 'leadtime'
