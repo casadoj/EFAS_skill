@@ -829,9 +829,6 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     tp:      xr.DataArray. A timeseries of correctly predicted events
     """
 
-    # number of observed and predicted events
-    n_obs, n_pred = [count_events(da) for da in [obs, pred]]
-
     # buffer the predicted events
     buff = buffer_events(pred, center=center, w=w)
     compute_hits.buffer = buff
@@ -840,7 +837,10 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     tp = buff.where(obs == 1) # apply observed mask on the buffered prediction
     tp = (tp == 1).astype(int) # ones in the masked array are true positives
     compute_hits.true_positives = tp
-
+    
+    # number of observed and predicted events
+    n_obs, n_pred = [count_events(da) for da in [obs, buff]]
+    
     # compute performance metrics
     TP = count_events(tp)
     TP = xr.ufuncs.minimum(TP, n_obs)
@@ -881,3 +881,128 @@ def size_objects(n=20):
             
             
             
+def hits2skill(hits):
+    """It computes skill metrics (recall, precision and f1) out of a Dataset of hits, misses and false alarms.
+    
+    Input:
+    ------
+    hits:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms).
+    
+    Output:
+    -------
+    skill:      xr.Dataset. It contains three DataArrays with the metrics 'recall', 'precision' and 'f1'.
+    
+    
+    """
+    
+    skill = xr.Dataset({'recall': hits.TP / (hits.TP + hits.FN),
+                        'precision': hits.TP / (hits.TP + hits.FP),
+                        'f1': 2 * hits.TP / (2 * hits.TP + hits.FP + hits.FN)})
+    
+    return skill
+
+
+
+def find_best_criterium(ds, dim='probability', tolerance=1e-2, modify_f1=True):
+    """Best probability thresholds and its associated f1 score for each combination of persistence and total probability approach.
+    """
+        
+    coords = {d: ds[d].data for d in ds.dims if d != dim}
+    dims = list(coords)
+    best_f1 = xr.DataArray(coords=coords, dims=dims)
+    best_recall =  best_f1.copy()
+    best_precision = best_f1.copy()
+    best_dim = best_f1.copy().astype(ds[dim].dtype)
+    
+    for dim0 in ds[dims[0]].data:
+
+        for dim1 in ds[dims[1]].data:
+
+            sel = {dimension: value for dimension, value in zip(dims, [dim0, dim1])}#dict(approach=app, persistence=per)
+
+            # difference between the best and the rest of the f1
+            delta_f1 = ds['f1'].sel(sel).max(dim) - ds['f1'].sel(sel)
+
+            # probabilities with a f1 close enough to the maximum
+            values = ds['f1'].sel(sel).where(delta_f1 < tolerance, drop=True)[dim]
+
+            if modify_f1:
+                # for those values, compute a modified version of the f1 score that penalizes the difference between recall and precision
+                ds_values = ds.sel(sel).sel({dim: values})
+                diff_RP = abs(ds_values['recall'] - ds_values['precision'])
+                diff_RP = diff_RP.fillna(0)
+                f1_mod = ds_values['f1'] * (1 - diff_RP)
+
+                # find the dimension value that maximmizes the modified f1
+                try:
+                    value = f1_mod.idxmax(dim).data
+                except:
+                    continue
+                best_dim.loc[sel] = value
+            else:
+                # select the minimum of those values
+                try:
+                    value = values.min().data
+                except:
+                    continue
+                best_dim.loc[sel] = value
+
+            # f1, recall and precision associated to that dimension value
+            ds_ = ds.sel(sel).sel({dim: value})
+            best_f1.loc[sel] = ds_['f1'].data
+            best_recall.loc[sel] = ds_['recall'].data
+            best_precision.loc[sel] = ds_['precision'].data
+
+    return xr.Dataset({dim: best_dim, 'f1': best_f1, 'recall': best_recall, 'precision': best_precision})
+
+
+def find_best_criteria(ds, tolerance=1e-2):
+    """best criteria for each approach based on a high f1 and a low distance between precision and recall
+    """
+    
+    # OPTIMIZE THE PROBABILITY THRESHOLD
+    
+    best_probability = find_best_criterium(ds, dim='probability', tolerance=tolerance, modify_f1=True)
+            
+    # OPTIMIZE PERSISTENCE
+    
+    best_probability_approach = xr.DataArray(coords={'approach': ds.approach}, dims=['approach'])
+    best_f1_approach = best_probability_approach.copy()
+    best_persistence_approach = best_probability_approach.copy().astype(str)
+    for app in ds.approach.data:
+        
+        sel = dict(approach=app)
+
+        # difference between the best and the rest of the f1 
+        delta_f1 = best_probability['f1'].sel(sel).max('persistence') - best_probability['f1'].sel(sel)
+
+        # persistencies with a f1 close enough to the maximum
+        pers = best_probability['f1'].sel(sel).where(delta_f1 < tolerance, drop=True).persistence
+
+        # print(app)
+        # print(pers.data)
+
+    #     # for those persistences, compute a modified version of the f1 score that penalizes the difference between recall and precision
+    #     diff_RP = abs(best_recall.sel(sel).sel(persistence=pers) - best_precision.sel(sel).sel(persistence=pers))
+    #     f1_mod = best_f1.sel(sel).sel(persistence=pers) * (1 - diff_RP)**.5
+    #     print(best_f1.sel(sel).sel(persistence=pers).data)
+    #     print(diff_RP.data)
+    #     print(f1_mod.data)
+
+    #     # find the probability that maximmizes the modified f1
+    #     per = f1_mod.idxmax('persistence').data
+        per = pers.min()
+        best_persistence_approach.loc[sel] = per
+
+        # f1 and probability associated to that persistence
+        best_probability_approach.loc[sel] = best_probability['probability'].sel(sel).sel(persistence=per).data
+        best_f1_approach.loc[sel] = best_probability['f1'].sel(sel).sel(persistence=per).data
+        
+    # DICTIONARY OF BEST CRITERIA ACCORDING TO THE APPROACH
+    
+    best_criteria = {app: {'approach': app} for app in ds.approach.data}
+    for app, dct in best_criteria.items():
+        dct['probability'] = best_probability_approach.sel(approach=app).data
+        dct['persistence'] = best_persistence_approach.sel(approach=app).data
+    
+    return best_criteria, best_f1_approach    

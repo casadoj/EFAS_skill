@@ -9,6 +9,7 @@ import seaborn as sns
 import cartopy.crs as ccrs
 import cartopy.feature as cf
 from sklearn.metrics import f1_score, recall_score, precision_score, confusion_matrix
+from computations import *
 
 
 
@@ -158,7 +159,7 @@ def plot_map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwa
     # plot all the stations
     if mask is not None:
         # plot masked stations
-        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 10, c='dimgray', alpha=kwargs.get('alpha', .5),
+        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 4, c='dimgray', alpha=kwargs.get('alpha', .5),
                    label='stations w/o events', zorder=0)
         x = x[~mask]
         y = y[~mask]
@@ -646,85 +647,118 @@ def plot_skill_eventwise(skill, xdim='probability', ydim='combination', save=Non
         
         
         
-def lineplot_skill(ds, xdim='probability', rowdim='persistence', linedim='approach', obs=None, bestvar=None, yscale='log', verbose=True, save=None, **kwargs):
-    """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created, where columns are the metrics (variables).
+def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, linedim='approach', save=None, **kwargs):
+    """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created. If 'coldim' is None,  the columns represent the metrics (variables of the Dataset 'ds'). If 'coldim' is not None, columns represent the dimension specified and the different metrics (variables in the Dataset 'ds') are represented by line colours.
     
     Inputs:
     -------
-    ds:       xr.Dataset. Contains the results. The variables will correspond to the columns in the graph. The use of the different dimensions is controlled by the following attributes
-    xdim:     string. It defines the
-    dimension in 'ds' that will correspond to the X axis in the plots
+    ds:       xr.Dataset. Contains the skill metric. By default, it should have the variables 'f1', 'recall' and 'precision', but the function accepts subsets of them
+    xdim:     string. It defines the dimension in 'ds' that will correspond to the X axis in the plots
     rowdim:   string. It defines the dimension in 'ds' that will correspond to the rows in which the graph will be divided
+    coldim:   string. It defines the dimension in 'ds' that will correspond to the cols in which the graph will be divided. If None (default), each column will represent a different skill metric (variables in 'ds')
     linedim:  string. It defines the dimension in 'ds' that will correspond to the different lines in the plots
-    obs:      int. Number of observed events
-    bestvar:  string. If used, it is the variable in 'ds' used  to select the best performing model
-    yscale:   string. Type of scaling of the Y axis
     save:     string. Directory and filename (including extension) where the graph will be saved
     
     Output:
     -------
     """
 
-    nrows, ncols = len(ds[rowdim]), len(list(ds))
-    figsize = kwargs.get('figsize', (ncols * 3, nrows * 3))
-    if yscale == 'log':
-        r = 10**kwargs.get('round', 4)
-    elif yscale == 'linear':
-        r = kwargs.get('round', 1000)
-    ymax = [ds[var].max().data for var in list(ds)]
-    ymax = np.ceil(np.max(ymax) / r) * r
-    ylim = (0, ymax)
-    xlim = kwargs.get('xlim', (ds[xdim].min(), ds[xdim].max()))
-    alpha = kwargs.get('alpha', .66)
+    # extract kwargs
+    alpha = kwargs.get('alpha', .8)
     lw = kwargs.get('linewidth', .8)
+    colors = kwargs.get('color', {'f1': 'k', 'recall': 'steelblue', 'precision': 'firebrick'})
+    xmin, xmax = ds['f1'][xdim].min(), ds['f1'][xdim].max()
+    xlim = kwargs.get('xlim', (xmin, xmax))
+    ylim = kwargs.get('ylim', (0, 1))
+    r = kwargs.get('round', 3)
     
-    # find the value of 'xdim' that maximizes f1
-    if bestvar is not None:
-        best = ds[bestvar].idxmax(xdim)
+    if coldim is None:
         
-        if verbose:
-            best_criteria = ds['f1'].argmax(list(ds.dims))
-            best_criteria = {dim: ds.isel(best_criteria)[dim].data for dim in best_criteria}
-            lineplot_skill.best_criteria = best_criteria
-            print('Best criteria:')
-            print('--------------\n')
-            for dim in ds.dims:
-                print('{0}:\t{1}'.format(dim, best_criteria[dim]))
-            print()
-            for var in list(ds):
-                print('{0:>10} = {1:.3f}'.format(var, ds[var].sel(best_criteria).data))
-
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize, sharex=True, sharey=True)
-    for j, (col, da) in enumerate(ds.items()):
-        for i, row in enumerate(da[rowdim].data):
-            ax = axes[i, j]
-            ax.set_yscale(yscale)
-            if obs is not None:
-                ax.hlines(obs, xlim[0], xlim[1], color='k', ls='-', lw=lw, zorder=0)
-            for c, line in enumerate(da[linedim].data):
-                ax.plot(da[xdim], da.sel({rowdim: row, linedim: line}), lw=lw, c=f'C{c}', alpha=alpha, label=line)
-                if bestvar is not None:
-                    x = best.sel({rowdim: row, linedim: line}).data
-                    y = da.sel({xdim: x, rowdim: row, linedim: line}).data
+        # extract best 'X' value and f1-score for each combination of 'rowdim' and 'linedim'
+        # best_x = ds['f1'].round(r).idxmax(xdim)
+        best_x = find_best_criterium(ds, dim=xdim)[xdim]
+        
+        ncols = len(ds)
+        nrows = len(ds[rowdim])
+        fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
+        
+        for j, (col, da) in enumerate(ds.items()):
+            for i, row in enumerate(da[rowdim].data):
+                ax = axes[i, j]
+                for c, line in enumerate(da[linedim].data):
+                    loc = {rowdim: row, linedim: line}
+                    ax.plot(da[xdim], da.sel(loc), lw=lw, c=f'C{c}', alpha=alpha, label=line)
+                    x = best_x.sel(loc).data
+                    y = da.sel(loc).sel({xdim: x}).data
                     ax.vlines(x, ylim[0], y, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
                     ax.hlines(y, xlim[0], x, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
                     ax.scatter(x, y, marker='+', color=f'C{c}')
-            if i == 0:
-                ax.set_title(col, fontsize=11)
-            elif i == nrows - 1:
-                ax.set_xlabel('probability (-)')
-            if j == 0:
-                ax.set_ylabel(kwargs.get('ylabel', 'performance (-)'))
-                ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
-            if 'aspect' in kwargs:
-                ax.set_aspect(kwargs['aspect'])
+                if i == 0:
+                    ax.set_title(col, fontsize=11)
+                elif i == nrows - 1:
+                    ax.set_xlabel(f'{xdim}')
+                if j == 0:
+                    ax.set_ylabel(kwargs.get('ylabel', 'skill (-)'))
+                    ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
+                if 'aspect' in kwargs:
+                    ax.set_aspect(kwargs['aspect'])
+            
+        hndls, lbls = ax.get_legend_handles_labels()
+        fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.3, -.04, .5, .1]), ncol=len(ds[linedim]));
+                
+    else:
+        # extract best 'X' value and f1-score for each combination of 'rowdim' and 'coldim'
+        agg_metric = ds['f1'].round(r).max(linedim)
+        best_x = agg_metric.idxmax(xdim)
+        best_metric = agg_metric.max(xdim)
+        
+        ncols, nrows = len(ds[coldim]), len(ds[rowdim])
+        fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
 
-    ax.set(xlim=xlim, ylim=ylim)
-    handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, loc=8, ncol=len(ds[linedim]), bbox_to_anchor=[.1, .0075 * len(ds[rowdim]), .8, .1])
+        for i, row in enumerate(ds[rowdim].data):
+            for j, col in enumerate(ds[coldim].data):
+                ax = axes[i,j]
+                loc = {coldim:col, rowdim:row}
+                
+                # plot metrics
+                ds_sel = ds.sel(loc)
+                for lw, (metric, da) in zip([lw / 2, lw / 2, lw], ds_sel.items()):
+                    try:
+                        ax.plot(ds_sel[xdim], da, ls='-', lw=lw, c=colors[metric], alpha=alpha, label=metric)
+                    except:
+                        ax.plot(ds_sel[xdim], da.transpose(), ls='-', lw=lw, c=colors[metric], alpha=alpha, label=metric)
+                
+                # best-performing x value
+                x = best_x.sel(loc)
+                y = best_metric.sel(loc)
+                ax.vlines(x, 0, y, 'k', ':', lw=lw * .8, alpha=alpha)
+                ax.hlines(y, 0, x, 'k', ':', lw=lw * .8, alpha=alpha)
+                
+                # config
+                if i == 0:
+                    ax.set_title(f'{coldim}: {col}')
+                elif i == nrows - 1:
+                    ax.set_xlabel(xdim)
+                if j == 0:
+                    ax.set_ylabel('skill (-)')
+                    ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=12, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
     
+        hndls, lbls = ax.get_legend_handles_labels()
+        hndls = hndls[::len(ds[linedim])]
+        lbls = lbls[::len(ds[linedim])]
+        fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.075, -.04, .5, .1]), ncol=len(ds));
+    
+    ax.set(xlim=(xmin, xmax), ylim=(0, 1))
+    xticks = ds[xdim][1::kwargs.get('xtick_step', 4)]
+    ax.set_xticks(xticks)
+              
+    # save dictionary of the best criteria
+    best_criteria = ds['f1'].argmax(list(ds.dims))
+    best_criteria = {dim: ds.isel(best_criteria)[dim].data for dim in best_criteria}
+    lineplot_skill.best_criteria = best_criteria
+
     if save is not None:
-        plt.savefig(save, bbox_inches='tight', dpi=300)
+        plt.savefig(save, dpi=300, bbox_inches='tight')
         
         
         
@@ -755,7 +789,7 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 
 
 
-def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, save=None, **kwargs):
+def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=None, **kwargs):
     """It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
     
     Inputs:
@@ -790,18 +824,25 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, save=None, **kwargs):
         # map
         ax_map = fig.add_subplot(gs[0, i], projection=proj)
         cmax = z.max()
-        if col == 'TP':
-            cmap, norm = create_cmap('Blues', np.arange(0, cmax + 1, 1), col, specify_color=(0, (.95, .5, .5, 1)))
+        if 'TP' in col:
+            cmap, norm = create_cmap('Blues', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.95, .5, .5, 1)))
         else:
-            cmap, norm = create_cmap('Reds', np.arange(0, cmax + 1, 1), col, specify_color=(0, (.27, .50, .70, 1)))
-        if (col in ['TP', 'FN']) and (mask is not None):
+            cmap, norm = create_cmap('Reds', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.27, .50, .70, 1)))
+        if ('TP' in col or 'FN' in col) and (mask is not None):
             plot_map_stations(stations.X, stations.Y, z, ax=ax_map, mask=~mask,
                               cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
             z = z[mask]
         else:
             plot_map_stations(stations.X, stations.Y, z, ax=ax_map,
                               cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
-        plt.colorbar(plot_map_stations.colorbar, ax=ax_map, shrink=.333, label=None);
+        ticks = np.arange(cmax + 1)
+        cbar = plt.colorbar(plot_map_stations.colorbar, ax=ax_map, shrink=.333, label=None, ticks=ticks + .5)
+        cbar.ax.set_yticklabels(ticks)
+        ax_map.text(.5, -.06, f'no. total {col}: {z.sum():.0f}', horizontalalignment='center', transform=ax_map.transAxes)
+        
+        # plot rivers
+        if rivers is not None:
+            rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax_map, zorder=0)
         
         # histogram
         ax_hist = fig.add_subplot(gs[1, i])
@@ -814,21 +855,23 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, save=None, **kwargs):
             ylabel = 'no. points (-)'
         else:
             ylabel = None
-        ax_hist.set(ylim=(0, ymax), ylabel=ylabel)
+        ax_hist.set(ylim=(0, ymax), ylabel=ylabel, xticks=np.arange(0, cmax + 1))
         
         # ancillary texts
         n_points = z.shape[0]
         n_zeros = counts.loc[0]
-        ax_hist.text(.5, 1.4, f'no. total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
-        ax_hist.text(.5, 1.2, f'no. total {col}: {z.sum()}', horizontalalignment='center', transform=ax_hist.transAxes)
+        ax_hist.text(.5, 1.15, f'no. total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
         ax_hist.text(0, n_zeros + 20, n_zeros, horizontalalignment='center')
-
+    
+    if 'title' in kwargs:
+        fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
+    
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
         
         
         
-def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolwarm', norm=None, save=None, **kwargs):
+def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolwarm', norm=None, rivers=None, save=None, **kwargs):
     """It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
     
     Inputs:
@@ -840,13 +883,14 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
     norm:       matplotlib.colors.BoundaryNorm. Used to create a discrete colour scale out of 'cmap'
     save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
-    
+
     # set up the plots
     fig = plt.figure(figsize=kwargs.get('figsize', (15, 6)), constrained_layout=True)
     gs = fig.add_gridspec(nrows=2, ncols=3, height_ratios=kwargs.get('height_ratios', [5, 1]))
     axes = np.empty((2, 3)).astype('object')
     
     # find maximum value of the Y axis in the histograms
+    alpha = kwargs.get('alpha', .66)
     r = kwargs.get('round', 100)
     ymax = max((stations[cols] == x).sum().max() for x in [0, 1])
     ymax = np.ceil(ymax / r) * r
@@ -862,11 +906,18 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         ax_map = fig.add_subplot(gs[0, i], projection=proj)
         mask = stations[col].isnull()
         plot_map_stations(stations.X, stations.Y, stations[col], ax=ax_map, mask=mask,
-                          cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
+                          cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=alpha, title=col)
         axes[0, i] = ax_map
+        
+        # plot rivers
+        if rivers is not None:
+            rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax_map, zorder=0)
 
+        # histogram
         ax_hist = fig.add_subplot(gs[1, i])
-        ax_hist.hist(stations[col], bins=bins, width=1/bins, alpha=.66)
+        counts = stations[col].value_counts(bins=bins, sort=False)
+        counts.index = [idx.left.round(2) for idx in counts.index]
+        ax_hist.bar(counts.index, counts, align='edge', width=1/bins, color=cmap(np.linspace(0, 1, bins)), alpha=alpha)
         ax_hist.spines[['right', 'top']].set_visible(False)
         if i == 0:
             ylabel = 'no. points (-)'
@@ -883,6 +934,9 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
 
     fig.colorbar(plot_map_stations.colorbar, ax=axes[:,2], shrink=.333, label=f'score (-)');
     
+    if 'title' in kwargs:
+        fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
+        
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
         
@@ -1065,7 +1119,7 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
     hndls, lbls = ax.get_legend_handles_labels()
     hndls = hndls[::len(ds[linedim])]
     lbls = lbls[::len(ds[linedim])]
-    fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.2, -.04, .5, .1]), ncol=len(ds));
+    fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.075, -.04, .5, .1]), ncol=len(ds));
 
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
