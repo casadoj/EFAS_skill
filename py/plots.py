@@ -835,7 +835,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         else:
             plot_map_stations(stations.X, stations.Y, z, ax=ax_map,
                               cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
-        ticks = np.arange(cmax + 1)
+        ticks = np.arange(cmax + 1).astype(int)
         cbar = plt.colorbar(plot_map_stations.colorbar, ax=ax_map, shrink=.333, label=None, ticks=ticks + .5)
         cbar.ax.set_yticklabels(ticks)
         ax_map.text(.5, -.06, f'no. total {col}: {z.sum():.0f}', horizontalalignment='center', transform=ax_map.transAxes)
