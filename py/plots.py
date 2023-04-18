@@ -800,6 +800,8 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
     save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
     
+    cols_map = {'TP': 'hits', 'FN': 'misses', 'FP': 'false alarms'}
+    
     # set up the plots
     ncols = len(cols)
     fig = plt.figure(figsize=kwargs.get('figsize', (ncols * 5, 6)), constrained_layout=True)
@@ -825,20 +827,23 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         ax_map = fig.add_subplot(gs[0, i], projection=proj)
         cmax = z.max()
         if 'TP' in col:
-            cmap, norm = create_cmap('Blues', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.95, .5, .5, 1)))
+            cmap, norm = create_cmap('Blues', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.98, .65, .25, 1)))#(0, (.95, .5, .5, 1)))
         else:
-            cmap, norm = create_cmap('Reds', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.27, .50, .70, 1)))
+            cmap, norm = create_cmap('Oranges', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.27, .50, .70, 1)))
         if ('TP' in col or 'FN' in col) and (mask is not None):
             plot_map_stations(stations.X, stations.Y, z, ax=ax_map, mask=~mask,
-                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
+                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
             z = z[mask]
         else:
             plot_map_stations(stations.X, stations.Y, z, ax=ax_map,
-                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=col)
+                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
         ticks = np.arange(cmax + 1).astype(int)
-        cbar = plt.colorbar(plot_map_stations.colorbar, ax=ax_map, shrink=.333, label=None, ticks=ticks + .5)
+        if len(ticks) > 6:
+            ticks = ticks[::2]
+        cbar = plt.colorbar(plot_map_stations.colorbar, ax=ax_map, shrink=.5, label=None, ticks=ticks + .5)
         cbar.ax.set_yticklabels(ticks)
-        ax_map.text(.5, -.06, f'no. total {col}: {z.sum():.0f}', horizontalalignment='center', transform=ax_map.transAxes)
+        cbar.ax.tick_params(size=0)
+        ax_map.text(.5, -.1, f'total {cols_map[col]}: {z.sum():.0f}', horizontalalignment='center', transform=ax_map.transAxes)
         
         # plot rivers
         if rivers is not None:
@@ -852,7 +857,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
         ax_hist.spines[['right', 'top']].set_visible(False)
         if i == 0:
-            ylabel = 'no. points (-)'
+            ylabel = 'no. points'
         else:
             ylabel = None
         ax_hist.set(ylim=(0, ymax), ylabel=ylabel, xticks=np.arange(0, cmax + 1))
@@ -860,15 +865,15 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         # ancillary texts
         n_points = z.shape[0]
         n_zeros = counts.loc[0]
-        ax_hist.text(.5, 1.15, f'no. total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
-        ax_hist.text(0, n_zeros + 20, n_zeros, horizontalalignment='center')
+        ax_hist.text(.5, 1.15, f'total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
+        ax_hist.text(0, n_zeros + ymax / 40, n_zeros, horizontalalignment='center')
     
     if 'title' in kwargs:
         fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
     
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
-        
+
         
         
 def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolwarm', norm=None, rivers=None, save=None, **kwargs):
@@ -920,19 +925,20 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         ax_hist.bar(counts.index, counts, align='edge', width=1/bins, color=cmap(np.linspace(0, 1, bins)), alpha=alpha)
         ax_hist.spines[['right', 'top']].set_visible(False)
         if i == 0:
-            ylabel = 'no. points (-)'
+            ylabel = 'no. points'
         else:
             ylabel = None
         ax_hist.set(xlim=(0, 1), ylim=(0, ymax), ylabel=ylabel)
         n_points = stations.shape[0] - mask.sum()
         n_zeros = (stations[col] == 0).sum()
         n_ones = (stations[col] == 1).sum()
-        ax_hist.text(.5, 1.4, f'no. total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
+        ax_hist.text(.5, 1.4, f'total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
         ax_hist.text(0 + .02, n_zeros + 10, n_zeros, horizontalalignment='left')
         ax_hist.text(1 - .02, n_ones + 10, n_ones, horizontalalignment='right')
         axes[1, i] = ax_hist
 
-    fig.colorbar(plot_map_stations.colorbar, ax=axes[:,2], shrink=.333, label=f'score (-)');
+    cbar = fig.colorbar(plot_map_stations.colorbar, ax=axes[:,2], shrink=.333, label=f'score (-)');
+    cbar.ax.tick_params(size=0)
     
     if 'title' in kwargs:
         fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
