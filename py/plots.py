@@ -666,7 +666,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, li
     # extract kwargs
     alpha = kwargs.get('alpha', .8)
     lw = kwargs.get('linewidth', .8)
-    colors = kwargs.get('color', {'f1': 'k', 'recall': 'steelblue', 'precision': 'firebrick'})
+    
     xmin, xmax = ds['f1'][xdim].min(), ds['f1'][xdim].max()
     xlim = kwargs.get('xlim', (xmin, xmax))
     ylim = kwargs.get('ylim', (0, 1))
@@ -676,35 +676,39 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, li
         
         # extract best 'X' value and f1-score for each combination of 'rowdim' and 'linedim'
         # best_x = ds['f1'].round(r).idxmax(xdim)
-        best_x = find_best_criterium(ds, dim=xdim)[xdim]
+        best_x = find_best_criterium(ds, dim=xdim, tolerance=.01, modify_f1=True)[xdim]
         
         ncols = len(ds)
         nrows = len(ds[rowdim])
         fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
+        colors = kwargs.get('color', {'current': 'steelblue', '1_deterministic_+_1_probabilistic': 'steelblue',
+                                      'model_mean': 'lightsteelblue', 'member_weighted': 'C1', 'brier_weighted': 'navajowhite'})
         
         for j, (col, da) in enumerate(ds.items()):
             for i, row in enumerate(da[rowdim].data):
                 ax = axes[i, j]
                 for c, line in enumerate(da[linedim].data):
                     loc = {rowdim: row, linedim: line}
-                    ax.plot(da[xdim], da.sel(loc), lw=lw, c=f'C{c}', alpha=alpha, label=line)
+                    label = line.replace('_', ' ')
+                    ax.plot(da[xdim], da.sel(loc), lw=lw, c=colors[line], alpha=alpha, label=label, zorder=5 - c)#f'C{c}'
                     x = best_x.sel(loc).data
                     y = da.sel(loc).sel({xdim: x}).data
-                    ax.vlines(x, ylim[0], y, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
-                    ax.hlines(y, xlim[0], x, lw=.5, color=f'C{c}', alpha=alpha, ls='--', zorder=0)
-                    ax.scatter(x, y, marker='+', color=f'C{c}')
+                    ax.vlines(x, ylim[0], y, lw=.5, color=colors[line], alpha=alpha, ls='--', zorder=0)
+                    ax.hlines(y, xlim[0], x, lw=.5, color=colors[line], alpha=alpha, ls='--', zorder=0)
+                    # ax.scatter(x, y, marker='+', color=colors[line])
                 if i == 0:
-                    ax.set_title(col, fontsize=11)
+                    ax.set_title(col)#, fontsize=11)
                 elif i == nrows - 1:
                     ax.set_xlabel(f'{xdim}')
                 if j == 0:
                     ax.set_ylabel(kwargs.get('ylabel', 'skill (-)'))
-                    ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
+                    ax.text(-.3, 1, f'{rowdim}\n{row}', transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')#, fontsize=11
                 if 'aspect' in kwargs:
                     ax.set_aspect(kwargs['aspect'])
             
         hndls, lbls = ax.get_legend_handles_labels()
-        fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.3, -.04, .5, .1]), ncol=len(ds[linedim]));
+        # fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.3, -.04, .5, .1]), ncol=len(ds[linedim]));
+        fig.legend(hndls, lbls, loc=1, bbox_to_anchor=kwargs.get('loc_legend', [1., .8, .2, .1]));
                 
     else:
         # extract best 'X' value and f1-score for each combination of 'rowdim' and 'coldim'
@@ -714,6 +718,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, li
         
         ncols, nrows = len(ds[coldim]), len(ds[rowdim])
         fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
+        colors = kwargs.get('color', {'f1': 'k', 'recall': 'steelblue', 'precision': 'firebrick'})
 
         for i, row in enumerate(ds[rowdim].data):
             for j, col in enumerate(ds[coldim].data):
@@ -741,7 +746,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, li
                     ax.set_xlabel(xdim)
                 if j == 0:
                     ax.set_ylabel('skill (-)')
-                    ax.text(-.3, 1, f'{rowdim}\n{row}', fontsize=12, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
+                    ax.text(-.3, 1, f'{rowdim}\n{row}', transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')#, fontsize=12
     
         hndls, lbls = ax.get_legend_handles_labels()
         hndls = hndls[::len(ds[linedim])]
@@ -749,7 +754,7 @@ def lineplot_skill(ds, xdim='probability', rowdim='persistence', coldim=None, li
         fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.075, -.04, .5, .1]), ncol=len(ds));
     
     ax.set(xlim=(xmin, xmax), ylim=(0, 1))
-    xticks = ds[xdim][1::kwargs.get('xtick_step', 4)]
+    xticks = kwargs.get('xticks', ds[xdim][1::kwargs.get('xtick_step', 4)])
     ax.set_xticks(xticks)
               
     # save dictionary of the best criteria
@@ -1071,8 +1076,9 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
             ax.set_title(f'{coldim} {col}')
             ax.set_xlabel(f'{xdim}')
             ax.set(xlim=(xmin, xmax), ylim=kwargs.get('ylim', (0, None)))
-            xticks = ds[xdim][1::xtick_step]
+            xticks = kwargs.get('xticks', ds[xdim][1::kwargs.get('xtick_step', 4)])
             ax.set_xticks(xticks)
+
             if j == 0:
                 ax.set_ylabel('count (-)')
     
@@ -1115,7 +1121,7 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
                     ax.set_title(f'{coldim} {col}')
                 elif i == nrows - 1:
                     ax.set_xlabel(f'{xdim}')
-                    xticks = ds[xdim][1::xtick_step]
+                    xticks = kwargs.get('xticks', ds[xdim][1::kwargs.get('xtick_step', 4)])
                     ax.set_xticks(xticks)
                 if j == 0:
                     ax.set_ylabel('count (-)')
