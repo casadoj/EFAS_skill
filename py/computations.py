@@ -483,14 +483,15 @@ def compute_f1(y_true, y_pred, window=0):
         
         
         
-def compute_metrics(hits, dims_agg=None):
+def compute_metrics(hits, dims_agg=None, beta=1):
     """It computes a Dataset of metrics (f1, precision and recall) out of a Dataset of hits (variable 'tp'), misses (variable 'fn') and false alarms (variable 'fp'). If desired, the original dataset can be aggregated (summed) over one or more variables
     
     Input:
     ------
     hits:     xarray.Dataset. A boolean matrix of hits, misses and false alarms. It must contain three variables: 'tp' hits, 'fn' misses, 'fp' false alarms
     dims_agg: str or list. Dimensions in 'hits' over which the number of hits/misses/false alarms will be added.
-    
+    beta:     float or list of floats. A coefficient (or list of coefficients) of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
+
     Output:
     -------
     skill:    xarray.Dataset. A matrix with the metric values. Three metrics are computed and saved as variables: 'f1', 'precision', 'recall'
@@ -500,7 +501,11 @@ def compute_metrics(hits, dims_agg=None):
         aux = hits
     else:
         aux = hits.sum(dims_agg)
-    skill = xr.Dataset({'f1': 2 * aux['tp'] / (2 * aux['tp']+ aux['fp'] + aux['fn']),
+    if isinstance(beta, int):
+        f_score = f'f{beta}'
+    elif isinstance(beta, float):
+        f_score = f'f{beta:.1f}'
+    skill = xr.Dataset({f_score: (1 + beta**2) * aux['tp'] / ((1 + beta**2) * aux['tp'] + beta**2 * aux['fn'] + aux['fp']),
                         'precision': aux['tp'] / (aux['tp']+ aux['fp']),
                         'recall': aux['tp'] / (aux['tp']+ aux['fn'])})
     if 'leadtime' in skill.dims:
@@ -662,7 +667,7 @@ def compute_events(da, probability=None, persistence=(1, 1), resample=None, min_
     
 def compute_events(da, probability=None, persistence=(1, 1), min_leadtime='all'):
     """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
-    The persistence criterion defines the number of forecast that must predict an exceedance in order to be considered an event.
+    The persistence criterion defines the number of forecast that musts predict an exceedance in order to be considered an event.
     
     Inputs:
     -------
@@ -828,7 +833,15 @@ def compute_hits(obs, pred, center=True, w=1):#, verbose=True):
     buffer:  xr.DataArray. The buffered matrix of predicted events
     tp:      xr.DataArray. A timeseries of correctly predicted events
     """
-
+    
+    # check that both Dataset have the same length in the matching dimensions
+    dims = list(set(obs.dims).intersection(pred.dims))
+    for dim in dims:
+        dim_min = max(obs[dim].min(), pred[dim].min())
+        dim_max = min(obs[dim].max(), pred[dim].max())
+        obs.sel({dim: slice(dim_min, dim_max)})
+        pred.sel({dim: slice(dim_min, dim_max)})
+    
     # buffer the predicted events
     buff = buffer_events(pred, center=center, w=w)
     compute_hits.buffer = buff
@@ -881,38 +894,58 @@ def size_objects(n=20):
             
             
             
-def hits2skill(hits):
+def hits2skill(hits, beta=1):
     """It computes skill metrics (recall, precision and f1) out of a Dataset of hits, misses and false alarms.
     
     Input:
     ------
-    hits:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms).
+    hits:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms)
+    beta:       float or list of floats. A coefficient (or list of coefficients) of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
     
     Output:
     -------
-    skill:      xr.Dataset. It contains three DataArrays with the metrics 'recall', 'precision' and 'f1'.
+    skill:      xr.Dataset. It contains three DataArrays with the metrics 'recall', 'precision', and 'fbeta' scores.
     
     
     """
     
     skill = xr.Dataset({'recall': hits.TP / (hits.TP + hits.FN),
-                        'precision': hits.TP / (hits.TP + hits.FP),
-                        'f1': 2 * hits.TP / (2 * hits.TP + hits.FP + hits.FN)})
+                        'precision': hits.TP / (hits.TP + hits.FP)})
+    if isinstance(beta, float) or isinstance(beta, int):
+        beta = [beta]
+    for b in beta:
+        if isinstance(b, int):
+            score = f'f{b}'
+        else:
+            score = f'f{b:.1f}'
+        skill[score] = (1 +  b**2) * hits.TP / ((1 +  b**2) * hits.TP + b**2 * hits.FN + hits.FP)
     
     return skill
 
 
 
-def find_best_criterium(ds, dim='probability', tolerance=1e-2, modify_f1=True):
-    """Best probability thresholds and its associated f1 score for each combination of persistence and total probability approach.
+def find_best_criterium(ds, metric='f1', dim='probability', tolerance=1e-2, modify=True):
+    """It searches for the value of a dimension in a dataset that maximizes a skill metric.
+    
+    Inputs:
+    -------
+    ds:        xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
+    metric:    string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    dim:       string. Name of the dimension in 'ds' that will be optimized
+    tolerance: float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    modify:    boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
+    
+    Output:
+    -------
+    xr.Dataset. Matrix that contains 4 variables ('dim', recall, precision, 'metric') correspoding to the optimized values of the dimension 'dim' and the skill corresponding to that value measured in terms of recall, precision and the selected target 'metric'. It has one dimension less than the original Dataset 'ds', since the  dimension 'dim' was removed and optimized.
     """
         
     coords = {d: ds[d].data for d in ds.dims if d != dim}
     dims = list(coords)
-    best_f1 = xr.DataArray(coords=coords, dims=dims)
-    best_recall =  best_f1.copy()
-    best_precision = best_f1.copy()
-    best_dim = best_f1.copy().astype(ds[dim].dtype)
+    best_metric = xr.DataArray(coords=coords, dims=dims)
+    best_recall =  best_metric.copy()
+    best_precision = best_metric.copy()
+    best_dim = best_metric.copy().astype(ds[dim].dtype)
     
     for dim0 in ds[dims[0]].data:
 
@@ -920,22 +953,22 @@ def find_best_criterium(ds, dim='probability', tolerance=1e-2, modify_f1=True):
 
             sel = {dimension: value for dimension, value in zip(dims, [dim0, dim1])}#dict(approach=app, persistence=per)
 
-            # difference between the best and the rest of the f1
-            delta_f1 = ds['f1'].sel(sel).max(dim) - ds['f1'].sel(sel)
+            # difference between the best skill and the rest
+            delta_metric = ds[metric].sel(sel).max(dim) - ds[metric].sel(sel)
 
-            # probabilities with a f1 close enough to the maximum
-            values = ds['f1'].sel(sel).where(delta_f1 < tolerance, drop=True)[dim]
+            # values of the dimension with a metric close enough to the maximum
+            values = ds[metric].sel(sel).where(delta_metric < tolerance, drop=True)[dim]
 
-            if modify_f1:
-                # for those values, compute a modified version of the f1 score that penalizes the difference between recall and precision
+            if modify:
+                # for those values, compute a modified version of the metric score that penalizes the difference between recall and precision
                 ds_values = ds.sel(sel).sel({dim: values})
                 diff_RP = abs(ds_values['recall'] - ds_values['precision'])
                 diff_RP = diff_RP.fillna(0)
-                f1_mod = ds_values['f1'] * (1 - diff_RP)
+                metric_mod = ds_values[metric] * (1 - diff_RP)
 
-                # find the dimension value that maximmizes the modified f1
+                # find the dimension value that maximmizes the modified metric score
                 try:
-                    value = f1_mod.idxmax(dim).data
+                    value = metric_mod.idxmax(dim).data
                 except:
                     continue
                 best_dim.loc[sel] = value
@@ -947,56 +980,57 @@ def find_best_criterium(ds, dim='probability', tolerance=1e-2, modify_f1=True):
                     continue
                 best_dim.loc[sel] = value
 
-            # f1, recall and precision associated to that dimension value
+            # metric, recall and precision associated to that dimension value
             ds_ = ds.sel(sel).sel({dim: value})
-            best_f1.loc[sel] = ds_['f1'].data
+            best_metric.loc[sel] = ds_[metric].data
             best_recall.loc[sel] = ds_['recall'].data
             best_precision.loc[sel] = ds_['precision'].data
 
-    return xr.Dataset({dim: best_dim, 'f1': best_f1, 'recall': best_recall, 'precision': best_precision})
+    return xr.Dataset({dim: best_dim, metric: best_metric, 'recall': best_recall, 'precision': best_precision})
 
 
-def find_best_criteria(ds, tolerance=1e-2):
-    """best criteria for each approach based on a high f1 and a low distance between precision and recall
+def find_best_criteria(ds, metric='f1', tolerance=1e-2, modify=True):
+    """It searches for the combination of criteriathat maximizes a skill metric.
+    
+    Inputs:
+    -------
+    ds:                   xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
+    metric:               string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    tolerance:            float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    modify:               boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
+    
+    Output:
+    -------
+    best_criteria:        dict. Best set of criteria for each approach
+    best_metric_appraoch: xr.DataArray. Value of the 'metric' for the best criteria found for each approach
     """
     
     # OPTIMIZE THE PROBABILITY THRESHOLD
     
-    best_probability = find_best_criterium(ds, dim='probability', tolerance=tolerance, modify_f1=True)
-            
+    best_probability = find_best_criterium(ds, metric=metric, dim='probability', tolerance=tolerance, modify=modify)
+    
     # OPTIMIZE PERSISTENCE
     
     best_probability_approach = xr.DataArray(coords={'approach': ds.approach}, dims=['approach'])
-    best_f1_approach = best_probability_approach.copy()
+    best_metric_approach = best_probability_approach.copy()
     best_persistence_approach = best_probability_approach.copy().astype(str)
     for app in ds.approach.data:
         
         sel = dict(approach=app)
 
-        # difference between the best and the rest of the f1 
-        delta_f1 = best_probability['f1'].sel(sel).max('persistence') - best_probability['f1'].sel(sel)
+        # difference between the best metric value and the rest
+        delta_metric = best_probability[metric].sel(sel).max('persistence') - best_probability[metric].sel(sel)
 
-        # persistencies with a f1 close enough to the maximum
-        pers = best_probability['f1'].sel(sel).where(delta_f1 < tolerance, drop=True).persistence
-
-        # print(app)
-        # print(pers.data)
-
-    #     # for those persistences, compute a modified version of the f1 score that penalizes the difference between recall and precision
-    #     diff_RP = abs(best_recall.sel(sel).sel(persistence=pers) - best_precision.sel(sel).sel(persistence=pers))
-    #     f1_mod = best_f1.sel(sel).sel(persistence=pers) * (1 - diff_RP)**.5
-    #     print(best_f1.sel(sel).sel(persistence=pers).data)
-    #     print(diff_RP.data)
-    #     print(f1_mod.data)
-
-    #     # find the probability that maximmizes the modified f1
-    #     per = f1_mod.idxmax('persistence').data
+        # persistence values with a metric value close enough to the maximum
+        pers = best_probability[metric].sel(sel).where(delta_metric < tolerance, drop=True).persistence
+    
+        # from those, select the most relax persistence (minimum)
         per = pers.min()
         best_persistence_approach.loc[sel] = per
 
-        # f1 and probability associated to that persistence
+        # metric value and probability associated to that persistence
         best_probability_approach.loc[sel] = best_probability['probability'].sel(sel).sel(persistence=per).data
-        best_f1_approach.loc[sel] = best_probability['f1'].sel(sel).sel(persistence=per).data
+        best_metric_approach.loc[sel] = best_probability[metric].sel(sel).sel(persistence=per).data
         
     # DICTIONARY OF BEST CRITERIA ACCORDING TO THE APPROACH
     
@@ -1005,4 +1039,201 @@ def find_best_criteria(ds, tolerance=1e-2):
         dct['probability'] = best_probability_approach.sel(approach=app).data
         dct['persistence'] = best_persistence_approach.sel(approach=app).data
     
-    return best_criteria, best_f1_approach    
+    return best_criteria, best_metric_approach   
+
+
+def area_ranges(area_min, area_max, scale='semilog'):
+    """Define an array of catchment area ranges
+    
+    Inputs:
+    -------
+    area_min: int. Minimum catchment area
+    area_max: int. Maximum catchment area
+    scale:    str. Type of scale: 'linear', 'log', 'semilog'
+    
+    Output:
+    -------
+    areas:    np.array.
+    """
+    
+    # linear scale
+    if scale == 'linear':
+        areas = np.arange(area_min, area_max, min_area)
+    # logarithmic scale
+    elif scale == 'log':
+        areas = np.logspace(np.log10(area_min), np.log10(area_max), 100)
+    # pseudo-logarithmic scale
+    elif scale == 'semilog':
+        min_order_magnitude = len(str(area_min)) - 1
+        max_order_magnitude = len(str(int(area_max))) + 1
+        areas = np.empty((0,))
+        for order in np.arange(min_order_magnitude, max_order_magnitude + 1):
+            areas = np.hstack((areas, np.array([1, 1.5, 2, 3, 5, 7]) * 10**order))
+        areas = areas[(areas >= area_min) & (areas <= areas[areas > area_max][0])]
+    else:
+        return 'ERROR. Scale must be one of the following: "linear", "log", "semilog".'
+    
+    return areas.astype(int)
+
+
+
+def optimize_criteria_by_area(hits, station_area, station_events, area_ranges, beta=1, tolerance=1e-2, modify=False):
+    """It optimizes the probability threshold for several catchment area ranges.
+    
+    IMPORTANT. The dimension 'leadtime' must not be included in the Dataset 'hits'
+    
+    Inputs:
+    -------
+    hits:             xr.Dataset (id, persistence, approach, probability). It contains 3 variables: 'TP' true positives, 'FN' false negatives, 'FP' false positives
+    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
+    station_events:   pd.Series (id,). Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
+    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
+    beta:             float. A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
+    tolerance:        float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    modify:           boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
+    
+    Ouputs:
+    -------
+    summary:          pd.DataFrame. It contains for every area range the number of stations and the number of observed flood events
+    hits_area:        xr.Dataset (persistence, approach, probability, area). It contains the same 3 variables as the original dataset 'hits', but aggregated by ranges of catchment area
+    skill_area:       xr.Dataset (persistence, approach, probability, area). It contains 3 variables (recall, precision, fbeta-score) with the skill metrics aggregated by ranges of catchment area
+    probability_area: xr.DataArray (persistence, approach, area). It contains the optimized probability thresholds for each range of catchment area
+    """
+    
+    # DataFrame to save the number of stations and observed events for each area range
+    summary = pd.DataFrame(index=area_ranges, columns=['n_stations', 'n_events_obs'])
+    
+    # Dataset to save hits, misses and false alarms by area range
+    dims = list(hits.dims)
+    dims.remove('id')
+    coords = {dim: hits[dim].data for dim in dims}
+    dims += ['area']
+    coords['area'] = area_ranges
+    hits_area = xr.Dataset({var: xr.DataArray(dims=dims, coords=coords) for var in ['TP', 'FN', 'FP']})
+    
+    # compute the previous DataFrame and Dataset
+    for area in tqdm_notebook(hits_area.area.data):
+
+        # select stations in the catchment area range
+        mask_area = (station_area >= area)
+        stn_area = station_area.loc[mask_area].index.to_list()
+        summary.loc[area, 'n_stations'] = len(stn_area)
+        summary.loc[area, 'n_events_obs'] = station_events.loc[stn_area].sum()
+
+        # extract hits for those stations and aggregate
+        hits_area.loc[dict(area=area)] = hits.sel(id=stn_area).sum('id', skipna=False)
+
+    # compute skill
+    skill_area = hits2skill(hits_area, beta=beta)
+    # remove area ranges for which there's no data
+    skill_area = skill_area.dropna('area', how='all')
+    hits_area = hits_area.sel(area=skill_area.area)
+
+    # compute best probability threshold for each area range
+    if isinstance(beta, int):
+        metric = f'f{beta}'
+    else:
+        metric = f'f{beta:.1f}'
+    probability_area = xr.DataArray(dims=[dim for dim in list(skill_area.dims) if dim != 'probability'], 
+                                 coords={dim: skill_area[dim] for dim in dims if dim != 'probability'})
+    for area in tqdm_notebook(probability_area.area.data):
+        bc = find_best_criterium(skill_area.sel(area=area), metric=metric, dim='probability', tolerance=tolerance, modify=modify)
+        probability_area.loc[dict(area=area)] = bc['probability']
+        
+    return summary, hits_area, skill_area, probability_area
+
+
+
+def month2season(month):
+    """It provides the season of a month
+    
+    Inputs:
+    -------
+    month:  int (1-12)
+    
+    Output:
+    -------
+    season:  str. Season of the year
+    """
+    
+    month_to_season = {1: 'winter', 2: 'winter', 3: 'winter',
+                       4: 'spring', 5: 'spring', 6: 'spring',
+                       7: 'summer', 8: 'summer', 9: 'summer',
+                       10: 'autumn', 11: 'autumn', 12: 'autumn'}
+    
+    return month_to_season[month]
+
+# Use numpy.vectorize to vectorize the mapping function
+month2season_vec = np.vectorize(month2season)
+
+
+
+def disaggregate_by_season(da, dim='datetime'):
+    """Given a DataArray with a datetime dimension, it creates a new dimension named 'season' to store the data corresponding to each of the 4 seasons
+    
+    Input:
+    ------
+    da:   xr.DataArray. One of its dimensions must be of type datetime
+    dim:  string. Name of the dimension in 'da' of type datetime that will be used to split the 4 seasons
+    
+    Output:
+    -------
+    da_season: xr.DataArray. A new DataArray with one extra dimension: 'season'
+    """
+    
+    if dim not in da.dims:
+        return 'ERROR. The dimension "dim" is not in the DataArray'
+    
+    seasons = ['winter', 'spring', 'summer', 'autumn']
+    array_seasons = xr.apply_ufunc(month2season_vec, da[dim].dt.month, vectorize=True)
+    da_season = {season: da.where(array_seasons == season, drop=True) for season in seasons}
+    da_season = xr.concat(da_season.values(), dim='season').assign_coords(season=seasons)
+    
+    return da_season
+
+
+
+def recompute_exceedance(obs, pred_high, pred_low):
+    """It recomputes exceedances given DataArrays of observed and predicted exceedance based on 2 discharge thresholds
+    
+    Inputs:
+    -------
+    obs:         xr.DataArray ('datetime', 'id'). Observed exceedance over the discharge thresholds. It has 3 possible values: 2, exceedance over the higher threshold; 1, exceedance over the lower threshold; 0, non-exeedance
+    pred_high:   xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) over the higher discharge threshold
+    pred_low:    xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) over the lower discharge threshold
+    
+    Outputs:
+    --------
+    exceed_obs:  xr.DataArray ('datetime', 'id'). The input observed exeedance recomputed with only 2 classes: 1, exceedance; 0, non-exceedance
+    exceed_pred: xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) as a combination of the exceedances for the higher and lower thresholds
+    """
+    
+    # create empty xarray.DataArrays for observed and predicted exceedance
+    exceed_obs = np.zeros_like(obs)
+    exceed_pred = np.zeros_like(pred_high)
+
+    # if observation exceeds Q5
+    mask = (obs == 2).data
+    exceed_obs[mask] = 1
+    exceed_pred[mask] = pred_low.data[mask]
+
+    # if observation exceeds 0.95*Q5 and some predictions exceed Q5
+    mask = ((obs == 1) & (pred_high > 0)).data
+    exceed_obs[mask.any(axis=(2, 3))] = 1
+    exceed_pred[mask] = pred_low.data[mask]
+
+    # if observation exceeds 0.95*Q5 and none of the predictions exceed Q5
+    mask = ((obs == 1) & (pred_high == 0)).data
+    exceed_obs[mask.all(axis=(2, 3))] = 0
+    exceed_pred[mask] = pred_high.data[mask]
+
+    # if observation does not exceed 0.95*Q5
+    mask = (obs == 0).data
+    exceed_obs[mask] = 0
+    exceed_pred[mask] = pred_high.data[mask]
+    
+    # convert into xarray.DataArrays
+    exceed_obs = xr.DataArray(exceed_obs, dims=obs.dims, coords=obs.coords)
+    exceed_pred = xr.DataArray(exceed_pred, dims=pred_high.dims, coords=pred_high.coords)
+    
+    return exceed_obs, exceed_pred
