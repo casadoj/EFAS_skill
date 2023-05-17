@@ -1,0 +1,2372 @@
+id,name,X,Y,area,subcatchment,river,catchment,country
+1,Schwabelweis,4477500.0,2882500.0,35525.0,Danube,Danube,Danube,DE
+2,Hofkirchen,4547500.0,2847500.0,47525.0,Danube,Danube,Danube,DE
+3,Pfelling,4517500.0,2867500.0,37725.0,Danube,Danube,Danube,DE
+4,Barby,4452500.0,3207500.0,93975.0,"Elbe, below Saale",Elbe,Elbe,DE
+5,Wittenberg / Lutherstadt,4497500.0,3197500.0,61675.0,Elbe,Elbe,Elbe,DE
+6,Malliss OP,4407500.0,3342500.0,2900.0,Elbe,Muritz-Elde,Elbe,DE
+8,Grosse Traenke Wehr UP,4592500.0,3257500.0,6625.0,Havel,Muggelspree,Elbe,DE
+9,Rathenow UP,4472500.0,3287500.0,18875.0,Havel,Havel,Elbe,DE
+10,Plau OP,4467500.0,3377500.0,1250.0,Elbe,Muritz-Elde,Elbe,DE
+11,Calbe Grizehne,4442500.0,3202500.0,23725.0,Saale,Saale,Elbe,DE
+12,Tangermuende,4457500.0,3272500.0,97875.0,"Elbe, below Saale",Elbe,Elbe,DE
+13,Bernburg UP,4442500.0,3187500.0,19700.0,Saale,Saale,Elbe,DE
+14,Wittenberge,4432500.0,3327500.0,123300.0,Elbe,Elbe,Elbe,DE
+15,Aken,4457500.0,3202500.0,69875.0,"Elbe, below Mulde",Elbe,Elbe,DE
+16,Magdeburg-Strombruecke,4437500.0,3222500.0,94975.0,"Elbe, below Saale",Elbe,Elbe,DE
+17,Havelberg Stadt,4462500.0,3302500.0,23550.0,Havel,Lower Havel waterway,Elbe,DE
+18,Halle-Trotha UP,4457500.0,3157500.0,18000.0,Saale,Saale,Elbe,DE
+19,Neu Darchau,4377500.0,3352500.0,131450.0,Elbe,Elbe,Elbe,DE
+21,Eisenhuettenstadt,4642500.0,3237500.0,51150.0,"Oder, below Neisse",Oder,Oder,DE
+26,Hohensaaten-Finow,4602500.0,3307500.0,109875.0,"Oder, below Warta",Oder,Oder,DE
+27,Leun (Neu),4207500.0,3047500.0,3575.0,Lahn,Lahn,Rhine,DE
+28,Maxau,4192500.0,2877500.0,50425.0,Rhine,Rhine,Rhine,DE
+29,Raunheim,4207500.0,2987500.0,27100.0,Main,Main,Rhine,DE
+30,Plittersdorf,4182500.0,2862500.0,48500.0,Rhine,Rhine,Rhine,DE
+31,Frankfurt-Osthafen,4222500.0,2997500.0,24775.0,Main,Main,Rhine,DE
+32,Perl,4057500.0,2942500.0,11525.0,Moselle,Moselle,Rhine,DE
+33,Plochingen,4277500.0,2842500.0,3975.0,Neckar,Neckar,Rhine,DE
+34,Schweinfurt Neuer Hafen,4332500.0,2982500.0,12825.0,Main,Main,Rhine,DE
+35,Kleinheubach,4262500.0,2957500.0,21550.0,Main,Main,Rhine,DE
+36,Kaub,4162500.0,2992500.0,103525.0,Rhine,Rhine,Rhine,DE
+38,Cochem,4122500.0,3007500.0,27025.0,Moselle,Moselle,Rhine,DE
+39,Trunstadt,4372500.0,2982500.0,11950.0,Main,Main,Rhine,DE
+40,Koeln,4107500.0,3092500.0,144150.0,Rhine,Rhine,Rhine,DE
+42,Kalkofen (Neu),4172500.0,3027500.0,5275.0,Lahn,Lahn,Rhine,DE
+43,Wuerzburg,4317500.0,2967500.0,14125.0,Main,Main,Rhine,DE
+45,Worms,4202500.0,2947500.0,68950.0,Rhine,Rhine,Rhine,DE
+46,Emmerich,4057500.0,3197500.0,159550.0,Rhine,Rhine,Rhine,DE
+47,Ruhrort,4092500.0,3157500.0,152875.0,Rhine,Rhine,Rhine,DE
+48,Rees,4067500.0,3192500.0,159400.0,Rhine,Rhine,Rhine,DE
+49,Mainz,4197500.0,2987500.0,98300.0,Rhine,Rhine,Rhine,DE
+50,Koblenz,4147500.0,3027500.0,109850.0,Rhine,Rhine,Rhine,DE
+51,St.Arnual,4102500.0,2902500.0,3900.0,Moselle,Saar,Rhine,DE
+52,Kehl-Kronenhof,4157500.0,2832500.0,39525.0,Rhine,Rhine,Rhine,DE
+53,Diez Hafen,4182500.0,3032500.0,4900.0,Lahn,Lahn,Rhine,DE
+54,Wesel,4087500.0,3172500.0,154150.0,Rhine,Rhine,Rhine,DE
+57,Andernach,4132500.0,3042500.0,139600.0,Rhine,Rhine,Rhine,DE
+58,Düsseldorf,4092500.0,3127500.0,147750.0,Rhine,Rhine,Rhine,DE
+59,Steinbach,4297500.0,2992500.0,17925.0,Main,Main,Rhine,DE
+60,Fremersdorf,4077500.0,2932500.0,7025.0,Moselle,Saar,Rhine,DE
+62,Bonn,4117500.0,3072500.0,140775.0,Rhine,Rhine,Rhine,DE
+63,Speyer,4212500.0,2917500.0,53250.0,Rhine,Rhine,Rhine,DE
+64,Heidelberg UP,4227500.0,2922500.0,13900.0,Neckar,Neckar,Rhine,DE
+67,Breisach,4142500.0,2777500.0,37575.0,Rhine,Rhine,Rhine,DE
+68,Rheinweiler,4137500.0,2737500.0,36650.0,Rhine,Rhine,Rhine,DE
+69,Erlln,4517500.0,3117500.0,5375.0,Mulde,Freiberger Mulde,Elbe,DE
+71,Kriebstein UP,4532500.0,3112500.0,1800.0,Mulde,Zschopau,Elbe,DE
+73,Zwickau-Poelbitz,4497500.0,3072500.0,1025.0,Mulde,Zwickauer Mulde,Elbe,DE
+74,Wolkenburg,4507500.0,3087500.0,1400.0,Mulde,Zwickauer Mulde,Elbe,DE
+75,Wechselburg 1,4517500.0,3102500.0,2125.0,Mulde,Zwickauer Mulde,Elbe,DE
+76,Riesa,4552500.0,3137500.0,54450.0,"Elbe, below Ohre",Elbe,Elbe,DE
+77,Muehlberg,4542500.0,3152500.0,55075.0,"Elbe, below Ohre",Elbe,Elbe,DE
+78,Torgau,4532500.0,3157500.0,55150.0,"Elbe, below Ohre",Elbe,Elbe,DE
+79,Lichtenwalde 1,4532500.0,3092500.0,1600.0,Mulde,Zschopau,Elbe,DE
+80,Colditz,4517500.0,3112500.0,2325.0,Mulde,Zwickauer Mulde,Elbe,DE
+81,Kleindalzig,4482500.0,3122500.0,2975.0,Saale,White Elster,Elbe,DE
+82,Golzern 1,4512500.0,3127500.0,5500.0,Mulde,United Mulde,Elbe,DE
+83,Bad Dueben 1,4502500.0,3162500.0,6050.0,Mulde,United Mulde,Elbe,DE
+84,Oberthau,4477500.0,3142500.0,4950.0,Saale,White Elster,Elbe,DE
+85,Boehlen 1,4487500.0,3132500.0,1400.0,Saale,Pleisse,Elbe,DE
+86,Neuwiese,4617500.0,3157500.0,675.0,Schwarze Elster,Schwarze Elster,Elbe,DE
+87,Schoena,4617500.0,3092500.0,51400.0,"Elbe, below Ohre",Elbe,Elbe,DE
+88,Pirna,4607500.0,3102500.0,52000.0,"Elbe, below Ohre",Elbe,Elbe,DE
+89,Dresden,4582500.0,3112500.0,53125.0,"Elbe, below Ohre",Elbe,Elbe,DE
+90,Meissen,4562500.0,3122500.0,53950.0,"Elbe, below Ohre",Elbe,Elbe,DE
+91,Podrosche 3,4657500.0,3167500.0,2100.0,Neisse,Lusatian Neisse,Oder,DE
+92,Sprey,4637500.0,3152500.0,1650.0,Havel,Spree,Elbe,DE
+93,Spreewitz,4632500.0,3162500.0,2100.0,Havel,Spree,Elbe,DE
+94,Goerlitz,4672500.0,3127500.0,1600.0,Neisse,Lusatian Neisse,Oder,DE
+95,Gornja Radgona,4772500.0,2642500.0,10200.0,Drava,Mur,Danube,SI
+96,Ptuj,4767500.0,2612500.0,13750.0,Drava,Drava,Danube,SI
+97,Borl,4777500.0,2602500.0,14775.0,Drava,Drava,Danube,SI
+98,Radovljica,4642500.0,2587500.0,900.0,Sava,Sava,Danube,SI
+99,Medno,4667500.0,2567500.0,2125.0,Sava,Sava,Danube,SI
+100,Å Entjakob,4672500.0,2562500.0,2150.0,Sava,Sava,Danube,SI
+101,Hrastnik,4717500.0,2567500.0,5200.0,Sava,Sava,Danube,SI
+102,Jesenice na Dolenjskem,4767500.0,2542500.0,10675.0,Sava,Sava,Danube,SI
+103,Moste,4667500.0,2557500.0,1825.0,Sava,Ljubljanica,Danube,SI
+104,Medlog,4722500.0,2582500.0,1000.0,Sava,Savinja,Danube,SI
+105,Laško,4727500.0,2572500.0,1675.0,Sava,Savinja,Danube,SI
+106,Veliko Širje,4722500.0,2572500.0,1700.0,Sava,Savinja,Danube,SI
+107,Podbočje,4747500.0,2547500.0,1875.0,Sava,Krka,Danube,SI
+108,Solkan,4602500.0,2542500.0,1550.0,Soca,Soca,Soca,SI
+109,Bollendorf,4062500.0,2972500.0,3250.0,Moselle,Sauer,Rhine,DE
+110,Boos,4157500.0,2967500.0,2850.0,Nahe,Nahe,Rhine,DE
+111,Dietersheim,4172500.0,2982500.0,4025.0,Nahe,Nahe,Rhine,DE
+112,Grolsheim,4172500.0,2977500.0,4000.0,Nahe,Nahe,Rhine,DE
+113,Martinstein,4142500.0,2967500.0,1525.0,Nahe,Nahe,Rhine,DE
+114,Odenbach,4152500.0,2952500.0,1075.0,Nahe,Glan,Rhine,DE
+117,Bad Vilbel,4232500.0,3007500.0,1575.0,Main,Nidda,Rhine,DE
+118,Hanau,4247500.0,3002500.0,900.0,Main,Kinzig,Rhine,DE
+119,Ilbenstadt,4232500.0,3017500.0,1075.0,Main,Nidda,Rhine,DE
+120,Marburg,4237500.0,3082500.0,1675.0,Lahn,Lahn,Rhine,DE
+122,Porttipahta,5022500.0,5062500.0,2100.0,Kitinen,Kitinen,Kemijoki,FI
+123,"Kitinen, Kokkosniva",5072500.0,4992500.0,6575.0,Kitinen,Kitinen,Kemijoki,FI
+124,Jumisko,5112500.0,4922500.0,1300.0,Jumiskonjoki,Jumiskonjoki,Kemijoki,FI
+125,Kemihaara,5092500.0,5002500.0,10325.0,"Kemijoki, headwaters",Kemijoki,Kemijoki,FI
+126,Seitakorva,5092500.0,4912500.0,28675.0,"Kemijoki, below Jumiskonjoki",Kemijoki,Kemijoki,FI
+127,Vanttauskoski,5062500.0,4897500.0,30300.0,"Kemijoki, below Jumiskonjoki",Kemijoki,Kemijoki,FI
+128,Vikajärvi  luusua,5037500.0,4917500.0,3150.0,Raudanjoki,Raudanjoki,Kemijoki,FI
+129,"Olkkajärvi, Permantokoski",5037500.0,4907500.0,3550.0,Raudanjoki,Raudanjoki,Kemijoki,FI
+130,"Ounasjoki, Köngäs",4947500.0,5047500.0,4625.0,Ounasjoki,Ounasjoki,Kemijoki,FI
+131,Unari  luusua,5002500.0,4967500.0,1175.0,Ounasjoki,Meltausjoki,Kemijoki,FI
+132,"Ounasjoki, Marraskoski",4997500.0,4932500.0,12900.0,Ounasjoki,Ounasjoki,Kemijoki,FI
+133,Valajaskoski,5017500.0,4897500.0,49325.0,"Kemijoki, below Ounasjoki",Kemijoki,Kemijoki,FI
+134,Isohaara,4987500.0,4817500.0,52475.0,"Kemijoki, below Ounasjoki",Kemijoki,Kemijoki,FI
+135,"Muonionjoki, Kaaresuvanto",4832500.0,5082500.0,5875.0,Torne,Muonio,Torne,FI
+136,"Muonionjoki, Muonio",4887500.0,5042500.0,9250.0,Torne,Muonio,Torne,FI
+137,"Tengeliönjoki, Haapakoski",4937500.0,4867500.0,3000.0,Torne,Tengelionjoki,Torne,FI
+138,"Inarijoki, Karigasniemi",4942500.0,5212500.0,3050.0,Tana,Anarjohka,Tana,FI
+139,Onnelansuvanto,4972500.0,5282500.0,10650.0,Tana,Tana,Tana,FI
+140,"Utsjoki, Patoniva",4977500.0,5262500.0,1500.0,Tana,Utsjoki,Tana,FI
+141,Kettujoki,4992500.0,5172500.0,2250.0,Paatsjoki,Kettujoki,Paatsjoki,FI
+142,Juutuanjoki,4997500.0,5162500.0,5250.0,Paatsjoki,Juutuanjoki,Paatsjoki,FI
+143,"Ivalojoki, Pajakoski",5022500.0,5137500.0,3300.0,Paatsjoki,Ivalo,Paatsjoki,FI
+144,Kaitakoski,5062500.0,5187500.0,14575.0,Paatsjoki,Paatsjoki,Paatsjoki,FI
+145,Kallio 2,4907500.0,4957500.0,14450.0,Torne,Muonio,Torne,SE
+146,Pajala pumphus,4887500.0,4957500.0,16875.0,Torne,Torne,Torne,SE
+147,Räktfors,4897500.0,4832500.0,17425.0,Kalix,Kalix,Kalix,SE
+148,Granåker,4792500.0,4602500.0,11850.0,Vindel,Vindel,Umealven,SE
+149,Sorsele2,4667500.0,4737500.0,6175.0,Vindel,Vindel,Umealven,SE
+150,Klein Badelmeusel,4642500.0,3187500.0,2650.0,Neisse,Lusatian Neisse,Oder,DE
+151,Guben 2,4647500.0,3212500.0,4050.0,Neisse,Lusatian Neisse,Oder,DE
+152,Sachsenhausen Sohlabsturz,4542500.0,3297500.0,2575.0,Havel,Havel,Elbe,DE
+153,Lobith,4052500.0,3202500.0,159675.0,Rhine,Rhine,Rhine,NL
+154,Borgharen-Dorp,4022500.0,3097500.0,22050.0,Meuse,Meuse,Rhine,NL
+155,Fischerau / Ager,4602500.0,2777500.0,1225.0,Traun,Ager,Danube,AT
+156,Achleiten / Donau,4582500.0,2837500.0,76825.0,Danube,Danube,Danube,AT
+158,Kienstock,4727500.0,2827500.0,95975.0,Danube,Danube,Danube,AT
+159,Korneuburg,4792500.0,2817500.0,101800.0,Danube,Danube,Danube,AT
+160,Linz,4632500.0,2807500.0,79650.0,Danube,Danube,Danube,AT
+161,Wildungsmauer,4832500.0,2802500.0,103800.0,Danube,Danube,Danube,AT
+162,Ybbs,4692500.0,2797500.0,92525.0,Danube,Danube,Danube,AT
+163,Amlach,4587500.0,2637500.0,4900.0,Drava,Drava,Danube,AT
+164,Lavamünd Ort,4692500.0,2627500.0,11100.0,Drava,Drava,Danube,AT
+165,Lienz-Peggetz,4532500.0,2637500.0,1975.0,Drava,Drava,Danube,AT
+166,Oberdrauburg-OWF,4547500.0,2632500.0,2275.0,Drava,Drava,Danube,AT
+167,Sachsenburg (Brücke),4577500.0,2637500.0,2650.0,Drava,Drava,Danube,AT
+168,Admont (Enns),4662500.0,2727500.0,2650.0,Enns,Enns,Danube,AT
+169,Steyr (Ortskai),4652500.0,2782500.0,5975.0,Enns,Enns,Danube,AT
+170,Trautenfels,4622500.0,2717500.0,1450.0,Enns,Enns,Danube,AT
+173,Federaun,4612500.0,2612500.0,1300.0,Drava,Gail,Danube,AT
+175,Gumisch,4662500.0,2622500.0,2175.0,Drava,Gurk,Danube,AT
+176,Launsdorf,4667500.0,2637500.0,1275.0,Drava,Gurk,Danube,AT
+177,Mölbling,4662500.0,2642500.0,925.0,Drava,Gurk,Danube,AT
+178,Brixlegg,4457500.0,2702500.0,8550.0,Inn,Inn,Danube,AT
+179,Innsbruck (oberh. Sill),4422500.0,2682500.0,5850.0,Inn,Inn,Danube,AT
+180,Jenbach-Rotholz,4452500.0,2697500.0,7300.0,Inn,Inn,Danube,AT
+181,Kajetansbrücke,4357500.0,2642500.0,2125.0,Inn,Inn,Danube,AT
+182,Kirchbichl-Bichlwang,4477500.0,2712500.0,9525.0,Inn,Inn,Danube,AT
+183,Magerbach,4387500.0,2682500.0,5175.0,Inn,Inn,Danube,AT
+184,Perjen,4362500.0,2672500.0,3650.0,Inn,Inn,Danube,AT
+185,Prutz,4367500.0,2657500.0,2525.0,Inn,Inn,Danube,AT
+186,Telfs (Fussgängersteg),4397500.0,2687500.0,5300.0,Inn,Inn,Danube,AT
+187,Lienz,4527500.0,2642500.0,1200.0,Drava,Isel,Danube,AT
+188,Stiefern,4737500.0,2847500.0,1450.0,Kamp,Kamp,Danube,AT
+189,Lechaschau,4367500.0,2702500.0,1000.0,Lech,Lech,Danube,AT
+190,Deutsch Brodersdorf (Straßenbrücke),4802500.0,2777500.0,1975.0,Leitha,Leitha,Danube,AT
+191,Deutsch Haslau,4832500.0,2792500.0,2300.0,Leitha,Leitha,Danube,AT
+192,Spittal (Fasan),4587500.0,2642500.0,1050.0,Drava,Lieser,Danube,AT
+195,Kolbnitz a. d. Tauernbahn VHP,4567500.0,2647500.0,900.0,Drava,Moll,Danube,AT
+196,Möllbrücke,4572500.0,2647500.0,1025.0,Drava,Moell,Danube,AT
+197,Bruck un der Mur unter Mür,4717500.0,2712500.0,6325.0,Drava,Mur,Danube,AT
+198,Gestüthof,4642500.0,2677500.0,1725.0,Drava,Mur,Danube,AT
+199,Graz,4732500.0,2677500.0,7100.0,Drava,Mur,Danube,AT
+200,Mellach,4742500.0,2662500.0,7275.0,Drava,Mur,Danube,AT
+201,Mureck (Schreibpegel),4762500.0,2637500.0,9700.0,Drava,Mur,Danube,AT
+202,St.Georgen ob Judenburt,4662500.0,2687500.0,2375.0,Drava,Mur,Danube,AT
+203,Zeltweg,4677500.0,2687500.0,3000.0,Drava,Mur,Danube,AT
+207,Siezenheim,4542500.0,2742500.0,950.0,Inn,Saalach,Danube,AT
+208,Golling,4562500.0,2722500.0,3675.0,Inn,Salzach,Danube,AT
+209,Oberndorf,4537500.0,2762500.0,6150.0,Inn,Salzach,Danube,AT
+210,Salzburg,4552500.0,2747500.0,4625.0,Inn,Salzach,Danube,AT
+211,Wallnerau,4552500.0,2692500.0,2275.0,Inn,Salzach,Danube,AT
+212,Werfen,4562500.0,2707500.0,3050.0,Inn,Salzach,Danube,AT
+213,Leibnitz,4742500.0,2642500.0,1125.0,Drava,Sulm,Danube,AT
+214,Raabs an der Thaya,4722500.0,2872500.0,1375.0,Morava,Thaya,Danube,AT
+215,Theresienthal,4602500.0,2762500.0,1425.0,Traun,Traun,Danube,AT
+216,Wels-Lichtenegg,4612500.0,2782500.0,3425.0,Traun,Traun,Danube,AT
+221,Greimpersdorf,4682500.0,2787500.0,1100.0,Ybbs,Ybbs,Danube,AT
+223,Hart im Zillertal,4462500.0,2692500.0,1175.0,Inn,Ziller,Danube,AT
+225,Gisingen,4292500.0,2677500.0,1300.0,Ill,Ill,Rhine,AT
+226,Bangs,4282500.0,2677500.0,4650.0,Rhine,Rhine,Rhine,AT
+227,Lustenau (Eisenbahnbrücke),4292500.0,2697500.0,6350.0,Rhine,Rhine,Rhine,AT
+228,Bezdan,5002500.0,2577500.0,209100.0,Danube,Danube,Danube,RS
+229,Banatska Palanka,5217500.0,2482500.0,564150.0,Danube,Danube,Danube,RS
+230,Jasa Tomic,5167500.0,2547500.0,4550.0,Tamis,Tamis,Danube,RS
+231,Kusic,5232500.0,2487500.0,1425.0,Danube,Nera,Danube,RS
+232,Zajecar,5307500.0,2387500.0,2125.0,Danube,Beli Timok,Danube,RS
+233,Cokonjar,5307500.0,2402500.0,3950.0,Danube,Veliki Timok,Danube,RS
+234,Jamena,5032500.0,2457500.0,63375.0,Sava,Sava,Danube,RS
+235,Sremaska Mitrovica,5072500.0,2477500.0,87100.0,Sava,Sava,Danube,RS
+236,Radalj,5047500.0,2412500.0,17850.0,Sava,Drina,Danube,RS
+237,Beli Brod,5132500.0,2417500.0,1825.0,Sava,Kolubara,Danube,RS
+238,Varvarin,5237500.0,2357500.0,31400.0,Velika Morava,Velika Morava,Danube,RS
+239,Bagrdan,5222500.0,2392500.0,33500.0,Velika Morava,Velika Morava,Danube,RS
+240,Kratovska stena,5132500.0,2362500.0,3075.0,Velika Morava,Zapadna Morava,Danube,RS
+241,Milocaj,5177500.0,2357500.0,4675.0,Velika Morava,Zapadna Morava,Danube,RS
+242,Jasika,5232500.0,2347500.0,14600.0,Velika Morava,Zapadna Morava,Danube,RS
+243,Vranjski Priboj,5307500.0,2247500.0,2825.0,Velika Morava,Juzna Morava,Danube,RS
+244,Grdelica,5302500.0,2282500.0,3775.0,Velika Morava,Juzna Morava,Danube,RS
+245,Korvingrad,5282500.0,2312500.0,9450.0,Velika Morava,Juzna Morava,Danube,RS
+246,Mojsinje,5252500.0,2347500.0,15400.0,Velika Morava,Juzna Morava,Danube,RS
+247,Doljevac,5277500.0,2307500.0,2075.0,Velika Morava,Toplica,Danube,RS
+248,Pirot,5347500.0,2307500.0,1700.0,Danube,Nisava,Danube,RS
+249,Nis,5287500.0,2322500.0,4050.0,Velika Morava,Nisava,Danube,RS
+250,Novi Sad,5087500.0,2507500.0,256375.0,Danube,Danube,Danube,RS
+251,Zemun,5142500.0,2472500.0,406800.0,Danube,Danube,Danube,RS
+252,Novi Knezevac,5097500.0,2607500.0,140675.0,Tisa,Tisza,Danube,RS
+253,Senta,5102500.0,2582500.0,141250.0,Tisa,Tisza,Danube,RS
+254,N.Becej brana gv,5107500.0,2542500.0,147050.0,Tisa,Tisza,Danube,RS
+255,Titel,5127500.0,2507500.0,149025.0,Tisa,Tisza,Danube,RS
+256,Beograd,5147500.0,2467500.0,95300.0,Sava,Sava,Danube,RS
+257,Lopatnica lakat,5172500.0,2347500.0,7825.0,Velika Morava,Ibar,Danube,RS
+258,Knjazevac,5307500.0,2352500.0,1175.0,Danube,Beli Timok,Danube,RS
+259,Drazevac,5127500.0,2442500.0,3650.0,Sava,Kolubara,Danube,RS
+260,Apatin,5012500.0,2552500.0,211925.0,Danube,Danube,Danube,RS
+261,Bogojevo,5032500.0,2532500.0,253300.0,Danube,Danube,Danube,RS
+262,Smederevo,5187500.0,2462500.0,520500.0,Danube,Danube,Danube,RS
+263,Markovicevo,5182500.0,2532500.0,1000.0,Tamis,Brzava,Danube,RS
+264,Ljubicevski most,5197500.0,2457500.0,37650.0,Velika Morava,Velika Morava,Danube,RS
+265,Sint-Joris-Weert,3942500.0,3092500.0,750.0,Scheldt,Dyle,Scheldt,BE
+266,Diest,3972500.0,3107500.0,1950.0,Scheldt,Demer,Scheldt,BE
+267,Lot,3917500.0,3087500.0,675.0,Scheldt,Dyle,Scheldt,BE
+268,Overboelare,3887500.0,3087500.0,775.0,Scheldt,Dender,Scheldt,BE
+269,Bossuit,3857500.0,3092500.0,5250.0,Scheldt,Scheldt,Scheldt,BE
+270,Menen,3832500.0,3097500.0,3050.0,Scheldt,Leie,Scheldt,BE
+271,Kopčany,4847500.0,2887500.0,9550.0,Morava,Morava,Danube,SK
+272,Moravský Sv. Ján,4832500.0,2857500.0,24125.0,Morava,Morava,Danube,SK
+273,Devín,4842500.0,2807500.0,131250.0,Danube,Danube,Danube,SK
+274,Liptovský Mikuláš,5022500.0,2932500.0,1125.0,Vah,Vah,Danube,SK
+275,Hubová,4997500.0,2927500.0,2100.0,Vah,Vah,Danube,SK
+276,Dierová,4987500.0,2937500.0,2000.0,Vah,Orava,Danube,SK
+277,Strečno,4967500.0,2932500.0,5475.0,Vah,Vah,Danube,SK
+278,Šaľa,4912500.0,2807500.0,10675.0,Vah,Vah,Danube,SK
+279,Nitrianska Streda,4922500.0,2862500.0,2025.0,Vah,Nitra,Danube,SK
+280,Nové Zámky,4927500.0,2792500.0,3700.0,Vah,Nitra,Danube,SK
+281,Komárno,4927500.0,2772500.0,150775.0,Danube,Danube,Danube,SK
+282,Banská Bystrica,4992500.0,2887500.0,1825.0,Hron,Hron,Danube,SK
+283,Brehy,4962500.0,2847500.0,3825.0,Hron,Hron,Danube,SK
+284,Slovenské Ďarmoty,5012500.0,2817500.0,2750.0,Ipel,Ipel,Danube,SK
+285,Lenártovce,5082500.0,2862500.0,1700.0,Tisa,Slana,Danube,SK
+286,Vlkyňa,5077500.0,2852500.0,1325.0,Tisa,Rimava,Danube,SK
+287,Chmelnica,5097500.0,2967500.0,1325.0,Dunajec,Poprad,Vistula,SK
+288,Margecany,5122500.0,2927500.0,1050.0,Tisa,Hornad,Danube,SK
+289,Košické Olšany,5152500.0,2907500.0,1200.0,Tisa,Torysa,Danube,SK
+290,Humenné,5192500.0,2937500.0,1275.0,Tisa,Laborec,Danube,SK
+291,Lekárovce,5222500.0,2902500.0,2050.0,Tisa,Uzh,Danube,SK
+292,Veľké Kapušany,5212500.0,2892500.0,2350.0,Tisa,Latorica,Danube,SK
+293,Hanušovce nad Toplou,5157500.0,2947500.0,1075.0,Tisa,Topla,Danube,SK
+294,Streda nad Bodrogom,5187500.0,2877500.0,10750.0,Tisa,Bodrog,Danube,SK
+295,Akslen,4237500.0,4297500.0,825.0,Lagen,Bovri,Glomma,NO
+297,Bagn,4292500.0,4192500.0,2975.0,Drammen,Begna,Drammen,NO
+298,Bergheim,4282500.0,4147500.0,4275.0,Drammen,Hallingdalselva,Drammen,NO
+299,Dølplass,4342500.0,4342500.0,2125.0,"Glomma, headwaters",Folla,Glomma,NO
+301,Eide,4307500.0,4282500.0,7925.0,Lagen,Lagen,Glomma,NO
+302,Elverum,4407500.0,4202500.0,15450.0,"Glomma, headwaters",Glomma,Glomma,NO
+303,Etna,4302500.0,4207500.0,575.0,Drammen,Etna,Drammen,NO
+304,Faukstad,4287500.0,4292500.0,1475.0,Lagen,Sjoa,Glomma,NO
+307,Hummelvoll,4377500.0,4367500.0,2450.0,"Glomma, headwaters",Glomma,Glomma,NO
+308,Kistefoss,4337500.0,4122500.0,3675.0,Drammen,Randselva,Drammen,NO
+309,Knappom,4437500.0,4177500.0,1650.0,"Glomma, headwaters",Flisa,Glomma,NO
+310,Lalm,4277500.0,4307500.0,4025.0,Lagen,Otta,Glomma,NO
+311,Losna,4337500.0,4242500.0,11200.0,Lagen,Lagen,Glomma,NO
+312,Mjøndalen bru,4317500.0,4072500.0,17050.0,Drammen,Drammen,Drammen,NO
+314,Norsfoss,4432500.0,4137500.0,18800.0,"Glomma, headwaters",Glomma,Glomma,NO
+315,Nye Stai,4377500.0,4267500.0,8925.0,"Glomma, headwaters",Glomma,Glomma,NO
+316,Ofossen,4227500.0,4312500.0,1600.0,Lagen,Otta,Glomma,NO
+317,Rosten,4292500.0,4302500.0,1825.0,Lagen,Lagen,Glomma,NO
+319,Skålfoss,4307500.0,4112500.0,5100.0,Drammen,Snarum,Drammen,NO
+320,Skarnes,4412500.0,4127500.0,20375.0,"Glomma, headwaters",Glomma,Glomma,NO
+323,Strømstøa,4327500.0,4137500.0,4750.0,Drammen,Adalselva,Drammen,NO
+327,Veliko Selo,5222500.0,2437500.0,1050.0,Danube,Mlava,Danube,RS
+328,Monte Da Vinha,2842500.0,1917500.0,49825.0,Guadiana,Guadiana,Guadiana,PT
+330,Almourol,2742500.0,2012500.0,67500.0,Tagus,Tagus,Tagus,PT
+331,Tramagal,2757500.0,2007500.0,62200.0,Tagus,Tagus,Tagus,PT
+332,Martina,4352500.0,2637500.0,2025.0,Inn,Inn,Danube,CH
+333,Locarno,4222500.0,2557500.0,2850.0,Ticcino,Lago Maggiore,Po,CH
+334,Bellinzona,4242500.0,2562500.0,1525.0,Ticcino,Ticino,Po,CH
+335,"Bern, Schönau",4132500.0,2647500.0,2975.0,Aare,Aare,Rhine,CH
+336,"Brügg, Aegerten",4117500.0,2672500.0,8300.0,Aare,Aare,Rhine,CH
+337,Brugg,4182500.0,2707500.0,11550.0,Aare,Aare,Rhine,CH
+338,Murgenthal,4157500.0,2687500.0,9950.0,Aare,Aare,Rhine,CH
+339,Thun,4137500.0,2632500.0,2650.0,Aare,Aare,Rhine,CH
+340,"Untersiggenthal, Stilli",4187500.0,2712500.0,17525.0,Aare,Aare,Rhine,CH
+343,Berlingen,4242500.0,2727500.0,11325.0,Rhine,Untersee,Rhine,CH
+345,Fürstenau,4277500.0,2622500.0,1550.0,Hinterrhein,Hinterrhein,Rhine,CH
+347,"Baden, Limmatpromenade",4192500.0,2707500.0,2425.0,Aare,Limmat,Rhine,CH
+348,"Zuerich,Unterhard",4207500.0,2697500.0,2225.0,Aare,Limmat,Rhine,CH
+349,"Weesen, Biäsche",4252500.0,2667500.0,1150.0,Rhine,Linth,Rhine,CH
+350,"Luzern, Geissmattbrücke",4192500.0,2662500.0,2800.0,Aare,Reuss,Rhine,CH
+351,Mellingen,4192500.0,2697500.0,3425.0,Aare,Reuss,Rhine,CH
+352,"Mühlau, Hünenberg",4197500.0,2677500.0,3250.0,Aare,Reuss,Rhine,CH
+353,"Basel, Rheinhalle",4142500.0,2717500.0,35800.0,Rhine,Rhine,Rhine,CH
+354,"Diepoldsau, Rietbrücke",4292500.0,2692500.0,6275.0,Rhine,Rhine,Rhine,CH
+355,Domat/Ems,4282500.0,2637500.0,3250.0,Rhine,Rhine,Rhine,CH
+356,"Neuhausen, Flurlingerbrücke",4217500.0,2727500.0,11775.0,Rhine,Rhine,Rhine,CH
+357,Rekingen,4192500.0,2722500.0,14625.0,Rhine,Rhine,Rhine,CH
+358,Rheinfelden (Messstation),4152500.0,2717500.0,34350.0,Rhine,Rhine,Rhine,CH
+359,Laupen,4112500.0,2647500.0,1925.0,Aare,Saane,Rhine,CH
+361,Andelfingen,4227500.0,2722500.0,1750.0,Thur,Thur,Rhine,CH
+362,Halden,4262500.0,2707500.0,1125.0,Thur,Thur,Rhine,CH
+366,"Geneve, Bout Du Monde",4027500.0,2572500.0,1925.0,"Rhone, headwaters",Arve,Rhone,CH
+367,Ocourt,4097500.0,2692500.0,1250.0,Saone,Doubs,Rhone,CH
+369,Branson,4097500.0,2562500.0,3725.0,"Rhone, headwaters",Rhone,Rhone,CH
+370,"Chancy, Aux Ripes",4007500.0,2567500.0,10375.0,"Rhone, headwaters",Rhone,Rhone,CH
+371,Porte du Scex,4082500.0,2587500.0,5300.0,"Rhone, headwaters",Rhone,Rhone,CH
+372,Sion,4112500.0,2572500.0,3400.0,"Rhone, headwaters",Rhone,Rhone,CH
+390,Bobbio,4272500.0,2407500.0,700.0,Trebbia,Trebbia,Po,IT
+391,Ponte Bacchello,4397500.0,2402500.0,1575.0,Secchia,Secchia,Po,IT
+393,Pontelagoscuro,4447500.0,2422500.0,71175.0,Po,Po,Po,IT
+394,Lugo,4372500.0,2367500.0,925.0,Secchia,Secchia,Po,IT
+395,Ponte Samone,4392500.0,2362500.0,600.0,Panaro,Panaro,Po,IT
+396,Bomporto,4402500.0,2402500.0,1100.0,Panaro,Panaro,Po,IT
+398,Piacenza,4302500.0,2442500.0,41950.0,Po,Po,Po,IT
+399,Cremona,4322500.0,2447500.0,51075.0,Po,Po,Po,IT
+405,Ponte Veggia,4382500.0,2382500.0,1075.0,Secchia,Secchia,Po,IT
+408,San Donnino,4397500.0,2387500.0,875.0,Panaro,Tiepido,Po,IT
+410,Pioppa,4397500.0,2417500.0,1675.0,Secchia,Secchia,Po,IT
+424,Rivergaro,4287500.0,2422500.0,900.0,Trebbia,Trebbia,Po,IT
+426,Parma Ovest,4337500.0,2412500.0,1375.0,Taro,Taro,Po,IT
+428,San Secondo,4342500.0,2422500.0,1450.0,Taro,Taro,Po,IT
+429,Ponte Alto,4392500.0,2397500.0,1525.0,Secchia,Secchia,Po,IT
+434,Rubiera SS9,4382500.0,2392500.0,1425.0,Secchia,Secchia,Po,IT
+436,Spilamberto,4402500.0,2382500.0,775.0,Panaro,Panaro,Po,IT
+454,Parma Ponte Verdi,4347500.0,2407500.0,700.0,Parma,Parma,Po,IT
+457,Ampermoching,4427500.0,2797500.0,2225.0,Isar,Amper,Danube,DE
+458,Augsburg Oberhausen,4382500.0,2802500.0,1275.0,Lech,Wertach,Danube,DE
+459,Bad Kissingen,4327500.0,3017500.0,1575.0,Main,Franconian Saale,Rhine,DE
+460,Beilngries oberh. der Sulz,4427500.0,2877500.0,2200.0,Altmuhl,Altmuhl,Danube,DE
+461,Burghausen,4527500.0,2782500.0,6650.0,Inn,Salzach,Danube,DE
+462,Chamerau,4527500.0,2897500.0,1350.0,Regen,Regen,Danube,DE
+463,Dillingen,4352500.0,2827500.0,11400.0,Danube,Danube,Danube,DE
+464,Donauwörth,4377500.0,2842500.0,15175.0,Danube,Danube,Danube,DE
+465,Eichstätt,4407500.0,2862500.0,1425.0,Altmuhl,Altmuhl,Danube,DE
+466,Fürstenfeldbruck,4412500.0,2782500.0,1350.0,Isar,Amper,Danube,DE
+467,Harburg,4367500.0,2857500.0,1625.0,Wornitz,Wornitz,Danube,DE
+468,Hüttendorf,4392500.0,2932500.0,3875.0,Main,Regnitz,Rhine,DE
+469,Ingolstadt Luitpoldstraße,4422500.0,2847500.0,20225.0,Danube,Danube,Danube,DE
+470,Inkofen,4452500.0,2817500.0,3175.0,Isar,Amper,Danube,DE
+471,Kelheim,4452500.0,2862500.0,23075.0,Danube,Danube,Danube,DE
+472,Kemmern,4382500.0,2987500.0,4150.0,Main,Main,Rhine,DE
+473,Kienhof,4507500.0,2902500.0,2150.0,Regen,Regen,Danube,DE
+474,Landau,4512500.0,2842500.0,8625.0,Isar,Isar,Danube,DE
+475,Laufen Siegerstetter Keller,4542500.0,2762500.0,6100.0,Inn,Salzach,Danube,DE
+476,Mainleus,4417500.0,2997500.0,1175.0,Main,Main,Rhine,DE
+477,Münchshofen,4467500.0,2902500.0,4025.0,Naab,Naab,Danube,DE
+478,Neumühle,4392500.0,2922500.0,1825.0,Main,Rednitz,Rhine,DE
+479,"Neu Ulm, Bad Held",4317500.0,2807500.0,7600.0,Danube,Danube,Danube,DE
+480,Nürnberg,4397500.0,2927500.0,1225.0,Main,Pegnitz,Rhine,DE
+481,Oberaudorf,4482500.0,2722500.0,9725.0,Inn,Inn,Danube,DE
+482,Passau Ingling,4577500.0,2827500.0,26100.0,Inn,Inn,Danube,DE
+483,Plattling,4532500.0,2852500.0,9000.0,Isar,Isar,Danube,DE
+484,Rosenheim o.d. Mangfallmündung,4482500.0,2747500.0,10225.0,Inn,Inn,Danube,DE
+485,Salz,4337500.0,3022500.0,1025.0,Main,Franconian Saale,Rhine,DE
+486,Schwürbitz,4402500.0,3007500.0,2500.0,Main,Main,Rhine,DE
+487,Seebruck,4507500.0,2762500.0,1500.0,Inn,Alz,Danube,DE
+488,Unterköblitz,4477500.0,2937500.0,1975.0,Naab,Naab,Danube,DE
+489,Wasserburg,4482500.0,2767500.0,12100.0,Inn,Inn,Danube,DE
+490,Wolfsmünster,4302500.0,2997500.0,2125.0,Main,Franconian Saale,Rhine,DE
+491,Tokarnia,5057500.0,3127500.0,1225.0,Nida,Czarna Nida,Vistula,PL
+492,ŻABNO,5097500.0,3052500.0,6900.0,Dunajec,Dunajec,Vistula,PL
+493,Pinczow,5062500.0,3097500.0,3400.0,Nida,Nida,Vistula,PL
+494,Stary Sacz,5087500.0,2992500.0,2100.0,Dunajec,Poprad,Vistula,PL
+495,Proszowki,5062500.0,3037500.0,1475.0,"Vistula, headwaers",Raba,Vistula,PL
+496,JAROSŁAW,5222500.0,3072500.0,6975.0,San,San,Vistula,PL
+497,NISKO,5177500.0,3117500.0,15575.0,San,San,Vistula,PL
+498,Zator,4997500.0,3027500.0,1125.0,"Vistula, headwaers",Skawa,Vistula,PL
+499,PUSTYNIA,4977500.0,3032500.0,2925.0,"Vistula, headwaers",Vistula,Vistula,PL
+500,SMOLICE,4997500.0,3032500.0,6750.0,"Vistula, headwaers",Vistula,Vistula,PL
+501,POPĘDZYNKA,5072500.0,3057500.0,10650.0,"Vistula, headwaers",Vistula,Vistula,PL
+502,SZCZUCIN,5102500.0,3082500.0,24125.0,"Vistula, below Dunajec",Vistula,Vistula,PL
+503,SANDOMIERZ,5147500.0,3127500.0,32125.0,"Vistula, below Dunajec",Vistula,Vistula,PL
+504,ZAWICHOST,5152500.0,3142500.0,50650.0,"Vistula, below San",Vistula,Vistula,PL
+505,Rzeszow,5177500.0,3062500.0,2125.0,San,Wislok,Vistula,PL
+506,MIELEC 2,5127500.0,3087500.0,3900.0,"Vistula, below Dunajec",Wisloka,Vistula,PL
+507,Kunow,5107500.0,3157500.0,1125.0,"Vistula, below San",Kamienna,Vistula,PL
+508,Lochow,5112500.0,3327500.0,2475.0,Narew,Liwiec,Vistula,PL
+509,SULEJÓW (KOPALNIA),5007500.0,3182500.0,4075.0,Pilica,Pilica,Vistula,PL
+510,KOŚMIN,5142500.0,3227500.0,10200.0,Wieprz,Wieprz,Vistula,PL
+511,BORKOWO,5042500.0,3327500.0,5175.0,Narew,Wkra,Vistula,PL
+512,BURZYN,5147500.0,3422500.0,6975.0,Narew,Biebrza,Vistula,PL
+513,Prosna,5042500.0,3512500.0,1625.0,Lyna,Guber,Pregolya,PL
+514,Sepopol,5032500.0,3512500.0,3675.0,Lyna,Lyna,Pregolya,PL
+515,STRĘKOWA GÓRA,5157500.0,3417500.0,6800.0,Narew,Narew,Vistula,PL
+516,PIĄTNICA-ŁOMŻA,5122500.0,3412500.0,15050.0,Narew,Narew,Vistula,PL
+517,ZAMBSKI KOŚCIELNE,5077500.0,3352500.0,25925.0,Narew,Narew,Vistula,PL
+518,Bialobrzeg Blizszy,5087500.0,3392500.0,2100.0,Narew,Omulew,Vistula,PL
+519,Makow Mazowiecki,5067500.0,3362500.0,1925.0,Narew,Orzyc,Vistula,PL
+520,DOBRYLAS,5102500.0,3422500.0,4525.0,Narew,Pisa,Vistula,PL
+521,Fasty,5187500.0,3417500.0,1925.0,Narew,Suprasl,Vistula,PL
+522,Mieduniszki,5097500.0,3532500.0,1000.0,Pregolya,Angrapa,Pregolya,PL
+523,Krzyzanowice,4812500.0,3142500.0,2000.0,"Oder, below Easter Neisse",Widawa,Oder,PL
+524,Piatnica,4752500.0,3142500.0,2050.0,Kaczawa,Kaczawa,Oder,PL
+526,Olawa,4832500.0,3112500.0,800.0,"Oder, below Easter Neisse",Oslawa,Oder,PL
+527,Opole,4877500.0,3092500.0,11050.0,"Oder, headwaters",Oder,Oder,PL
+528,OPOLE-GROSZOWICE,4882500.0,3082500.0,10975.0,"Oder, headwaters",Oder,Oder,PL
+529,DOBROSZÓW WIELKI,4687500.0,3192500.0,5375.0,Bobr,Bobr,Oder,PL
+530,OŁAWA (MOST),4842500.0,3117500.0,20025.0,"Oder, below Easter Neisse",Oder,Oder,PL
+531,SKOROGOSZCZ,4857500.0,3102500.0,4625.0,Eastern Neisse,Eastern Neisse,Oder,PL
+532,NOWA SÓL,4722500.0,3197500.0,37150.0,"Oder, below Barycz",Oder,Oder,PL
+533,CIGACICE,4707500.0,3227500.0,39025.0,"Oder, below Barycz",Oder,Oder,PL
+534,Bardo,4797500.0,3067500.0,1750.0,Eastern Neisse,Eastern Neisse,Oder,PL
+535,OSETNO,4762500.0,3192500.0,4575.0,Barycz,Barycz,Oder,PL
+536,POŁĘCKO,4652500.0,3227500.0,46350.0,"Oder, below Bobr",Oder,Oder,PL
+538,RACIBÓRZ-MIEDONIA,4907500.0,3037500.0,6725.0,"Oder, headwaters",Oder,Oder,PL
+539,ŚCINAWA,4767500.0,3157500.0,29650.0,"Oder, below Kaczawa",Oder,Oder,PL
+540,UJŚCIE NYSY KŁODZKIEJ,4857500.0,3107500.0,18375.0,"Oder, below Easter Neisse",Oder,Oder,PL
+541,Turawa,4892500.0,3102500.0,1475.0,"Oder, headwaters",Mala Panew,Oder,PL
+542,Jarnoltow,4797500.0,3132500.0,1675.0,"Oder, below Easter Neisse",Bystrzyca,Oder,PL
+543,SŁUBICE,4627500.0,3262500.0,52000.0,"Oder, below Neisse",Oder,Oder,PL
+544,GOZDOWICE,4607500.0,3307500.0,109775.0,"Oder, below Warta",Oder,Oder,PL
+545,DZIAŁOSZYN,4937500.0,3147500.0,4050.0,Warta,Warta,Oder,PL
+546,SIERADZ,4922500.0,3202500.0,8225.0,Warta,Zeglina,Oder,PL
+547,SŁAWSK,4872500.0,3262500.0,13750.0,Warta,Warta,Oder,PL
+548,POZNAŃ (MOST ROCHA),4792500.0,3282500.0,25575.0,Warta,Warta,Oder,PL
+549,GORZÓW WIELKOPOLSKI,4682500.0,3302500.0,53275.0,Warta,Warta,Oder,PL
+550,Dabie,4922500.0,3257500.0,1825.0,Warta,Ner,Oder,PL
+551,NOWE DREZDENKO,4717500.0,3322500.0,16850.0,Warta,Notec,Oder,PL
+552,BOGUSŁAW,4867500.0,3227500.0,4300.0,Warta,Prosna,Oder,PL
+553,PIŁA,4772500.0,3362500.0,4725.0,Warta,Gwda,Oder,PL
+554,Drawiny,4722500.0,3327500.0,3000.0,Warta,Drawa,Oder,PL
+555,Podgorze,4942500.0,3187500.0,2425.0,Warta,Widawka,Oder,PL
+556,Nemcice,4737500.0,3022500.0,4275.0,"Elbe, headwaters",Elbe,Elbe,CZ
+557,Prelouc,4712500.0,3007500.0,6475.0,"Elbe, headwaters",Elbe,Elbe,CZ
+558,Predmerice,4667500.0,3032500.0,2175.0,Jizera,Jizera,Elbe,CZ
+559,Ceske Budejovice,4647500.0,2877500.0,1775.0,Vltava,Vltava,Elbe,CZ
+560,Bechyne,4647500.0,2922500.0,3875.0,Vltava,Luznice,Elbe,CZ
+561,Pisek,4622500.0,2922500.0,2925.0,Vltava,Otava,Elbe,CZ
+562,Nespeky,4652500.0,2982500.0,4075.0,Vltava,Sazava,Elbe,CZ
+563,Bílá Hora,4567500.0,2967500.0,4775.0,Vltava,Berounka,Elbe,CZ
+564,Beroun,4612500.0,2992500.0,8325.0,Vltava,Litavka,Elbe,CZ
+565,Praha-Chuchle,4637500.0,2997500.0,26850.0,Vltava,Vltava,Elbe,CZ
+566,Melnik,4637500.0,3037500.0,42025.0,"Elbe, below Vltava",Elbe,Elbe,CZ
+567,Karlovy Vary,4527500.0,3017500.0,2925.0,Ohre,Ohre,Elbe,CZ
+568,Louny I.,4587500.0,3032500.0,5100.0,Ohre,Ohre,Elbe,CZ
+569,Usti nad Labem,4607500.0,3062500.0,48700.0,"Elbe, below Ohre",Elbe,Elbe,CZ
+570,Svinov,4912500.0,2997500.0,1525.0,"Oder, headwaters",Oder,Oder,CZ
+571,Dehylov,4907500.0,3007500.0,2025.0,"Oder, headwaters",Opava,Oder,CZ
+572,Bohumin,4917500.0,3012500.0,4675.0,"Oder, headwaters",Oder,Oder,CZ
+573,Vernovice,4922500.0,3012500.0,1100.0,"Oder, headwaters",Olza,Oder,CZ
+574,Olomouc,4847500.0,2962500.0,3450.0,Morava,Morava,Danube,CZ
+575,Dluhonice,4857500.0,2952500.0,1575.0,Morava,Becva,Danube,CZ
+576,Kromeriz,4857500.0,2937500.0,7200.0,Morava,Morava,Danube,CZ
+577,Straznice,4852500.0,2892500.0,9150.0,Morava,Morava,Danube,CZ
+578,Travni Dvur,4792500.0,2872500.0,3450.0,Morava,Thaya,Danube,CZ
+579,Zidlochovice,4802500.0,2902500.0,4150.0,Morava,Svratka,Danube,CZ
+580,Ivancice,4787500.0,2907500.0,2800.0,Morava,Jihlava,Danube,CZ
+581,Breclav-Ladna,4822500.0,2877500.0,12325.0,Morava,Thaya,Danube,CZ
+582,Miziya,5422500.0,2382500.0,3025.0,Danube,Ogosta,Danube,BG
+583,Novi Iskar,5412500.0,2297500.0,3825.0,Danube,Iskar,Danube,BG
+584,Orehovica,5477500.0,2387500.0,8375.0,Danube,Iskar,Danube,BG
+585,Tarnene,5492500.0,2367500.0,2275.0,Danube,Vit,Danube,BG
+586,Troian,5517500.0,2317500.0,550.0,Danube,Osam,Danube,BG
+587,Izgrev,5537500.0,2382500.0,2275.0,Danube,Osam,Danube,BG
+588,Sevlievo,5547500.0,2337500.0,1000.0,Danube,Rositsa,Danube,BG
+589,Karantsi,5582500.0,2392500.0,6850.0,Danube,Yantra,Danube,BG
+590,Dzhuliunitsa,5607500.0,2362500.0,825.0,Danube,Dzhulunitsa,Danube,BG
+591,Shirocovo,5602500.0,2407500.0,1425.0,Danube,Cherni Lom,Danube,BG
+592,Plovdiv,5532500.0,2237500.0,8025.0,Evros,Evros,Evros,BG
+593,Svilengrad,5657500.0,2217500.0,20800.0,Evros,Evros,Evros,BG
+594,Ebro En Miranda Ebro,3257500.0,2272500.0,5275.0,Ebro,Ebro,Ebro,ES
+595,Ebro En Castejon,3352500.0,2197500.0,25375.0,Ebro,Ebro,Ebro,ES
+596,Ega En Andosilla,3337500.0,2222500.0,1425.0,Ega,Ega,Ebro,ES
+597,Arga En Funes,3352500.0,2217500.0,2775.0,Aragon,Arga,Ebro,ES
+598,Aragon En Caparroso,3362500.0,2212500.0,5550.0,Aragon,Aragon,Ebro,ES
+599,Jiloca En Daroca,3362500.0,2067500.0,2675.0,Jalon,Jiloca,Ebro,ES
+600,Ebro En Zaragoza,3407500.0,2132500.0,41075.0,Ebro,Ebro,Ebro,ES
+601,Gallego En Ardisa,3432500.0,2177500.0,2025.0,Gallego,Gallego,Ebro,ES
+602,Martin En Hijar,3442500.0,2067500.0,1350.0,Martin,Martin,Ebro,ES
+603,Cinca En Fraga,3512500.0,2102500.0,9700.0,Segre,Cinca,Ebro,ES
+604,Segre En Seo De Urgel,3622500.0,2177500.0,1200.0,Segre,Segre,Ebro,ES
+605,Segre En Seros,3522500.0,2092500.0,12900.0,Segre,Segre,Ebro,ES
+606,Ebro En Tortosa,3522500.0,2022500.0,85050.0,Ebro,Ebro,Ebro,ES
+607,Guadalope Cola Santolea,3437500.0,2017500.0,975.0,Guadalope,Guadalope,Ebro,ES
+608,Bergantes En Zorita,3462500.0,2017500.0,1075.0,Guadalope,Bergantes,Ebro,ES
+610,Rioalcanadre En P.Alcofea,3477500.0,2142500.0,1300.0,Segre,Alcanadre,Ebro,ES
+611,Najerilla En Torremontalbo,3277500.0,2237500.0,1125.0,Najerilla,Najerilla,Ebro,ES
+612,Jiloca En Calamocha,3367500.0,2047500.0,1925.0,Jalon,Jiloca,Ebro,ES
+613,Jiloca En Morata De Jiloca,3352500.0,2087500.0,2975.0,Jalon,Jiloca,Ebro,ES
+614,Gallego En Sta. Eulalia,3432500.0,2192500.0,1875.0,Gallego,Gallego,Ebro,ES
+615,Irati En Liedena,3392500.0,2242500.0,1575.0,Aragon,Irati,Ebro,ES
+616,Arga En Echauri,3357500.0,2262500.0,1775.0,Aragon,Arga,Ebro,ES
+617,Segre A/Abajo E.Oliana,3597500.0,2147500.0,2675.0,Segre,Segre,Ebro,ES
+618,Jalon En Grisen,3387500.0,2132500.0,10050.0,Jalon,Jalon,Ebro,ES
+619,Gallego En Zaragoza,3417500.0,2132500.0,3850.0,Gallego,Gallego,Ebro,ES
+620,Nela En Trespaderne,3227500.0,2292500.0,1075.0,Nela,Nela,Ebro,ES
+621,Oca En Oña,3227500.0,2277500.0,1125.0,Anguilas,Oca,Ebro,ES
+622,Flumen En Albalatillo,3472500.0,2132500.0,1475.0,Segre,Flumen,Ebro,ES
+623,Segre En Balaguer,3557500.0,2122500.0,7725.0,Segre,Segre,Ebro,ES
+624,N. Ribagorzana A.A.Sta.Ana,3542500.0,2137500.0,1775.0,Segre,Noguera Ribagorzana,Ebro,ES
+625,Guadalope En Caspe,3482500.0,2067500.0,3850.0,Guadalope,Guadalope,Ebro,ES
+626,Aragon A.A. Yesa,3402500.0,2237500.0,2225.0,Aragon,Aragon,Ebro,ES
+627,N. Pallaresa En Collegats,3582500.0,2172500.0,1525.0,Segre,Noguera Pallaresa,Ebro,ES
+628,Guadalope A.A. Santolea,3447500.0,2022500.0,1225.0,Guadalope,Guadalope,Ebro,ES
+629,Segre En Organya,3607500.0,2167500.0,2300.0,Segre,Segre,Ebro,ES
+630,N.Ribagorzana (Montañana),3552500.0,2162500.0,1125.0,Segre,Noguera Ribagorzana,Ebro,ES
+631,Ebro En Mendavia,3312500.0,2232500.0,12025.0,Ebro,Ebro,Ebro,ES
+632,Gallego En Anzanigo,3442500.0,2202500.0,1425.0,Gallego,Gallego,Ebro,ES
+633,Piedra En Carenas,3332500.0,2097500.0,1500.0,Jalon,Piedra,Ebro,ES
+634,Jalon En Ateca,3332500.0,2102500.0,4050.0,Jalon,Jalon,Ebro,ES
+635,Ebro En Palazuelos,3232500.0,2282500.0,4500.0,Ebro,Ebro,Ebro,ES
+636,Ebro En Asco,3527500.0,2057500.0,83350.0,Ebro,Ebro,Ebro,ES
+637,Aragon En Cola De Yesa,3422500.0,2232500.0,1500.0,Aragon,Aragon,Ebro,ES
+638,Matarraña En Nonaspe,3497500.0,2067500.0,1150.0,Matarranya,Matarranya,Ebro,ES
+639,Alhama En Cintruenigo,3337500.0,2182500.0,1100.0,Alhama,Alhama,Ebro,ES
+640,R.Alcanadre En Ballobar,3497500.0,2117500.0,3300.0,Segre,Alcanadre,Ebro,ES
+641,Gallego En Zuera,3427500.0,2147500.0,3250.0,Gallego,Gallego,Ebro,ES
+642,Huerva En Zaragoza,3407500.0,2122500.0,1100.0,Huerva,Huerva,Ebro,ES
+643,Arba En Tauste,3392500.0,2167500.0,2175.0,Arba,Arba,Ebro,ES
+644,Ebro En Gelsa,3442500.0,2097500.0,47550.0,Ebro,Ebro,Ebro,ES
+645,Jalon En Calatayud,3347500.0,2102500.0,7575.0,Jalon,Jalon,Ebro,ES
+646,Jalon En Chodes,3357500.0,2117500.0,8025.0,Jalon,Jalon,Ebro,ES
+647,Ebro En Logroño,3297500.0,2237500.0,10525.0,Ebro,Ebro,Ebro,ES
+648,Tiron En Haro,3262500.0,2252500.0,1225.0,Tiron,Tiron,Ebro,ES
+649,Aragon En Martes,3427500.0,2227500.0,1100.0,Aragon,Aragon,Ebro,ES
+650,Ebro En Tudela,3362500.0,2177500.0,26500.0,Ebro,Ebro,Ebro,ES
+651,Ebro En Novillas,3377500.0,2162500.0,27425.0,Ebro,Ebro,Ebro,ES
+652,Ebro En Alagon,3397500.0,2147500.0,30400.0,Ebro,Ebro,Ebro,ES
+653,Arba En Ejea,3402500.0,2182500.0,1075.0,Arba,Arba,Ebro,ES
+654,Cinca Pte. Las Pilas,3512500.0,2162500.0,3825.0,Segre,Cinca,Ebro,ES
+655,Jalon En Cetina,3322500.0,2102500.0,1975.0,Jalon,Jalon,Ebro,ES
+659,Barcs,4897500.0,2562500.0,34625.0,Drava,Drava,Danube,HU
+660,Bekes,5167500.0,2697500.0,10250.0,Tisa,Koros,Danube,HU
+661,Bekessztandras duzzaszto a.,5117500.0,2697500.0,26275.0,Tisa,Harmas-Koros,Danube,HU
+662,Bekessztandras duzzaszto f.,5112500.0,2697500.0,26300.0,Tisa,Harmas-Koros,Danube,HU
+663,Berettyoujfalu,5192500.0,2747500.0,3575.0,Tisa,Barcau,Danube,HU
+664,Budapest,5002500.0,2752500.0,184600.0,Danube,Danube,Danube,HU
+665,Csenger,5267500.0,2827500.0,14975.0,Tisa,Somea,Danube,HU
+666,Doboz,5177500.0,2687500.0,8100.0,Tisa,Koros,Danube,HU
+667,Dombori-puszta,5002500.0,2632500.0,188375.0,Danube,Danube,Danube,HU
+668,Dravaszabolcs,4957500.0,2552500.0,37750.0,Drava,Drava,Danube,HU
+670,Felsoberecki,5182500.0,2872500.0,11325.0,Tisa,Bodrog,Danube,HU
+671,Gyoma,5142500.0,2707500.0,19800.0,Tisa,Harmas-Koros,Danube,HU
+672,Gyula,5187500.0,2677500.0,4025.0,Tisa,Crisul Alb,Danube,HU
+673,Gyulavari duzzaszto f.,5182500.0,2682500.0,4400.0,Tisa,Crisul Alb,Danube,HU
+674,Hatvan,5047500.0,2777500.0,1250.0,Tisa,Zagyva,Danube,HU
+675,Hidasnemeti,5147500.0,2882500.0,4450.0,Tisa,Hornad,Danube,HU
+676,Ipolytarnoc,5032500.0,2837500.0,1325.0,Ipel,Ipel,Danube,HU
+677,Jasztelek,5072500.0,2752500.0,4200.0,Tisa,Zagyva,Danube,HU
+678,Kiskore also,5107500.0,2762500.0,65000.0,Tisa,Tisza,Danube,HU
+679,Kiskore felso,5112500.0,2767500.0,64875.0,Tisa,Tisza,Danube,HU
+682,Korosszakal,5202500.0,2727500.0,2550.0,Tisa,Crisul Repede,Danube,HU
+683,Korostarcsa,5157500.0,2702500.0,10425.0,Tisa,Koros,Danube,HU
+684,Kunszentmarton,5102500.0,2692500.0,27000.0,Tisa,Harmas-Koros,Danube,HU
+685,Letenye,4837500.0,2612500.0,13325.0,Drava,Mur,Danube,HU
+686,Mako,5127500.0,2622500.0,30075.0,Tisa,Mures,Danube,HU
+688,Mohacs,4997500.0,2577500.0,208825.0,Danube,Danube,Danube,HU
+689,Nagymaros,4992500.0,2782500.0,183175.0,Danube,Danube,Danube,HU
+690,Nogradszakal,5027500.0,2832500.0,1875.0,Ipel,Ipel,Danube,HU
+691,Ortilos,4852500.0,2602500.0,31275.0,Drava,Drava,Danube,HU
+692,Paks,4997500.0,2652500.0,188100.0,Danube,Danube,Danube,HU
+693,Pocsaj,5212500.0,2757500.0,3450.0,Tisa,Barcau,Danube,HU
+694,Sajopuspoki,5087500.0,2847500.0,3500.0,Tisa,Slana,Danube,HU
+695,Sarkad,5187500.0,2687500.0,3650.0,Tisa,Crisul Negru,Danube,HU
+696,Sarvar,4847500.0,2707500.0,5575.0,Raab,Raba,Danube,HU
+697,Siojut,4942500.0,2672500.0,5850.0,Sio,Sio,Danube,HU
+699,Szentgotthard,4807500.0,2667500.0,3275.0,Raab,Raba,Danube,HU
+700,Szolnok,5092500.0,2727500.0,72325.0,Tisa,Tisza,Danube,HU
+701,Tiszabecs,5272500.0,2857500.0,9000.0,Tisa,Tisza,Danube,HU
+702,Tiszafured,5122500.0,2782500.0,62625.0,Tisa,Tisza,Danube,HU
+703,Tiszapalkonya,5142500.0,2807500.0,62225.0,Tisa,Tisza,Danube,HU
+704,Tiszaroff,5107500.0,2752500.0,65625.0,Tisa,Tisza,Danube,HU
+705,Vac,5002500.0,2782500.0,183500.0,Danube,Danube,Danube,HU
+706,Vasarosnameny,5232500.0,2857500.0,30400.0,Tisa,Tisza,Danube,HU
+707,Zahony,5217500.0,2887500.0,33350.0,Tisa,Tisza,Danube,HU
+713,Agota,5152500.0,2757500.0,3400.0,Tisa,Barcau,Danube,HU
+715,Bacsa,4897500.0,2767500.0,131675.0,Danube,Mosoni-Duna,Danube,HU
+772,GUSIN,5092500.0,3262500.0,81900.0,"Vistula, below Pilica",Vistula,Vistula,PL
+773,KĘPA POLSKA,4992500.0,3307500.0,168025.0,"Vistula, below Narew",Vistula,Vistula,PL
+774,FRANKOPOL,5167500.0,3332500.0,30175.0,Narew,Bug,Vistula,PL
+775,Bistra,5377500.0,2852500.0,1500.0,Tisa,Viseu,Danube,RO
+776,Satu Mare,5277500.0,2827500.0,14925.0,Tisa,Somes,Danube,RO
+777,Beclean,5387500.0,2777500.0,4375.0,Tisa,Somesul Mare,Danube,RO
+778,Zerind,5192500.0,2687500.0,3625.0,Tisa,Crisul Negru,Danube,RO
+779,Chisineu Cris,5202500.0,2667500.0,3525.0,Tisa,Crisul Alb,Danube,RO
+780,Salard,5227500.0,2752500.0,1675.0,Tisa,Barcau,Danube,RO
+781,Ocna Mures,5382500.0,2687500.0,10000.0,Tisa,Mures,Danube,RO
+782,Alba Iulia,5367500.0,2647500.0,17975.0,Tisa,Mures,Danube,RO
+783,Arad,5197500.0,2622500.0,27300.0,Tisa,Mures,Danube,RO
+784,Turda,5372500.0,2702500.0,2650.0,Tisa,Aries,Danube,RO
+785,Mihalt,5377500.0,2662500.0,6250.0,Tisa,Tarnava Mare,Danube,RO
+786,Sag,5192500.0,2567500.0,6400.0,Tamis,Timis,Danube,RO
+787,Podari,5412500.0,2452500.0,9325.0,Danube,Jiu,Danube,RO
+788,Bals,5437500.0,2467500.0,1950.0,Danube,Oltet,Danube,RO
+789,Alexandria,5542500.0,2447500.0,3375.0,Danube,Vedea,Danube,RO
+790,Calugareni,5592500.0,2477500.0,3525.0,Danube,Neajlov,Danube,RO
+791,Adancata,5612500.0,2547500.0,3750.0,Ialomita,Prahova,Danube,RO
+792,Itcani,5527500.0,2862500.0,2325.0,Siret,Suceava,Danube,RO
+793,Vranceni,5612500.0,2712500.0,4175.0,Siret,Trotus,Danube,RO
+794,Botarlau,5662500.0,2662500.0,2600.0,Siret,Putna,Danube,RO
+795,Tecuci,5662500.0,2682500.0,7025.0,Siret,Barlad,Danube,RO
+796,Dragesti,5602500.0,2772500.0,11825.0,Siret,Siret,Danube,RO
+797,Radauti,5552500.0,2937500.0,9175.0,Prut,Prut,Danube,RO
+798,Bazias,5222500.0,2477500.0,564200.0,Danube,Danube,Danube,RO
+799,Hoghiz,5502500.0,2667500.0,7050.0,Danube,Olt,Danube,RO
+800,Gurahont,5267500.0,2652500.0,1725.0,Tisa,Crisul Alb,Danube,RO
+801,Gataia,5212500.0,2547500.0,725.0,Tamis,Barzava,Danube,RO
+802,Lugoj,5247500.0,2582500.0,2800.0,Tamis,Timis,Danube,RO
+803,Tupilati,5572500.0,2807500.0,4025.0,Siret,Moldova,Danube,RO
+804,Frumosu,5512500.0,2797500.0,2850.0,Siret,Bistrita,Danube,RO
+805,Ceatal Izmail,5777500.0,2642500.0,786242.0,Danube,Danube,Danube,RO
+807,Zimnicea,5557500.0,2407500.0,643722.0,Danube,Danube,Danube,RO
+808,Lungoci,5677500.0,2657500.0,36300.0,Siret,Siret,Danube,RO
+809,Cosereni,5617500.0,2542500.0,6325.0,Ialomita,Ialomita,Danube,RO
+811,Cornet,5432500.0,2582500.0,13750.0,Danube,Olt,Danube,RO
+813,Apatfalva,5132500.0,2622500.0,30050.0,Tisa,Mures,Danube,HU
+814,Bekes duzzaszto a.,5167500.0,2692500.0,10150.0,Tisa,Koros,Danube,HU
+815,Bekes duzzaszto f.,5172500.0,2692500.0,9475.0,Tisa,Koros,Danube,HU
+816,Budapest Kvassay zsilip f.,5002500.0,2747500.0,184625.0,Danube,Danube,Danube,HU
+817,Kormend,4822500.0,2677500.0,4775.0,Raab,Raba,Danube,HU
+818,Korosladany hid,5162500.0,2712500.0,8775.0,Tisa,Crisul Repede,Danube,HU
+822,Hetin,5162500.0,2567500.0,2000.0,Tamis,Stari Begej,Danube,RS
+823,Gamzigrad,5297500.0,2392500.0,1200.0,Danube,Crni Timok,Danube,RS
+824,Wilsele-Wijgmaal,3947500.0,3097500.0,875.0,Scheldt,Dyle,Scheldt,BE
+825,Eppegem,3927500.0,3107500.0,1150.0,Scheldt,Zenne,Scheldt,BE
+829,Räpina,5337500.0,4012500.0,1150.0,Narva,Vohandu jogi,Narva,EE
+830,Aarschot,3962500.0,3112500.0,2100.0,Scheldt,Demer,Scheldt,BE
+831,Prijepolje,5102500.0,2302500.0,3225.0,Sava,Lim,Danube,RS
+832,Raska,5182500.0,2307500.0,6275.0,Velika Morava,Ibar,Danube,RS
+833,L'Ill à Ensisheim,4122500.0,2747500.0,975.0,Ill,Ill,Rhine,FR
+834,Boretto,4367500.0,2422500.0,55525.0,Po,Po,Po,IT
+836,Ladesic Draga,4742500.0,2502500.0,1600.0,Sava,Kupa,Danube,HR
+837,Kamanje,4737500.0,2517500.0,2225.0,Sava,Kupa,Danube,HR
+838,Karlovac,4752500.0,2502500.0,3050.0,Sava,Kupa,Danube,HR
+839,Jamnicka Kiselica,4772500.0,2507500.0,6600.0,Sava,Kupa,Danube,HR
+840,Sisinec,4787500.0,2502500.0,7050.0,Sava,Kupa,Danube,HR
+841,Farkasic,4802500.0,2497500.0,8525.0,Sava,Kupa,Danube,HR
+842,Kostajnica,4832500.0,2472500.0,9000.0,Sava,Una,Danube,HR
+843,Dubica,4852500.0,2477500.0,9400.0,Sava,Una,Danube,HR
+844,Drenje Brdovecko,4762500.0,2542500.0,10575.0,Sava,Sava,Danube,HR
+845,Zagreb,4787500.0,2537500.0,12250.0,Sava,Sava,Danube,HR
+846,Rugvica,4812500.0,2527500.0,12925.0,Sava,Sava,Danube,HR
+850,Jasenovac,4857500.0,2487500.0,23400.0,Sava,Sava,Danube,HR
+851,Stara Gradiska,4882500.0,2477500.0,39300.0,Sava,Sava,Danube,HR
+852,Davor C.S.,4907500.0,2472500.0,40825.0,Sava,Sava,Danube,HR
+853,Slavonski Kobas,4917500.0,2472500.0,46100.0,Sava,Sava,Danube,HR
+854,Slavonski Brod,4947500.0,2477500.0,49725.0,Sava,Sava,Danube,HR
+856,Zupanja Stepenica,4997500.0,2482500.0,61425.0,Sava,Sava,Danube,HR
+857,Donja Dubrava,4842500.0,2602500.0,17000.0,Drava,Drava,Danube,HR
+858,Botovo,4852500.0,2597500.0,31300.0,Drava,Drava,Danube,HR
+859,Novo Virje Skela,4867500.0,2582500.0,32150.0,Drava,Drava,Danube,HR
+860,Terezino Polje,4892500.0,2567500.0,34300.0,Drava,Drava,Danube,HR
+863,Donji Miholjac C.S.,4952500.0,2552500.0,37725.0,Drava,Drava,Danube,HR
+864,Belisce,4982500.0,2542500.0,37900.0,Drava,Drava,Danube,HR
+866,Batina,5002500.0,2572500.0,209125.0,Danube,Danube,Danube,HR
+867,Aljmas,5017500.0,2532500.0,253200.0,Danube,Danube,Danube,HR
+868,Dalj,5022500.0,2532500.0,253225.0,Danube,Danube,Danube,HR
+869,Vukovar,5022500.0,2517500.0,253950.0,Danube,Danube,Danube,HR
+870,Ilok,5052500.0,2502500.0,255550.0,Danube,Danube,Danube,HR
+876,Günzburg u. d. Günzmündung,4342500.0,2817500.0,9550.0,Danube,Danube,Danube,DE
+879,Neuburg,4402500.0,2847500.0,20125.0,Danube,Danube,Danube,DE
+882,Oberndorf,4467500.0,2872500.0,26525.0,Danube,Danube,Danube,DE
+883,Regensburg Eiserne Brücke,4467500.0,2882500.0,32525.0,Danube,Danube,Danube,DE
+884,Schwabelweis,4482500.0,2882500.0,35625.0,Danube,Danube,Danube,DE
+886,Pfelling,4522500.0,2867500.0,37750.0,Danube,Danube,Danube,DE
+888,Hofkirchen,4552500.0,2842500.0,47700.0,Danube,Danube,Danube,DE
+891,Passau Ilzstadt,4577500.0,2832500.0,76775.0,Danube,Danube,Danube,DE
+892,Wiblingen,4322500.0,2802500.0,2300.0,Iller,Iller,Danube,DE
+893,Landsberg,4387500.0,2767500.0,2325.0,Lech,Lech,Danube,DE
+894,Haunstetten,4392500.0,2797500.0,2700.0,Lech,Lech,Danube,DE
+895,Augsburg u. d. Wertachmündung,4387500.0,2807500.0,4075.0,Lech,Lech,Danube,DE
+900,Heitzenhofen,4462500.0,2887500.0,5475.0,Naab,Naab,Danube,DE
+903,Marienthal,4482500.0,2902500.0,2675.0,Regen,Regen,Danube,DE
+904,München,4437500.0,2777500.0,2850.0,Isar,Isar,Danube,DE
+905,Freising,4447500.0,2817500.0,3150.0,Isar,Amper,Danube,DE
+906,Landshut Birket,4472500.0,2822500.0,7900.0,Isar,Isar,Danube,DE
+912,Mühldorf,4502500.0,2787500.0,12500.0,Inn,Inn,Danube,DE
+914,Burgkirchen,4527500.0,2792500.0,2250.0,Inn,Alz,Danube,DE
+919,Trunstadt,4377500.0,2977500.0,11925.0,Main,Main,Rhine,DE
+920,Schweinfurt Neuer Hafen,4332500.0,2987500.0,12675.0,Main,Main,Rhine,DE
+921,Würzburg,4317500.0,2962500.0,13925.0,Main,Main,Rhine,DE
+922,Steinbach,4292500.0,2987500.0,18225.0,Main,Main,Rhine,DE
+924,Kleinheubach,4262500.0,2962500.0,21600.0,Main,Main,Rhine,DE
+928,Pettstadt,4392500.0,2967500.0,6975.0,Main,Regnitz,Rhine,DE
+930,Alken,4142500.0,3022500.0,27925.0,Moselle,Moselle,Rhine,DE
+931,Lauffen,4257500.0,2877500.0,7950.0,Neckar,Neckar,Rhine,DE
+932,Ziegelhausen AMS,4232500.0,2922500.0,13875.0,Neckar,Neckar,Rhine,DE
+933,Rockenau SKA,4247500.0,2927500.0,12975.0,Neckar,Neckar,Rhine,DE
+934,Hattingen,4127500.0,3147500.0,4225.0,Ruhr,Ruhr,Rhine,DE
+936,Boxberg,4642500.0,3152500.0,675.0,Havel,Black Schops,Elbe,DE
+940,Leisnig,4527500.0,3122500.0,2875.0,Mulde,Freiberger Mulde,Elbe,DE
+941,Lieske,4637500.0,3142500.0,775.0,Havel,Spree,Elbe,DE
+945,Zittau 1,4662500.0,3097500.0,675.0,Neisse,Lusatian Neisse,Oder,DE
+952,Sorbolo,4357500.0,2412500.0,725.0,Enza,Enza,Po,IT
+953,St. Pieter Noord,4017500.0,3082500.0,21075.0,Meuse,Meuse,Rhine,NL
+954,Embalse de Benínar,3157500.0,1637500.0,500.0,Adra,Lucainena,Adra,ES
+956,Aljaima,3007500.0,1642500.0,2725.0,Guadalhorce,Guadalhorce,Guadalhorce,ES
+960,Terque (Andarax),3192500.0,1637500.0,550.0,Andarax,Andarax,Andarax,ES
+968,Corbones_Ca,2942500.0,1747500.0,1750.0,Corbones,Corbones,Guadalquivir,ES
+969,Llano de Vela,3187500.0,1792500.0,1225.0,Guadalimar,Guadalmena,Guadalquivir,ES
+972,Genil_Ecija,2987500.0,1742500.0,8050.0,Genil,Genil,Guadalquivir,ES
+973,Genil_Loja,3057500.0,1687500.0,4300.0,Genil,Genil,Guadalquivir,ES
+974,Cartama,3017500.0,1642500.0,2875.0,Guadalhorce,Guadalhorce,Guadalhorce,ES
+975,Glimar_Lina,3117500.0,1767500.0,5075.0,Guadalimar,Guadalimar,Guadalquivir,ES
+976,Guadajoz_Va,3022500.0,1762500.0,2450.0,Guadajoz,Guadajoz,Guadalquivir,ES
+977,Guadalb_Men,3107500.0,1757500.0,1075.0,Guadalei,Guadalbullon,Guadalquivir,ES
+978,Guadalq_Men,3107500.0,1767500.0,16200.0,Grande,Guadalquivir,Guadalquivir,ES
+979,Guadiamar,2882500.0,1732500.0,900.0,Guadiamar,Guadiamar,Guadalquivir,ES
+980,San Pablo de Bujaceite,2937500.0,1627500.0,650.0,Guadiaro,Guadiaro,Guadiaro,ES
+982,Guadix,3152500.0,1682500.0,550.0,Guadiana menor,Guadix,Guadalquivir,ES
+986,Terque (Nacimiento),3197500.0,1642500.0,675.0,Andarax,Nacimiento,Andarax,ES
+988,R_Fardes,3157500.0,1702500.0,1700.0,Guadiana menor,Fardes,Guadalquivir,ES
+990,Bobadilla,3012500.0,1677500.0,750.0,Guadalhorce,Guadalhorce,Guadalhorce,ES
+994,RHuelva_Cala_G,2897500.0,1772500.0,1000.0,Guadiamar,Huelva,Guadalquivir,ES
+997,Salado_Porc,3072500.0,1762500.0,675.0,Guadajoz,Arroyo del Salado de Porcuna,Guadalquivir,ES
+998,Trasvase de Majaceite,2947500.0,1637500.0,500.0,Guadiaro,Guadiaro,Guadiaro,ES
+1002,La Garonne à Tonneins,3547500.0,2417500.0,50325.0,"Garonne, below Lot",Garonne,Garonne,FR
+1003,L'Allan à Fesches-le-Châtel,4087500.0,2717500.0,650.0,Saone,Allaine,Rhone,FR
+1006,La Cure à Arcy-sur-Cure,3852500.0,2737500.0,1175.0,Yonne,Cure,Seine,FR
+1007,La Brenne à Montbard,3897500.0,2737500.0,775.0,Yonne,Brenne,Seine,FR
+1008,L'Armançon à Tronchoy,3867500.0,2772500.0,1975.0,Yonne,Armancon,Seine,FR
+1009,La Vingeanne à Oisilly,3972500.0,2712500.0,600.0,Saone,Vingeanne,Rhone,FR
+1010,L'Ouche à Plombières-lès-Dijon,3942500.0,2702500.0,650.0,Saone,Ouche,Rhone,FR
+1011,L'Azergues à Lozanne,3907500.0,2542500.0,900.0,Saone,Azergues,Rhone,FR
+1012,L'Ain à Pont-d'Ain,3962500.0,2562500.0,2750.0,Ain,Ain,Rhone,FR
+1013,L'Ain à Chazey-sur-Ain,3952500.0,2547500.0,3675.0,Ain,Ain,Rhone,FR
+1014,Usce,5182500.0,2322500.0,6850.0,Velika Morava,Ibar,Danube,RS
+1015,Aleksinac,5267500.0,2337500.0,14325.0,Velika Morava,Juzna Morava,Danube,RS
+1016,Castro_Rio_G,3047500.0,1742500.0,1650.0,Guadajoz,Guadajoz,Guadalquivir,ES
+1017,Nybergsund,4447500.0,4237500.0,4375.0,Gota,Trysilelva / Klaralven,Gota,NO
+1018,Neiden,5067500.0,5277500.0,3075.0,Neidenelva,Neidenelva,Naatamo,NO
+1019,Polmak nye,4997500.0,5302500.0,13825.0,Tana,Tana,Tana,NO
+1020,Iijärvi - luusua,5022500.0,5242500.0,800.0,Naatamo,Iijarvi,Naatamo,FI
+1021,Salzburg-Nonntal,4547500.0,2747500.0,4675.0,Inn,Salzach,Danube,AT
+1022,Aulestad,4332500.0,4237500.0,925.0,Lagen,Gausa,Glomma,NO
+1026,Viksvatn (Hestadfjorden),4102500.0,4252500.0,500.0,Gaula (Sande),Gaula (Sande),Gaula_Sande,NO
+1030,"Vækkava, Iesjokka",4907500.0,5207500.0,2075.0,Tana,Lesjokka,Tana,NO
+1031,Unsetåa,4377500.0,4317500.0,625.0,"Glomma, headwaters",Unsetaa,Glomma,NO
+1033,Trangen,4447500.0,4597500.0,875.0,Namsen,Sanddola,Namsen,NO
+1036,Syrstad,4307500.0,4437500.0,2275.0,Orkla,Orkla,Orkla,NO
+1037,Bertnem,4427500.0,4597500.0,5175.0,Namsen,Namsen,Namsen,NO
+1040,Svartfossberget,4767500.0,5192500.0,1950.0,Reisaelva,Reisaelva,Reisaelva,NO
+1041,Blaker,4387500.0,4097500.0,38650.0,"Glomma, below Lagen",Glomma,Glomma,NO
+1048,Stuvane,4192500.0,4217500.0,975.0,Laerdalselva,Laerdalselva,Laerdalselva,NO
+1050,Bruhaug,4277500.0,4102500.0,3500.0,Lagen,Numedalslagen,Lagen,NO
+1056,Bulken (Vangsvatnet),4117500.0,4177500.0,1075.0,Vosso,Vosso,Vosso,NO
+1060,Driva v/Elverhøy bru,4252500.0,4392500.0,2425.0,Driva,Driva,Driva,NO
+1061,Driva v/Risefoss,4297500.0,4377500.0,725.0,Driva,Driva,Driva,NO
+1062,Eggafoss,4382500.0,4417500.0,675.0,Gaula (Melhus),Gaula (Melhus),Gaula,NO
+1068,Selfors bru,4527500.0,4882500.0,775.0,Beiarelva,Beiarelva,Beiarelva,NO
+1075,Rauma v/Horgheim,4212500.0,4372500.0,1125.0,Rauma,Rauma,Rauma,NO
+1076,Rathe,4342500.0,4472500.0,3050.0,Nea,Nea,Nea,NO
+1077,Polmak nye,5002500.0,5307500.0,13850.0,Tana,Tana,Tana,NO
+1082,Øvrevatn,4647500.0,5102500.0,525.0,Salangs,Svartdalsbekken,Salangs,NO
+1083,Omnesfoss,4262500.0,4057500.0,875.0,Skien,Heddola,Skien,NO
+1086,Flaksvatn,4217500.0,3917500.0,1825.0,Tovdal,Tovdal,Tovdal,NO
+1088,Fustvatn,4472500.0,4757500.0,550.0,Fusta,Fusta,Fusta,NO
+1091,Nervoll,4507500.0,4707500.0,650.0,Vefsna,Vefsna,Vefsna,NO
+1092,Nedre Sjodalsvatn,4262500.0,4272500.0,500.0,Lagen,Sjoa,Glomma,NO
+1099,Gaulfoss,4332500.0,4447500.0,3200.0,Gaula (Melhus),Gaula (Melhus),Gaula,NO
+1101,Masi,4857500.0,5197500.0,5675.0,Altaelva,Kautokeinoelva,Altaelva,NO
+1103,Gjedlakleiv,4087500.0,3942500.0,600.0,Bjerkreim,Bjerkreim,Bjerkreim,NO
+1107,Malangsfoss,4672500.0,5122500.0,2975.0,Malselv,Malselv,Malselv,NO
+1110,Grunnfoss,4412500.0,4522500.0,900.0,Verdal,Helgaa,Verdal,NO
+1114,Laksfors,4472500.0,4727500.0,3575.0,Vefsna,Vefsna,Vefsna,NO
+1115,Kvenna,4202500.0,4102500.0,825.0,Skien,Kvenna,Skien,NO
+1118,Kråkfoss,4382500.0,4117500.0,500.0,"Glomma, below Lagen",Leira,Glomma,NO
+1119,Kjølemo,4177500.0,3897500.0,1750.0,Mandal,Mandal,Mandal,NO
+1121,Kirkevoll bru,4272500.0,4062500.0,3850.0,Skien,Tinne,Skien,NO
+1125,Hagadrag,4252500.0,4037500.0,750.0,Skien,Boelva,Skien,NO
+1131,Holmfoss i Numedalslågen,4317500.0,4017500.0,5150.0,Lagen,Lagen,Lagen,NO
+1132,Håkkadalbrua,4397500.0,4547500.0,2125.0,Byaelva,Byaelva,Byaelva,NO
+1137,Hamar (Mjøsa),4377500.0,4187500.0,1200.0,Lagen,Mjosa,Glomma,NO
+1140,Hegra bru,4372500.0,4482500.0,1900.0,Stjordal,Stjordal,Stjordal,NO
+1141,Heisel,4197500.0,3902500.0,3600.0,Otra,Otra,Otra,NO
+1145,Daugavpils,5342500.0,3757500.0,63700.0,"Daugava, below Dysna",Daugava,Daugava,LV
+1148,Jēkabpils,5287500.0,3822500.0,69075.0,"Daugava, below Dysna",Daugava,Daugava,LV
+1152,Sīļi,5322500.0,3807500.0,2750.0,"Daugava, below Dysna",Dubna,Daugava,LV
+1153,Lubāna,5327500.0,3872500.0,7150.0,Aiviekste,Aiviekste,Daugava,LV
+1154,Aiviekstes HES,5292500.0,3837500.0,8700.0,Aiviekste,Aiviekste,Daugava,LV
+1155,Lielpeči,5217500.0,3837500.0,1600.0,"Daugava, below Aiviekste",Ogre,Daugava,LV
+1157,Cardona (tunel),3632500.0,2127500.0,775.0,Llobregat,Cardoner,Llobregat,ES
+1158,Sant Sadurni d Anoia,3632500.0,2077500.0,725.0,Llobregat,Anoia,Llobregat,ES
+1159,Castellbell i el Vilar,3642500.0,2097500.0,3350.0,Llobregat,Llobregat,Llobregat,ES
+1161,Sant Joan Despi,3652500.0,2062500.0,4900.0,Llobregat,Llobregat,Llobregat,ES
+1162,Berga (Olvan),3647500.0,2147500.0,525.0,Llobregat,Llobregat,Llobregat,ES
+1163,Balsareny,3647500.0,2122500.0,1025.0,Llobregat,Llobregat,Llobregat,ES
+1164,Suria,3637500.0,2117500.0,1025.0,Llobregat,Cardoner,Llobregat,ES
+1165,Martorell,3642500.0,2077500.0,875.0,Llobregat,Anoia,Llobregat,ES
+1168,Sant Vicenc dels Horts (Canal de la Dreta),3652500.0,2067500.0,4850.0,Llobregat,Llobregat,Llobregat,ES
+1169,Castellbisbal (Assut de Salzers),3642500.0,2082500.0,3550.0,Llobregat,Llobregat,Llobregat,ES
+1172,Ciudad Rodrigo,2922500.0,2097500.0,1100.0,Agueda,Agueda,Douro,ES
+1173,Covarrubias,3207500.0,2207500.0,1200.0,Pisuerga,Arlanza,Douro,ES
+1174,Peral De Arlanza,3162500.0,2217500.0,2450.0,Pisuerga,Arlanza,Douro,ES
+1175,Villavieja De Muño,3182500.0,2237500.0,1575.0,Pisuerga,Arlanzon,Douro,ES
+1177,Celadilla Del Río,3112500.0,2287500.0,575.0,Pisuerga,Carrion,Douro,ES
+1178,Palencia,3127500.0,2227500.0,2275.0,Pisuerga,Carrion,Douro,ES
+1179,Garray,3287500.0,2157500.0,1525.0,Douro,Douro,Douro,ES
+1180,Villamarciel,3077500.0,2167500.0,36775.0,Douro,Douro,Douro,ES
+1181,Zamora,3007500.0,2182500.0,46025.0,Douro,Douro,Douro,ES
+1182,Quintanilla De Onésimo,3122500.0,2172500.0,12225.0,Douro,Douro,Douro,ES
+1183,Las Vencías,3157500.0,2147500.0,1125.0,Duraton,Duraton,Douro,ES
+1185,Castropepe,3032500.0,2232500.0,7000.0,Esla,Esla,Douro,ES
+1186,Benamariel 2,3047500.0,2272500.0,4125.0,Esla,Esla,Douro,ES
+1187,Cebrones,3017500.0,2267500.0,3125.0,Esla,Orbigo,Douro,ES
+1188,Cordovilla,3147500.0,2222500.0,4200.0,Pisuerga,Pisuerga,Douro,ES
+1189,Valladolid-Pisuerga,3097500.0,2177500.0,15575.0,Pisuerga,Pisuerga,Douro,ES
+1190,Herrera De Pisuerga,3152500.0,2272500.0,1525.0,Pisuerga,Pisuerga,Douro,ES
+1191,Secos,3062500.0,2297500.0,950.0,Esla,Porma,Douro,ES
+1192,Rabal,2882500.0,2247500.0,775.0,Tamega,Tamega,Douro,ES
+1194,Tormes,3007500.0,2057500.0,825.0,Tormes,Tormes,Douro,ES
+1195,Stenudden,4667500.0,4842500.0,2375.0,Pitealven,Tjeggelvas,Pitealven,SE
+1196,Mörrum,4617500.0,3692500.0,3425.0,Morrumsan,Morrumsan,Morrumsan,SE
+1197,Munkedal 2,4417500.0,3927500.0,1350.0,Orekilsalven,Orekilsalven,Orekilsalven,SE
+1198,Ersbo,4477500.0,4247500.0,1075.0,Vasterdal,Goralven,Dal,SE
+1199,Getebro,4702500.0,3782500.0,1350.0,Alsteran,Alsteran,Alsteran,SE
+1200,Möckeln,4572500.0,3732500.0,1025.0,Helge a,Helge a,Helge,SE
+1201,Ytterholmen,4857500.0,4827500.0,1000.0,Ranealven,Livasalven,Ranealven,SE
+1203,Moholm,4552500.0,3947500.0,875.0,Gota,Tidan,Gota,SE
+1205,Sundstorp,4492500.0,3917500.0,650.0,Gota,Lidan,Gota,SE
+1206,Hallbosjön,4697500.0,3992500.0,2325.0,Nykopingsan,Vrenaan,Nykopingsan,SE
+1207,Kaalasjärvi,4742500.0,4992500.0,1450.0,Kalix,Kaalasjarvi,Kalix,SE
+1209,Västersel,4737500.0,4507500.0,1450.0,Moalven,Moalven,Moalven,SE
+1210,Strömfors,4732500.0,4697500.0,875.0,Skelleftealven,Malan,Skelleftealven,SE
+1220,Nissafors 2,4542500.0,3822500.0,1150.0,Nissan,Nissan,Lagan,SE
+1223,Fyrås,4592500.0,4497500.0,2275.0,Indalsalven,Ammeran,Indalsalven,SE
+1228,Hammarby 2,4607500.0,4057500.0,900.0,Arbogaan,Jarlean,Arbogaan,SE
+1231,Åsbro 3,4462500.0,3797500.0,2150.0,Viskan,Viskan,Viskan,SE
+1235,Konstdalsströmmen,4692500.0,4207500.0,1025.0,Testeboan,Ostersjon,Testeboan,SE
+1238,Hassela,4672500.0,4352500.0,650.0,Harmangersan,Edean,Harmangersan,SE
+1240,Byske,4847500.0,4692500.0,3675.0,Byske,Byske,Byske,SE
+1241,Melby,4712500.0,3902500.0,700.0,Vindan,Vindan,Vindan,SE
+1247,Nytorp,4657500.0,3892500.0,2500.0,Motala Stroem,Storan,Motala Stroem,SE
+1250,Fryele,4572500.0,3802500.0,1475.0,Lagan,Haran,Lagan,SE
+1253,Mariefors,4677500.0,3697500.0,800.0,Lyckebyan,Lyckebyan,Lyckebyan,SE
+1260,Torrböle 2,4792500.0,4547500.0,2875.0,Ore,Ore,Ore,SE
+1262,Río Miño en Pontevilar,2902500.0,2392500.0,725.0,Minho,Minho,Minho,ES
+1263,Río Miño en Cela Brazo derecho,2897500.0,2392500.0,1075.0,Minho,Minho,Minho,ES
+1264,Río Miño en Cela Brazo Izquierdo,2902500.0,2397500.0,1050.0,Minho,Minho,Minho,ES
+1266,Río Ladra en Begonte,2892500.0,2397500.0,825.0,Minho,Ladra,Minho,ES
+1269,Río Neira en Paramo (o),2902500.0,2362500.0,800.0,Minho,Neira,Minho,ES
+1272,Río Cua en Quilos,2957500.0,2322500.0,500.0,Sil,Cua,Minho,ES
+1274,Río Cabrera Pte Domingo Florez,2952500.0,2297500.0,550.0,Sil,Cabrera,Minho,ES
+1279,Río Arnoia en Arnoia,2837500.0,2307500.0,750.0,Minho,Arnoia,Minho,ES
+1281,Río Limia en Ponteliñares,2852500.0,2277500.0,700.0,Limia,Lima,Lima,ES
+1284,Río Sil en Ponferrada,2972500.0,2317500.0,850.0,Sil,Sil,Minho,ES
+1285,Río Cua en Cacabelos,2957500.0,2317500.0,525.0,Sil,Cua,Minho,ES
+1289,Río Avia en Leiro,2837500.0,2322500.0,600.0,Minho,Avia,Minho,ES
+1290,Río Avia en Ribadavia,2837500.0,2317500.0,625.0,Minho,Avia,Minho,ES
+1291,Río Miño en Salvaterra do Miño,2807500.0,2297500.0,15550.0,Minho,Minho,Minho,ES
+1300,Río Arnoia en Pontefreixo,2847500.0,2297500.0,550.0,Minho,Arnoia,Minho,ES
+1306,Río Sil en Matarrosa del Sil,2977500.0,2332500.0,650.0,Sil,Sil,Minho,ES
+1308,Crnece,4702500.0,2627500.0,12150.0,Drava,Drava,Danube,SI
+1311,Rahiv,5377500.0,2877500.0,1175.0,Tisa,Tisza,Danube,UA
+1316,Vylok,5267500.0,2862500.0,9050.0,Tisa,Tisza,Danube,UA
+1321,Mukacheve,5257500.0,2897500.0,1350.0,Tisa,Latorica,Danube,UA
+1322,Chop,5222500.0,2892500.0,2300.0,Tisa,Latorica,Danube,UA
+1324,Zaricheve,5232500.0,2932500.0,1325.0,Tisa,Uzh,Danube,UA
+1325,Yzgorod,5227500.0,2912500.0,1975.0,Tisa,Uzh,Danube,UA
+1327,Chernivtsi,5497500.0,2927500.0,7100.0,Prut,Prut,Danube,UA
+1328,Usteriky,5427500.0,2892500.0,1525.0,Prut,Cheremosh,Danube,UA
+1330,Rozdol,5332500.0,3022500.0,5550.0,"Dniester, headwaters",Dniester,Dniester,UA
+1331,Zhyravne,5352500.0,3012500.0,9900.0,"Dniester, below Stryi",Dniester,Dniester,UA
+1332,Galych,5387500.0,2997500.0,14950.0,"Dniester, below Stryi",Dniester,Dniester,UA
+1334,Zalishyky,5467500.0,2962500.0,24725.0,"Dniester, below Stryi",Dniester,Dniester,UA
+1335,Mogilyv Podilskyi,5617500.0,2972500.0,42975.0,"Dniester, below Seret",Dniester,Dniester,UA
+1337,Verhne Synyovydne,5307500.0,2977500.0,2425.0,Stryi,Stryi,Dniester,UA
+1339,Yasenytsya,5272500.0,2987500.0,1025.0,Stryi,Stryi,Dniester,UA
+1340,Zarichne,5337500.0,2992500.0,1325.0,"Dniester, below Stryi",Svicha,Dniester,UA
+1341,Perevozets,5382500.0,2992500.0,1500.0,"Dniester, below Stryi",Limnytsya,Dniester,UA
+1342,Chortkiv,5462500.0,3007500.0,3150.0,Seret,Seret,Dniester,UA
+1343,Lytovezh,5322500.0,3152500.0,6800.0,Narew,Bug,Vistula,UA
+1344,Kamyanka Buzhska,5342500.0,3097500.0,2425.0,Narew,Bug,Vistula,UA
+1345,Lubeshiv,5387500.0,3302500.0,2850.0,Pripyat,Stokhid,Dnieper,UA
+1346,Lutsk,5397500.0,3182500.0,7150.0,Pripyat,Styr,Dnieper,UA
+1348,Mlynok,5427500.0,3287500.0,11200.0,Pripyat,Styr,Dnieper,UA
+1349,Yampil,5477500.0,3112500.0,1425.0,Pripyat,Horyn,Dnieper,UA
+1350,Ozenin,5487500.0,3167500.0,5850.0,Pripyat,Horyn,Dnieper,UA
+1351,Derazhne,5442500.0,3202500.0,9150.0,Pripyat,Horyn,Dnieper,UA
+1353,Novograd-Volynskyi,5557500.0,3202500.0,7525.0,Pripyat,Sluch,Dnieper,UA
+1354,Sarny,5472500.0,3267500.0,13250.0,Pripyat,Sluch,Dnieper,UA
+1356,Chooz,3942500.0,3012500.0,10225.0,Meuse,Meuse,Rhine,BE
+1357,Amay,3982500.0,3057500.0,16750.0,Meuse,Meuse,Rhine,BE
+1358,Vise-Lixhe,4012500.0,3072500.0,20825.0,Meuse,Meuse,Rhine,BE
+1359,Angleur,4012500.0,3062500.0,3725.0,Meuse,Ourthe,Rhine,BE
+1360,Salzinnes-Ronet,3947500.0,3052500.0,2900.0,Meuse,Sambre,Rhine,BE
+1361,Tournai,3852500.0,3077500.0,4975.0,Scheldt,Scheldt,Scheldt,BE
+1362,Ballathie,3497500.0,3782500.0,4550.0,Tay,Tay,Tay,UK
+1363,Boat O Brig,3532500.0,3892500.0,2850.0,Spey,Spey,Spey,UK
+1364,Brigde of Teith,3452500.0,3762500.0,625.0,Teith,Teith,Forth,UK
+1365,Camisky,3412500.0,3847500.0,1250.0,Lochy,Lochy,Lochy,UK
+1366,Craigforth,3457500.0,3757500.0,1175.0,Forth,Forth,Forth,UK
+1367,Daldowie,3442500.0,3722500.0,1975.0,Clyde,Clyde,Clyde,UK
+1368,Ellon,3597500.0,3867500.0,650.0,Ythan,Ythan,Ythan,UK
+1369,Forres,3507500.0,3907500.0,875.0,Findhor,Findhorn,Findhor,UK
+1370,Friars Carse,3452500.0,3642500.0,775.0,Nith,Nith,Nith,UK
+1371,Kinkell Bridge,3477500.0,3772500.0,600.0,Earn,Earn,Tay,UK
+1372,Moy Bridge,3457500.0,3917500.0,975.0,Conon,Conon,Conon,UK
+1373,Muiresk,3577500.0,3892500.0,950.0,Deveron,Deveron,Deveron,UK
+1374,Ness-side,3472500.0,3902500.0,1850.0,Ness,Ness,Ness,UK
+1375,Norham,3562500.0,3692500.0,4400.0,Tweed,Tweed,Tweed,UK
+1376,Parkhill,3582500.0,3857500.0,1275.0,Don,Don,Don,UK
+1377,Sprouston,3542500.0,3677500.0,3375.0,Tweed,Tweed,Tweed,UK
+1378,Woodend,3557500.0,3842500.0,1350.0,Dee,Dee,Dee,UK
+1399,Nava Weir,3227500.0,3517500.0,1725.0,Boyne,Boyne,Boyne,IE
+1400,Liscarton,3222500.0,3527500.0,625.0,Kells Blackwater,Blackwater (Kells),Boyne,IE
+1401,Slane Castle,3232500.0,3522500.0,2475.0,Boyne,Boyne,Boyne,IE
+1402,Scarawalsh,3207500.0,3402500.0,1000.0,Slaney,Slaney,Slaney,IE
+1403,Royal Oak,3187500.0,3427500.0,2425.0,Barrow,Barrow,Barrow,IE
+1404,Levitstown,3192500.0,3452500.0,1725.0,Barrow,Barrow,Barrow,IE
+1405,Graiguenamanagh,3187500.0,3407500.0,2825.0,Barrow,Barrow,Barrow,IE
+1406,John's Bridge,3162500.0,3427500.0,1600.0,Nore,Nore,Barrow,IE
+1407,Brownsbarn,3172500.0,3402500.0,2450.0,Nore,Nore,Barrow,IE
+1408,Cahir Park,3112500.0,3402500.0,1625.0,Suir,Suir,Barrow,IE
+1409,Clonmel,3127500.0,3397500.0,2150.0,Suir,Suir,Barrow,IE
+1410,Ballyduff,3092500.0,3382500.0,2325.0,Munster Blackwater,Munster Blackwater,Blackwater,IE
+1411,Kilavullen,3062500.0,3387500.0,1250.0,Munster Blackwater,Munster Blackwater,Blackwater,IE
+1412,Castleroberts,3067500.0,3432500.0,875.0,Maigue,Maigue,Shannon,IE
+1413,Annacotty,3082500.0,3442500.0,650.0,"Shannon, below Brosna",Mulkear,Shannon,IE
+1414,Ferbane,3147500.0,3497500.0,1175.0,Brosna,Brosna,Shannon,IE
+1415,Banagher,3127500.0,3492500.0,7950.0,"Shannon, below Brosna",Shannon,Shannon,IE
+1416,Bellagill,3122500.0,3512500.0,1500.0,Suck,Suck,Shannon,IE
+1417,Ballymahon,3157500.0,3527500.0,1125.0,Inny,Inny,Shannon,IE
+1418,Cong Weir,3057500.0,3562500.0,675.0,Robe,Cong,Corrib,IE
+1419,Rahans,3082500.0,3607500.0,1925.0,Moy,Moy,Moy,IE
+1420,Butlers Bridge,3197500.0,3572500.0,775.0,Erne,Annalee,Erne,IE
+1421,Belturbet,3192500.0,3582500.0,1525.0,Erne,Erne,Erne,IE
+1423,Agroal,2747500.0,2032500.0,650.0,Zezere,Nabao,Tagus,PT
+1428,Castelo Bom,2897500.0,2102500.0,950.0,Coa,Coa,Douro,PT
+1430,Cidadelhe,2887500.0,2142500.0,1775.0,Coa,Coa,Douro,PT
+1433,Escalhão,2902500.0,2147500.0,2550.0,Agueda,Agueda,Douro,PT
+1434,Fábrica Da Matrena,2747500.0,2017500.0,1050.0,Zezere,Nabao,Tagus,PT
+1435,Fragas Da Torre,2797500.0,2167500.0,650.0,Paiva,Paiva,Douro,PT
+1436,Fridão,2822500.0,2207500.0,2575.0,Tamega,Tamega,Douro,PT
+1437,Fronhas,2787500.0,2087500.0,675.0,Mondego,Alva,Mondego,PT
+1439,Moinho Da Gamitinha,2712500.0,1857500.0,2650.0,Sado,Sado,Sado,PT
+1441,Moinho Novo,2767500.0,1972500.0,650.0,Sorraia,Sor,Tagus,PT
+1443,Monte Da Ponte,2752500.0,1822500.0,750.0,Cobres,Cobres,Guadiana,PT
+1447,Nelas,2822500.0,2112500.0,1100.0,Mondego,Mondego,Mondego,PT
+1448,Oeiras,2762500.0,1802500.0,500.0,Guadiana,Ribera de Oeiras,Guadiana,PT
+1450,Ponte Alvalade Campilhas,2707500.0,1842500.0,675.0,Sado,Ribeira de Campilhas,Sado,PT
+1451,Ponte Alvalade Sado,2712500.0,1842500.0,625.0,Sado,Sado,Sado,PT
+1453,Ponte Cavez,2842500.0,2222500.0,1925.0,Tamega,Tamega,Douro,PT
+1454,Ponte Da Barca,2797500.0,2267500.0,2100.0,Lima,Lima,Lima,PT
+1458,Ponte Mocate,2742500.0,2082500.0,500.0,Mondego,Arunca,Mondego,PT
+1459,Ponte Pinelo,2947500.0,2212500.0,550.0,Sabor,Ribeira do Rio Macas,Douro,PT
+1464,Ponte Vila Formosa,2792500.0,1972500.0,700.0,Sorraia,Riberia da Raia,Tagus,PT
+1465,Pulo Do Lobo,2772500.0,1812500.0,61750.0,Guadiana,Guadiana,Guadiana,PT
+1467,Quinta Das Laranjeiras,2897500.0,2172500.0,3450.0,Sabor,Sabor,Douro,PT
+1469,Rabaçal,2802500.0,2267500.0,2075.0,Lima,Lima,Lima,PT
+1470,Rebordelo,2902500.0,2232500.0,875.0,Tua,Rabacal,Douro,PT
+1473,Segura,2877500.0,2022500.0,1000.0,Erges,Erges,Tagus,PT
+1479,Vendinha,2782500.0,1887500.0,825.0,Degebe,Degebe,Guadiana,PT
+1480,Vinhais (QUINTA Ranca),2922500.0,2237500.0,500.0,Tua,Tuela,Douro,PT
+1481,Ponte Juncais,2852500.0,2117500.0,625.0,Mondego,Mondego,Mondego,PT
+1482,Ashton Weir,3512500.0,3437500.0,650.0,Mersey,Mersey,Mersey,UK
+1483,Bewdley,3487500.0,3322500.0,4300.0,"Severn, headwaters",Severn,Severn,UK
+1484,Evesham,3507500.0,3287500.0,2275.0,Avon,Avon,Severn,UK
+1485,Montford,3452500.0,3367500.0,1950.0,"Severn, headwaters",Severn,Severn,UK
+1486,Tenbury,3462500.0,3317500.0,1175.0,Teme,Teme,Severn,UK
+1487,Saxons Lode,3487500.0,3287500.0,6800.0,"Severn, below Teme",Severn,Severn,UK
+1488,Haw Bridge,3487500.0,3277500.0,9725.0,"Severn, below Avon",Severn,Severn,UK
+1489,Bredon,3492500.0,3282500.0,2675.0,Avon,Avon,Severn,UK
+1490,Buildwas,3482500.0,3352500.0,3700.0,"Severn, headwaters",Severn,Severn,UK
+1492,Shardlow,3557500.0,3362500.0,4375.0,Trent,Trent,Trent,UK
+1493,Colwick,3572500.0,3372500.0,7550.0,Trent,Trent,Trent,UK
+1494,Kings Bromley,3527500.0,3357500.0,1325.0,Trent,Trent,Trent,UK
+1495,Drakelow,3537500.0,3357500.0,3100.0,Trent,Trent,Trent,UK
+1496,North Muskham,3602500.0,3382500.0,8275.0,Trent,Trent,Trent,UK
+1499,Kegworth,3567500.0,3357500.0,1350.0,Trent,Soar,Trent,UK
+1503,Derby City,3552500.0,3372500.0,1175.0,Trent,Derwent,Trent,UK
+1506,Pillings Lock,3572500.0,3347500.0,1100.0,Trent,Soar,Trent,UK
+1509,Salisbury Harnham Bridge,3497500.0,3172500.0,1250.0,Avon (Hampshire),Avon (Hampshire),Stour,UK
+1510,Throop,3487500.0,3142500.0,1050.0,Stour,Stour,Stour,UK
+1514,Wimborne A31,3482500.0,3142500.0,1025.0,Stour,Stour,Stour,UK
+1519,Trews Weir,3372500.0,3157500.0,1250.0,Exe,Exe,Exe,UK
+1526,Bath Ultrasonic,3462500.0,3212500.0,1625.0,Avon (Bristol),Avon (Bristol),Avon,UK
+1527,Bathford,3467500.0,3212500.0,1600.0,Avon (Bristol),Avon (Bristol),Avon,UK
+1529,Kearsley,3507500.0,3452500.0,525.0,Mersey,Irwell,Mersey,UK
+1531,Westy,3492500.0,3437500.0,2025.0,Mersey,Mersey,Mersey,UK
+1534,Samlesbury,3492500.0,3482500.0,1125.0,Ribble,Ribble,Ribble,UK
+1535,New Jumbles Rock,3507500.0,3482500.0,1025.0,Ribble,Ribble,Ribble,UK
+1536,Great Corby,3502500.0,3602500.0,1450.0,Eden,Eden,Eden,UK
+1537,Sheepmount,3497500.0,3607500.0,2375.0,Eden,Eden,Eden,UK
+1542,Farmoor,3537500.0,3242500.0,1550.0,Thames,Thames,Thames,UK
+1543,Sutton Courtenay,3547500.0,3232500.0,3375.0,Thames,Thames,Thames,UK
+1544,Wheatley,3562500.0,3242500.0,550.0,Thames,Thame,Thames,UK
+1545,Reading,3557500.0,3207500.0,4625.0,Thames,Thames,Thames,UK
+1546,Newbury,3532500.0,3207500.0,550.0,Kennet,Kennet,Thames,UK
+1550,Maidenhead,3582500.0,3212500.0,7075.0,Thames,Thames,Thames,UK
+1551,Windsor Park,3587500.0,3207500.0,7175.0,Thames,Thames,Thames,UK
+1552,Hythe End,3592500.0,3202500.0,1000.0,Colne,Colne,Thames,UK
+1553,Staines Trading Estate,3597500.0,3207500.0,975.0,Colne,Colne,Thames,UK
+1554,Staines,3592500.0,3197500.0,8300.0,Thames,Thames,Thames,UK
+1557,Hoe Stream at Woking,3587500.0,3182500.0,900.0,Wey,Hoe,Thames,UK
+1558,Guildford,3587500.0,3177500.0,775.0,Wey,Wey,Thames,UK
+1559,Weybridge,3592500.0,3187500.0,950.0,Wey,Wey,Thames,UK
+1560,Walton,3597500.0,3192500.0,9500.0,Thames,Thames,Thames,UK
+1564,Thames at Kingston (Backup),3592500.0,3192500.0,1050.0,Thames,The Bourne,Thames,UK
+1565,Kingston,3602500.0,3192500.0,10000.0,Thames,Thames,Thames,UK
+1568,"Hoddesdon, Rye Bridge",3632500.0,3237500.0,825.0,Lee,Lee,Thames,UK
+1569,River Lee At Feildes Weir (Gauged),3632500.0,3232500.0,1125.0,Lee,Lee,Thames,UK
+1572,Feildes Weir Ultrasonic,3632500.0,3227500.0,1175.0,Lee,Lee,Thames,UK
+1573,Lea Bridge,3627500.0,3212500.0,1400.0,Lee,Lee,Thames,UK
+1575,Costessey Mill Sluice,3727500.0,3322500.0,600.0,Yare,Wensum,Yare,UK
+1580,Tinwell Gs,3612500.0,3332500.0,500.0,Welland,Welland,Welland,UK
+1589,Skelton,3592500.0,3487500.0,3250.0,Ouse,Ouse,Ouse,UK
+1592,Bywell,3562500.0,3602500.0,2225.0,Tyne,Tyne,Tyne,UK
+1595,Verhnedvinsk,5432500.0,3767500.0,51775.0,"Daugava, below Dysna",Daugava,Daugava,BY
+1598,Svetlogorsk,5637500.0,3462500.0,24500.0,Berezina,Berezina,Dnieper,BY
+1604,Novoselki,5612500.0,3792500.0,1650.0,Daugava,Usvyacha,Daugava,BY
+1605,Bocheykovo,5527500.0,3712500.0,3425.0,Daugava,Ulla,Daugava,BY
+1606,Obol,5517500.0,3747500.0,2375.0,Daugava,Obol,Daugava,BY
+1607,Sharkovshchina,5407500.0,3707500.0,5125.0,Dysna,Dysna,Daugava,BY
+1608,Dernovichi,5457500.0,3767500.0,4600.0,"Daugava, below Dysna",Drissa,Daugava,BY
+1609,Stolbtsy,5422500.0,3497500.0,3025.0,"Nemunas, headwaters",Nemunas,Nemunas,BY
+1610,Belitsa,5327500.0,3497500.0,16850.0,"Nemunas, headwaters",Nemunas,Nemunas,BY
+1611,Mosty,5277500.0,3462500.0,27675.0,"Nemunas, below Shchara",Nemunas,Nemunas,BY
+1612,Lubinyata,5337500.0,3542500.0,975.0,"Nemunas, headwaters",Gavya,Nemunas,BY
+1613,Slonim,5342500.0,3432500.0,5050.0,Shchara,Shchara,Nemunas,BY
+1614,Studenets,5277500.0,3447500.0,950.0,"Nemunas, below Shchara",Ross,Nemunas,BY
+1615,Dinevichi,5242500.0,3432500.0,625.0,"Nemunas, below Shchara",Svisloch,Nemunas,BY
+1616,Sakhkombinat,5257500.0,3472500.0,1625.0,"Nemunas, below Shchara",Kotra,Nemunas,BY
+1617,Steshitsy,5437500.0,3632500.0,1225.0,Neris,Neris,Nemunas,BY
+1618,Mikhalishki,5347500.0,3642500.0,10325.0,Neris,Neris,Nemunas,BY
+1619,Brest ,5262500.0,3307500.0,5800.0,Narew,Muchavets,Vistula,BY
+1620,Kamenets,5257500.0,3347500.0,2150.0,Narew,Lesnaya,Vistula,BY
+1622,Orsha,5622500.0,3672500.0,18300.0,"Dnieper, headwaters",Dnieper,Dnieper,BY
+1623,Mogilev,5637500.0,3607500.0,20700.0,"Dnieper, headwaters",Dnieper,Dnieper,BY
+1624,Zhlobin,5652500.0,3492500.0,29975.0,"Dnieper, headwaters",Dnieper,Dnieper,BY
+1625,Rechitsa,5692500.0,3447500.0,60275.0,"Dnieper, below Berezina",Dnieper,Dnieper,BY
+1626,Gorodishche,5612500.0,3577500.0,2900.0,"Dnieper, headwaters",Drut,Dnieper,BY
+1627,Borisov,5512500.0,3612500.0,5425.0,Berezina,Berezina,Dnieper,BY
+1628,Bobruisk,5582500.0,3517500.0,20400.0,Berezina,Berezina,Dnieper,BY
+1629,Terebuty,5527500.0,3517500.0,6200.0,Berezina,Svisloch,Dnieper,BY
+1630,Krichev,5732500.0,3612500.0,10250.0,Sozh,Sozh,Dnieper,BY
+1631,Slavgorod,5697500.0,3572500.0,17875.0,Sozh,Sozh,Dnieper,BY
+1632,Gomel,5727500.0,3457500.0,38775.0,Sozh,Sozh,Dnieper,BY
+1633,Mstislavl,5722500.0,3647500.0,2225.0,Sozh,Vihra,Dnieper,BY
+1634,Letyagi,5682500.0,3587500.0,4575.0,Sozh,Pronya,Dnieper,BY
+1635,Svetilovichi,5732500.0,3512500.0,5075.0,Sozh,Besed,Dnieper,BY
+1636,Dobrush,5747500.0,3467500.0,9900.0,Sozh,Iput,Dnieper,BY
+1637,Pinsk,5417500.0,3332500.0,12650.0,Pripyat,Pripyat,Dnieper,BY
+1638,Chernichi,5512500.0,3367500.0,74325.0,Pripyat,Pripyat,Dnieper,BY
+1639,Mozyr,5632500.0,3382500.0,100875.0,Pripyat,Pripyat,Dnieper,BY
+1640,Senin,5332500.0,3367500.0,1625.0,Pripyat,Yaselda,Dnieper,BY
+1642,M.Vikorovichi,5472500.0,3332500.0,26900.0,Pripyat,Goryn,Dnieper,BY
+1643,Mokrovo,5482500.0,3382500.0,2125.0,Pripyat,Lan,Dnieper,BY
+1645,Krasnoberezhie,5577500.0,3362500.0,5200.0,Pripyat,Ubort,Dnieper,BY
+1646,Daraganovo,5552500.0,3492500.0,650.0,Pripyat,Ptich,Dnieper,BY
+1647,1-ya Slobodka,5592500.0,3392500.0,6975.0,Pripyat,Ptich,Dnieper,BY
+1652,Gjonaj,5197500.0,2182500.0,4100.0,White Drin,White Drin,Drin,XK
+1653,Këpuz,5187500.0,2217500.0,2350.0,White Drin,White Drin,Drin,XK
+1664,Leposaviç,5202500.0,2277500.0,4725.0,Velika Morava,Ibar,Danube,XK
+1672,Konqul,5282500.0,2222500.0,1675.0,Velika Morava,Binacka Morava,Danube,XK
+1675,Hani Elezit,5247500.0,2192500.0,625.0,Lepenac,Lepenac,Vardar,XK
+1680,Jordan - Sede Nehemya,6687500.0,1522500.0,725.0,Jordan / Dead Sea,Jordan,Jordan,IL
+1681,Jordan - Obstacle Bridge,6697500.0,1507500.0,1475.0,Jordan / Dead Sea,Jordan,Jordan,IL
+1683,Hadera - Gan Shemu'el,6657500.0,1427500.0,625.0,Hadera,Hadera,Hadera,IL
+1685,Ayyalon - Shekhunat 'EZRA,6652500.0,1377500.0,775.0,Yarkon,Ayalon,Yarkon,IL
+1688,Lakhish-Ad Halom Park,6647500.0,1347500.0,1025.0,Lakhish,Lakhish,Lakhish,IL
+1690,Besor - Reim,6647500.0,1292500.0,2650.0,Besor,Besor,Besor,IL
+1696,Mursko Sredisce,4802500.0,2622500.0,10900.0,Drava,Mur,Danube,HR
+1697,Gorican,4832500.0,2617500.0,13075.0,Drava,Mur,Danube,HR
+1698,Metlika,4732500.0,2517500.0,2100.0,Sava,Kolpa,Danube,SI
+1700,Rozl'oty,5887500.0,3432500.0,36375.0,Desna,Desna,Dnieper,UA
+1702,Chernihiv,5777500.0,3357500.0,81425.0,Desna,Desna,Dnieper,UA
+1703,Litky,5762500.0,3262500.0,85200.0,Desna,Desna,Dnieper,UA
+1704,Snovs'k,5802500.0,3412500.0,7225.0,Desna,Snov,Dnieper,UA
+1705,Mutyn,5922500.0,3407500.0,25575.0,Desna,Seim,Dnieper,UA
+1706,Nedanchychi,5722500.0,3357500.0,105150.0,"Dnieper, below Sozh",Dnieper,Dnieper,UA
+1707,Reni,5737500.0,2657500.0,784045.0,Danube,Danube,Danube,UA
+1708,Izmayil,5782500.0,2652500.0,790842.0,Danube,Danube,Danube,UA
+1714,Ivankiv,5702500.0,3282500.0,12700.0,Teteriv,Teteriv,Dnieper,UA
+1715,Ukrayinka,5667500.0,3252500.0,2600.0,Teteriv,Irsha,Dnieper,UA
+1716,K-Shevchenkivs'kyy,5842500.0,3142500.0,10300.0,Ros,Ros,Dnieper,UA
+1717,Lubny,5942500.0,3247500.0,14250.0,Sula,Sula,Dnieper,UA
+1718,Sumy,6027500.0,3382500.0,7825.0,Psel,Psel,Dnieper,UA
+1719,Hadyach,5992500.0,3307500.0,11225.0,Psel,Psel,Dnieper,UA
+1720,Zapsillya,6007500.0,3172500.0,21650.0,Psel,Psel,Dnieper,UA
+1722,Kobelyaky,6052500.0,3187500.0,13200.0,Vorskla,Vorskla,Dnieper,UA
+1723,Tsarychanka,6082500.0,3167500.0,9175.0,Oril,Oril,Dnieper,UA
+1724,Kocherizhky,6172500.0,3162500.0,19925.0,Samara,Samara,Dnieper,UA
+1725,Kryvyy Rih,6032500.0,3027500.0,8375.0,Inhulets,Inhulets,Dnieper,UA
+1726,Mariupol,6357500.0,3052500.0,1150.0,Kalmius,Khalchyk,Kalmius,UA
+1727,Lelitka,5602500.0,3092500.0,4125.0,Southern Bug,Southern Bug,Bug,UA
+1729,Kulen Vakuf,4807500.0,2402500.0,1875.0,Sava,Una,Danube,BA
+1730,Ripač,4792500.0,2427500.0,2475.0,Sava,Una,Danube,BA
+1731,Kralje,4782500.0,2432500.0,2625.0,Sava,Una,Danube,BA
+1732,Bosanska Krupa,4802500.0,2437500.0,2825.0,Sava,Una,Danube,BA
+1733,Vrhpolje,4857500.0,2422500.0,1300.0,Sava,Sana,Danube,BA
+1734,Sanski Most,4847500.0,2432500.0,2075.0,Sava,Sana,Danube,BA
+1736,Kozluk,4902500.0,2387500.0,2150.0,Sava,Vrbas,Danube,BA
+1737,Raspotočje,4957500.0,2377500.0,4025.0,Sava,Bosna,Danube,BA
+1738,Zavidoviči n/B,4967500.0,2402500.0,4850.0,Sava,Bosna,Danube,BA
+1739,Maglaj,4962500.0,2417500.0,6800.0,Sava,Bosna,Danube,BA
+1740,Merdani,4952500.0,2367500.0,975.0,Sava,Lasva,Danube,BA
+1741,Zavidoviči n/K,4977500.0,2402500.0,1550.0,Sava,Krivaja,Danube,BA
+1742,Kaloševič,4947500.0,2427500.0,700.0,Sava,Usora,Danube,BA
+1743,Karanovac,4977500.0,2432500.0,1800.0,Sava,Spreca,Danube,BA
+1744,Goražde,5042500.0,2327500.0,6000.0,Sava,Drina,Danube,BA
+1746,Mostar,4957500.0,2287500.0,3325.0,Neretva,Neretva,Neretva,BA
+1748,Humac,4932500.0,2262500.0,2600.0,Neretva,Trebizat,Neretva,BA
+1795,KOPICE,4847500.0,3082500.0,3775.0,Eastern Neisse,Eastern Neisse,Oder,PL
+1797,GUBIN,4642500.0,3217500.0,4275.0,Neisse,Lusatian Neisse,Oder,PL
+1798,BABINO,5177500.0,3412500.0,3725.0,Narew,Narew,Vistula,PL
+1799,ŻAGAŃ,4692500.0,3177500.0,4400.0,Bobr,Bobr,Oder,PL
+1800,NOWY SĄCZ,5087500.0,2997500.0,4450.0,Dunajec,Dunajec,Vistula,PL
+1801,OSOWIEC,5157500.0,3447500.0,4325.0,Narew,Biebrza,Vistula,PL
+1802,SMUKAŁA,4852500.0,3367500.0,4450.0,"Vistula, below Narew",Brda,Vistula,PL
+1804,CHAŁUPKI,4917500.0,3007500.0,4650.0,"Oder, headwaters",Oder,Oder,PL
+1805,ELGISZEWO,4912500.0,3362500.0,4950.0,"Vistula, below Narew",Drweca,Vistula,PL
+1806,CZCHÓW,5082500.0,3022500.0,5475.0,Dunajec,Dunajec,Vistula,PL
+1807,BURZENIN,4932500.0,3192500.0,5350.0,Warta,Warta,Oder,PL
+1808,LAS,4992500.0,3032500.0,5575.0,"Vistula, headwaers",Vistula,Vistula,PL
+1809,NOWOGRÓD BOBRZAŃSKI,4682500.0,3202500.0,5650.0,Bobr,Bobr,Oder,PL
+1810,ZGŁOBICE,5097500.0,3032500.0,5775.0,Dunajec,Dunajec,Vistula,PL
+1811,BIAŁOŚLIWIE,4802500.0,3357500.0,6300.0,Warta,Notec,Oder,PL
+1812,OLZA,4917500.0,3017500.0,5850.0,"Oder, headwaters",Oder,Oder,PL
+1814,KRZYŻANOWICE,4912500.0,3017500.0,5875.0,"Oder, headwaters",Oder,Oder,PL
+1815,SPAŁA,5017500.0,3207500.0,5925.0,Pilica,Pilica,Vistula,PL
+1816,UJŚCIE 1,4787500.0,3352500.0,6575.0,Warta,Notec,Oder,PL
+1817,LUBARTÓW,5182500.0,3237500.0,6325.0,Wieprz,Wieprz,Vistula,PL
+1818,NOWE MIASTO,5047500.0,3217500.0,6750.0,Pilica,Pilica,Vistula,PL
+1819,CZERNICHÓW PROM,5017500.0,3032500.0,7075.0,"Vistula, headwaers",Vistula,Vistula,PL
+1820,ŻUKÓW,5017500.0,3287500.0,7225.0,"Vistula, below Narew",Bzura,Vistula,PL
+1821,KRYŁÓW,5307500.0,3157500.0,7150.0,Narew,Bug,Vistula,PL
+1822,KRAKÓW-BIELANY,5027500.0,3037500.0,7600.0,"Vistula, headwaers",Vistula,Vistula,PL
+1823,LEŻACHÓW,5217500.0,3082500.0,8250.0,San,San,Vistula,PL
+1824,BIAŁOBRZEGI,5077500.0,3227500.0,8725.0,Pilica,Pilica,Vistula,PL
+1825,SIEROSŁAWICE,5062500.0,3057500.0,8950.0,"Vistula, headwaers",Vistula,Vistula,PL
+1826,STRZYŻÓW,5302500.0,3177500.0,9000.0,Narew,Bug,Vistula,PL
+1828,UNIEJÓW,4922500.0,3242500.0,9075.0,Warta,Warta,Oder,PL
+1829,KRAPKOWICE,4882500.0,3072500.0,10725.0,"Oder, headwaters",Oder,Oder,PL
+1830,CZARNKÓW,4762500.0,3337500.0,12225.0,Warta,Notec,Oder,PL
+1831,KOŁO,4912500.0,3262500.0,12125.0,Warta,Warta,Oder,PL
+1832,JAGODNIKI,5077500.0,3062500.0,12050.0,"Vistula, headwaers",Vistula,Vistula,PL
+1833,RZUCHÓW,5202500.0,3092500.0,12075.0,San,San,Vistula,PL
+1834,DOROHUSK,5277500.0,3212500.0,12400.0,Narew,Bug,Vistula,PL
+1835,KRZYŻ,4732500.0,3322500.0,12875.0,Warta,Notec,Oder,PL
+1836,WŁODAWA,5257500.0,3247500.0,14250.0,Narew,Bug,Vistula,PL
+1837,WIZNA,5137500.0,3407500.0,14300.0,Narew,Narew,Vistula,PL
+1839,PYZDRY,4847500.0,3257500.0,15475.0,Warta,Warta,Oder,PL
+1840,GOŚCIMIEC,4722500.0,3322500.0,16675.0,Warta,Notec,Oder,PL
+1842,RADOMYŚL,5157500.0,3132500.0,16775.0,San,San,Vistula,PL
+1843,BRZEG,4852500.0,3112500.0,19875.0,"Oder, below Easter Neisse",Oder,Oder,PL
+1844,KARSY,5082500.0,3072500.0,19925.0,"Vistula, below Dunajec",Vistula,Vistula,PL
+1845,NOWOGRÓD,5107500.0,3412500.0,20200.0,Narew,Narew,Vistula,PL
+1847,NOWA WIEŚ PODGÓRNA,4842500.0,3252500.0,20500.0,Warta,Warta,Oder,PL
+1848,OSTROŁĘKA,5097500.0,3397500.0,21950.0,Narew,Narew,Vistula,PL
+1849,ŚREM,4797500.0,3247500.0,22425.0,Warta,Warta,Oder,PL
+1850,KRZYCZEW,5242500.0,3312500.0,27650.0,Narew,Bug,Vistula,PL
+1851,BRZEG DOLNY,4792500.0,3147500.0,26575.0,"Oder, below Easter Neisse",Oder,Oder,PL
+1852,OBORNIKI,4787500.0,3302500.0,25925.0,Warta,Warta,Oder,PL
+1853,MALCZYCE,4782500.0,3147500.0,26875.0,"Oder, below Easter Neisse",Oder,Oder,PL
+1854,KOŁO,5127500.0,3102500.0,30725.0,"Vistula, below Dunajec",Vistula,Vistula,PL
+1855,WRONKI,4732500.0,3302500.0,30000.0,Warta,Warta,Oder,PL
+1856,MIĘDZYCHÓD,4712500.0,3297500.0,30525.0,Warta,Warta,Oder,PL
+1857,SKWIERZYNA,4702500.0,3292500.0,30850.0,Warta,Warta,Oder,PL
+1858,GŁOGÓW,4747500.0,3192500.0,36575.0,"Oder, below Barycz",Oder,Oder,PL
+1859,WYSZKÓW,5087500.0,3327500.0,38100.0,Narew,Bug,Vistula,PL
+1860,NIETKÓW,4682500.0,3227500.0,39800.0,"Oder, below Barycz",Oder,Oder,PL
+1861,ANNOPOL,5152500.0,3152500.0,51500.0,"Vistula, below San",Vistula,Vistula,PL
+1866,PUŁAWY-AZOTY,5147500.0,3217500.0,57650.0,"Vistula, below San",Vistula,Vistula,PL
+1867,DĘBLIN,5132500.0,3227500.0,68100.0,"Vistula, below Wieprz",Vistula,Vistula,PL
+1869,WARSZAWA-NADWILANÓWKA ŚL,5077500.0,3292500.0,84700.0,"Vistula, below Pilica",Vistula,Vistula,PL
+1876,MODLIN,5037500.0,3307500.0,159325.0,"Vistula, below Narew",Vistula,Vistula,PL
+1877,WYSZOGRÓD,5017500.0,3302500.0,159500.0,"Vistula, below Narew",Vistula,Vistula,PL
+1878,WŁOCŁAWEK,4937500.0,3322500.0,171250.0,"Vistula, below Narew",Vistula,Vistula,PL
+1879,TORUŃ,4887500.0,3357500.0,180025.0,"Vistula, below Narew",Vistula,Vistula,PL
+1880,FORDON,4872500.0,3382500.0,185575.0,"Vistula, below Narew",Vistula,Vistula,PL
+1881,CHEŁMNO,4882500.0,3397500.0,186900.0,"Vistula, below Narew",Vistula,Vistula,PL
+1882,GRUDZIĄDZ,4897500.0,3427500.0,189525.0,"Vistula, below Narew",Vistula,Vistula,PL
+1883,TCZEW,4897500.0,3482500.0,193725.0,"Vistula, below Narew",Vistula,Vistula,PL
+1888,BUDESTI,5622500.0,2487500.0,10775.0,Danube,Arges,Danube,RO
+1889,SLOBOZIA,5697500.0,2547500.0,9500.0,Ialomita,Bratul Borcea,Danube,RO
+1890,Kunino,5457500.0,2342500.0,6825.0,Danube,Iskur,Danube,BG
+1891,OANCEA,5712500.0,2697500.0,26750.0,Prut,Prut,Danube,RO
+1892,SIRET,5507500.0,2892500.0,1650.0,Siret,Siret,Danube,RO
+1893,FELSOEZSOLCA,5127500.0,2832500.0,6475.0,Tisa,Slana,Danube,HU
+1894,SZEGED,5102500.0,2622500.0,138425.0,Tisa,Tisza,Danube,HU
+1895,BRATISLAVA,4852500.0,2807500.0,131325.0,Danube,Mosoni-Duna,Danube,SK
+1896,L'Adour à Audon -  010174-010691 00:00,3457500.0,2357500.0,4125.0,Adour,Adour,Adour,FR
+1897,L'Adour à Cahuzac-Sur-Adour,3512500.0,2332500.0,1300.0,Adour,Adour,Adour,FR
+1898,Le Gave De Pau à Berenx [Pont De Berenx],3442500.0,2332500.0,2575.0,Les Gaves Runis,Gave de Pau,Adour,FR
+1899,Le Gave D'Oloron à Escos,3432500.0,2317500.0,2550.0,Les Gaves Runis,Gave,Adour,FR
+1900,Le Tarn à Villemur-Sur-Tarn,3632500.0,2347500.0,9100.0,Tarn,Tarn,Garonne,FR
+1901,Le Lot à Faycelles,3687500.0,2417500.0,6850.0,Lot,Lot,Garonne,FR
+1902,La Vezere à Campagne,3602500.0,2467500.0,3725.0,Vezere,Vezere,Dordogne,FR
+1903,L'Isle à Abzac,3527500.0,2487500.0,3750.0,Isle,Isle,Dordogne,FR
+1904,La Dordogne à Cenac-Et-Saint-Julien [Cenac],3627500.0,2452500.0,8625.0,"Dordogne, headwaters",Dordogne,Dordogne,FR
+1905,La Loire à Villerest,3857500.0,2562500.0,6725.0,Loire,Loire,Loire,FR
+1906,La Loire à Villerest [Pont de Villerest],3857500.0,2557500.0,6700.0,Loire,Loire,Loire,FR
+1907,L'Allier à Moulins,3807500.0,2622500.0,13075.0,Allier,Allier,Loire,FR
+1908,La Vienne à Lussac-Les-Chateaux,3607500.0,2627500.0,5625.0,Vienne,Vienne,Loire,FR
+1910,La Creuse à Leugny,3612500.0,2687500.0,7975.0,Vienne,Creuse,Loire,FR
+1911,La Vienne à Nouatre,3602500.0,2702500.0,20000.0,Vienne,Vienne,Loire,FR
+1912,Le Loir à Durtal,3557500.0,2782500.0,7925.0,Maine,Loir,Loire,FR
+1913,La Loire à Nevers,3807500.0,2672500.0,17650.0,Loire,Loire,Loire,FR
+1915,La Loire à Saumur,3567500.0,2732500.0,81425.0,Loire,Loire,Loire,FR
+1916,La Loire [Totale] à Nantes [Saint Felix],3457500.0,2747500.0,112300.0,Loire,Loire,Loire,FR
+1918,La Saone à Pagny-La-Ville [Lechatelet],3952500.0,2672500.0,11700.0,Saone,Saone,Rhone,FR
+1919,Le Rhone à Lyon [Perrache],3922500.0,2532500.0,20700.0,Rhone,Rhone,Rhone,FR
+1920,Le Rhone à Viviers,3897500.0,2392500.0,71225.0,"Rhone, below Isere",Rhone,Rhone,FR
+1921,Le Rhone à Viviers,3897500.0,2397500.0,71025.0,"Rhone, below Isere",Rhone,Rhone,FR
+1922,Le Rhone à Beaucaire,3887500.0,2312500.0,95950.0,Rhone,Rhone,Rhone,FR
+1923,L'Isere à Beaumont-Monteux,3922500.0,2447500.0,11850.0,Isere,Isere,Rhone,FR
+1924,L'Isere à Beaumont-Monteux,3917500.0,2447500.0,11875.0,Isere,Isere,Rhone,FR
+1925,La Durance à Saint-Paul-Les-Durance [Jouques-Cadarache],3977500.0,2297500.0,11850.0,Durance,Durance,Rhone,FR
+1926,L'Yonne à Gurgy,3842500.0,2767500.0,3800.0,Yonne,Yonne,Seine,FR
+1927,L'Armançon à Brienon-sur-Armançon,3842500.0,2782500.0,2975.0,Yonne,Armancon,Seine,FR
+1928,L'Yonne à Courlon-sur-Yonne,3817500.0,2822500.0,10725.0,Yonne,Yonne,Seine,FR
+1929,Le Loing àÉpisy,3787500.0,2827500.0,3900.0,Loing,Loing,Seine,FR
+1930,La Marne à la Ferté-sous-Jouarre,3822500.0,2897500.0,8650.0,Marne,Marne,Seine,FR
+1931,La Marne à Gournay-sur-Marne,3772500.0,2882500.0,12625.0,Marne,Marne,Seine,FR
+1932,La Marne à Gournay-sur-Marne [station ultra-son],3777500.0,2887500.0,12475.0,Marne,Marne,Seine,FR
+1933,L'Aisne à Givry,3927500.0,2947500.0,2975.0,Oise,Aisne,Seine,FR
+1934,L'Oise à Sempigny,3812500.0,2962500.0,4275.0,Oise,Oise,Seine,FR
+1935,La Seine à Poissy,3732500.0,2907500.0,61750.0,"Seine, below Oise",Seine,Seine,FR
+1937,LAUCHA,4437500.0,3127500.0,6250.0,Saale,Unstrut,Elbe,DE
+1938,SMALININKAI,5112500.0,3617500.0,81175.0,"Nemunas, below Neris",Nemunas,Nemunas,LT
+1939,JONAVA,5222500.0,3637500.0,24425.0,Neris,Neris,Nemunas,LT
+1940,INTSCHEDE,4262500.0,3317500.0,38650.0,Weser,Weser,Weser,DE
+1941,HANN.-MUENDEN,4297500.0,3147500.0,12575.0,Weser,Weser,Weser,DE
+1942,PORTA,4242500.0,3237500.0,19300.0,"Weser, below Diemel",Weser,Weser,DE
+1943,AELVKARLEBY KRV,4727500.0,4187500.0,28575.0,Dalaelven,Dalaelven,Dal,SE
+1944,EMSFORS BRUK,4712500.0,3797500.0,4450.0,Eman,Eman,Eman,SE
+1945,VAENERSBORG - VARGOENS KRV,4457500.0,3912500.0,48675.0,Gota,Gota,Gota,SE
+1946,RAASAKKA (NEAR THE MOUTH),5037500.0,4767500.0,6525.0,Iijoki,Iijoki,Iijoki,FI
+1947,BERGEFORSENS KRV,4692500.0,4397500.0,25825.0,Indalselven,Indalselven,Indalsalven,SE
+1948,VAAJAKOSKI (HAAPAKOSKI),5142500.0,4437500.0,17550.0,Kymijoki,Leppavesi-Paijanne,Kymijoki,FI
+1949,ANJALA,5232500.0,4282500.0,35625.0,Kymijoki,Kymijoki,Kymijoki,FI
+1950,ANGABAECKS KRV,4542500.0,3717500.0,6925.0,Lagan,Lagan,Lagan,SE
+1951,SKALLBOELE KRV,4682500.0,4382500.0,11925.0,Ljungan,Ljungan,Ljungan,SE
+1952,LJUSNE STROEMMAR KRV,4697500.0,4257500.0,20075.0,Ljusnan,Ljusnan,Ljusnan,SE
+1953,"BODENS KRV (+ VATTENVERK, TRANGFORS)",4857500.0,4787500.0,24775.0,Luleaelven,Luleaelven,Luleaelven,SE
+1954,OEVRE STOCKHOLM,4777500.0,4052500.0,23250.0,Maelaren,Maelaren,Arbogaan,SE
+1955,MERISKOSKI (NEAR THE MOUTH),5057500.0,4732500.0,24400.0,Oulujoki,Oulujoki,Oulujoki,FI
+1956,SIKFORS KRV,4837500.0,4757500.0,10900.0,Pitealven,Pitealven,Pitealven,SE
+1957,KVISTFORSENS KRV,4837500.0,4667500.0,11275.0,Skellefteaelven,Skellefteaelven,Skelleftealven,SE
+1958,UMEAE,4832500.0,4557500.0,26950.0,Umeaelven,Umeaelven,Umealven,SE
+1959,TAINIONKOSKI,5322500.0,4362500.0,60650.0,Vuoksi,Vuoksi,Neva,FI
+1960,CORROFIN,3082500.0,3537500.0,575.0,Clare,Clare,Corrib,IE
+1961,DECIN,4617500.0,3087500.0,51100.0,"Elbe, below Ohre",Elbe,Elbe,CZ
+1962,ZELEZNY BROD,4697500.0,3072500.0,800.0,Jizera,Jizera,Elbe,CZ
+1963,MORAVICANY,4832500.0,2977500.0,2300.0,Morava,Morava,Danube,CZ
+1964,TEPLICE,4882500.0,2962500.0,1250.0,Morava,Becva,Danube,CZ
+1965,GLAN,4682500.0,3947500.0,12425.0,Motala Stroem,Motala Stroem,Motala Stroem,SE
+1966,KUKKOLANKOSKI OEVRE,4957500.0,4827500.0,39975.0,Torne,Torneaelven,Torne,SE
+1967,SCHAERDING,4572500.0,2822500.0,26050.0,Inn,Inn,Danube,AT
+1968,SPIELFELD,4747500.0,2642500.0,9625.0,Drava,Mur,Danube,AT
+1969,FRIESACH,4727500.0,2692500.0,6825.0,Drava,Mur,Danube,AT
+1970,TRIER UP,4077500.0,2962500.0,23650.0,Moselle,Moselle,Rhine,DE
+1971,RETHEM,4282500.0,3297500.0,15500.0,Aller,Aller,Weser,DE
+1972,LETZTER HELLER,4307500.0,3137500.0,5500.0,Werra,Werra,Weser,DE
+1973,VERSEN,4137500.0,3292500.0,8425.0,Ems,Ems,Ems,DE
+1974,BERLIN MUEHLENDAMM OP,4577500.0,3262500.0,6900.0,Havel,Spree,Elbe,DE
+1975,BAD LIEBENWERDA,4557500.0,3157500.0,3125.0,Schwarze Elster,Schwarze Elster,Elbe,DE
+1976,KEMPTEN,4347500.0,2732500.0,950.0,Iller,Iller,Danube,DE
+1977,MEGEN DORP,4017500.0,3197500.0,29000.0,Meuse,Meuse,Rhine,NL
+1978,BRYDEKIRK,3472500.0,3627500.0,950.0,R. Annan,Annan,Annan,UK
+1979,Caton,3492500.0,3512500.0,1000.0,Lune,Lune,Lune,UK
+1980,DOVIKFOSS,4317500.0,4087500.0,16100.0,Begna,Dramselv,Drammen,NO
+1981,LANGNES,4387500.0,4052500.0,40525.0,"Glomma, below Lagen",Glomma,Glomma,NO
+1982,KISTA,4842500.0,5237500.0,6250.0,Altaelva,Altaelva,Altaelva,NO
+1983,LAKE INARI OUTLET,5012500.0,5177500.0,5475.0,Paatsjoki,Paatsjoki,Paatsjoki,FI
+1984,HARJAVALTA,4967500.0,4302500.0,26300.0,Kokemaenjoki,Kokemaenjoki,Kokem,FI
+1985,LAKE LENTUA OUTLET,5262500.0,4702500.0,2125.0,Oulujoki,Oulujoki,Oulujoki,FI
+1986,JYLHAMA (VAALA),5127500.0,4702500.0,21725.0,Oulujoki,Oulujoki,Oulujoki,FI
+1987,KULDIGA,5047500.0,3822500.0,8250.0,Venta,Venta,Venta,LV
+1988,VALMIERA,5237500.0,3922500.0,6325.0,Gauja,Gauja,Gauja,LV
+1989,MEZOTNE,5187500.0,3787500.0,9525.0,Lielupe,Lielupe,Lielupe,LV
+1990,UKMERGE,5252500.0,3662500.0,5950.0,Neris,Sventoji,Nemunas,LT
+1991,L'Erdre [Totale] à Nantes [Saint Felix],3452500.0,2752500.0,950.0,Erdre,L'Erdre,Loire,FR
+1992,La Sevre Nantaise [Totale] à Nantes [Pont-Rousseau],3452500.0,2737500.0,2375.0,La Sevre,La Sevre Nantaise,Loire,FR
+1993,Hracholusky Mze,4552500.0,2967500.0,1650.0,Vltava,Uhlava,Elbe,CZ
+1994,Lhota Radbuza,4562500.0,2957500.0,1275.0,Vltava,Uhlava,Elbe,CZ
+1995,PAPPILANKOSKI,4942500.0,4287500.0,1350.0,Kokemaenjoki-Archipelago Sea-Bothnian Sea,Eurajoki,Eurajoki,FI
+1996,KEPPO,4952500.0,4537500.0,4050.0,Lapuanjoki,Lapuanjoki,Lapuanjoki,FI
+1997,SAARENPAA,4987500.0,4612500.0,1050.0,Lestijoki,Lestijoki,Lestijoki,FI
+1998,TOLPANKOSKI (PYHANKOSKI),5007500.0,4662500.0,3650.0,Pyhtjoki,Tolpankoski,Pyhtjoki,FI
+1999,LUUJOKI HAARAN ALA PUOLELLE,5022500.0,4797500.0,1350.0,Oulujoki-Iijoki,Kuivajoki,Oulujoki-Iijoki,FI
+2000,SIMO,5012500.0,4797500.0,3125.0,Simojoki,Simojoki,Simojoki,FI
+2001,NIKAKOSKI (NEAR THE MOUTH),5007500.0,4637500.0,3525.0,Kalajoki,Kalajoki,Kalajoki,FI
+2002,SKATILA (LANSORSUND),4922500.0,4502500.0,4875.0,Kyronjoki,Kyronjoki,Kyronjoki,FI
+2003,OULUNKYLA (NEAR THE MOUTH),5147500.0,4207500.0,1875.0,Vantaa,Vantaanjoki,Vantaa,FI
+2004,"VUOSJARVI, HUOPANANKOSKI",5102500.0,4527500.0,2275.0,"Kymijoki, Keitele catchment",Huopanankoski,Kymijoki,FI
+2005,VAKKOLA (NEAR THE MOUTH),5177500.0,4242500.0,1275.0,Porvoonjoki,Porvoonjoki,Porvoonjoki,FI
+2006,KALTIMO,5332500.0,4552500.0,20525.0,Neva,Pielisjoki,Neva,FI
+2007,KALLAVESI-KONNUS-KARVIO,5227500.0,4497500.0,16250.0,Neva,Kallavesi,Neva,FI
+2008,HERFORS,4962500.0,4562500.0,2125.0,Coastal zone,Kruunupyyn,Ahtavan,FI
+2009,HAUKIPUDAS,5037500.0,4757500.0,11725.0,Iijoki,KIIMINGINJOKI,Kiiminginjoki,FI
+2010,MOVANAGHER,3272500.0,3662500.0,5175.0,Bann,Lower Bann,Bann,UK
+2011,NESET,4242500.0,4027500.0,3000.0,Moel,Neiden,Skien,NO
+2012,Redbrook,3452500.0,3252500.0,4100.0,Wye,Wye,Wye,UK
+2013,HERRENHAUSEN,4292500.0,3257500.0,5375.0,Aller,Leine,Weser,DE
+2014,Drumnabuoy House,3212500.0,3647500.0,1850.0,Foyle,Mourne,Foyle,UK
+2015,Nantgaredig,3352500.0,3287500.0,1150.0,R. Towy,Tywi,Towy,UK
+2016,ADELPHI WEIR,3507500.0,3447500.0,550.0,Mersey,Irwell,Mersey,UK
+2018,THORVERTON,3377500.0,3167500.0,650.0,Exe,EXE,Exe,UK
+2019,GLAN TEIFI,3332500.0,3312500.0,900.0,Teifi,Teifi,Teifi,UK
+2020,BOARA PISANI,4462500.0,2447500.0,12350.0,Adige,Adige,Adige,IT
+2021,La Midouze à Campagne,3462500.0,2367500.0,2475.0,Midouze,Midouze,Adour,FR
+2022,GOCH,4047500.0,3187500.0,1275.0,Meuse,Niers,Rhine,DE
+2023,CELLE,4332500.0,3277500.0,4675.0,Aller,Aller,Weser,DE
+2024,AFFOLDERN,4262500.0,3112500.0,1625.0,Fulda,Eder,Weser,DE
+2025,GREBENAU,4287500.0,3117500.0,3025.0,Fulda,Fulda,Weser,DE
+2026,KYSUCKE NOVE MESTO,4957500.0,2947500.0,1050.0,Vah,Kysuca,Danube,SK
+2027,ZDANA,5152500.0,2892500.0,4300.0,Tisa,Hornad,Danube,SK
+2028,ZALAAPATI,4867500.0,2647500.0,1650.0,Sio,Zala,Danube,HU
+2029,LOM,5382500.0,2397500.0,581848.0,Danube,Danube,Danube,BG
+2030,STOROZHYNETS,5487500.0,2902500.0,850.0,Siret,Siret,Danube,UA
+2031,Tarnava Mare - BLAJ,5387500.0,2662500.0,5800.0,Tisa,Tarnava Mare,Danube,RO
+2032,Strei - PETRENI,5327500.0,2602500.0,1975.0,Tisa,Strei,Danube,RO
+2033,Kresna,5412500.0,2177500.0,6800.0,Strimonas,Strimonas,Strimonas,BG
+2034,ORADEA,5217500.0,2732500.0,2400.0,Tisa,Crisul Repede,Danube,RO
+2035,Podsused žicara,4782500.0,2537500.0,12225.0,Sava,Sava,Danube,HR
+2036,Bajina Bašta,5087500.0,2367500.0,15025.0,Sava,Drina,Danube,BA
+2038,FOZ DO MOURO,2812500.0,2292500.0,15500.0,Minho,Minho,Minho,PT
+2039,PONTE DE CANAVEZES,2807500.0,2192500.0,3250.0,Tamega,Tamega,Douro,PT
+2040,PONTE DE VOUZELA,2802500.0,2142500.0,675.0,Vouga,VOUGA,Vouga,PT
+2042,ABBEVILLE,3737500.0,3032500.0,5900.0,Somme,Somme,Somme,FR
+2046,MONTJEAN,3507500.0,2757500.0,110500.0,Loire,Loire,Loire,FR
+2047,VILLENEUVE LES SORINIERES,3462500.0,2737500.0,1650.0,La Sevre,La Goulaine,Loire,FR
+2051,MONTIGNAC,3627500.0,2482500.0,3175.0,Vezere,Vezere,Dordogne,FR
+2053,MAS-D'AGENAIS,3542500.0,2417500.0,50350.0,"Garonne, below Lot",Garonne,Garonne,FR
+2058,CORBES ROC COURBE,3802500.0,2382500.0,600.0,Tarn,Tarn,Garonne,FR
+2059,STE CROIX VOLVESTRE,3602500.0,2277500.0,4700.0,"Garonne, below Salat",Garonne,Garonne,FR
+2062,CARCASSONNE,3702500.0,2267500.0,2800.0,Aude,Orbiel,Aude,FR
+2064,BEZIERS-TABARKA,3762500.0,2282500.0,1300.0,Orb,Orb,Orb,FR
+2065,MESCLA,4092500.0,2297500.0,2800.0,Var,Var,Var,FR
+2072,SAUZE ST MARTIN,3872500.0,2387500.0,1925.0,Rhone,Ardeche,Rhone,FR
+2083,FOURGUENONS,4042500.0,2712500.0,925.0,Saone,Ognon,Rhone,FR
+2088,ZRUC NAD SAZAVOU,4692500.0,2972500.0,1400.0,Vltava,Sazava,Elbe,CZ
+2089,TURICE,4662500.0,3032500.0,2225.0,Jizera,Jizera,Elbe,CZ
+2090,DASICE,4742500.0,3007500.0,625.0,"Elbe, headwaters",Loucna,Elbe,CZ
+2092,BANOV (BANOVSKA KESA),4932500.0,2802500.0,3100.0,Vah,Nitra,Danube,SK
+2093,IPELSKY SOKOLEC,4977500.0,2807500.0,4875.0,Ipel,Ipel,Danube,SK
+2094,HOLISA,5042500.0,2847500.0,725.0,Ipel,Ipel,Danube,SK
+2095,MARTIN,4972500.0,2922500.0,875.0,Vah,Turiec,Danube,SK
+2096,TURNA NAD BODVOU,5122500.0,2892500.0,675.0,Tisa,Bodvaj,Danube,SK
+2097,KOSICKE OLSANY,5152500.0,2912500.0,1175.0,Tisa,Torysa,Danube,SK
+2098,UDAVSKE,5192500.0,2947500.0,500.0,Tisa,Udava,Danube,SK
+2100,ANTISANTI,4272500.0,2117500.0,650.0,Tavignano,Tavignano,Tavignano,FR
+2116,TRILLO,3257500.0,2042500.0,3400.0,Tagus,Tagus,Tagus,ES
+2118,PUENTE MORENA,3102500.0,1867500.0,2450.0,Jabalon,Jabalon,Guadiana,ES
+2119,QUINTANAR,3197500.0,1932500.0,925.0,Ciguela,Ciguela,Guadiana,ES
+2120,EL DOCTOR,3027500.0,1767500.0,25225.0,Guadajoz,Guadalquivir,Guadalquivir,ES
+2122,HAMOIR(TABREUX),4002500.0,3042500.0,1600.0,Meuse,Ourthe,Rhine,BE
+2125,EL CHONO,3192500.0,1647500.0,625.0,Andarax,Nacimiento,Andarax,ES
+2126,MARTORELL,3647500.0,2077500.0,4500.0,Llobregat,Llobregat,Llobregat,ES
+2127,RODA DE TER,3682500.0,2127500.0,1500.0,Ter,Ter,Ter,ES
+2128,VASSBOTTEN,4412500.0,3972500.0,575.0,Glomma,ENNINGDALSAELVEN,Enningdalsaelven,SE
+2129,NEDRE ABISKOJOKK,4692500.0,5052500.0,1425.0,"Tornealven, section to Lainioalven",TORNETRAESK,Torne,SE
+2130,GROETSJOEN,4452500.0,4307500.0,575.0,Osterdal,Groetsjoen,Dal,SE
+2131,TOREBRO KRV (POWERSTATION),4577500.0,3667500.0,3775.0,Helge,Helge,Helge,SE
+2137,NIEMISEL,4867500.0,4812500.0,3850.0,Ranealven,Ranealven,Ranealven,SE
+2140,STEIN-KREMS,4732500.0,2822500.0,96025.0,Danube,Danube,Danube,AT
+2142,WIEN-NUSSDORF,4792500.0,2812500.0,101825.0,Danube,Danube,Danube,AT
+2145,LANDSCHA,4747500.0,2647500.0,8425.0,Drava,Mur,Danube,AT
+2146,FROHNLEITEN,4722500.0,2697500.0,6675.0,Drava,Mur,Danube,AT
+2147,KINDTHAL,4732500.0,2727500.0,725.0,Drava,Muerz,Danube,AT
+2148,TSIMOVO,5267500.0,1902500.0,625.0,Arachthos,ARACHTHOS,Arachthos,GR
+2149,AVLAKION,5307500.0,1857500.0,1550.0,Akheloos,Acheloos Potamos,Akheloos,GR
+2150,SCHWAIBACH,4172500.0,2807500.0,975.0,Kinzig,KINZIG (TRIB. RHEIN),Rhine,DE
+2151,STEIN,4267500.0,2902500.0,1950.0,Neckar,KOCHER,Rhine,DE
+2153,RHEINFELDEN,4147500.0,2717500.0,34675.0,Rhine,Rhine,Rhine,DE
+2154,VLOTHO,4247500.0,3232500.0,17625.0,"Weser, below Diemel",Weser,Weser,DE
+2155,GREENE,4317500.0,3192500.0,2875.0,Aller,Leine,Weser,DE
+2156,MARKLENDORF,4307500.0,3282500.0,7800.0,Aller,Aller,Weser,DE
+2158,SCHMITTLOTHEIM,4242500.0,3117500.0,1250.0,Fulda,Eder,Weser,DE
+2159,GUNTERSHAUSEN,4282500.0,3122500.0,6425.0,Fulda,Fulda,Weser,DE
+2160,ROTENBURG,4302500.0,3097500.0,2550.0,Fulda,Fulda,Weser,DE
+2161,SCHWARMSTEDT,4292500.0,3277500.0,6375.0,Aller,Leine,Weser,DE
+2162,ALLENDORF,4312500.0,3132500.0,5425.0,Werra,Werra,Weser,DE
+2163,HELDRA,4337500.0,3112500.0,4325.0,Werra,Werra,Weser,DE
+2164,BODENWERDER,4287500.0,3202500.0,16025.0,"Weser, below Diemel",Weser,Weser,DE
+2165,DOERVERDEN,4267500.0,3292500.0,22175.0,"Weser, below Diemel",Weser,Weser,DE
+2166,KARLSHAFEN,4282500.0,3172500.0,14975.0,"Weser, below Diemel",Weser,Weser,DE
+2167,LIEBENAU,4262500.0,3272500.0,20175.0,"Weser, below Diemel",Weser,Weser,DE
+2168,WAHMBECK,4292500.0,3167500.0,13050.0,Weser,Weser,Weser,DE
+2169,DALUM,4132500.0,3282500.0,4950.0,Ems,Ems,Ems,DE
+2170,GREVEN,4157500.0,3222500.0,2925.0,Ems,Ems,Ems,DE
+2171,RHEINE UNTERSCHLEUSE UP,4142500.0,3247500.0,3750.0,Ems,Ems,Ems,DE
+2173,BIENENBUETTEL,4352500.0,3342500.0,1450.0,Elbe,Ilmenau,Elbe,DE
+2174,Rudolstadt,4412500.0,3067500.0,2675.0,Saale,Saale,Elbe,DE
+2175,RATHENOW (HAUPTSCHLEUSE),4477500.0,3282500.0,18800.0,Havel,Havel,Elbe,DE
+2176,RATHENOW HAUPTSCHLEUSE UP,4477500.0,3272500.0,18675.0,Havel,Havel,Elbe,DE
+2177,KETZIN,4507500.0,3262500.0,16075.0,Havel,Havel,Elbe,DE
+2178,SPREMBERG,4622500.0,3172500.0,2250.0,Havel,Spree,Elbe,DE
+2179,Bad Suelze,4492500.0,3452500.0,625.0,Recknitz,Recknitz,Recknitz,DE
+2180,KLEMPENOW,4537500.0,3407500.0,1225.0,Peene,TOLLENSE,Peene,DE
+2181,REGENSBURG/SCHWABELWEIS,4472500.0,2882500.0,32550.0,Danube,Danube,Danube,DE
+2182,Lenggries,4437500.0,2732500.0,1425.0,Isar,Isar,Danube,DE
+2183,BRONZOLO (BRANZOLL),4422500.0,2582500.0,6975.0,Adige,Adige,Adige,IT
+2184,TRENTO,4407500.0,2552500.0,9575.0,Adige,Adige,Adige,IT
+2185,ALLOGGIAMENTO IDRAULICO,4637500.0,2127500.0,1925.0,Pescara,ATERNO,Pescara,IT
+2186,S.SAMUELE DI CAFIERO,4837500.0,2042500.0,2800.0,Ofanto,OFANTO,Ofanto,IT
+2187,PASSOFONDUTO,4647500.0,1607500.0,1300.0,Platani,PLATANI,Platani,IT
+2188,DRASI,4672500.0,1577500.0,2025.0,Salso,IMERA MERIDIONALE,Salso,IT
+2189,PONTE MACCARRONE,4747500.0,1637500.0,800.0,Simeto,Simeto,Simeto,IT
+2190,KILJAFOSS,2867500.0,4952500.0,2350.0,Hvita,Hvita,Hvita,IS
+2191,SELFOSS,2847500.0,4872500.0,1425.0,Oelfusa,Oelfusa,Oelfusa,IS
+2193,THJORSARTUN,2862500.0,4842500.0,8425.0,Pjorsa,Thjorsa,Pjorsa,IS
+2194,HOLL,3152500.0,4862500.0,700.0,Lagarfljot,Jokulsa I Fljotsdal,Lagarfljot,IS
+2195,GOODALABRU,3002500.0,4972500.0,725.0,Heradsvotn,"VESTARI-JOEKULSA, SKAGAFIROI",Heradsvotn,IS
+2197,ULLARFOSS,3077500.0,4947500.0,2725.0,Skjalfandafljot,"SVARTA, BAROARDAL",Skjalfandafljot,IS
+2199,LAGARFOSS,3212500.0,4912500.0,2850.0,Lagarfljot,Lagarfljot,Lagarfljot,IS
+2200,LITH,4012500.0,3197500.0,29175.0,Meuse,Meuse,Rhine,NL
+2201,VENLO,4042500.0,3182500.0,27025.0,Meuse,Meuse,Rhine,DE
+2203,RUNKAMPEN,4002500.0,3182500.0,875.0,Meuse,BRABANTSE AA,Rhine,NL
+2205,VECHTERWEERD,4057500.0,3242500.0,3725.0,Ijssel,Vechte,Rhine,NL
+2206,TRZEBIATOW,4667500.0,3457500.0,1100.0,Rega,REGA,Rega,PL
+2207,RABASZENTMIKLOS,4882500.0,2742500.0,2525.0,Raab,Raab,Danube,HU
+2208,KURD,4957500.0,2627500.0,2125.0,Sio,Kapos,Danube,HU
+2209,DUNAALMAS,4947500.0,2772500.0,171525.0,Danube,Danube,Danube,HU
+2210,SZENDRO,5112500.0,2867500.0,1600.0,Tisa,Bodvaj,Danube,HU
+2211,NOWE DREZDENKO,4712500.0,3322500.0,16900.0,Warta,Notec,Oder,PL
+2212,PTUSZA,4772500.0,3382500.0,2000.0,Warta,Gwda,Oder,PL
+2213,KOWANOWKO,4782500.0,3307500.0,2250.0,Warta,Welna,Oder,PL
+2214,NIECHMIROW,4927500.0,3177500.0,600.0,Warta,Olesnica,Oder,PL
+2215,GRABNO,4942500.0,3192500.0,800.0,Warta,Grabia,Oder,PL
+2221,DEBE,4887500.0,3217500.0,500.0,Warta,Swedrnia,Oder,PL
+2222,RASZEWY,4842500.0,3242500.0,550.0,Warta,Lutynia,Oder,PL
+2223,KOSCIAN,4777500.0,3237500.0,1325.0,Warta,KANAL KOSCIANSKI,Oder,PL
+2224,MOSINA,4787500.0,3257500.0,1700.0,Warta,KANAL MOSINSKI,Oder,PL
+2225,KONOJAD,4762500.0,3252500.0,725.0,Warta,Mogilnica,Oder,PL
+2230,ZAGAN,4697500.0,3177500.0,3150.0,Bobr,Bobr,Oder,PL
+2231,SKWIERZYNA,4697500.0,3292500.0,30900.0,Warta,Warta,Oder,PL
+2232,KONIN,4882500.0,3267500.0,13225.0,Warta,Warta,Oder,PL
+2234,NOWA WIES PODGORNA,4857500.0,3352500.0,3300.0,Warta,Warta,Oder,PL
+2236,MIRKOW,4887500.0,3172500.0,1250.0,Warta,Prosna,Oder,PL
+2237,DRAWSKO POMORSKIE,4702500.0,3377500.0,1075.0,Warta,Drawa,Oder,PL
+2238,GOLENIOW,4642500.0,3387500.0,3275.0,"Oder, below Warta",Ina,Oder,PL
+2239,WADOWICE,5002500.0,3017500.0,825.0,"Vistula, headwaers",Skawa,Vistula,PL
+2240,NOWY SACZ,5092500.0,3002500.0,4825.0,Dunajec,Dunajec,Vistula,PL
+2241,KRASNYSTAW,5242500.0,3177500.0,2975.0,Wieprz,Wieprz,Vistula,PL
+2242,PRZEDBORZ,5012500.0,3142500.0,2475.0,Pilica,Pilica,Vistula,PL
+2243,SURAZ,5182500.0,3397500.0,3175.0,Narew,Bolshoy Kemchug,Vistula,PL
+2244,PTAKI,5102500.0,3432500.0,4075.0,Narew,Pisa,Vistula,PL
+2245,CROOM,3067500.0,3427500.0,800.0,Maigue,Maigue,Shannon,IE
+2248,MOYSTOWN,3137500.0,3497500.0,1225.0,Brosna,Brosna,Shannon,IE
+2249,DARRYCAHILL,3122500.0,3522500.0,1175.0,Suck,Suck,Shannon,IE
+2252,WOLFE TONE BRIDGE,3067500.0,3522500.0,3225.0,Corrib,Corrib,Corrib,IE
+2254,BALLYCOREY,3057500.0,3472500.0,675.0,Shannon,Fergus,Fergus,IE
+2255,LISTOWEL,3017500.0,3437500.0,650.0,Feale,Feale,Feale,IE
+2257,CATHER PARK,3117500.0,3402500.0,1600.0,Suir,Suir,Barrow,IE
+2258,NEW BRIDGE,3112500.0,3412500.0,1100.0,Suir,Suir,Barrow,IE
+2259,ENNISCORTHY,3212500.0,3397500.0,1275.0,Slaney,Slaney,Slaney,IE
+2260,PASS BRIDGE,3192500.0,3472500.0,1150.0,Barrow,BARROW,Barrow,IE
+2266,TRIM,3217500.0,3512500.0,1350.0,Boyne,Boyne,Boyne,IE
+2267,CATEZ I,4752500.0,2547500.0,9700.0,Sava,Krka,Danube,SI
+2268,RADECE,4722500.0,2562500.0,7100.0,Sava,Sava,Danube,SI
+2269,BOSANSKI NOVI,4822500.0,2457500.0,8300.0,Sava,Una,Danube,HR
+2271,SKOPJE,5262500.0,2172500.0,4650.0,"Vardar (Axios), above Bregalnica",VARDAR,Vardar,MK
+2272,ALYASHIV,6647500.0,1427500.0,675.0,Alexander,Alexander,Alexander,IL
+2273,NEAR GEDERA,6657500.0,1357500.0,575.0,Lakhish,SOREQ,Lakhish,IL
+2274,NEAR HATSERIM,6677500.0,1292500.0,1275.0,Besor,BE'ER SHEVA,Besor,IL
+2275,AGAN NAHARAYIM,6707500.0,1467500.0,53050.0,Jordan / Dead Sea,Jordan,Jordan,JO
+2280,Maydown Bridge,3242500.0,3602500.0,1000.0,Bann,Blackwater,Bann,UK
+2284,NEWFORGE,3302500.0,3612500.0,675.0,Lagan BI,LAGAN,Lagan BI,UK
+2292,Blairstone,3447500.0,3717500.0,1725.0,Clyde,Clyde,Clyde,UK
+2295,Linnbrane,3417500.0,3747500.0,800.0,Leven,Leven,Leven,UK
+2301,Drumlanrig,3447500.0,3657500.0,525.0,Nith,Nith,Nith,UK
+2303,BALLINLUIG,3487500.0,3797500.0,3100.0,Tay,Tay,Tay,UK
+2304,PITLOCHRY,3487500.0,3802500.0,2850.0,Tay,Tummel,Tay,UK
+2306,Logie Mill,3557500.0,3802500.0,725.0,Scotland,North Esk,North Esk,UK
+2308,Forteviot Bridge,3487500.0,3772500.0,800.0,Earn,Earn,Tay,UK
+2310,Bridge Of Teith,3447500.0,3767500.0,525.0,Teith,Teith,Forth,UK
+2317,BOLESIDE,3517500.0,3677500.0,1525.0,Tweed,Tweed,Tweed,UK
+2318,DRYBURGH,3527500.0,3677500.0,2150.0,Tweed,Tweed,Tweed,UK
+2320,Hutton Castle,3557500.0,3697500.0,525.0,Tweed,WHITEADDER WATER,Tweed,UK
+2322,PARK,3577500.0,3837500.0,1800.0,Dee,Dee,Dee,UK
+2326,ORMISTONE MILL,3537500.0,3672500.0,1150.0,Tweed,Teviot,Tweed,UK
+2333,Ashbrook,3487500.0,3412500.0,625.0,Weaver,Weaver,Weaver,UK
+2337,Morwick,3582500.0,3637500.0,600.0,Northumbria,COQUET,Coquet,UK
+2341,Camerton,3457500.0,3587500.0,675.0,R. Derwent,DERWENT (TRIB. IRISH SEA),Derwent,UK
+2346,Buttercrambe,3612500.0,3492500.0,1625.0,Ouse,Derwent,Ouse,UK
+2352,SOUTH PARK,3582500.0,3542500.0,1350.0,Tees,Skerne,Tees,UK
+2354,ADDINGHAM,3547500.0,3477500.0,600.0,Ouse,Aire,Ouse,UK
+2356,FLINT MILL WEIR,3572500.0,3482500.0,850.0,Ouse,Wharfe,Ouse,UK
+2357,TADCASTER,3587500.0,3472500.0,1100.0,Ouse,Wharfe,Ouse,UK
+2358,WESTWICK LODGE,3572500.0,3502500.0,875.0,Ouse,Ure,Ouse,UK
+2359,CRAKEHILL,3582500.0,3507500.0,1425.0,Ouse,Swale,Ouse,UK
+2362,Broken Scar,3567500.0,3552500.0,850.0,Tees,Tees,Tees,UK
+2363,Mattersey,3597500.0,3417500.0,500.0,Trent,Idle,Trent,UK
+2364,St. Marys Bridge,3552500.0,3377500.0,1100.0,Trent,Derwent,Trent,UK
+2365,Marston On Dove,3537500.0,3367500.0,875.0,Trent,Dove,Trent,UK
+2373,Sunderland Bridge,3572500.0,3572500.0,625.0,Wear,Wear,Wear,UK
+2376,ABBEY HEATH,3692500.0,3297500.0,725.0,Great Ouse,Little Ouse,Great Ouse,UK
+2378,BEDFORD,3602500.0,3277500.0,1475.0,Great Ouse,Bedford Ouse,Great Ouse,UK
+2379,ROXTON,3612500.0,3277500.0,1650.0,Great Ouse,Bedford Ouse,Great Ouse,UK
+2388,Blunham,3617500.0,3272500.0,500.0,Great Ouse,Ivel,Great Ouse,UK
+2390,RUSHES LOCK,3677500.0,3222500.0,1025.0,Chelmer,Chelmer,Chelmer,UK
+2391,LANGHAM,3697500.0,3247500.0,625.0,R. Stour,STOUR (E. ENGLAND),Stour,UK
+2403,Gunnislake,3317500.0,3147500.0,925.0,Tamar,TAMAR,Tamar,UK
+2405,Torrington,3332500.0,3192500.0,675.0,R. Torridge,TORRIDGE,Torridge,UK
+2406,UMBERLEIGH,3347500.0,3187500.0,825.0,Taw,Taw,Taw,UK
+2418,Swallowfield,3562500.0,3197500.0,500.0,"Thames, above Lea",BLACKWATER (S. ENGLAND),Thames,UK
+2420,Enslow Mill,3547500.0,3257500.0,650.0,"Thames, above Lea",Cherwell,Thames,UK
+2421,Theale,3552500.0,3202500.0,1125.0,Kennet,Kennet,Thames,UK
+2425,Broadlands,3517500.0,3162500.0,1050.0,Test,Test,Test,UK
+2428,HIGHBRIDGE-ALLBROOK,3522500.0,3152500.0,500.0,Itchen,Itchen,Itchen,UK
+2431,EYNSHAM,3542500.0,3242500.0,1575.0,Thames,Thames,Thames,UK
+2432,KINGSTON,3567500.0,3207500.0,6475.0,Thames,Thames,Thames,UK
+2433,DAYS WEIR,3547500.0,3227500.0,3425.0,Thames,Thames,Thames,UK
+2447,Teston,3652500.0,3172500.0,1325.0,Medway,MEDWAY,Medway,UK
+2450,MANLEY HALL,3452500.0,3392500.0,1075.0,R. Dee,DEE (WALES),Dee,UK
+2455,Dyfi Bridge,3387500.0,3367500.0,525.0,Afon Dyfi,DYFI,Afon Dyfi,UK
+2460,Chain Bridge,3427500.0,3267500.0,900.0,Usk,Usk,Usk,UK
+2471,BROOK DOWLES,3487500.0,3312500.0,4750.0,"Severn, headwaters",Severn,Severn,UK
+2480,AKCASUSURLUK,5877500.0,2102500.0,21725.0,Kocacay,KOCASU,Kocacay,TR
+2481,TUNCBILEK (KUECUEKILET),5982500.0,2052500.0,1700.0,Kocacay,ORHANELI CAYI,Kocacay,TR
+2482,MANISA,5832500.0,1907500.0,15850.0,Gediz,Gediz,Gediz,TR
+2483,SOEKE,5857500.0,1807500.0,26475.0,Buyuk Menderes,BUYUK MENDERES,Buyuk Menderes,TR
+2484,KAYIRLI,5922500.0,1782500.0,1175.0,Buyuk Menderes,CINE CAYI,Buyuk Menderes,TR
+2487,DERECIKOEREN (DERECIKVIRAN),6022500.0,2142500.0,950.0,Sakarya,FILYOS CAYI,Sakarya,TR
+2488,KALEBOGAZI,6422500.0,2172500.0,3975.0,Kizilirmak,KANAK CAYI,Kizilirmak,TR
+2489,INOEZUEKOSACA,6442500.0,2397500.0,80000.0,Kizilirmak,KIZILIRMAK,Kizilirmak,TR
+2490,CARSAMBA,6517500.0,2407500.0,36025.0,Yesil,YESILIRMAK,Yesil,TR
+2491,SIMSIRLI,6762500.0,2472500.0,1025.0,Black sea coastal and small river basins,Iyidere,Iyidere,TR
+2492,KARSIKOEY,6892500.0,2592500.0,19950.0,Coruh,CORUHSUYU,Coruh,TR
+2493,SOEYLEMEZ (MESCITLI),6972500.0,2422500.0,2550.0,KURA,ARAS RIVER,Kura,TR
+2494,BESKONAK,6192500.0,1822500.0,1950.0,Eastern Mediterranean coastal catchments and smal*,KOEPRUE,Koeprue,TR
+2495,KIRKYALAN,6392500.0,1817500.0,4075.0,Goksu,ERMENEK CAYIR,Goksu,TR
+2496,KARAHACILI,6437500.0,1812500.0,11150.0,Goksu (southern branch),GOEKSU NEHRI,Goksu,TR
+2497,YAKAPINAR (MISIS),6572500.0,1922500.0,11275.0,Ceyhan,CEYHAN NEHRI,Ceyhan,TR
+2498,HIMMETLI,6582500.0,2032500.0,2475.0,Ceyhan,GOEKSUN (TRIB. SEYHAN),Ceyhan,TR
+2499,TANIR,6632500.0,2117500.0,975.0,Orontes,Hurman,Orontes,TR
+2500,DEMIRKOEPRUE,6652500.0,1872500.0,56275.0,Orontes,ASI NEHRI,Orontes,TR
+2501,KEBAN,6767500.0,2212500.0,63350.0,Euphrates,Euphrates,Tigris & Euphrates,TR
+2502,BAGISTAS,6722500.0,2277500.0,15275.0,Euphrates,Euphrates,Tigris & Euphrates,TR
+2503,PALU,6867500.0,2242500.0,25375.0,Euphrates,MURAT NEHRI,Tigris & Euphrates,TR
+2504,ASAGI KAGDARIC,6882500.0,2402500.0,2825.0,Euphrates,KARASU CAYI,Tigris & Euphrates,TR
+2505,BESIRI,7007500.0,2212500.0,2500.0,Tigris,YANARSU CAYI,Tigris & Euphrates,TR
+2516,SOLBERGFOSS,4382500.0,4057500.0,40450.0,"Glomma, below Lagen",Glomma,Glomma,NO
+2517,HAGA BRU,4332500.0,4442500.0,3150.0,Gauldalen,Gaula,Gaula,NO
+2520,UNKERVATN,4512500.0,4717500.0,725.0,Vefsna,Vefsna,Vefsna,NO
+2526,ORSOVA (1971:DROBATA-TURNU SEVERIN),5307500.0,2482500.0,569700.0,Danube,Danube,Danube,RS
+2527,HIRSOVA,5732500.0,2562500.0,686920.0,Danube,Danube,Danube,RO
+2528,NEW JERASH BRIDGE,6742500.0,1427500.0,3975.0,Jordan / Dead Sea,NAHR AZ ZARQA,Jordan,JO
+2529,UTSJOKI,4977500.0,5282500.0,12375.0,Tana,Tenojoki,Tana,NO
+2532,NOVO SELO,5347500.0,2422500.0,577398.0,Danube,Danube,Danube,RO
+2533,SVISTOV,5552500.0,2407500.0,643648.0,Danube,Rhone,Danube,BG
+2534,RUSE,5597500.0,2447500.0,661420.0,Danube,Danube,Danube,RO
+2535,SILISTRA,5697500.0,2497500.0,682920.0,Danube,Danube,Danube,RO
+2536,KALSINKOSI,4972500.0,4302500.0,26275.0,"Kokemaenjoki, below Vanajanselka catchment",Kokemaenjoki,Kokem,FI
+2538,TUNKKARI,5002500.0,4557500.0,1400.0,Perhonjoki,Perhonjoki,Perhonjoki,FI
+2542,LOHJANJARVI-PELTOKOSKI,5087500.0,4197500.0,2225.0,Gulf of Finland,KARJAANJOKI,Kymijoki - Gulf of Finland,FI
+2543,MARINO POLE,5437500.0,2132500.0,10700.0,Strimonas,Struma,Strimonas,BG
+2544,KHADZHIDIMOVO,5472500.0,2152500.0,2325.0,Nestos,Mesta,Nestos,BG
+2546,AHLERGAARDE,4247500.0,3647500.0,1075.0,Skern,SKJERN A,Skern,DK
+2548,TVILUMBRO,4302500.0,3682500.0,1250.0,Gudena,Gudena,Gudena,DK
+2551,STAVNAGER,4252500.0,3582500.0,650.0,Ribe,RIBE A,Ribe,DK
+2556,HOLLOESE MOELLE,4422500.0,3582500.0,750.0,Susa,Susa,Susa,DK
+2560,"BASEL, SCHIFFLAENDE",4137500.0,2722500.0,36275.0,Rhine,Rhine,Rhine,CH
+2562,"JONSCHWIL, MUEHLAU",4252500.0,2697500.0,525.0,Thur,Thur,Rhine,CH
+2564,MARTINSBRUCK,4347500.0,2632500.0,1975.0,Inn,Inn,Danube,CH
+2565,MIZHHIR''YA (MEZHGOR'YE),5312500.0,2912500.0,625.0,Tisa,Tisza,Danube,UA
+2566,RAKHIV,5372500.0,2872500.0,1200.0,Tisa,Tisza,Danube,UA
+2568,ZILPAMUSIS,5212500.0,3762500.0,4950.0,Musa,MUSA,Lielupe,LT
+2569,KAMENKA BUGSKAYA,5347500.0,3097500.0,2400.0,Narew,Bug,Vistula,UA
+2587,YENA,5212500.0,5082500.0,1850.0,Yena,YENA,Yena,RU
+2588,URA-GUBA,5212500.0,5277500.0,575.0,Ura,Ura,Ura,RU
+2589,"OKTIABRSKY RAILWAY,KM 1429",5242500.0,5237500.0,4325.0,Kola,Kola,Kola,RU
+2590,VERKHNETULOMSKIY GES,5202500.0,5192500.0,19950.0,Kola,Lotta,Kola,RU
+2591,PAIALKA,5367500.0,5037500.0,5400.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",UMBA,Umba,RU
+2592,PECHENGA (PETSAMO),5142500.0,5287500.0,1650.0,Pechenga,Pechenga,Pechenga,RU
+2594,KM 15.5,5167500.0,5282500.0,950.0,Titovka,TITOVKA,Titovka,RU
+2596,SEREBRYANSKIY GES 1,5332500.0,5272500.0,8825.0,Voronja,Voronja,Voronja,RU
+2597,KANEVKA,5577500.0,5167500.0,1225.0,Ponoy,PONOY,Ponoy,RU
+2598,CHAPOMA,5597500.0,5057500.0,1550.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",CHAPOMA,Chapoma,RU
+2599,CHAVANGA,5547500.0,5027500.0,1025.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",CHAVANGA,Chavanga,RU
+2600,VARZUGA,5487500.0,5037500.0,18875.0,Varzuga,VARZUGA,Varzuga,RU
+2603,KOLVITSA,5307500.0,5052500.0,1425.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",KOLVITSA,Kolvitsa,RU
+2605,OREKULA,5177500.0,4017500.0,4850.0,Parnu,Parnu,Parnu,EE
+2606,NYUKHCHA,5577500.0,4772500.0,1225.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",NYUKHCHA,Nyukhcha,RU
+2607,MALOSHUYKA,5642500.0,4767500.0,750.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",MALOSHUYKA,Maloshuyka,RU
+2609,TARTU,5292500.0,4032500.0,8325.0,Emajogi,Emajogi,Narva,EE
+2610,OSINKINA,5472500.0,3932500.0,3175.0,Velikaya,Sorot,Narva,RU
+2611,NARVA (HEP),5342500.0,4152500.0,57875.0,Narva,Narva,Narva,EE
+2612,TOLMACHEVO,5452500.0,4132500.0,7075.0,Luga,LUGA,Luga,RU
+2613,NOVOSARATOVKA,5427500.0,4332500.0,210225.0,Lake Ladoga sub-catchment,NEVA,Neva,RU
+2615,DOMACHEVO,5642500.0,4277500.0,1300.0,Syas,DYMKA (TRIB. NEVA),Syas,RU
+2616,OLONETS,5542500.0,4412500.0,1300.0,"Lake Ladoga, sub-catchment",OLONKA,Olonka,RU
+2619,SUMSKIY POSAD,5527500.0,4792500.0,2050.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",SUMA (TRIB. WHITE SEA),Suma,RU
+2620,PUTKINSKAYA GES,5462500.0,4857500.0,30800.0,"Kem, below Kepa",KEM (TRIB. WHITE SEA),Kem,RU
+2622,SHUYERETSKOYE,5477500.0,4832500.0,650.0,Teno,SHUYA,Shuya,RU
+2623,KNYAZHEGUBSKOYE GES,5297500.0,5007500.0,22400.0,Tumcha,KOVDA,Tumcha,RU
+2624,PONGOMA,5432500.0,4892500.0,1675.0,"Teno-, Naatamo- and Paatsjoki (Finnish part)",PONGOMA,Pongoma,RU
+2625,NAGELMUIZA (STARINI),5197500.0,3852500.0,725.0,"Daugava, below Aiviekste",MAZA JUGLA,Daugava,LV
+2627,BELYY,5732500.0,3867500.0,1625.0,Mezha,Obsha,Daugava,RU
+2629,SANTAKAI,5327500.0,3682500.0,725.0,Neris,Vilnia,Nemunas,LT
+2630,VILNIUS,5307500.0,3617500.0,625.0,Neris,Vilnia,Nemunas,LT
+2632,KARTENA,5037500.0,3707500.0,1200.0,Minija,Minija,Nemunas,LT
+2634,KUDIRKOS NAUMIESTIS,5147500.0,3592500.0,3100.0,Sesupe,Sesupe,Nemunas,LT
+2635,DASIUNAI,5197500.0,3647500.0,5600.0,Nevezis,Nevezis,Nemunas,LT
+2637,STOWBTSY (STOLBTSY),5427500.0,3497500.0,2925.0,"Nemunas, headwaters",Nemunas,Nemunas,BY
+2662,GROMOVKA,5562500.0,3112500.0,1625.0,Pripyat,Sluch,Dnieper,UA
+2664,USKOSY,5737500.0,3667500.0,2700.0,Sozh,Sozhenka,Dnieper,RU
+2666,BESEDINA,6102500.0,3502500.0,750.0,Desna,Rat,Dnieper,RU
+2667,KRUPODERENTSY,5702500.0,3117500.0,575.0,Ros,Ros,Dnieper,UA
+2668,BARYSHIVKA,5812500.0,3247500.0,5450.0,Trubezh,Trubezh,Dnieper,UA
+2669,PEREYASLAV-KHMELNYTSKYY,5832500.0,3217500.0,7700.0,Trubezh,Trubezh,Dnieper,UA
+2670,NOVOGOROZHENOYE,5977500.0,2962500.0,6575.0,Bug,Inhul,Bug,UA
+2674,BALTI (BELTSY),5647500.0,2902500.0,1125.0,Reut,Reut,Dniester,MD
+2679,TOKMAK,6222500.0,3017500.0,800.0,Azov Sea coastal areas and small basins,Molochna,Molochna,UA
+2681,TIKHOVSKY,6482500.0,2867500.0,47825.0,Kuban,Kuban,Kuban,RU
+2682,KRASNODAR,6537500.0,2872500.0,45375.0,Kuban,Kuban,Kuban,RU
+2685,GORYACHIY KLYUCH,6572500.0,2842500.0,850.0,Kuban,Psekoups,Kuban,RU
+2686,KRASNO-OKTIABRSKIY,6657500.0,2837500.0,1800.0,Kuban,Kurdzhips,Kuban,RU
+2687,TEBERDA,6807500.0,2797500.0,575.0,Kuban,Teberda,Kuban,RU
+2688,IMENI KOSTA KHETAGUROVA,6807500.0,2842500.0,3875.0,Kuban,Kuban,Kuban,RU
+2691,VLADIKAVKAZ (ORDZHONIKIDZE),7042500.0,2857500.0,1500.0,Terek,Terek,Terek,RU
+2692,GUERGUEBIL,7237500.0,2882500.0,1550.0,Terek,KAZIKUMUKHSKOYE KOYSU,Terek,RU
+2693,LUCHEK,7297500.0,2817500.0,1450.0,Caspian sea coastal catchments and small basins,KARA-SAMUR,Kara,RU
+2697,JIRKHVA (DZIRKHVA),6717500.0,2732500.0,1525.0,Black sea coastal and small river basins,BZIPI,Bzipi,GE
+2699,KHIDMAGHALA,6877500.0,2657500.0,1175.0,Black sea coastal and small river basins,Supsa,Supsa,GE
+2700,KVEMO NATANEBI,6877500.0,2642500.0,625.0,Black sea coastal and small river basins,NATANEBI,Natanebi,GE
+2701,NAMOKHVANI,6927500.0,2727500.0,3550.0,Rioni,RIONI,Rioni,GE
+2702,KAPS,7072500.0,2607500.0,1000.0,Aras,Akhuryani Jrambar,Kura,AM
+2703,KORINTA,7067500.0,2767500.0,525.0,KURA,KSANI,Kura,GE
+2705,GUGARK (MEGRUT),7132500.0,2627500.0,1100.0,KURA,DEBEDA,Kura,AM
+2707,EYVAZLI,7337500.0,2562500.0,2200.0,Aras,VOROTAN,Kura,AZ
+2709,Kresna,5412500.0,2167500.0,7025.0,Strimonas,Strimonas,Strimonas,BG
+2710,Marino Pole,5432500.0,2132500.0,10225.0,Strimonas,Struma,Strimonas,BG
+2711,Strumeshnitza,5412500.0,2127500.0,1650.0,Strimonas,Strumeshnitza,Strimonas,BG
+2712,Bobosheva,5392500.0,2207500.0,4400.0,Strimonas,Strimonas,Strimonas,BG
+2713,Ribarce,5357500.0,2232500.0,825.0,Strimonas,Dragovistica,Strimonas,RS
+2716,Dupnitza,5397500.0,2217500.0,725.0,Strimonas,Dzherman,Strimonas,BG
+2721,Brandyl nad labem,4647500.0,3022500.0,13275.0,"Elbe, below Jizera",Elbe,Elbe,CZ
+2722,Vyss_Brott_Vitara,4642500.0,2847500.0,1150.0,Vltava,Vltava,Elbe,CZ
+2723,Roudn_Malsa,4647500.0,2887500.0,3050.0,Vltava,Malse,Elbe,CZ
+2724,katovice_otava,4602500.0,2912500.0,1325.0,Vltava,Otava,Elbe,CZ
+2725,herman_blanice,4622500.0,2912500.0,775.0,Vltava,Blanice,Elbe,CZ
+2726,Miziya,5437500.0,2382500.0,975.0,Danube,Skat,Danube,BG
+2727,Stenovice Uhlava,4567500.0,2957500.0,900.0,Vltava,Uhlava,Elbe,CZ
+2728,s.Svode,5447500.0,2327500.0,1325.0,Danube,Bebresh,Danube,BG
+2729,Plzen Koterov_uslava,4572500.0,2957500.0,700.0,Vltava,Asslava,Elbe,CZ
+2731,Sadovets ,5487500.0,2357500.0,1800.0,Danube,Vit,Danube,BG
+2732,Lovech ,5517500.0,2347500.0,1225.0,Danube,Osam,Danube,BG
+2734,Moravicany Morava,4827500.0,2977500.0,2275.0,Morava,Morava,Danube,CZ
+2735,Lostice Trebuvka,4817500.0,2982500.0,550.0,Morava,Trebuvka,Danube,CZ
+2736,STANCENI,5482500.0,2767500.0,1400.0,Tisa,Creanga,Danube,RO
+2737,GLODENI,5432500.0,2727500.0,3900.0,Tisa,Mures,Danube,RO
+2738,LUDUS,5392500.0,2692500.0,6600.0,Tisa,Mures,Danube,RO
+2739,GELMAR,5347500.0,2627500.0,20250.0,Tisa,Mures,Danube,RO
+2740,BRANISCA,5307500.0,2617500.0,24650.0,Tisa,Mures,Danube,RO
+2741,SAVARSIN,5262500.0,2622500.0,25925.0,Tisa,Mures,Danube,RO
+2743,RADNA,5222500.0,2622500.0,26900.0,Tisa,Mures,Danube,RO
+2744,BECHET,5437500.0,2397500.0,601148.0,Danube,Danube,Danube,BG
+2746,OLTENITA,5642500.0,2472500.0,676895.0,Danube,Dadilovat,Danube,RO
+2747,BRAILA,5717500.0,2632500.0,709545.0,Danube,Danube,Danube,RO
+2748,ISACCEA,5757500.0,2642500.0,785768.0,Danube,Danube,Danube,UA
+2749,Tarnava Mica - BLAJ,5392500.0,2667500.0,2050.0,Tisa,Tarnava Mare,Danube,RO
+2750,Janov Moravsk_dyje,4722500.0,2887500.0,525.0,Morava,Thaya,Danube,CZ
+2751,STANCA AVAL,5602500.0,2887500.0,13275.0,Prut,Prut,Danube,RO
+2752,UNGHENI,5657500.0,2832500.0,21475.0,Prut,Prut,Danube,MD
+2753,Vranov Hamry_dyje,4752500.0,2877500.0,2375.0,Morava,Thaya,Danube,CZ
+2754,Pt_cov_Jihlava,4757500.0,2912500.0,1175.0,Morava,Klapovsky potok,Danube,CZ
+2755,Dupnitza,5482500.0,2237500.0,1025.0,"Evros, above Tundzha",Evros,Evros,BG
+2756,s.Rajdavica,5367500.0,2227500.0,3075.0,Strimonas,Strimonas,Strimonas,BG
+2757,Boboshevo,5392500.0,2212500.0,4300.0,Strimonas,Strimonas,Strimonas,BG
+2758,Mpole,5437500.0,2127500.0,10925.0,Strimonas,Strimonas,Strimonas,BG
+2762,Kralje,4787500.0,2437500.0,2700.0,Sava,Una,Danube,BA
+2763,MaglajBosna,4962500.0,2422500.0,6850.0,Sava,Bosna,Danube,BA
+2764,Reljevo,4987500.0,2347500.0,1300.0,Sava,Bosna,Danube,BA
+2765,Zavidovici,4972500.0,2412500.0,6575.0,Sava,Bosna,Danube,BA
+2766,La Meuse à Verdun [Pont Chaussée],3982500.0,2912500.0,3400.0,Meuse,Meuse,Rhine,FR
+2768,La Meuse à Chooz [Trou du Diable],3952500.0,3017500.0,10500.0,Meuse,Meuse,Rhine,FR
+2769,Le Lunain à Épisy,3782500.0,2827500.0,3600.0,Loing,Loing,Seine,FR
+2770,La Loire [Totale] à Nantes [Roche Maurice],3442500.0,2742500.0,115825.0,Loire,Loire,Loire,FR
+2771,L'Adour à Saint-Vincent-De-Paul,3432500.0,2357500.0,7800.0,Adour,Adour,Adour,FR
+2772,Le Doubs à Neublans-Abergement,3962500.0,2657500.0,7500.0,Saone,Doubs,Rhone,FR
+2773,Berg,4297500.0,2792500.0,4050.0,Danube,Danube,Danube,DE
+2774,Wels,4637500.0,2797500.0,3775.0,Traun,Traun,Danube,AT
+2775,ZahorskaVes,4832500.0,2827500.0,25925.0,Morava,March,Danube,AT
+2776,La Garonne a Verdun sur Garonne,3617500.0,2342500.0,13800.0,"Garonne, below Save",Garonne,Garonne,FR
+2777,Pougny,4022500.0,2572500.0,10050.0,"Rhone, headwaters",Rhone,Rhone,CH
+2778,Duero En San Esteban - Navapalos,3227500.0,2142500.0,6425.0,Douro,Douro,Douro,ES
+2779,Duero En Herrera De Duero,3102500.0,2172500.0,12750.0,Douro,Douro,Douro,ES
+2780,Guadiana En Luciana,3082500.0,1882500.0,21325.0,Guadiana,Guadiana,Guadiana,ES
+2781,Guadiana En VillanuevaDeLaSerena,2957500.0,1912500.0,35100.0,Guadiana,Guadiana,Guadiana,ES
+2782,Guadiana En AzudDeBadajoz,2852500.0,1922500.0,48525.0,Guadiana,Guadiana,Guadiana,ES
+2783,Zujar En Villanueva De La Serena,2967500.0,1902500.0,8325.0,Zujar,Zujar,Guadiana,ES
+2784,Jucar En El Picazo,3282500.0,1907500.0,3250.0,Jucar,Jucar,Jucar,ES
+2785,Jucar En Alcala Del Jucar,3342500.0,1862500.0,10700.0,Jucar,Jucar,Jucar,ES
+2786,Mijares En Villarreal,3452500.0,1932500.0,2600.0,Mijares,Mijares,Mijares,ES
+2787,Carignano,4137500.0,2417500.0,3825.0,Po,Po,Po,IT
+2788,Palestro,4202500.0,2457500.0,3025.0,Sesia,Sesia,Po,IT
+2789,Candoglia,4197500.0,2537500.0,1625.0,Ticcino,Lago di Mergozzo,Po,IT
+2790,Spessa,4277500.0,2442500.0,39000.0,Po,Po,Po,IT
+2791,Borgoforte,4387500.0,2437500.0,63275.0,Po,Po,Po,IT
+2792,Segura En Almadenes,3307500.0,1762500.0,7475.0,Segura,Segura,Segura,ES
+2794,Segura En Beniel,3347500.0,1727500.0,14325.0,Segura,Segura,Segura,ES
+2795,Tajo En Trillo,3262500.0,2042500.0,3200.0,Tagus,Tagus,Tagus,ES
+2797,Jarama En Mejorada Del Campo,3172500.0,2022500.0,6975.0,Jarama,Jarama,Tagus,ES
+2798,Henares En Espinillos,3182500.0,2027500.0,4000.0,Jarama,Henares,Tagus,ES
+2799,Turia o Guadalaviar En Teruel,3377500.0,1982500.0,2425.0,Turia,Turia,Turia,ES
+2800,Turia o Guadalaviar En Zagra,3367500.0,1927500.0,4050.0,Turia,Turia,Turia,ES
+2801,Turia o Guadalaviar En LaPresa,3422500.0,1882500.0,6300.0,Turia,Turia,Turia,ES
+2803,SazavaPorice,4647500.0,2982500.0,4250.0,Vltava,Sazava,Elbe,CZ
+2804,Camburg,4442500.0,3107500.0,3925.0,Saale,Saale,Elbe,DE
+2805,ANGERMANAELVEN,4687500.0,4472500.0,31000.0,Angermanelven,Sollefteae Krv,Angermanalven,SE
+2806,Esera En Graus,3522500.0,2177500.0,900.0,Segre,Esera,Ebro,ES
+2809,Esca En Sigues,3417500.0,2237500.0,500.0,Aragon,Esca,Ebro,ES
+2810,Ega En Estella,3337500.0,2252500.0,1000.0,Ega,Ega,Ebro,ES
+2812,Alcanadre En Lascellas,3487500.0,2172500.0,550.0,Segre,Alcanadre,Ebro,ES
+2813,Noguera Ribagorzana En Pont De Suert,3557500.0,2192500.0,525.0,Segre,Noguera Ribagorzana,Ebro,ES
+2818,Hron,4967500.0,2787500.0,5350.0,Hron,Hron,Danube,sk
+2821,Casalecchio Chiusa,4422500.0,2372500.0,1050.0,Reno,Reno,Reno,IT
+2822,Farigliano,4152500.0,2372500.0,1450.0,Tanaro,Tanaro,Po,IT
+2823,Asti,4187500.0,2417500.0,4475.0,Tanaro,Tanaro,Po,IT
+2824,Fossano,4142500.0,2387500.0,1400.0,Tanaro,Stura Demonte,Po,IT
+2825,Alessandria,4212500.0,2417500.0,2700.0,Tanaro,Bormida,Po,IT
+2826,Cassine,4207500.0,2402500.0,1625.0,Tanaro,Bormida,Po,IT
+2827,Isola S.Antonio,4227500.0,2437500.0,25575.0,Po,Po,Po,IT
+2828,CASTIGLIONE TORINESE,4147500.0,2447500.0,7575.0,Po,Po,Po,IT
+2829,HONE PONTE SR DORA,4142500.0,2507500.0,2825.0,Tanaro,Baltea,Po,IT
+2830,QUINTO VERCELLESE,4192500.0,2477500.0,1025.0,Sesia,Cervo,Po,IT
+2832,GUADIEL MEN,3102500.0,1777500.0,750.0,Grande,Grande,Guadalquivir,ES
+2834,GUADALEN 5004,3137500.0,1782500.0,1350.0,Guadalen,Guadalen,Guadalquivir,ES
+2835,GIRIBAILE 5070,3137500.0,1777500.0,1375.0,Guadalimar,Guadalen,Guadalquivir,ES
+2836,RUMBLAR 5005,3107500.0,1782500.0,650.0,Grande,Grande,Guadalquivir,ES
+2838,YEGUAS 5049,3072500.0,1787500.0,675.0,Guadajoz,Yeguas,Guadalquivir,ES
+2839,GUADALMELLATO 5062,3032500.0,1787500.0,1275.0,Guadajoz,Gato,Guadalquivir,ES
+2840,SanRafaelDeNavallana 5051,3032500.0,1782500.0,1300.0,Guadajoz,Gato,Guadalquivir,ES
+2841,VADOMOJON 5066,3062500.0,1732500.0,1250.0,Guadajoz,Guadajoz,Guadalquivir,ES
+2842,PUENTE NUEVO 5036,3012500.0,1792500.0,1075.0,Guadajoz,Guadiato,Guadalquivir,ES
+2843,BEMBEZAR 5012,2982500.0,1782500.0,1700.0,Guadajoz,Bembezar,Guadalquivir,ES
+2844,IZNAJAR 5026,3042500.0,1697500.0,4700.0,Genil,Genil,Guadalquivir,ES
+2845,HUESNA 5056,2937500.0,1772500.0,500.0,Corbones,Huesna,Guadalquivir,ES
+2846,EL PINTADO 5011,2922500.0,1802500.0,1175.0,Viar,Viar,Guadalquivir,ES
+2847,ALCALA DEL RIO 5035,2912500.0,1752500.0,47275.0,Guadiamar,Guadalquivir,Guadalquivir,ES
+2848,ZUFRE 5054,2887500.0,1787500.0,850.0,Guadiamar,Huelva,Guadalquivir,ES
+2849,MEQUINENZA,3497500.0,2087500.0,57925.0,Ebro,Ebro,Ebro,ES
+2851,GRADO I,3512500.0,2172500.0,2175.0,Segre,Cinca,Ebro,ES
+2853,RIALB,3597500.0,2137500.0,2950.0,Segre,Segre,Ebro,ES
+2854,ITOIZ ,3392500.0,2257500.0,525.0,Aragon,Irati,Ebro,ES
+2855,RIBARROJA,3512500.0,2072500.0,81000.0,Ebro,Ebro,Ebro,ES
+2857,ESCALES,3557500.0,2182500.0,700.0,Segre,Noguera Ribagorzana,Ebro,ES
+2858,BARASONA-JOAQUIN COSTA,3522500.0,2167500.0,1550.0,Segre,Esera,Ebro,ES
+2859,ZUJAR,2982500.0,1897500.0,7625.0,Zujar,Zujar,Guadiana,ES
+2860,ORELLANA,2977500.0,1902500.0,26425.0,Guadiana,Guadiana,Guadiana,ES
+2861,Ciguela En Villafranca De Los Caballeros,3177500.0,1917500.0,3275.0,Ciguela,Ciguela,Guadiana,ES
+2862,Zancara En Alcazar,3187500.0,1902500.0,5775.0,Ciguela,Zancara,Guadiana,ES
+2863,Lempaala plus Kuokkalankoski,5057500.0,4322500.0,8625.0,Kokem,Kuokkalankoski,Kokem,FI
+2864,Vilppulankoski,5067500.0,4402500.0,2425.0,Kokem,Savilahti,Kokem,FI
+2865,Muroleenkoski,5052500.0,4377500.0,6150.0,Kokem,Kokemaenjoki,Kokem,FI
+2866,Hartolankoski,5002500.0,4307500.0,21450.0,Kokem,Liekovesi,Kokem,FI
+2867,Loimijoki Maurialankoski,5002500.0,4287500.0,2650.0,Kokem,Loimijoki,Kokem,FI
+2868,Lankoski,4937500.0,4352500.0,2900.0,Kokemaenjoki-Archipelago Sea-Bothnian Sea,Merikarvianjoki,Karvianjoki,FI
+2869,Perus,4917500.0,4397500.0,1225.0,Isojoki,LAPVAEAERTINJOKI,Isojoki,FI
+2870,Allmanningsforsen,4907500.0,4417500.0,925.0,Narpionjoki,Narpion,Narpionjoki,FI
+2871,Kauhajoen saanNpato,4962500.0,4442500.0,900.0,Kyronjoki,Kyronjoki,Kyronjoki,FI
+2872,Jalasjoen saanNpato,4967500.0,4442500.0,850.0,Kyronjoki,Kyronjoki,Kyronjoki,FI
+2873,Kaitfors,4977500.0,4577500.0,2325.0,Perhonjoki,Perhon,Perhonjoki,FI
+2874,Lankela,5022500.0,4707500.0,4100.0,Siikajoki,Siikajoki,Siikajoki,FI
+2875,Lieksanjoki Lieksankoski,5312500.0,4607500.0,8100.0,Neva,Lieksanjoki,Neva,FI
+2876,Koitajoki Lylykoski,5362500.0,4567500.0,3875.0,Neva,Saarilahti,Neva,FI
+2877,Onkivesi Viannonkoski,5187500.0,4557500.0,5800.0,Neva,Ahkiolahden kanava,Neva,FI
+2878,Kuolimo-luusua,5267500.0,4367500.0,1050.0,Neva,Saimaa,Neva,FI
+2879,Karnajarvi Kellankoski,5122500.0,4537500.0,1575.0,"Kymijoki, Keitele catchment",Rauskajarvi,Kymijoki,FI
+2880,Kiimasjarvi Hietamankoski,5117500.0,4477500.0,2950.0,"Kymijoki, Keitele catchment",Kymijoki,Kymijoki,FI
+2881,Hankavesi-luusua,5177500.0,4492500.0,5025.0,Kymijoki,Hancavesi,Kymijoki,FI
+2882,Jaasjarvi-luusua,5162500.0,4367500.0,1600.0,Kymijoki,Tainionvirta,Kymijoki,FI
+2883,Mankala,5202500.0,4307500.0,28225.0,Kymijoki,Kymijoki,Kymijoki,FI
+2884,Verla,5212500.0,4322500.0,5825.0,Puulavesi - Suonne,Iso-Kamponen,Kymijoki,FI
+2885,Vaatajansuvanto,5147500.0,4812500.0,4150.0,Iijoki,Iijoki,Iijoki,FI
+2886,Jaurakkajarvi-luusua,5137500.0,4782500.0,2550.0,Iijoki,Jaurakkajarvi,Iijoki,FI
+2887,Livojoki Hanhikoski,5102500.0,4807500.0,2150.0,Iijoki,Livojoki,Iijoki,FI
+2888,Oulankajoki,5187500.0,4927500.0,2100.0,Oulankajoki,KOUTAJOKI,Tumcha,FI
+2889,Kitkajoki Kayla,5177500.0,4917500.0,1800.0,Oulankajoki,Kitkajoki,Tumcha,FI
+2890,TORSEBRO KRV [POWERSTATION] ON HELGE A,4577500.0,3672500.0,3600.0,Helge,Helge,Helge,SE
+2891,GRANSEL,4787500.0,4782500.0,7050.0,Pitealven,Pitealven,Pitealven,SE
+2892,GRADA KRV,4597500.0,4177500.0,12175.0,Osterdal,Osterdalaven,Dal,SE
+2893,MOCKFJaRD KRV,4597500.0,4167500.0,8625.0,Vasterdal,Vasterdal,Dal,SE
+2894,SaFFLE DAMM,4487500.0,4007500.0,4825.0,Glafsfjord,Byalven,Gota,SE
+2895,EDSVALLA KRV,4502500.0,4037500.0,4150.0,Norsa,Norsalven,Gota,SE
+2896,HIssMOFORS KRV,4552500.0,4477500.0,12300.0,Indals,Indals,Indalsalven,SE
+2897,HARRSELE KRV,4787500.0,4577500.0,13650.0,Umealven,Umealven,Umealven,SE
+2898,YNGEREDSFORSEN,4492500.0,3777500.0,2625.0,Atran,Atran,Atran,SE
+2899,BJoRNA KRV,4747500.0,4522500.0,3050.0,Gidealven,Gide,Gidealven,SE
+2900,oSTAVALLSELET,4607500.0,4387500.0,5425.0,Ljungan,Ljungan,Ljungan,SE
+2901,NYBRO,4622500.0,4262500.0,2300.0,Ljusnan,Voxnan,Ljusnan,SE
+2902,DoNJE KRV,4662500.0,4272500.0,14925.0,Ljusnan,Ljusnan,Ljusnan,SE
+2903,SVEGS KRV,4552500.0,4332500.0,8550.0,Ljusnan,Ljusnan,Ljusnan,SE
+2904,Barkaldfoss,4367500.0,4312500.0,6775.0,"Glomma, headwaters",Glomma,Glomma,NO
+2905,Eikhomkilen,4232500.0,3987500.0,1050.0,Nidelva,Fyreselv,Nidelva,NO
+2907,Rauma v-Venge,4202500.0,4382500.0,1250.0,Rauma,Rauma,Rauma,NO
+2908,UTTERSHAUSEN,4272500.0,3107500.0,975.0,Fulda,Schwalm,Weser,DE
+2910,VILLAFRANCA PELLICE,4122500.0,2412500.0,1000.0,Po,Pellice,Po,IT
+2911,NAVE DI ROSANO,4427500.0,2297500.0,4000.0,Arno,Sieve,Arno,IT
+2912,S GIOVANNI ALLA VENA,4372500.0,2282500.0,8050.0,Arno,Canale Imperiale,Arno,IT
+2913,La Vire a Montmartin-en-Graignes,3512500.0,2972500.0,1175.0,Vire,Vire,Vire,FR
+2914,Le Therain a Maysel,3767500.0,2932500.0,1200.0,Oise,Therain,Seine,FR
+2915,L Eure a Louviers,3682500.0,2942500.0,5900.0,Eure,Eure,Seine,FR
+2916,L Essonne a Ballancourt-sur-Essonne,3762500.0,2857500.0,1875.0,"Seine, below Yonne",Essonne,Seine,FR
+2918,La Seine a Mery-sur-Seine [apres creation grands lacs],3862500.0,2842500.0,4025.0,"Seine, headwaters",Seine,Seine,FR
+2919,Le Blavet a Languidic [Quellenec],3332500.0,2832500.0,2075.0,Blavet,Blavet,Blavet,FR
+2920,La Vilaine a Rieux,3407500.0,2792500.0,10100.0,Vilaine,Vilaine,Vilaine,FR
+2921,La Sarthe a Neuville-sur-Sarthe [Montreuil],3592500.0,2822500.0,2700.0,Maine,Sarthe,Loire,FR
+2922,Le Loir a Villavard,3637500.0,2782500.0,4675.0,Maine,Loir,Loire,FR
+2923,Le Clain a Dissay,3587500.0,2667500.0,2925.0,Vienne,Clain,Loire,FR
+2924,Le Lay a Mareuil-sur-Lay-Dissais,3462500.0,2667500.0,1325.0,Lay,Lay,Lay,FR
+2925,Le Dropt a Loubens,3527500.0,2447500.0,1175.0,Dropt,Dropt,Garonne,FR
+2926,Le Gers a Layrac,3572500.0,2377500.0,1075.0,Gers,Gers,Garonne,FR
+2927,L Herault a Agde [Bassin Rond],3792500.0,2267500.0,2650.0,Herault,Herault,Herault,FR
+2928,L Aude a Moussan [Moussoulens-ecluse],3752500.0,2262500.0,4925.0,Aude,Aude,Aude,FR
+2929,laufermuehle,4387500.0,2957500.0,875.0,Main,Aisch,Rhine,DE
+2930,La Sarthe a Saint-Denis-d Anjou [Beffes],3547500.0,2792500.0,7575.0,Maine,Sarthe,Loire,FR
+2931,L Ill a Strasbourg [Chasseur Froid La Robertsau],4152500.0,2832500.0,4600.0,Ill,Ill,Rhine,FR
+2932,La Marne a Frignicourt [apres creation grand lac],3922500.0,2857500.0,3400.0,Marne,Marne,Seine,FR
+2933,La Seille a Metz [pont Lothaire],4042500.0,2892500.0,1250.0,Moselle,Seille,Rhine,FR
+2934,Le Salat a Roquefort-sur-Garonne,3587500.0,2267500.0,1500.0,Salat,Salat,Garonne,FR
+2935,L Ariege a Auterive,3627500.0,2297500.0,3600.0,Ariege,Ariege,Garonne,FR
+2936,La Save a Larra,3617500.0,2332500.0,1075.0,Save,Save,Garonne,FR
+2937,Le Tarn a Marsal [Pecotte],3697500.0,2347500.0,4550.0,Tarn,Tarn,Garonne,FR
+2938,L Orne a Rosselange,4037500.0,2912500.0,1225.0,Moselle,Orne,Rhine,FR
+2939,La Loire a Bas-en-Basset,3862500.0,2487500.0,3450.0,Loire,Loire,Loire,FR
+2940,L Allier a Vic-le-Comte,3792500.0,2527500.0,5450.0,Allier,Allier,Loire,FR
+2941,La Dore a Saint-Gervais-sous-Meymont MaisonDuParc-GirouxDore,3822500.0,2532500.0,900.0,Allier,Dore,Loire,FR
+2942,La Seille a Saint-Usuge,3957500.0,2627500.0,950.0,Saone,Seille,Rhone,FR
+2943,La Loue [totale] a Parcey,3982500.0,2667500.0,1725.0,Saone,Loue,Rhone,FR
+2944,La Semoy a Haulme,3952500.0,2987500.0,1350.0,Meuse,Semoy,Rhine,FR
+2945,La Chiers a Carignan,3977500.0,2957500.0,1975.0,Meuse,Chiers,Rhine,FR
+2946,La Moder a Schweighouse-sur-Moder [aval],4162500.0,2852500.0,750.0,Moder,Moder,Rhine,FR
+2947,La Meuse a Vaucouleurs [Chalaines],4002500.0,2837500.0,1700.0,Meuse,Meuse,Rhine,FR
+2948,La Mayenne a Chambellay,3522500.0,2787500.0,4250.0,Maine,Mayenne,Loire,FR
+2949,La Tille a Arceau [Arcelot],3952500.0,2697500.0,900.0,Saone,Tille,Rhone,FR
+2950,L Ognon a Pesmes,3982500.0,2697500.0,2100.0,Saone,Ognon,Rhone,FR
+2951,La Sioule a Saint-Priest-des-Champs [Fades-Besserve],3767500.0,2567500.0,1350.0,Allier,Sioule,Loire,FR
+2952,L Eyre a Salles,3457500.0,2447500.0,1825.0,Eyre,Eyre,Eyre,FR
+2953,Le Cele a Orniac [Les Amis du Cele],3662500.0,2417500.0,1225.0,Lot,Cele,Garonne,FR
+2954,Le Lot a Lassouts [Castelnau],3752500.0,2407500.0,1775.0,Lot,Lot,Garonne,FR
+2955,L Epte a Fourges,3707500.0,2922500.0,1525.0,"Seine, below Oise",Epte,Seine,FR
+2956,La Moselle a Tonnoy,4037500.0,2837500.0,2050.0,Moselle,Moselle,Rhine,FR
+2957,La Sauldre a Selles-sur-Cher,3692500.0,2722500.0,2100.0,Cher,Sauldre,Loire,FR
+2958,Le Doubs a Rochefort-sur-Nenon,3982500.0,2672500.0,5325.0,Saone,Doubs,Rhone,FR
+2959,La Gartempe a Montmorillon,3622500.0,2637500.0,1875.0,Vienne,Gartempe,Loire,FR
+2960,L Arroux a Rigny-sur-Arroux,3862500.0,2622500.0,2325.0,Arroux,Arroux,Loire,FR
+2961,La Truyere a Sainte-Genevieve-sur-Argence [Sarrans],3742500.0,2437500.0,2575.0,Lot,Truyere,Garonne,FR
+2962,La BaisfloodSettingsTemplate-13Feb2013-PreRunBMse a Nerac,3552500.0,2382500.0,1350.0,Bais,Bais,Garonne,FR
+2963,La Garonne [totale] a Saint-Gaudens [Valentine-recent],3562500.0,2267500.0,2350.0,"Garonne, headwaters",Garonne,Garonne,FR
+2964,GERBERTSHAUS,4282500.0,2722500.0,850.0,Rhine,Schussen,Rhine,DE
+2965,GIEssEN,4292500.0,2722500.0,625.0,Rhine,Argen,Rhine,DE
+2966,Prijedor,4842500.0,2457500.0,3175.0,Sava,Sana,Danube,BA
+2967,Doboj,4962500.0,2437500.0,9725.0,Sava,Bosna,Danube,BA
+2968,Vrbanja,4897500.0,2432500.0,750.0,Sava,Vrbanja,Danube,BA
+2969,Brodarci,4752500.0,2517500.0,2325.0,Sava,Kupa,Danube,HR
+2970,Pleternica,4927500.0,2502500.0,750.0,Sava,Orljava,Danube,HR
+2972,Suha,4657500.0,2572500.0,575.0,Sava,Sora,Danube,SI
+2973,Rakovec,4762500.0,2557500.0,600.0,Sava,Sutla,Danube,SI
+2975,Daljan,4912500.0,2367500.0,1150.0,Sava,Vrbas,Danube,BA
+2976,Olovo,5012500.0,2372500.0,600.0,Sava,Krivaja,Danube,BA
+2977,Cedovo,5142500.0,2292500.0,525.0,Sava,Vapa,Danube,RS
+2978,Lesnica,5057500.0,2437500.0,975.0,Sava,Jadar,Danube,RS
+2980,Slovac,5122500.0,2407500.0,1000.0,Sava,Kolubara,Danube,RS
+2983,Sil Belesar,2877500.0,2337500.0,4450.0,Minho,Minho,Minho,ES
+2985,Sil San Esteban,2877500.0,2312500.0,7200.0,Sil,Sil,Minho,ES
+2986,Sil Bao,2917500.0,2287500.0,800.0,Sil,Bibey,Minho,ES
+2988,Fuensanta,3257500.0,1787500.0,1875.0,Segura,Segura,Segura,ES
+2989,Cenajo,3292500.0,1777500.0,2650.0,Segura,Segura,Segura,ES
+2991,Tranco de Beas,3192500.0,1772500.0,700.0,Guadalquivir,Guadalquivir,Guadalquivir,ES
+2992,La Fernandina,3132500.0,1777500.0,2150.0,Guadalen,Guadalen,Guadalquivir,ES
+2993,Talarn o Tremp,3567500.0,2162500.0,2175.0,Segre,Noguera Pallaresa,Ebro,ES
+2994,Mediano,3512500.0,2177500.0,2075.0,Segre,Cinca,Ebro,ES
+2995,Canelles,3542500.0,2142500.0,1650.0,Segre,Noguera Ribagorzana,Ebro,ES
+2996,Burguillo,3097500.0,2042500.0,1075.0,Alberche,Alberche,Tagus,ES
+2997,Cedillo,2827500.0,2012500.0,56675.0,Tagus,Tagus,Tagus,ES
+2998,Valdecanas,2982500.0,1992500.0,36700.0,Tagus,Tagus,Tagus,ES
+2999,Gabriel y Galan,2947500.0,2042500.0,2425.0,Tagus,Alagon,Tagus,ES
+3000,Entrepenas,3242500.0,2027500.0,3850.0,Tagus,Tagus,Tagus,ES
+3001,Atazar,3192500.0,2077500.0,975.0,Jarama,Jarama,Tagus,ES
+3002,Buendia,3237500.0,2017500.0,3950.0,Tagus,Tagus,Tagus,ES
+3003,Alcantara,2872500.0,2007500.0,52150.0,Tagus,Tagus,Tagus,ES
+3004,Benageber,3367500.0,1922500.0,4200.0,Turia,Turia,Turia,ES
+3005,Tous,3402500.0,1842500.0,17675.0,Jucar,Jucar,Jucar,ES
+3006,Contreras,3332500.0,1897500.0,3425.0,Cabriel,Cabriel,Jucar,ES
+3007,Alarcon,3277500.0,1917500.0,2950.0,Jucar,Jucar,Jucar,ES
+3008,Garcia de Sola,3007500.0,1917500.0,25875.0,Guadiana,Guadiana,Guadiana,ES
+3010,Cijara,3027500.0,1932500.0,24825.0,Guadiana,Guadiana,Guadiana,ES
+3011,Serena,2992500.0,1892500.0,7375.0,Zujar,Zujar,Guadiana,ES
+3012,Cuerda del Pozo,3272500.0,2172500.0,575.0,Douro,Douro,Douro,ES
+3013,Cernadilla,2967500.0,2247500.0,650.0,Esla,Tera,Douro,ES
+3014,Aguilar de campoo,3157500.0,2297500.0,875.0,Pisuerga,Pisuerga,Douro,ES
+3017,Santa Teresa,3007500.0,2092500.0,2225.0,Tormes,Tormes,Douro,ES
+3018,Almendra,2957500.0,2167500.0,7100.0,Tormes,Tormes,Douro,ES
+3019,Riano,3092500.0,2327500.0,700.0,Esla,Esla,Douro,ES
+3020,Ricobayo,2997500.0,2192500.0,16250.0,Esla,Esla,Douro,ES
+3021,45836_Brodarevo_Lim,5112500.0,2287500.0,2750.0,Sava,Lim,Danube,RS
+3022,45842_Priboj_Lim,5087500.0,2322500.0,3550.0,Sava,Lim,Danube,RS
+3025,Brodské,4837500.0,2867500.0,9950.0,Morava,Morava,Danube,SK
+3030,Guadiana Menor - Úbeda,3157500.0,1742500.0,7025.0,Guadiana menor,Guadiana menor,Guadalquivir,ES
+3031,Guadaira - Sevilla,2912500.0,1732500.0,1300.0,Guadiamar,Guadaira,Guadalquivir,ES
+3032,Genil - Puente Tocón,3082500.0,1682500.0,2850.0,Genil,Genil,Guadalquivir,ES
+3034,Guadalquivir  - Santo Tomé,3172500.0,1762500.0,975.0,Guadalquivir,Guadalquivir,Guadalquivir,ES
+3035,Genil - Puente Genil,3012500.0,1717500.0,6050.0,Genil,Genil,Guadalquivir,ES
+3036,Rivera de Huelva - Cala,2902500.0,1772500.0,1025.0,Guadiamar,Huelva,Guadalquivir,ES
+3037,Corbones - Carmona,2942500.0,1742500.0,1675.0,Corbones,Corbones,Guadalquivir,ES
+3041,Guadiamar - El Guijo,2887500.0,1747500.0,650.0,Guadiamar,Guadiamar,Guadalquivir,ES
+3042,Guadalquivir - Arroyo de María,3147500.0,1772500.0,2575.0,Guadalimar,Guadalimar,Guadalquivir,ES
+3043,Guarrizas - Ruinas de Puente,3132500.0,1787500.0,700.0,Guadalen,Guarrizas,Guadalquivir,ES
+3046,Rivera de Huesna - Villanueva del Río y Minas,2937500.0,1767500.0,525.0,Corbones,Huesna,Guadalquivir,ES
+3047,Rivera de Huelva - Zufre,2882500.0,1797500.0,600.0,Guadiamar,Huelva,Guadalquivir,ES
+3078,Guadalhorce - Cártama,3012500.0,1642500.0,2850.0,Guadalhorce,Guadalhorce,Guadalhorce,ES
+3079,Guadaldeo - Órgiva,3122500.0,1637500.0,550.0,Guadalfeo,Guadalfeo,Guadalfeo,ES
+3081,Almanzora - Cantoria,3237500.0,1672500.0,1100.0,Almanzora,Almanzora,Almanzora,ES
+3083,Alamo - Benalup de Sidonia,2902500.0,1622500.0,675.0,Barbate,Alamo,Barbate,ES
+3086,Masies de Roda (Ter i Gurri),3677500.0,2132500.0,1225.0,Ter,Ter,Ter,ES
+3087,Sortida d'Embassament de Sau (Vilanova de Sau),3697500.0,2127500.0,1800.0,Ter,Ter,Ter,ES
+3093,Gunja,5017500.0,2457500.0,63075.0,Sava,Sava,Danube,HR
+3094,Rannu-Jõesuu,5252500.0,4027500.0,3575.0,Emajogi,Emajogi,Narva,EE
+3095,Tartu,5287500.0,4037500.0,8075.0,Emajogi,Emajogi,Narva,EE
+3096,Vasknarva,5332500.0,4117500.0,49625.0,Narva,Narva,Narva,EE
+3097,Oore,5182500.0,4022500.0,4825.0,Parnu,Parnu,Parnu,EE
+3098,Kasari,5127500.0,4037500.0,2675.0,Kasari,Kasari,Kasari,EE
+3099,La Moselle à Saint-Mard et à Tonnoy et à Velle-sur-Moselle,4042500.0,2832500.0,2025.0,Moselle,Moselle,Rhine,FR
+3100,La Moselle à Toul,4017500.0,2847500.0,3325.0,Moselle,Moselle,Rhine,FR
+3101,La Meurthe à Laneuveville-devant-Nancy [la Madeleine],4047500.0,2842500.0,2800.0,Moselle,Meurthe,Rhine,FR
+3102,La Moselle à Custines,4037500.0,2862500.0,6950.0,Moselle,Moselle,Rhine,FR
+3103,La Seille à Nomeny,4042500.0,2872500.0,975.0,Moselle,Seille,Rhine,FR
+3104,La Seille à Metz,4037500.0,2887500.0,1175.0,Moselle,Seille,Rhine,FR
+3105,La Moselle à Hagondange et à Hauconcourt,4042500.0,2907500.0,9400.0,Moselle,Moselle,Rhine,FR
+3106,L'Orne à Rosselange,4032500.0,2912500.0,1200.0,Moselle,Orne,Rhine,FR
+3107,La Moselle à Uckange,4042500.0,2917500.0,10700.0,Moselle,Moselle,Rhine,FR
+3108,La Sarre à Sarreguemines et à Sarreinsming,4107500.0,2892500.0,3700.0,Moselle,Saar,Rhine,FR
+3109,La Meuse à Domrémy-la-Pucelle,4002500.0,2822500.0,1500.0,Meuse,Meuse,Rhine,FR
+3110,La Meuse à Commercy,3997500.0,2862500.0,2400.0,Meuse,Meuse,Rhine,FR
+3111,La Meuse à Saint-Mihiel,3992500.0,2872500.0,2675.0,Meuse,Meuse,Rhine,FR
+3112,La Meuse à Stenay,3972500.0,2942500.0,3975.0,Meuse,Meuse,Rhine,FR
+3113,L'Ouanne à Charny,3802500.0,2777500.0,625.0,Loing,Ouanne,Seine,FR
+3114,Le Loing à Châlette-sur-Loing [Gué de Lancy],3782500.0,2797500.0,2425.0,Loing,Loing,Seine,FR
+3115,Le Loing à Épisy,3777500.0,2827500.0,3550.0,Loing,Loing,Seine,FR
+3116,L'Essonne à la Ferté-Alais et à Guigneville-sur-Essonne,3757500.0,2847500.0,1100.0,"Seine, below Yonne",Essonne,Seine,FR
+3117,La Seine à Alfortville et à Villeneuve-Saint-Georges et à Vi,3762500.0,2882500.0,43400.0,"Seine, below Marne",Seine,Seine,FR
+3118,La Seine à Paris,3762500.0,2877500.0,30725.0,"Seine, below Yonne",Seine,Seine,FR
+3120,La Seine à Plaines-Saint-Lange,3907500.0,2782500.0,775.0,"Seine, headwaters",Seine,Seine,FR
+3121,L'Ource à Autricourt,3917500.0,2777500.0,575.0,"Seine, headwaters",Ource,Seine,FR
+3122,La Seine à Bar-sur-Seine,3902500.0,2792500.0,2325.0,"Seine, headwaters",Seine,Seine,FR
+3123,La Seine à Courtenot,3897500.0,2797500.0,2600.0,"Seine, headwaters",Seine,Seine,FR
+3124,L'Aube à Bar-sur-Aube,3927500.0,2802500.0,1300.0,"Seine, headwaters",Aube,Seine,FR
+3125,L'Aube à Arcis-sur-Aube,3887500.0,2842500.0,3575.0,"Seine, headwaters",Aube,Seine,FR
+3127,Le Serein à Dissangis,3867500.0,2737500.0,675.0,Yonne,Serein,Seine,FR
+3129,L'Armançon à Aisy-sur-Armançon [aval],3887500.0,2747500.0,1425.0,Yonne,Armancon,Seine,FR
+3130,L'Armançon à Brienon-sur-Armançon,3847500.0,2782500.0,2900.0,Yonne,Armancon,Seine,FR
+3131,L'Epte à Fourges,3712500.0,2922500.0,1450.0,"Seine, below Oise",Epte,Seine,FR
+3133,L'Eure à Charpont,3692500.0,2877500.0,2000.0,Eure,Eure,Seine,FR
+3135,L'Avre à Muzy,3682500.0,2887500.0,875.0,Eure,Avre,Seine,FR
+3136,L'Eure à Cailly-sur-Eure,3682500.0,2927500.0,4500.0,Eure,Eure,Seine,FR
+3137,L'Iton à Normanville,3677500.0,2922500.0,1125.0,Eure,Iton,Seine,FR
+3138,L'Eure à Louviers,3677500.0,2937500.0,5875.0,Eure,Eure,Seine,FR
+3140,Le Rognon à Doulaincourt-Saucourt,3967500.0,2812500.0,600.0,Marne,Rognon,Seine,FR
+3141,La Saulx à Mognéville,3957500.0,2862500.0,500.0,Marne,Saulx,Seine,FR
+3142,L'Ornain à Tronville-en-Barrois,3972500.0,2857500.0,700.0,Marne,Ornain,Seine,FR
+3143,La Saulx à Vitry-en-Perthois,3927500.0,2862500.0,2050.0,Marne,Saulx,Seine,FR
+3144,La Marne à Châlons-en-Champagne,3907500.0,2887500.0,6250.0,Marne,Marne,Seine,FR
+3145,L'Aire à Chevières,3952500.0,2927500.0,1025.0,Oise,Aire,Seine,FR
+3146,L'Aisne à Mouron,3942500.0,2922500.0,2425.0,Oise,Aisne,Seine,FR
+3147,L'Aisne à Givry,3922500.0,2947500.0,3075.0,Oise,Aisne,Seine,FR
+3148,L'Oise à Origny-Sainte-Benoite,3852500.0,2992500.0,1200.0,Oise,Oise,Seine,FR
+3149,La Serre à Pont-à-Bucy,3852500.0,2972500.0,1625.0,Oise,Seine,Seine,FR
+3150,L'Oise à Sempigny,3817500.0,2962500.0,4200.0,Oise,Oise,Seine,FR
+3151,L'Orne à May-sur-Orne,3567500.0,2942500.0,2525.0,Orne,Orne,Orne,FR
+3152,L'Aulne à Châteauneuf-du-Faou,3297500.0,2877500.0,1200.0,Aulne,Aulne,Aulne,FR
+3153,La Vilaine à Guichen,3447500.0,2832500.0,3175.0,Vilaine,Vilaine,Vilaine,FR
+3154,La Loire à Bas-en-Basset,3857500.0,2482500.0,3325.0,Loire,Loire,Loire,FR
+3155,La Loire à Digoin,3862500.0,2612500.0,9400.0,Loire,Loire,Loire,FR
+3156,L'Arroux à Étang-sur-Arroux,3877500.0,2652500.0,1925.0,Loire,Arroux,Loire,FR
+3157,L'Arroux à Rigny-sur-Arroux,3867500.0,2627500.0,2275.0,Arroux,Arroux,Loire,FR
+3158,L'Arroux à Digoin,3862500.0,2617500.0,3125.0,Arroux,Arroux,Loire,FR
+3159,La Loire à Gilly-sur-Loire,3842500.0,2622500.0,13950.0,Loire,Loire,Loire,FR
+3160,L'Aron à Verneuil,3832500.0,2657500.0,1525.0,Aron,Aron,Loire,FR
+3161,La Loire à Nevers,3802500.0,2677500.0,18275.0,Loire,Loire,Loire,FR
+3162,L'Alagnon à Lempdes-sur-Allagnon,3792500.0,2497500.0,1100.0,Allier,Alagnon,Loire,FR
+3163,L'Allier à Coudes,3792500.0,2522500.0,5350.0,Allier,Allier,Loire,FR
+3164,L'Allier à Limons,3812500.0,2562500.0,7100.0,Allier,Allier,Loire,FR
+3165,L'Allier à Saint-Yorre,3817500.0,2572500.0,8950.0,Allier,Allier,Loire,FR
+3166,La Sioule à Saint-Pourçain-sur-Sioule,3802500.0,2602500.0,2475.0,Allier,Sioule,Loire,FR
+3167,L'Allier à Châtel-de-Neuvre,3807500.0,2612500.0,12825.0,Allier,Allier,Loire,FR
+3168,L'Allier à Moulins,3807500.0,2627500.0,13100.0,Allier,Allier,Loire,FR
+3169,L'Allier à Cuffy,3792500.0,2667500.0,14300.0,Allier,Allier,Loire,FR
+3170,La Loire à Cours-les-Barres,3792500.0,2682500.0,32800.0,Loire,Loire,Loire,FR
+3171,La Loire à Saint-Martin-sur-Ocre et à Gien,3767500.0,2757500.0,35900.0,Loire,Loire,Loire,FR
+3172,La Loire à Orléans,3717500.0,2787500.0,37250.0,Loire,Loire,Loire,FR
+3173,La Loire à Blois,3672500.0,2757500.0,38375.0,Loire,Loire,Loire,FR
+3174,Le Cher à Saint-Amand-Montrond,3747500.0,2652500.0,3900.0,Cher,Cher,Loire,FR
+3175,L'Yèvre à Savigny-en-Septaine,3757500.0,2687500.0,550.0,Cher,Yevre,Loire,FR
+3176,Le Cher à Selles-sur-Cher,3692500.0,2717500.0,9275.0,Cher,Cher,Loire,FR
+3177,Le Cher à Châtillon-sur-Cher,3677500.0,2722500.0,12800.0,Cher,Cher,Loire,FR
+3178,Le Cher à Tours,3617500.0,2737500.0,13650.0,Cher,Cher,Loire,FR
+3179,La Loire à Langeais,3597500.0,2737500.0,56675.0,Loire,Loire,Loire,FR
+3180,L'Indre à Saint-Cyran-du-Jambot,3647500.0,2697500.0,1775.0,Loire,Indre,Loire,FR
+3181,Le Clain à Poitiers,3582500.0,2657500.0,2450.0,Vienne,Clain,Loire,FR
+3182,La Vienne à Ingrandes,3602500.0,2687500.0,10250.0,Vienne,Vienne,Loire,FR
+3183,La Creuse à Ciron [Scoury],3652500.0,2652500.0,3500.0,Vienne,Creuse,Loire,FR
+3184,La Gartempe à Montmorillon,3622500.0,2632500.0,1825.0,Vienne,Gartempe,Loire,FR
+3185,L'Anglin à Mérigny,3627500.0,2657500.0,1625.0,Vienne,Anglin,Loire,FR
+3186,La Creuse à Leugny,3617500.0,2682500.0,7950.0,Vienne,Creuse,Loire,FR
+3187,La Vienne à Nouâtre et à Pouzay,3602500.0,2707500.0,20075.0,Vienne,Vienne,Loire,FR
+3188,La Loire à Montsoreau et à Saumur,3562500.0,2732500.0,81450.0,Loire,Loire,Loire,FR
+3189,Le Thouet à Missé [Missé],3547500.0,2702500.0,1150.0,Thouet,Thouet,Loire,FR
+3190,La Sarthe à Neuville-sur-Sarthe et à Souillé [Montreuil],3592500.0,2827500.0,2675.0,Maine,Sarthe,Loire,FR
+3191,L'Huisne à Nogent-le-Rotrou [Pont de bois],3642500.0,2842500.0,950.0,Maine,Huisne,Loire,FR
+3192,L'Huisne à Montfort-le-Gesnois [La Pécardière],3607500.0,2817500.0,1925.0,Maine,Huisne,Loire,FR
+3193,La Sarthe à Spay [Ecluse de Prélandon],3587500.0,2802500.0,5525.0,Maine,Sarthe,Loire,FR
+3194,La Sarthe à Saint-Denis-d'Anjou [Beffes],3547500.0,2797500.0,7450.0,Maine,Sarthe,Loire,FR
+3195,Le Loir à Saint-Maur-sur-le-Loir,3682500.0,2822500.0,1150.0,Maine,Loir,Loire,FR
+3196,Le Loir à Flée [Port-Gautier],3607500.0,2777500.0,6575.0,Maine,Loir,Loire,FR
+3197,Le Loir à Durtal,3552500.0,2782500.0,8100.0,Maine,Loir,Loire,FR
+3198,La Mayenne à Saint-Fraimbault-de-Prières,3537500.0,2862500.0,1950.0,Maine,Mayenne,Loire,FR
+3199,La Mayenne à l'Huisserie [Bonne],3522500.0,2822500.0,3675.0,Maine,Mayenne,Loire,FR
+3200,L'Oudon à Châtelais [Marcillé],3502500.0,2802500.0,750.0,Maine,Oudon,Loire,FR
+3201,L'Oudon à Segré [écluse de Maingué],3512500.0,2787500.0,1475.0,Maine,Oudon,Loire,FR
+3202,La Loire à Chalonnes-sur-Loire et à Ingrandes et à Montjean-,3502500.0,2757500.0,110750.0,Loire,Loire,Loire,FR
+3203,La Sèvre Nantaise à Clisson,3467500.0,2727500.0,1400.0,La Sevre,Sevre,Loire,FR
+3204,La Maine à Remouillé,3462500.0,2727500.0,625.0,La Sevre,Maine,Loire,FR
+3205,La Garonne à Arlos et à Saint-Béat,3562500.0,2247500.0,700.0,"Garonne, headwaters",Garonne,Garonne,FR
+3206,Le Salat à Roquefort-sur-Garonne,3587500.0,2272500.0,4425.0,Salat,Salat,Garonne,FR
+3207,La Garonne à Portet-sur-Garonne,3627500.0,2307500.0,10000.0,"Garonne, below Ariege",Garonne,Garonne,FR
+3208,Le Tarn à Millau,3767500.0,2357500.0,2100.0,Tarn,Tarn,Garonne,FR
+3209,L'Aveyron à Laguépie [1],3677500.0,2377500.0,1575.0,Tarn,Aveyron,Garonne,FR
+3210,L'Aveyron à Montauban [Loubéjac],3627500.0,2372500.0,5300.0,Tarn,Aveyron,Garonne,FR
+3211,La Garonne à Lamagistère,3587500.0,2377500.0,32325.0,"Garonne, below Tarn",Garonne,Garonne,FR
+3212,Le Célé à Orniac [Les Amis du Célé],3667500.0,2417500.0,1175.0,Lot,Cele,Garonne,FR
+3213,La Dordogne à Lanzac et à Souillac,3647500.0,2457500.0,8250.0,"Dordogne, headwaters",Dordogne,Dordogne,FR
+3214,La Dordogne à Cénac-et-Saint-Julien,3632500.0,2452500.0,8550.0,"Dordogne, headwaters",Dordogne,Dordogne,FR
+3215,La Vézère à Larche,3647500.0,2482500.0,2525.0,Vezere,Vezere,Dordogne,FR
+3216,La Vézère à Campagne,3607500.0,2462500.0,3675.0,Vezere,Vezere,Dordogne,FR
+3217,L'Isle à Périgueux,3592500.0,2497500.0,2150.0,Isle,Isle,Dordogne,FR
+3218,L'Isle à Abzac,3522500.0,2487500.0,3825.0,Isle,Isle,Dordogne,FR
+3219,Le Luy à Saint-Pandelon,3432500.0,2352500.0,1050.0,Adour,Luy,Adour,FR
+3220,Le Gave d'Oloron à Oloron-Sainte-Marie [Pont SNCF],3457500.0,2292500.0,1300.0,Les Gaves Runis,Gave d'Oloron,Adour,FR
+3221,Le Gave d'Oloron à Escos,3432500.0,2322500.0,2600.0,Les Gaves Runis,Gave d'Oloron,Adour,FR
+3223,La Saône à Cendrecourt,4017500.0,2757500.0,1225.0,Saone,Saone,Rhone,FR
+3224,La Lanterne à Fleurey-lès-Faverney,4027500.0,2742500.0,1000.0,Saone,Lanterne,Rhone,FR
+3225,La Saône à Ray-sur-Saône,4012500.0,2727500.0,3775.0,Saone,Saone,Rhone,FR
+3226,L'Ognon à Chassey-lès-Montbozon [Bonnal],4047500.0,2717500.0,850.0,Saone,Ognon,Rhone,FR
+3227,L'Ognon à Beaumotte-Aubertans,4032500.0,2707500.0,1250.0,Saone,Ognon,Rhone,FR
+3228,L'Ognon à Pesmes,3987500.0,2692500.0,2000.0,Saone,Ognon,Rhone,FR
+3229,La Saône à Auxonne,3972500.0,2687500.0,8825.0,Saone,Saone,Rhone,FR
+3230,La Tille à Cessey-sur-Tille,3957500.0,2697500.0,1100.0,Saone,Tille,Rhone,FR
+3232,L'Ouche à Sainte-Marie-sur-Ouche [Pont de Pany],3927500.0,2702500.0,525.0,Saone,Ouche,Rhone,FR
+3233,La Saône à Pagny-la-Ville [Lechatelet],3957500.0,2672500.0,11650.0,Saone,Saone,Rhone,FR
+3235,Le Doubs à Goumois,4092500.0,2687500.0,1200.0,Saone,Doubs,Rhone,FR
+3236,Le Doubs à Glère [Courclavon],4097500.0,2697500.0,1350.0,Saone,Doubs,Rhone,FR
+3237,Le Dessoubre à Saint-Hippolyte,4077500.0,2687500.0,550.0,Saone,Dessoubre,Rhone,FR
+3238,Le Doubs à Mathay,4077500.0,2707500.0,2275.0,Saone,Doubs,Rhone,FR
+3239,L'Allan à Courcelles-lès-Montbéliard,4077500.0,2717500.0,1075.0,Saone,Allaine,Rhone,FR
+3240,Le Doubs à Voujeaucourt,4072500.0,2712500.0,3600.0,Saone,Doubs,Rhone,FR
+3241,Le Doubs à Besançon,4022500.0,2687500.0,4675.0,Saone,Doubs,Rhone,FR
+3242,Le Doubs à Rochefort-sur-Nenon,3982500.0,2677500.0,5225.0,Saone,Doubs,Rhone,FR
+3243,La Loue à Chenecey-Buillon,4012500.0,2677500.0,1100.0,Saone,Loue,Rhone,FR
+3244,La Loue à Champagne-sur-Loue,4002500.0,2667500.0,1350.0,Saone,Loue,Rhone,FR
+3245,Le Doubs à Neublans-Abergement,3967500.0,2657500.0,7475.0,Saone,Doubs,Rhone,FR
+3246,La Dheune à Palleau,3942500.0,2662500.0,1000.0,Saone,Dheune,Rhone,FR
+3247,La Saône à Chalon-sur-Saône [port fluvial],3927500.0,2642500.0,21400.0,Saone,Saone,Rhone,FR
+3248,La Saône à Tournus,3932500.0,2617500.0,23100.0,Saone,Saone,Rhone,FR
+3249,La Seille à Saint-Usuge,3957500.0,2632500.0,900.0,Saone,Seille,Rhone,FR
+3250,La Bourbre à Tignieu-Jameyzieu,3942500.0,2522500.0,725.0,"Rhone, headwaters",Bourbre,Rhone,FR
+3251,La Bienne à Jeurre,3992500.0,2592500.0,575.0,Ain,Bienne,Rhone,FR
+3252,L'Ardèche à Saint-Martin-d'Ardèche [Sauze-Saint-Martin],3872500.0,2377500.0,2225.0,Rhone,Ardeche,Rhone,FR
+3253,Le Rhône à Tarascon,3887500.0,2307500.0,95975.0,Rhone,Rhone,Rhone,FR
+3254,L'Agly à Estagel [Mas de Jau],3727500.0,2212500.0,975.0,Agly,Agly,Agly,FR
+3255,L'Aude à Carcassonne,3697500.0,2262500.0,1825.0,Aude,Aude,Aude,FR
+3256,L'Aude à Moussan [Moussoulens - écluse],3747500.0,2262500.0,4900.0,Aude,Aude,Aude,FR
+3257,L'Hérault à Agde,3787500.0,2272500.0,2625.0,Herault,Herault,Herault,FR
+3258,L'Orb à Béziers [Tabarka],3767500.0,2277500.0,1325.0,Orb,Orb,Orb,FR
+3259,Le Var à Entrevaux [Pont-levis],4062500.0,2322500.0,675.0,Var,Var,Var,FR
+3267,Faxi,2897500.0,4887500.0,2825.0,Tungufljot,Tungufljot,Oelfusa,IS
+3271,Above Árbugsár,3077500.0,5002500.0,1125.0,Fnjoska,Fnjoska,Fnjcsk,IS
+3272,Forsæludalur,2957500.0,4987500.0,2100.0,Vatnsdalsa,Vatnsdalsa,Vatnsdals,IS
+3278,Hróaldarstaðir,3202500.0,4947500.0,725.0,Sela,Sela,Sela,IS
+3279,Grímsstaðir,3137500.0,4947500.0,5850.0,Bakkahlaup,Jokulsa A Fjollum,Jkuls Fjllum,IS
+3280,Upptyppingar,3097500.0,4887500.0,1975.0,Bakkahlaup,Jokulsa A Fjollum,Jkuls Fjllum,IS
+3281,Lónshnjúkur,3107500.0,4882500.0,1375.0,Bakkahlaup,Kreppa,Jkuls Fjllum,IS
+3282,Ofan Ullarfossbrúar,3087500.0,4942500.0,925.0,Skjalfandafljot,Svarta,Svarta I Brdardal,IS
+3283,Aldeyjarfoss,3077500.0,4942500.0,2450.0,Skjalfandafljot,Skjalfandafljot,Skjalfandafljot,IS
+3284,Kjáfoss,2877500.0,4952500.0,1750.0,Hvi­ta,Hvi­ta,Hvita,IS
+3286,Haukadalsheiði,2912500.0,4897500.0,625.0,Sanda,Sanda,Oelfusa,IS
+3287,Dynjandi,2882500.0,4882500.0,650.0,Bruara,Bruara,Oelfusa,IS
+3307,Salerano sul Lambro - SP115,4272500.0,2467500.0,625.0,Lambro,Lambro,Po,IT
+3308,Gera Lario - Fuentes,4277500.0,2557500.0,2600.0,Adda,Adda,Po,IT
+3309,Olginate - S.Maria Lavello,4277500.0,2517500.0,4600.0,Adda,Adda,Po,IT
+3310,Lodi - v. X Maggio,4282500.0,2467500.0,6175.0,Adda,Adda,Po,IT
+3313,Montodine - via Bodesine,4297500.0,2472500.0,1100.0,Adda,Serio,Po,IT
+3314,Cene - Ponte,4307500.0,2517500.0,525.0,Adda,Serio,Po,IT
+3317,Capriolo - SP12,4312500.0,2502500.0,1875.0,Oglio,Oglio,Po,IT
+3320,Teglio - S. Giacomo,4322500.0,2562500.0,1375.0,Adda,Adda,Po,IT
+3321,Manerbio - v. Dante,4332500.0,2472500.0,900.0,Oglio,Mella,Po,IT
+3322,Darfo Boario Terme - Cav. Vittorio Venteto,4332500.0,2527500.0,1375.0,Oglio,Oglio,Po,IT
+3324,Capo di Ponte - v. Bona,4347500.0,2547500.0,775.0,Oglio,Oglio,Po,IT
+3325,Gavardo - SP116,4357500.0,2497500.0,975.0,Oglio,Chiese,Po,IT
+3328,Ponti sul Mincio - Monzambano,4377500.0,2477500.0,2450.0,Mincio,Mincio,Po,IT
+3333,Vigevano - SS494,4232500.0,2472500.0,7225.0,Ticcino,Ticino,Po,IT
+3337,Miorina IDRO,4217500.0,2502500.0,6675.0,Ticcino,Ticino,Po,IT
+3338,Orio Litta - v. Francigena,4282500.0,2452500.0,1000.0,Lambro,Lambro,Po,IT
+3340,Brembate di Sopra - Ponte Briolo,4287500.0,2512500.0,850.0,Adda,Brembo,Po,IT
+3343,Pavia - Ponte Ticino SS35,4252500.0,2452500.0,7675.0,Ticcino,Ticino,Po,IT
+3344,"Leivonvesi, Simuna",5152500.0,4462500.0,12575.0,Kymijoki,Kymijoki,Kymijoki,FI
+3345,"Päijänne, Kalkkinen",5152500.0,4332500.0,26225.0,Kymijoki,Kymijoki,Kymijoki,FI
+3346,"Pielisjoki, Kaltimo",5337500.0,4552500.0,20400.0,Vuoksi,Vuoksi,Neva,FI
+3347,Merikoski,5047500.0,4737500.0,24500.0,Oulujoki,Oulujoki,Oulujoki,FI
+3348,"Oulujärvi, Jylhämä",5122500.0,4702500.0,21750.0,Oulujoki,Oulujoki,Oulujoki,FI
+3349,"Kallavesi, Konnus + Karvio",5232500.0,4497500.0,16425.0,Vuoksi,Neva,Neva,FI
+3350,Hartolankoski,5007500.0,4312500.0,21300.0,Kokemaen,Kokemaen,Kokem,FI
+3351,"Vuoksi, Tainionkoski",5322500.0,4367500.0,60600.0,Vuoksi,Vuoksi,Neva,FI
+3352,Oulunkylä,5147500.0,4212500.0,1850.0,Vantaa,Vantaa,Vantaa,FI
+3353,Keppo,4957500.0,4532500.0,4000.0,Lapuanjoki,Lapuanjoki,Lapuanjoki,FI
+3354,Skatila,4922500.0,4492500.0,4725.0,Kyronjoki,Kyronjoki,Kyronjoki,FI
+3355,"Nilakka, Äyskoski",5162500.0,4532500.0,2350.0,Kymijoki,Koskilampi,Kymijoki,fi
+4001,Permet,5202500.0,1962500.0,2900.0,Vjosa,Vjosa,Vjosa,AL
+4003,Ura_Leklit,5177500.0,1962500.0,1325.0,Vjosa,Drinos,Vjosa,AL
+4004,Hormove,5182500.0,1957500.0,1275.0,Vjosa,Drinos,Vjosa,AL
+4006,Ura_Vajgurore,5157500.0,2017500.0,2075.0,Seman,Seman,Seman,AL
+4007,Paper,5162500.0,2052500.0,1900.0,Shkumbin,Shkumbin,Shkumbin,AL
+4008,Librazhd,5192500.0,2067500.0,775.0,Shkumbin,Shkumbin,Shkumbin,AL
+4009,Ndroq,5132500.0,2072500.0,675.0,Erzen,Erzen,Erzen,AL
+4011,Ura_Gjoles,5132500.0,2092500.0,525.0,Ishem,Ishem,Ishem,AL
+4013,Shoshaj,5157500.0,2112500.0,775.0,Mat,Mat,Mati,AL
+4014,Skavice,5182500.0,2142500.0,5650.0,Drin,Black Drin,Drin,AL
+4015,Shkoder,5107500.0,2157500.0,5275.0,Bojana,Bojana,Drin,AL
+4016,Bahcallek,5112500.0,2152500.0,14100.0,Drin,Drin,Drin,AL
+4017,Pizzighettone - ponte Trento e Trieste,4302500.0,2452500.0,7900.0,Adda,Adda,Po,it
+4020,Soncino - v. Brescia,4312500.0,2477500.0,2300.0,Oglio,Oglio,Po,it
+4110,Tevere a Villa Spada,4527500.0,2102500.0,15675.0,"Tiber, below Nera",Tiber,Tiber,IT
+4111,Tevere a Stimigliano,4532500.0,2132500.0,14425.0,"Tiber, below Nera",Tiber,Tiber,IT
+4113,Tevere a Ripetta,4527500.0,2092500.0,17250.0,"Tiber, below Aniene",Tiber,Tiber,IT
+4114,Velino a Terria,4552500.0,2152500.0,2925.0,Nera,Velino,Tiber,IT
+4115,Liri a Isola Liri,4617500.0,2072500.0,550.0,"Liri, headwaters",Liri,Liri,IT
+4116,Fiora a Montalto di Castro,4452500.0,2142500.0,825.0,Fiora,Fiora,Fiora,IT
+4119,Tevere a Ponte del Grillo,4537500.0,2112500.0,15275.0,"Tiber, below Nera",Tiber,Tiber,IT
+4125,Fiora a Vulci,4457500.0,2147500.0,700.0,Fiora,Fiora,Fiora,IT
+4126,Aniene a Ponte Mammolo,4532500.0,2092500.0,1450.0,Aniene,Aniene,Tiber,IT
+4128,Aniene a Lunghezza,4542500.0,2097500.0,1125.0,Aniene,Aniene,Tiber,IT
+4131,Tevere a Ponte Felice,4522500.0,2142500.0,13825.0,"Tiber, below Nera",Tiber,Tiber,IT
+4133,Marta a Tarquinia,4462500.0,2127500.0,1075.0,Marta,Marta,Marta,IT
+4140,Liri a Pontecorvo,4627500.0,2047500.0,2875.0,"Liri, below Sacco",Liri,Liri,IT
+4141,Mignone SP45,4467500.0,2122500.0,525.0,Mignone,Mignone,Mignone,IT
+4142,Tevere a Foro Italico,4527500.0,2097500.0,17200.0,"Tiber, below Aniene",Tiber,Tiber,IT
+4143,Sacco a Ceccano,4602500.0,2057500.0,1375.0,Sacco,Sacco,Liri,IT
+4148,Treia a Civita Castellana,4522500.0,2137500.0,500.0,"Tiber, below Nera",Treia,Tiber,IT
+4153,Aniene a Ponte Lucano,4552500.0,2097500.0,900.0,Aniene,Aniene,Tiber,IT
+4157,Moscarello a Borgo S.Maria,4557500.0,2042500.0,700.0,High Water Channel / Moscarello,Moscarello,Moscarello,IT
+4160,Liri a Ceprano,4617500.0,2057500.0,850.0,"Liri, headwaters",Liri,Liri,IT
+4172,Rio Galeria,4517500.0,2082500.0,17700.0,"Tiber, below Aniene",Galeria,Tiber,IT
+4174,Turano a Rocca Sinibalda,4562500.0,2137500.0,525.0,Nera,Turano,Tiber,IT
+4182,Tevere a Porta Portese,4527500.0,2087500.0,17300.0,"Tiber, below Aniene",TIber,Tiber,IT
+4186,Petanjci,4782500.0,2632500.0,10475.0,Drava,Mur,Danube,SI
+4189,Čentiba,4817500.0,2627500.0,900.0,Drava,Ledava,Danube,SI
+4192,Otiški Vrh I,4707500.0,2617500.0,625.0,Drava,Meza,Danube,SI
+4199,Videm,4772500.0,2602500.0,925.0,Drava,Dravinja,Danube,SI
+4205,Zamušani I,4782500.0,2607500.0,550.0,Drava,Pesnica,Danube,SI
+4211,Litija,4692500.0,2562500.0,4800.0,Sava,Sava,Danube,SI
+4212,Čatež I,4757500.0,2547500.0,9800.0,Sava,Sava,Danube,SI
+4213,Ovsiše II,4647500.0,2587500.0,975.0,Sava,Lipnica,Danube,SI
+4216,Suha I,4657500.0,2567500.0,600.0,Sava,Sora,Danube,SI
+4232,Rakovec,4762500.0,2552500.0,625.0,Sava,Sutla,Danube,SI
+4235,Petrina,4697500.0,2497500.0,525.0,Sava,Kupa,Danube,SI
+4236,Sodevci,4712500.0,2497500.0,1275.0,Sava,Kupa,Danube,SI
+4245,Logatec,4647500.0,2542500.0,750.0,Sava,Logascica,Danube,SI
+4247,Letuš I,4702500.0,2592500.0,500.0,Sava,Savinja,Danube,SI
+4248,Celje II - brv,4727500.0,2582500.0,1550.0,Sava,Savinja,Danube,SI
+4257,Soteska,4712500.0,2532500.0,1075.0,Sava,Krka,Danube,SI
+4258,Gorenja Gomila,4732500.0,2542500.0,1425.0,Sava,Krka,Danube,SI
+4272,Zalošče,4612500.0,2537500.0,525.0,Vipava,Vipava,Soca,SI
+4273,Miren I,4602500.0,2537500.0,675.0,Vipava,Vipava,Soca,SI
+4282,Cerkvenikov mlin,4637500.0,2512500.0,1025.0,Reka,Reka,Reka,SI
+4288,Manuel,3412500.0,1832500.0,2025.0,Albaida,Albaida,Jucar,ES
+4289,Moixent,3382500.0,1817500.0,1075.0,Albaida,Canyoles,Jucar,ES
+4291,Cofrentes,3362500.0,1867500.0,4725.0,Cabriel,Cabriel,Jucar,ES
+4292,Contreras,3332500.0,1902500.0,3400.0,Cabriel,Cabriel,Jucar,ES
+4293,E.A 139 Villora,3322500.0,1927500.0,1300.0,Cabriel,Cabriel,Jucar,ES
+4294,E.A 140 Huercemes,3317500.0,1927500.0,825.0,Cabriel,Guadazaon,Jucar,ES
+4298,Pajaroncillo,3322500.0,1952500.0,900.0,Cabriel,Cabriel,Jucar,ES
+4300,E.A. 138 Balazote,3267500.0,1842500.0,725.0,Arquillo,Arquillo,Jucar,ES
+4306,Alarcon,3277500.0,1912500.0,2975.0,Jucar,Jucar,Jucar,ES
+4307,Alcala Jucar,3332500.0,1862500.0,10650.0,Jucar,Jucar,Jucar,ES
+4308,Antella,3397500.0,1842500.0,17350.0,Jucar,Jucar,Jucar,ES
+4309,Cuenca,3287500.0,1972500.0,1000.0,Jucar,Jucar,Jucar,ES
+4310,Cullera,3427500.0,1847500.0,21725.0,Jucar,Jucar,Jucar,ES
+4311,El Picazo,3277500.0,1902500.0,3300.0,Jucar,Tagus-Segura Water Transfer,Jucar,ES
+4312,Escalona,3397500.0,1847500.0,17325.0,Jucar,Jucar,Jucar,ES
+4314,Huerto Mulet,3417500.0,1852500.0,21650.0,Magro,Magro,Jucar,ES
+4316,Los Frailes,3302500.0,1862500.0,3800.0,Jucar,Jucar,Jucar,ES
+4318,S.Lorenzo Parrilla,3267500.0,1947500.0,1875.0,Jucar,Jucar,Jucar,ES
+4319,Sueca,3427500.0,1852500.0,21700.0,Jucar,Jucar,Jucar,ES
+4321,E.A. 93 Macastre,3387500.0,1872500.0,1025.0,Magro,Magro,Jucar,ES
+4322,Guadassuar,3412500.0,1852500.0,1475.0,Magro,Magro,Jucar,ES
+4323,Requena,3362500.0,1892500.0,650.0,Magro,Magro,Jucar,ES
+4324,Arenos,3417500.0,1952500.0,1450.0,Mijares,Mijares,Mijares,ES
+4325,Colmenar,3447500.0,1937500.0,2575.0,Mijares,Mijares,Mijares,ES
+4327,Los Toranes,3402500.0,1957500.0,1050.0,Mijares,Mijares,Mijares,ES
+4328,Maria Cristina,3452500.0,1937500.0,1450.0,Mijares,Rambla De La Viuda,Mijares,ES
+4329,Santa Quiteria (E.A. 5),3457500.0,1932500.0,4075.0,Mijares,Mijares,Mijares,ES
+4334,Regajo,3422500.0,1927500.0,525.0,Palancia,Palancia,Palancia,ES
+4336,Font En Carros,3432500.0,1817500.0,525.0,Serpis,Serpis,Serpis,ES
+4338,Benaguasil,3397500.0,1897500.0,5425.0,Turia,Turia,Turia,ES
+4339,Bugarra,3392500.0,1902500.0,5325.0,Turia,Turia,Turia,ES
+4343,Gea de Albarracin,3362500.0,1992500.0,800.0,Turia,Turia,Turia,ES
+4344,La Presa,3417500.0,1887500.0,6275.0,Turia,Turia,Turia,ES
+4346,Repartiment,3422500.0,1877500.0,6350.0,Turia,Turia,Turia,ES
+4347,Teruel,3377500.0,1987500.0,2300.0,Turia,Turia,Turia,ES
+4350,Vilamarxant,3407500.0,1897500.0,6100.0,Turia,Turia,Turia,ES
+4351,Villalba Alta,3392500.0,2012500.0,525.0,Turia,Alfambra,Turia,ES
+4352,Zagra,3367500.0,1932500.0,3975.0,Turia,Turia,Turia,ES
+4353,Elda,3377500.0,1777500.0,1225.0,Vinalopo,Vinalopo,Vinalopo,ES
+4358,Diekirch,4047500.0,2977500.0,2125.0,Moselle,Sauer,Rhine,LU
+4359,Ettelbrück,4042500.0,2972500.0,1075.0,Moselle,Alzette,Rhine,LU
+4367,Mersch,4042500.0,2967500.0,750.0,Moselle,Alzette,Rhine,LU
+4385,Michelau,4042500.0,2982500.0,925.0,Moselle,Sauer,Rhine,LU
+4388,Rosport,4067500.0,2967500.0,4200.0,Moselle,Sauer,Rhine,LU
+4391,Vianden,4047500.0,2987500.0,675.0,Moselle,Our,Rhine,LU
+4409,Tevere a Ponte del Grillo (discharge),4512500.0,2077500.0,17775.0,"Tiber, below Aniene",Tiber,Tiber,it
+4415,Bad Hersfeld 1,4302500.0,3082500.0,2200.0,Fulda,Fulda,Weser,DE
+4416,Helmarshausen,4282500.0,3167500.0,1850.0,Diemel,Diemel,Weser,DE
+4417,Friedrichsthal,4142500.0,3047500.0,625.0,Wied,Wied,Rhine,DE
+4418,Altenahr,4112500.0,3047500.0,750.0,Ahr,Ahr,Rhine,DE
+4419,Kordel,4077500.0,2972500.0,900.0,Moselle,Kyll,Rhine,DE
+4421,Šaštín-Stráže,4847500.0,2862500.0,675.0,Morava,Myjava,Danube,SK
+4422,Záhorská Ves,4827500.0,2827500.0,25900.0,Morava,Morava,Danube,SK
+4430,Chalmová,4947500.0,2877500.0,600.0,Vah,Nitra,Danube,SK
+4433,Nadlice,4927500.0,2867500.0,600.0,Vah,Bebrava,Danube,SK
+4436,Štúrovo,4972500.0,2782500.0,177775.0,Danube,Danube,Danube,SK
+4437,Brezno,5027500.0,2902500.0,575.0,Hron,Hron,Danube,SK
+4439,Kamenín,4967500.0,2792500.0,5125.0,Hron,Hron,Danube,SK
+4441,Salka,4972500.0,2792500.0,5075.0,Ipel,Ipel,Danube,SK
+4443,Bretka,5082500.0,2872500.0,1275.0,Tisa,Muran,Danube,SK
+4446,Rimavská Sobota-Sobôtka,5057500.0,2857500.0,575.0,Tisa,Rimava,Danube,SK
+4447,Jaklovce,5122500.0,2922500.0,725.0,Tisa,Hnilec,Danube,SK
+4449,Stropkov,5167500.0,2967500.0,625.0,Tisa,Ondava,Danube,SK
+4450,Żywiec,4982500.0,2997500.0,1000.0,"Vistula, headwaers",Sola,Vistula,PL
+4451,Stróża,5032500.0,3012500.0,650.0,"Vistula, headwaers",Raba,Vistula,PL
+4452,Nowy Targ-Kowaniec,5047500.0,2977500.0,525.0,Dunajec,Dunajec,Vistula,PL
+4453,Zatwarnica,5232500.0,2982500.0,575.0,San,San,Vistula,PL
+4455,Wólka Mlądzka,5092500.0,3287500.0,925.0,"Vistula, below Pilica",Swider,Vistula,PL
+4456,Brańsk,5182500.0,3367500.0,1200.0,Narew,Nurzec,Vistula,PL
+4457,Trzciniec,5002500.0,3362500.0,1975.0,Narew,Wkra,Vistula,PL
+4458,Smolajny,5002500.0,3487500.0,2350.0,Lyna,Lyna,Pregolya,PL
+4459,Piwonice,4882500.0,3207500.0,2775.0,Warta,Prosna,Oder,PL
+4460,Wyrzysk,4807500.0,3362500.0,600.0,Warta,Lobzonka,Oder,PL
+4463,Castelló d'Empúries,3747500.0,2152500.0,850.0,Muga,Muga,Muga,ES
+4464,Esponellà,3722500.0,2147500.0,750.0,Fluvia,Fluvia,Fluvia,ES
+4466,Ripoll Santa Maria,3677500.0,2152500.0,800.0,Ter,Ter,Ter,ES
+4468,Cellera de Ter,3707500.0,2127500.0,2125.0,Ter,Ter,Ter,ES
+4469,Girona Pont de la Barca - Ter,3722500.0,2127500.0,2350.0,Ter,Ter,Ter,ES
+4471,Torroella de Montgrí,3747500.0,2132500.0,3100.0,Ter,Ter,Ter,ES
+4472,Fogars - Can Simó,3712500.0,2102500.0,750.0,Tordera,Tordera,Tordera,ES
+4473,Santa Coloma de Gramenet,3667500.0,2072500.0,1000.0,Besos,Besos,Besos,ES
+4483,Tarragona,3582500.0,2047500.0,825.0,Francoli,Francoli,Francoli,ES
+4484,Backa Palanka,5057500.0,2502500.0,255800.0,Danube,Danube,Danube,RS
+4485,Bratinac,5207500.0,2457500.0,1775.0,Danube,Mlava,Danube,RS
+4486,Vratarnica,5307500.0,2377500.0,1775.0,Danube,Beli Timok,Danube,RS
+4488,Cacak,5152500.0,2367500.0,3625.0,Velika Morava,Zapadna Morava,Danube,RS
+4489,Trstenik,5207500.0,2342500.0,13925.0,Velika Morava,Zapadna Morava,Danube,RS
+4490,Raska,5177500.0,2297500.0,925.0,Velika Morava,Raska,Danube,RS
+4492,Mataruska Banja,5177500.0,2347500.0,7875.0,Velika Morava,Ibar,Danube,RS
+4497,Leixlip,3232500.0,3487500.0,1000.0,Liffey,Ryewater,Liffey,IE
+4498,Pass Br.,3187500.0,3467500.0,1225.0,Barrow,Barrow,Barrow,IE
+4500,Mallow Railway Br.,3067500.0,3387500.0,1325.0,Munster Blackwater,Blackwater,Blackwater,IE
+4504,Laune Br.,2997500.0,3397500.0,550.0,Laune-Maine,Laune,Laune-Maine,IE
+4513,Ballygaddy,3082500.0,3542500.0,550.0,Clare,Clare,Corrib,IE
+4514,Cloonacannana,3092500.0,3592500.0,525.0,Moy,Moy,Moy,IE
+4515,Ballysadare,3127500.0,3612500.0,725.0,Drowse,Ballysadare,Drowse,IE
+4520,Mrzlo Polje,4752500.0,2497500.0,950.0,Sava,Donja Mreznica,Danube,HR
+4521,Slunj uzvodni,4762500.0,2462500.0,1075.0,Sava,Korana,Danube,HR
+4522,Velemeric,4762500.0,2492500.0,1550.0,Sava,Korana,Danube,HR
+4523,Glina,4797500.0,2487500.0,1050.0,Sava,Glina,Danube,HR
+4524,Zelenjak,4762500.0,2567500.0,550.0,Sava,Sutla,Danube,HR
+4525,Kupljenovo,4772500.0,2557500.0,1125.0,Sava,Krapina,Danube,HR
+4526,Cazma,4832500.0,2537500.0,2350.0,Sava,Cesma,Danube,HR
+4527,Narta,4852500.0,2547500.0,875.0,Sava,Cesma,Danube,HR
+4528,Veliko Vukovje,4862500.0,2507500.0,1500.0,Sava,Ilova,Danube,HR
+4529,Pozega,4922500.0,2502500.0,650.0,Sava,Orljava,Danube,HR
+4530,Frkljevci,4932500.0,2492500.0,1425.0,Sava,Orljava,Danube,HR
+4531,Janja Lipa,4867500.0,2507500.0,550.0,Sava,Pakra,Danube,HR
+4533,Bilaj,4752500.0,2392500.0,1725.0,Sava,Lika,Danube,HR
+4534,Covici,4742500.0,2427500.0,3050.0,Sava,Gacka,Danube,HR
+4536,Zegar nizvodni,4787500.0,2357500.0,675.0,Adriatic catchment,Zrmanja,Adriatic catchment,HR
+4538,Skradinski Buk Gornji,4797500.0,2317500.0,2075.0,Krka,Krka,Krka,HR
+4541,Kamenmost,4902500.0,2287500.0,1875.0,Neretva,Vrljika,Neretva,HR
+4547,I15 Villar,2987500.0,1747500.0,8075.0,Genil,Genil,Guadalquivir,ES
+4548, Río Piedra en Nuévalos,3332500.0,2087500.0,800.0,Jalon,Piedra,Ebro,ES
+4551, Río Garona en Bossost,3557500.0,2232500.0,525.0,"Garonne, headwaters",Garonne,Garonne,ES
+4553, Río Valira en La Seu D´Urgell,3617500.0,2182500.0,525.0,Segre,Valira,Ebro,ES
+4554, Río Segre en Lérida,3542500.0,2107500.0,11550.0,Segre,Segre,Ebro,ES
+4555, Río Ebro en Arroyo,3177500.0,2307500.0,500.0,Ebro,Ebro,Ebro,ES
+4558, Río Iregua en Islallana,3287500.0,2222500.0,600.0,Iregua,Iregua,Ebro,ES
+4559, Río Ara en Boltaña,3502500.0,2202500.0,700.0,Segre,Ara,Ebro,ES
+4563, Río Najerilla en Anguiano,3267500.0,2217500.0,625.0,Najerilla,Najerilla,Ebro,ES
+4564, Río Tirón en Ochánduri,3252500.0,2247500.0,725.0,Tiron,Tiron,Ebro,ES
+4565, Río Cinca en Escalona,3512500.0,2207500.0,800.0,Segre,Cinca,Ebro,ES
+4566, Río Mesa en Jaraba,3327500.0,2087500.0,550.0,Jalon,Mesa,Ebro,ES
+4574, Río Araquil en Asiaín,3357500.0,2267500.0,800.0,Aragon,Araquil,Ebro,ES
+4576, Río Ega en Estella,3332500.0,2252500.0,625.0,Ega,Ega,Ebro,ES
+4578, Río Zadorra en Arce,3267500.0,2267500.0,1300.0,Zadorra,Zadorra,Ebro,ES
+4581, Río Alcanadre en Lascellas,3482500.0,2167500.0,600.0,Segre,Alcanadre,Ebro,ES
+4583, Río Huerva en Mezalocha,3397500.0,2102500.0,725.0,Huerva,Huerva,Ebro,ES
+4584, Río Martín en Oliete,3422500.0,2047500.0,575.0,Martin,Martin,Ebro,ES
+4585, Río Huerva en Las Torcas,3392500.0,2087500.0,525.0,Huerva,Huerva,Ebro,ES
+4586, Río Martín en Alcaine,3417500.0,2047500.0,550.0,Martin,Martin,Ebro,ES
+4593, Río Aguas Vivas en Moneva,3412500.0,2072500.0,525.0,Aguas Vivas,Aguas Vivas,Ebro,ES
+4595, Río Queiles en Tudela,3357500.0,2177500.0,500.0,Huecha,Queiles,Ebro,ES
+4601, Río Flumen en Barbués,3457500.0,2157500.0,600.0,Segre,Flumen,Ebro,ES
+4604, Clamor Amarga en Zaidín,3512500.0,2107500.0,750.0,Segre,Clamor Amarga,Ebro,ES
+4611, Río Segre en Isòvol,3647500.0,2177500.0,700.0,Segre,Segre,Ebro,ES
+4612, Río Ésera en Campo,3527500.0,2197500.0,625.0,Segre,Esera,Ebro,ES
+4614, Río Irati en Aos,3392500.0,2252500.0,850.0,Aragon,Irati,Ebro,ES
+4622, Río Huecha en Cortes,3372500.0,2162500.0,550.0,Huecha,Huecha,Ebro,ES
+4625, Río Arga en Burlada,3372500.0,2262500.0,525.0,Aragon,Arga,Ebro,ES
+4627, Río Zadorra en Vitoria-Abetxuko,3292500.0,2282500.0,675.0,Zadorra,Zadorra,Ebro,ES
+4628, Río Gállego en Sabiñánigo,3467500.0,2212500.0,775.0,Gallego,Gallego,Ebro,ES
+5066,Nossen 1,4552500.0,3112500.0,600.0,Mulde,Freiberger Mulde,Elbe,DE
+5067,Avila,3077500.0,2067500.0,625.0,Adaja,Adaja,Douro,ES
+5069,Vegalatrave,2982500.0,2212500.0,500.0,Esla,Aliste,Douro,ES
+5071,Sahagún,3087500.0,2267500.0,900.0,Esla,Cea,Douro,ES
+5073,Morales del Rey,3022500.0,2247500.0,4325.0,Esla,Orbigo,Douro,ES
+5074,Villanueva de los Infantes,3117500.0,2182500.0,900.0,Pisuerga,Esgueva,Douro,ES
+5076,Las Omañas,3022500.0,2317500.0,500.0,Esla,Omana,Douro,ES
+5078,Osma,3232500.0,2147500.0,1025.0,Ucero,Ucero,Douro,ES
+5137,Trier UP,4077500.0,2967500.0,23675.0,Moselle,Moselle,Rhine,DE
+5141,Allendorf,4317500.0,3127500.0,5275.0,Werra,Werra,Weser,DE
+5144,Porta,4247500.0,3237500.0,19450.0,"Weser, below Diemel",Weser,Weser,DE
+5145,Nienburg,4267500.0,3282500.0,21975.0,"Weser, below Diemel",Weser,Weser,DE
+5147,Versen Wehrdurchstich,4132500.0,3297500.0,8525.0,Ems,Ems,Ems,DE
+5151,Azuer en Daimiel,3142500.0,1882500.0,1100.0,Guadiana,Azuer,Guadiana,ES
+5152,Gigüela en Saelices,3227500.0,1957500.0,575.0,Ciguela,Ciguela,Guadiana,ES
+5153,Gigüela en Quintanar,3197500.0,1937500.0,900.0,Ciguela,Ciguela,Guadiana,ES
+5154,Gigüela en Villafranca,3177500.0,1922500.0,3250.0,Ciguela,Ciguela,Guadiana,ES
+5155,Záncara en Provencio,3237500.0,1897500.0,2175.0,Ciguela,Zancara,Guadiana,ES
+5156,Záncara en Socuéllamos,3212500.0,1902500.0,3675.0,Ciguela,Zancara,Guadiana,ES
+5160,Bañuelos en Fernancaballero,3122500.0,1892500.0,700.0,Guadiana,Banuelos,Guadiana,ES
+5161,Guadiana en Vicario,3107500.0,1887500.0,16325.0,Guadiana,Guadiana,Guadiana,ES
+5162,Jabalón en la Cabezuela,3162500.0,1832500.0,675.0,Jabalon,Jabalon,Guadiana,ES
+5163,Bullaque en Torre Abraham,3092500.0,1917500.0,775.0,Guadiana,Bullaque,Guadiana,ES
+5164,Bullaque en Luciana,3087500.0,1882500.0,2050.0,Guadiana,Bullaque,Guadiana,ES
+5165,Tirteafuera en Abenójar,3072500.0,1872500.0,750.0,Guadiana,Tirteafuera,Guadiana,ES
+5167,Guadiana en Villarubia,3142500.0,1897500.0,12050.0,Ciguela,Ciguela,Guadiana,ES
+5169,Guadiana en Puebla de D. Rodrigo,3057500.0,1897500.0,22550.0,Guadiana,Guadiana,Guadiana,ES
+5174,Zújar Confluencia Guadamatilla,3002500.0,1862500.0,1625.0,Zujar,Zujar,Guadiana,ES
+5175,Guadalmez en Guadalmez,3022500.0,1862500.0,2825.0,Zujar,Guadalmez,Guadiana,ES
+5179,Zújar en Zújar,2977500.0,1897500.0,7650.0,Zujar,Zujar,Guadiana,ES
+5183,Ruecas en Hernán Cortés,2947500.0,1917500.0,1800.0,Ruecas,Ruecas,Guadiana,ES
+5186,Búrdalo en Sta. Amalia,2932500.0,1917500.0,550.0,Burdalo,Burdalo,Guadiana,ES
+5188,Guadiana en Valverde,2917500.0,1907500.0,39375.0,Guadiana,Guadiana,Guadiana,ES
+5189,Matachel en los Molinos,2912500.0,1872500.0,1275.0,Matachel,Matachel,Guadiana,ES
+5196,Guadiana en Montijo,2897500.0,1912500.0,42800.0,Guadiana,Guadiana,Guadiana,ES
+5199,Guadajira en Guadajira,2877500.0,1907500.0,875.0,Guadajira,Guadajira,Guadiana,ES
+5202,Albuera en Talavera,2867500.0,1917500.0,500.0,Guadiana,Rivera de los limonetes,Guadiana,ES
+5203,Zapatón en Villar del Rey,2867500.0,1942500.0,1075.0,Gevora,Zapaton,Guadiana,ES
+5204,Gévora en los Riscos,2852500.0,1947500.0,525.0,Gevora,Gevora,Guadiana,ES
+5205,Gévora en Valdebotoa,2857500.0,1927500.0,2075.0,Gevora,Gevora,Guadiana,ES
+5206,Rivilla en Badajoz,2852500.0,1917500.0,48875.0,Guadiana,Rivilla,Guadiana,ES
+5208,Ardila en Oliva,2847500.0,1847500.0,1750.0,Ardilla,Ardila,Guadiana,ES
+5209,Guadiana en Villanueva,2952500.0,1912500.0,35125.0,Guadiana,Guadiana,Guadiana,ES
+5211,Guadiana en Talavera,2872500.0,1917500.0,44950.0,Guadiana,Guadiana,Guadiana,ES
+5212,Guadiana en Charco de los Pollos,2847500.0,1917500.0,48925.0,Guadiana,Guadiana,Guadiana,ES
+5213,Múrtigas en Encinasola,2837500.0,1837500.0,825.0,Ardilla,Murtigas,Guadiana,ES
+5214,Banja Luka,4892500.0,2432500.0,3450.0,Sava,Vrbas,Danube,BA
+5215,Delibasino Selo,4892500.0,2437500.0,4275.0,Sava,Vrbas,Danube,BA
+5218,Volari,4887500.0,2382500.0,600.0,Sava,Pliva,Danube,BA
+5220,Novi Grad nizvodno,4822500.0,2462500.0,8725.0,Sava,Una,Danube,BA
+5221,Prijedor,4847500.0,2452500.0,3025.0,Sava,Sana,Danube,BA
+5223,Martinrive,4012500.0,3047500.0,1100.0,Meuse,Ambleve,Rhine,BE
+5224,Membre Pont,3957500.0,2987500.0,1250.0,Meuse,Smois,Rhine,BE
+5225,Treignes,3937500.0,3012500.0,600.0,Meuse,Viroin,Rhine,BE
+5226,Gendron,3962500.0,3022500.0,1425.0,Meuse,Lesse,Rhine,BE
+5228,Tabreux,4002500.0,3047500.0,1650.0,Meuse,Ourthe,Rhine,BE
+5230,Chaudfontaine Pisc,4017500.0,3057500.0,700.0,Meuse,Vesdre,Rhine,BE
+5231,Solre Us,3902500.0,3037500.0,1375.0,Meuse,Haute sambre,Rhine,BE
+5232,Lessines Us,3887500.0,3082500.0,525.0,Scheldt,Dender,Scheldt,BE
