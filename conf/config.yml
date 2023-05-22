@@ -19,9 +19,16 @@ study_period:
 
 #PATHS
 paths:
-    discharge:
-        reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
-        forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+    input:
+        discharge:
+            reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
+            forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+    output:
+        #discharge:
+            #reanalysis: ../data/discharge/reanalysis/
+        exceedance:
+            #reanalysis: ../data/exceedance/reanalysis/
+            forecast: ../data/exceedance/forecast/Q5_5percent_buffer/
     
 hits:
     window: 5
