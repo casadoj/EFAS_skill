@@ -12,6 +12,8 @@ return_period:
     file: ../data/thresholds/return_levels.nc
     threshold: 5    # years
     reducing_factor: 0.05
+    
+
 
 study_period:
     start:  # start date of the analysis (e.g. 2020-01-01)
@@ -20,15 +22,20 @@ study_period:
 #PATHS
 paths:
     input:
+        reporting_points: ../results/reporting_points/
         discharge:
             reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
             forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+        weights:
+            member: ../data/weights_member.nc
+            brier: ../data/weights_brier.nc
     output:
         #discharge:
             #reanalysis: ../data/discharge/reanalysis/
         exceedance:
             #reanalysis: ../data/exceedance/reanalysis/
             forecast: ../data/exceedance/forecast/Q5_5percent_buffer/
+        hits: ../data/hits/Q5_5percent_buffer/
     
 hits:
     window: 5
