@@ -1,0 +1,33 @@
+reporting_points:
+    area: 500 # minimum catchment area (km²)
+
+seasonality: False
+
+criteria:
+    probability: [0.05, 0.96, 0.025] # minimum, maximum and step values
+    persistence: [(1, 1), (2, 2), (2, 3), (3, 3), (2, 4), (3, 4), (4, 4)]
+    leadtime: all # hours
+    
+return_period:
+    file: ../data/thresholds/return_levels.nc
+    threshold: 5    # years
+    reducing_factor: 0.05
+
+study_period:
+    start:  # start date of the analysis (e.g. 2020-01-01)
+    end:    # end date of the analysis (e.g. 2022-12-31)
+
+#PATHS
+paths:
+    discharge:
+        reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
+        forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+    
+hits:
+    window: 5
+    center: True
+    
+skill_analysis:
+    leadtime: 60 # hours
+    area: 2000 # km²
+    beta: 0.8 # coefficient of the fbeta-score
