@@ -670,7 +670,7 @@ def lineplot_skill(ds, metric='f1', modify=False, xdim='probability', rowdim='pe
     
     xmin, xmax = ds[metric][xdim].min(), ds[metric][xdim].max()
     xlim = kwargs.get('xlim', (xmin, xmax))
-    ylim = kwargs.get('ylim', (0, 1))
+    ylim = kwargs.get('ylim', (-.025, 1.025))
     r = kwargs.get('round', 3)
     
     if coldim is None:
@@ -737,8 +737,8 @@ def lineplot_skill(ds, metric='f1', modify=False, xdim='probability', rowdim='pe
                 # best-performing x value
                 x = best_x.sel(loc)
                 y = best_metric.sel(loc)
-                ax.vlines(x, 0, y, 'k', ':', lw=lw * .8, alpha=alpha)
-                ax.hlines(y, 0, x, 'k', ':', lw=lw * .8, alpha=alpha)
+                ax.vlines(x, ylim[0], y, 'k', ':', lw=lw * .8, alpha=alpha)
+                ax.hlines(y, xlim[0], x, 'k', ':', lw=lw * .8, alpha=alpha)
                 
                 # config
                 if i == 0:
@@ -754,7 +754,7 @@ def lineplot_skill(ds, metric='f1', modify=False, xdim='probability', rowdim='pe
         lbls = lbls[::len(ds[linedim])]
         fig.legend(hndls, lbls, bbox_to_anchor=kwargs.get('loc_legend', [0.075, -.04, .5, .1]), ncol=len(ds));
     
-    ax.set(xlim=(xmin, xmax), ylim=(0, 1))
+    ax.set(xlim=(xmin, xmax), ylim=ylim)
     xticks = kwargs.get('xticks', ds[xdim][1::kwargs.get('xtick_step', 4)])
     ax.set_xticks(xticks)
               
@@ -1062,15 +1062,14 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
 
             # true positives (FP)
             tp = ds['TP'].sel(loc)
-            ax.plot(tp[xdim], tp.data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label=f'TP', zorder=4)
-
             # total predicted events: TP + FP
             pred = tp + ds['FP'].sel(loc)
-            ax.plot(pred[xdim], pred.data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label=f'predicted', zorder=3)
-
             # total observed events: TP + FN
             obs = tp + ds['FN'].sel(loc)
-            ax.plot(obs[xdim], obs.data.transpose(), lw=.5, ls='-', color='k', label='observed', zorder=5)
+            
+            ax.plot(tp[xdim], (tp / obs).data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label=f'hits', zorder=4)
+            ax.plot(pred[xdim], (pred / obs).data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label='predicted', zorder=3)
+            ax.axhline(1, lw=.5, ls='-', color='k', label='observed', zorder=5)
             
             # best-performing x value
             x = best_x.sel(loc).data
@@ -1086,7 +1085,7 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
             ax.set_xticks(xticks)
 
             if j == 0:
-                ax.set_ylabel('count (-)')
+                ax.set_ylabel(r'$\frac{x}{obs}$', rotation=0, horizontalalignment='right')
     
     else:
         ncols, nrows = len(ds[coldim]), len(ds[rowdim])
@@ -1101,21 +1100,15 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
                 
                 # true positives (FP)
                 tp = ds['TP'].sel(loc)
-                ax.plot(tp[xdim], tp.data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label=f'TP', zorder=4)
-                
-                # total predicted events: TP + FP
-                pred = tp + ds['FP'].sel(loc)
-                ax.plot(pred[xdim], pred.data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label=f'predicted', zorder=3)
-                
                 # total observed events: TP + FN
                 obs = tp + ds['FN'].sel(loc)
-                ax.plot(obs[xdim], obs.data.transpose(), lw=.5, ls='-', color='k', label='observed', zorder=5)
+                # total predicted events: TP + FP
+                pred = tp + ds['FP'].sel(loc)
                 
-                # best-performing x value
-                x = best_x.sel(loc).data
-                text = '{0} = {1:.2f}'.format(score, best_metric.sel(loc).data)
-                ax.text((x - xmin) / xmax, .975, text, horizontalalignment='right', verticalalignment='top', rotation=90, transform=ax.transAxes)
-                ax.axvline(x, color='k', ls='--', lw=.8)
+                # ax.plot(obs[xdim], obs.data.transpose(), lw=.5, ls='-', color='k', label='observed', zorder=5)
+                ax.axhline(1, lw=.5, ls='-', color='k', label='observed', zorder=5)
+                ax.plot(tp[xdim], (tp / obs).data.transpose(), lw=.5, alpha=.66, c=f'steelblue', label='hits', zorder=4)
+                ax.plot(pred[xdim], (pred / obs).data.transpose(), lw=.5, ls='-', alpha=.66, c=f'firebrick', label='predicted', zorder=3)
                 
                 # best-performing x value
                 x = best_x.sel(loc).data
@@ -1130,7 +1123,7 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
                     xticks = kwargs.get('xticks', ds[xdim][1::kwargs.get('xtick_step', 4)])
                     ax.set_xticks(xticks)
                 if j == 0:
-                    ax.set_ylabel('count (-)')
+                    ax.set_ylabel(r'$\frac{x}{obs}$', rotation=0, horizontalalignment='right')
                     ax.text(-.35, 1, f'{rowdim}\n{row}', fontsize=11, transform=ax.transAxes, verticalalignment='top', horizontalalignment='right')
         
     # legend

@@ -536,6 +536,29 @@ def df2da(df, dims, plot=False, **kwargs):
 
 
 
+def dict2da(dictionary, dim):
+    """It converts a dictionary of xarray.Datarray into a single xarray.DataArray combining the keys in the dictionary in a new dimension
+    
+    Inputs:
+    -------
+    dictionary: dict. A dictionary of xarray.DataArray
+    dim:        str. Name of the new dimension in which the keys of 'dictionary' will be combined
+    
+    Output:
+    -------
+    array:      xr.DataArray.
+    """
+    
+    if isinstance(dictionary, dict) is False:
+        return 'ERROR. The input data must be a Python dictionary.'
+        
+    data = list(dictionary.values())
+    coord = xr.DataArray(list(dictionary), dims=dim)
+
+    return xr.concat(data, dim=coord)
+
+
+
 def reshape_DataArray(da, trim=False, chunks=None):
     """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
     
