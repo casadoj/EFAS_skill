@@ -31,12 +31,12 @@ paths:
             brier: ../data/weights_brier.nc
     output:
         #discharge:
-            #reanalysis: ../data/discharge/reanalysis/
+            #reanalysis: ../results/discharge/reanalysis/
         exceedance:
-            #reanalysis: ../data/exceedance/reanalysis/
-            forecast: ../data/exceedance/forecast/Q5_5percent_buffer/
-        hits: ../data/hits/Q5_5percent_buffer/
-        skill: ../results/skill/Q5_5percent_buffer/
+            reanalysis: ../results/exceedance/reanalysis/
+            forecast: ../results/exceedance/forecast/
+        hits: ../results/hits/
+        skill: ../results/skill/
     
 skill_analysis:
     current_criteria:
