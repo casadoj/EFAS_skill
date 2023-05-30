@@ -9,6 +9,7 @@ import seaborn as sns
 import cartopy.crs as ccrs
 import cartopy.feature as cf
 from sklearn.metrics import f1_score, recall_score, precision_score, confusion_matrix
+from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 from tqdm import tqdm_notebook
 
 # models
@@ -865,125 +866,121 @@ def hits2skill(hits, beta=1):
 
 
 
-def find_best_criterium(ds, metric='f1', dim='probability', tolerance=1e-2, modify=True):
+def find_best_criterion(skill, dim='probability', metric='f1', tolerance=1e-2, min_spread=True):
     """It searches for the value of a dimension in a dataset that maximizes a skill metric.
     
     Inputs:
     -------
-    ds:        xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
-    metric:    string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
-    dim:       string. Name of the dimension in 'ds' that will be optimized
-    tolerance: float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
-    modify:    boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
+    skill:      xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision. The function works regardless of the number of dimensions, as long as one of them matches with the dimension to be optimized, defined in the attribute 'dim'
+    dim:        string. Name of the dimension in 'skill' that will be optimized
+    metric:     string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    tolerance:  float. Minimum value of improving skill that is considered in the optimization. All the values of the dimension 'dim' whose skill differs less than this tolerance from the maximum skill are considered candidates. The selection of the best candidate among these values depends on the attribute `min_spread`.
+    min_spread: boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
     
     Output:
     -------
     xr.Dataset. Matrix that contains 4 variables ('dim', recall, precision, 'metric') correspoding to the optimized values of the dimension 'dim' and the skill corresponding to that value measured in terms of recall, precision and the selected target 'metric'. It has one dimension less than the original Dataset 'ds', since the  dimension 'dim' was removed and optimized.
     """
-        
-    coords = {d: ds[d].data for d in ds.dims if d != dim}
-    dims = list(coords)
-    best_metric = xr.DataArray(coords=coords, dims=dims)
-    best_recall =  best_metric.copy()
-    best_precision = best_metric.copy()
-    best_dim = best_metric.copy().astype(ds[dim].dtype)
+
+    # compute skill loss with respect to the maximum
+    delta_metric = skill[metric].max(dim) - skill[metric]
     
-    for dim0 in ds[dims[0]].data:
-
-        for dim1 in ds[dims[1]].data:
-
-            sel = {dimension: value for dimension, value in zip(dims, [dim0, dim1])}#dict(approach=app, persistence=per)
-
-            # difference between the best skill and the rest
-            delta_metric = ds[metric].sel(sel).max(dim) - ds[metric].sel(sel)
-
-            # values of the dimension with a metric close enough to the maximum
-            values = ds[metric].sel(sel).where(delta_metric < tolerance, drop=True)[dim]
-
-            if modify:
-                # for those values, compute a modified version of the metric score that penalizes the difference between recall and precision
-                ds_values = ds.sel(sel).sel({dim: values})
-                diff_RP = abs(ds_values['recall'] - ds_values['precision'])
-                diff_RP = diff_RP.fillna(0)
-                metric_mod = ds_values[metric] * (1 - diff_RP)
-
-                # find the dimension value that maximmizes the modified metric score
-                try:
-                    value = metric_mod.idxmax(dim).data
-                except:
-                    continue
-                best_dim.loc[sel] = value
-            else:
-                # select the minimum of those values
-                try:
-                    value = values.min().data
-                except:
-                    continue
-                best_dim.loc[sel] = value
-
-            # metric, recall and precision associated to that dimension value
-            ds_ = ds.sel(sel).sel({dim: value})
-            best_metric.loc[sel] = ds_[metric].data
-            best_recall.loc[sel] = ds_['recall'].data
-            best_precision.loc[sel] = ds_['precision'].data
-
-    return xr.Dataset({dim: best_dim, metric: best_metric, 'recall': best_recall, 'precision': best_precision})
+    # select candidates as the values for which the skill is close enough (within the tolerance) to the maximum skill
+    candidates = skill.where(delta_metric < tolerance, drop=True)
+    
+    if min_spread:
+        # compute the precision-recall difference for the candidates
+        diff_RP = abs(candidates['recall'] - candidates['precision'])
+        # select the value of "dim" that minimize the precision-recall difference
+        best_dim = diff_RP.idxmin(dim)
+        # extract the skill associated to that value
+        best_skill = candidates.where(diff_RP == diff_RP.min(dim)).max(dim)
+    else:
+        # select the minimum as the best candidate
+        mask = ~candidates[metric].isnull()
+        best_dim = mask.idxmax(dim)
+        # extract the skill associated to that value
+        best_skill = candidates.sel({dim: best_dim}).drop(dim)
+        
+    # merge all the results in a single Dataset
+    best_skill[dim] = best_dim
+    
+    return best_skill
 
 
-def find_best_criteria(ds, metric='f1', tolerance=1e-2, modify=True):
-    """It searches for the combination of criteriathat maximizes a skill metric.
+def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', tolerance=1e-2, min_spread=[True, False]):
+    """It searches for the combination of criteria that maximizes a skill metric.
     
     Inputs:
     -------
-    ds:                   xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
-    metric:               string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
-    tolerance:            float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
-    modify:               boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
+    skill:      xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
+    dims:       list or string. Name(s) of the dimension(s) in 'skill' that will be optimized
+    metric:     string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    tolerance:  float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    min_spread: list or boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
     
     Output:
     -------
-    best_criteria:        dict. Best set of criteria for each approach
-    best_metric_appraoch: xr.DataArray. Value of the 'metric' for the best criteria found for each approach
+    skill:       xr.Dataset. A dataset similar to the input 'skill', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension
     """
     
-    # OPTIMIZE THE PROBABILITY THRESHOLD
-    
-    best_probability = find_best_criterium(ds, metric=metric, dim='probability', tolerance=tolerance, modify=modify)
-    
-    # OPTIMIZE PERSISTENCE
-    
-    best_probability_approach = xr.DataArray(coords={'approach': ds.approach}, dims=['approach'])
-    best_metric_approach = best_probability_approach.copy()
-    best_persistence_approach = best_probability_approach.copy().astype(str)
-    for app in ds.approach.data:
+    if isinstance(dims, str):
+        dims = [dims]
+    if isinstance(min_spread, bool):
+        min_spread = [min_spread] * len(dims)
         
-        sel = dict(approach=app)
-
-        # difference between the best metric value and the rest
-        delta_metric = best_probability[metric].sel(sel).max('persistence') - best_probability[metric].sel(sel)
-
-        # persistence values with a metric value close enough to the maximum
-        pers = best_probability[metric].sel(sel).where(delta_metric < tolerance, drop=True).persistence
-    
-        # from those, select the most relax persistence (minimum)
-        per = pers.min()
-        best_persistence_approach.loc[sel] = per
-
-        # metric value and probability associated to that persistence
-        best_probability_approach.loc[sel] = best_probability['probability'].sel(sel).sel(persistence=per).data
-        best_metric_approach.loc[sel] = best_probability[metric].sel(sel).sel(persistence=per).data
+    for dim, spread in zip(dims, min_spread):
+        skill = find_best_criterion(skill, metric=metric, dim=dim, tolerance=tolerance, min_spread=spread)
         
-    # DICTIONARY OF BEST CRITERIA ACCORDING TO THE APPROACH
-    
-    best_criteria = {app: {'approach': app} for app in ds.approach.data}
-    for app, dct in best_criteria.items():
-        dct['probability'] = best_probability_approach.sel(approach=app).data
-        dct['persistence'] = best_persistence_approach.sel(approach=app).data
-    
-    return best_criteria, best_metric_approach   
+    return skill
 
 
-def area_ranges(area_min, area_max, scale='semilog'):
+def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, random_state=0, beta=1, tolerance=1e-2, min_spread=True):
+    """A cross-validation version of the function of the function 'find_best_criteria'. It selects the criteria that maximizes the skill over a 'kfold' number of subsamples of the stations
+    
+    Inputs:
+    -------
+    hits:                 xarray.Dataset (id, persistence, approach, probability). A boolean matrix of hits, misses and false alarms. It must contain three variables: 'tp' hits, 'fn' misses, 'fp' false alarms
+    station_events:       pd.Series. The number of observed events in the set of the stations used for the optimization. It will be used as a covariable in the stratified sampling in order to keep the proportion of events in each of the subsets
+    dims:        list or string. Name(s) of the dimension(s) in 'skill' that will be optimized
+    kfold:                int. Number of subsets of the stations to be produced
+    train_size:           float. It should be between 0.0 and 1.0 and represents the proportion of the dataset to include in the train split
+    ramdon_state:         int. The seed in the random selection of samples
+    beta:                 float. A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
+    tolerance:            float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    min_spread: boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
+    
+    Outputs:
+    --------
+    skill:                xr.DataArray (persistence, approach, probability, kfold). The skill of each of the cross-validation subsets
+    best_criteria:        dict. Best set of criteria for each approach  
+    """
+    
+    # compute skill on 'kfold' sets of samples
+    skill = {}
+    cv = StratifiedShuffleSplit(n_splits=kfold, train_size=train_size, random_state=random_state)
+    for i, (train, val) in enumerate(cv.split(station_events.index, station_events.values)):
+
+        # convert indexes into station ID
+        train = station_events.index[train]
+
+        # subset of the 'hits' dataset with the stations selected for the optimization
+        hits_train = hits.sel(id=train).sum('id', skipna=False)
+
+        # skill dataset for optimizing criteria
+        skill[i] = hits2skill(hits_train, beta=beta)#.sel(leadtime=min_leadtime).drop('leadtime')
+
+    # concatenate the 'skill_cv' dictionary as xarray.DataArray
+    skill = dict2da(skill, dim='kfold')
+
+    # find the best criteria for the average over station sets
+    best_criteria = find_best_criteria(skill.mean('kfold'), metric=f'f{beta}', dims=dims, tolerance=tolerance, min_spread=min_spread)
+    
+    return skill, best_criteria
+
+
+
+def define_area_ranges(area_min, area_max, scale='semilog'):
     """Define an array of catchment area ranges
     
     Inputs:
@@ -1015,73 +1012,6 @@ def area_ranges(area_min, area_max, scale='semilog'):
         return 'ERROR. Scale must be one of the following: "linear", "log", "semilog".'
     
     return areas.astype(int)
-
-
-
-def optimize_criteria_by_area(hits, station_area, station_events, area_ranges, beta=1, tolerance=1e-2, modify=False):
-    """It optimizes the probability threshold for several catchment area ranges.
-    
-    IMPORTANT. The dimension 'leadtime' must not be included in the Dataset 'hits'
-    
-    Inputs:
-    -------
-    hits:             xr.Dataset (id, persistence, approach, probability). It contains 3 variables: 'TP' true positives, 'FN' false negatives, 'FP' false positives
-    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
-    station_events:   pd.Series (id,). Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
-    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
-    beta:             float. A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
-    tolerance:        float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
-    modify:           boolean. If True, a modified version of the skill metric is computed penalizing the difference between recall and precision
-    
-    Ouputs:
-    -------
-    summary:          pd.DataFrame. It contains for every area range the number of stations and the number of observed flood events
-    hits_area:        xr.Dataset (persistence, approach, probability, area). It contains the same 3 variables as the original dataset 'hits', but aggregated by ranges of catchment area
-    skill_area:       xr.Dataset (persistence, approach, probability, area). It contains 3 variables (recall, precision, fbeta-score) with the skill metrics aggregated by ranges of catchment area
-    probability_area: xr.DataArray (persistence, approach, area). It contains the optimized probability thresholds for each range of catchment area
-    """
-    
-    # DataFrame to save the number of stations and observed events for each area range
-    summary = pd.DataFrame(index=area_ranges, columns=['n_stations', 'n_events_obs'])
-    
-    # Dataset to save hits, misses and false alarms by area range
-    dims = list(hits.dims)
-    dims.remove('id')
-    coords = {dim: hits[dim].data for dim in dims}
-    dims += ['area']
-    coords['area'] = area_ranges
-    hits_area = xr.Dataset({var: xr.DataArray(dims=dims, coords=coords) for var in ['TP', 'FN', 'FP']})
-    
-    # compute the previous DataFrame and Dataset
-    for area in tqdm_notebook(hits_area.area.data):
-
-        # select stations in the catchment area range
-        mask_area = (station_area >= area)
-        stn_area = station_area.loc[mask_area].index.to_list()
-        summary.loc[area, 'n_stations'] = len(stn_area)
-        summary.loc[area, 'n_events_obs'] = station_events.loc[stn_area].sum()
-
-        # extract hits for those stations and aggregate
-        hits_area.loc[dict(area=area)] = hits.sel(id=stn_area).sum('id', skipna=False)
-
-    # compute skill
-    skill_area = hits2skill(hits_area, beta=beta)
-    # remove area ranges for which there's no data
-    skill_area = skill_area.dropna('area', how='all')
-    hits_area = hits_area.sel(area=skill_area.area)
-
-    # compute best probability threshold for each area range
-    if isinstance(beta, int):
-        metric = f'f{beta}'
-    else:
-        metric = f'f{beta:.1f}'
-    probability_area = xr.DataArray(dims=[dim for dim in list(skill_area.dims) if dim != 'probability'], 
-                                 coords={dim: skill_area[dim] for dim in dims if dim != 'probability'})
-    for area in tqdm_notebook(probability_area.area.data):
-        bc = find_best_criterium(skill_area.sel(area=area), metric=metric, dim='probability', tolerance=tolerance, modify=modify)
-        probability_area.loc[dict(area=area)] = bc['probability']
-        
-    return summary, hits_area, skill_area, probability_area
 
 
 
@@ -1178,3 +1108,67 @@ def recompute_exceedance(obs, pred_high, pred_low):
     exceed_pred = xr.DataArray(exceed_pred, dims=pred_high.dims, coords=pred_high.coords)
     
     return exceed_obs, exceed_pred
+
+
+
+def summarize_by_area(station_area, station_events, area_ranges):
+    """It calculates the amount of stations and observed events at different catchment area thresholds
+    
+    Inputs:
+    -------
+    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
+    station_events:   pd.Series (id,). Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
+    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
+    
+    Output:
+    -------
+    summary:          pd.DataFrame(area,2). Summary of number of stations and observed events by catchment area
+    """
+    
+    # DataFrame to save the number of stations and observed events for each area range
+    summary = pd.DataFrame(index=area_ranges, columns=['n_stations', 'n_events_obs'])
+
+    # compute the previous DataFrame and Dataset
+    for area in summary.index:
+
+        # select stations in the catchment area range
+        mask_area = (station_area >= area)
+        stn_area = station_area.loc[mask_area].index.to_list()
+        summary.loc[area, 'n_stations'] = len(stn_area)
+        summary.loc[area, 'n_events_obs'] = station_events.loc[stn_area].sum()
+
+    return summary
+
+
+
+def hits_by_area(hits, station_area, area_ranges):
+    """Given a Dataset of hits by station ID and the area of the stations, it computes the hits grouped by catchment area threshold
+    
+    Inputs:
+    -------
+    hits:             xr.Dataset (id, persistence, approach, probability). It contains 3 variables: 'TP' true positives, 'FN' false negatives, 'FP' false positives
+    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
+    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
+    
+    Output:
+    -------
+    hits_area:        xr.Dataset (persistence, approach, probability, area). It contains the same 3 variables as the original dataset 'hits', but aggregated by ranges of catchment area
+    """
+    
+    # Dataset to save hits, misses and false alarms by area range
+    dims = list(hits.dims)
+    dims.remove('id')
+    coords = {dim: hits[dim].data for dim in dims}
+    dims += ['area']
+    coords['area'] = area_ranges
+    hits_area = xr.Dataset({var: xr.DataArray(dims=dims, coords=coords) for var in ['TP', 'FN', 'FP']})
+    
+    # compute the previous Dataset
+    for area in tqdm_notebook(hits_area.area.data):
+        # select stations in the catchment area range
+        mask_area = (station_area >= area)
+        stn_area = station_area.loc[mask_area].index.to_list()
+        # extract hits for those stations and aggregate
+        hits_area.loc[dict(area=area)] = hits.sel(id=stn_area).sum('id', skipna=False)
+        
+    return hits_area

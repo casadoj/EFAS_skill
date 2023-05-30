@@ -13,8 +13,6 @@ return_period:
     threshold: 5    # years
     reducing_factor: 0.05
     
-
-
 study_period:
     start:  # start date of the analysis (e.g. 2020-01-01)
     end:    # end date of the analysis (e.g. 2022-12-31)
@@ -22,7 +20,7 @@ study_period:
 #PATHS
 paths:
     input:
-        reporting_points: ../results/reporting_points/
+        reporting_points: ../data/reporting_points/Station-2022-10-27v12.csv
         discharge:
             reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
             forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
@@ -30,8 +28,9 @@ paths:
             member: ../data/weights_member.nc
             brier: ../data/weights_brier.nc
     output:
-        #discharge:
-            #reanalysis: ../results/discharge/reanalysis/
+        reporting_points: ../results/reporting_points/
+        discharge:
+            reanalysis: ../data/discharge/reanalysis/
         exceedance:
             reanalysis: ../results/exceedance/reanalysis/
             forecast: ../results/exceedance/forecast/

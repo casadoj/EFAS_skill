@@ -647,7 +647,7 @@ def plot_skill_eventwise(skill, xdim='probability', ydim='combination', save=Non
         
         
         
-def lineplot_skill(ds, metric='f1', modify=False, xdim='probability', rowdim='persistence', coldim=None, linedim='approach', save=None, **kwargs):
+def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', coldim=None, linedim='approach', save=None, **kwargs):
     """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created. If 'coldim' is None,  the columns represent the metrics (variables of the Dataset 'ds'). If 'coldim' is not None, columns represent the dimension specified and the different metrics (variables in the Dataset 'ds') are represented by line colours.
     
     Inputs:
@@ -677,7 +677,7 @@ def lineplot_skill(ds, metric='f1', modify=False, xdim='probability', rowdim='pe
         
         # extract best 'X' value and score for each combination of 'rowdim' and 'linedim'
         # best_x = ds[metric].round(r).idxmax(xdim)
-        best_x = find_best_criterium(ds, metric=metric, dim=xdim, tolerance=.01, modify=modify)[xdim]
+        best_x = find_best_criterion(ds, dim=xdim, metric=metric)[xdim]
         
         ncols = len(ds)
         nrows = len(ds[rowdim])
