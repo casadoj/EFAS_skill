@@ -70,7 +70,30 @@ In the end, this step has been removed from the pipeline due to the limited amou
 This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
 
 
-## 3.4 Hits, misses and false alarms
+### 3.4 Hits, misses and false alarms
+
+This [notebook](notebook/6_hits_misses_falsealarms.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
+
+![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
+
+The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](docs/5_0_skill_eventwise_explanation.html).
+
+If the exceedance datasets are ternary (see Sections 3.1 and 3.3), the second step in this section is to **recompute the exceedance** to convert these ternary datasets into binary. The combination of 2 ternary time series has 9 possible outcomes. In a nutshell, only two cases are interesting: when one of the time series is over the discharge threshold ($Q_{rp}$) and the other one is just over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). These two cases would be either a miss or a false alarm in a binary analysis; instead, in the ternary analysis they will be both considered as hits.
+
+The third step is to **compute total exceedance probability** out of the probabilities for each of the 4 NWP. Four aproaches are tested:
+
+* _1 deterministic and 1 probabilistic_: this is the current procedure, in which a notification is sent if both a deterministic NWP and an probabilistic NWP predict the flood with an exceedance probability over the threshold.
+* _Model mean_: the total exceedance probability is a simple mean over the probability of all the models. This approach gives the same weight to every model, which also means that gives higher weight to the single run of a deterministic model against the single runs of a probabilistic model.
+* _Member weighted: the total exceedance probability is a mean over all the model runs. In this approach the probabilistic models prevail over the deterministic, since they have more than one run.
+* _Performance weighted_: the weighted mean is done using a matrix of the Brier score, which gives different weigths to every model at every lead time.
+
+**Forecasted events** (i.e. notifications) are computed by comparing the total exceedance probability matrix against a vector of possible probability thresholds. It is in this step that we include _persistence_ as a notification criteria. The forecasted events are calculated for the series of persistence values specified in the configuration file.
+
+Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) of 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
+
+
+
+
 
 
 
