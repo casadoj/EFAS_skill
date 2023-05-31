@@ -34,7 +34,7 @@ paths:
         exceedance:
             reanalysis: ../results/exceedance/reanalysis/
             forecast: ../results/exceedance/forecast/
-        hits: ../results/hits/new/
+        hits: ../results/hits/
         skill: ../results/skill/
     
 skill_analysis:

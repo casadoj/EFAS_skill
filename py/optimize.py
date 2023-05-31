@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
+from compute import hits2skill
+from convert import dict2da
 
 
 
