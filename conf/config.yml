@@ -34,7 +34,7 @@ paths:
         exceedance:
             reanalysis: ../results/exceedance/reanalysis/
             forecast: ../results/exceedance/forecast/
-        hits: ../results/hits/new/
+        hits: ../results/hits/
         skill: ../results/skill/
     
 skill_analysis:
@@ -46,7 +46,7 @@ skill_analysis:
     center: True # whether the previous rolling window is centered or not
     leadtime: 60 # minimum leadtime (in hours) for which the notification criteria will be optimized
     area: 2000   # minimum catchment area (in km²) for which the notification criteria will be optimized
-    beta: 0.8    # coefficient of the fbeta-score (by default is 1)
+    beta: 1.2    # coefficient of the fbeta-score (by default is 1)
     optimization:
         kfold: 10 # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.8 # proportion of the complete set of reporting points in each cross-validation subset

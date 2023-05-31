@@ -301,8 +301,7 @@ def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', co
         ncols = len(ds)
         nrows = len(ds[rowdim])
         fig, axes = plt.subplots(ncols=ncols, nrows=nrows, figsize=(3 * ncols, 3 * nrows), sharex=True, sharey=True)
-        colors = kwargs.get('color', {'current': 'steelblue', '1_deterministic_+_1_probabilistic': 'steelblue',
-                                      'model_mean': 'lightsteelblue', 'member_weighted': 'C1', 'brier_weighted': 'navajowhite'})
+        colors = kwargs.get('color', {'current': 'steelblue', '1_deterministic_+_1_probabilistic': 'steelblue', 'model_mean': 'lightsteelblue', 'member_weighted': 'C1', 'brier_weighted': 'navajowhite'})
         
         for j, (col, da) in enumerate(ds.items()):
             for i, row in enumerate(da[rowdim].data):
