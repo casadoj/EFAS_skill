@@ -5,13 +5,13 @@ seasonality: False
 
 criteria:
     probability: [0.05, 0.96, 0.025] # minimum, maximum and step values
-    persistence: [(1, 1), (2, 2), (2, 3), (3, 3), (2, 4), (3, 4), (4, 4)]
+    persistence: [[1, 1], [2, 2], [2, 3], [3, 3], [2, 4], [3, 4], [4, 4]]
     leadtime: all # hours
     
 return_period:
     file: ../data/thresholds/return_levels.nc
     threshold: 5    # years
-    reducing_factor: 0.05
+    reducing_factor: 0.05 # None
     
 study_period:
     start:  # start date of the analysis (e.g. 2020-01-01)
@@ -34,7 +34,7 @@ paths:
         exceedance:
             reanalysis: ../results/exceedance/reanalysis/
             forecast: ../results/exceedance/forecast/
-        hits: ../results/hits/
+        hits: ../results/hits/new/
         skill: ../results/skill/
     
 skill_analysis:
