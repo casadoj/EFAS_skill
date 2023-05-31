@@ -61,4 +61,18 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 * `paths:output:exceedance:forecast` is the directory where the output of this step will be saved.
 
 
+### 3.3 Selection of reporting points
+
+In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/3_0_select_stations) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
+
+In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we remove more reporting points. 
+
+This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
+
+
+## 3.4 Hits, misses and false alarms
+
+
+
+
 
