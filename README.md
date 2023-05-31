@@ -1,10 +1,9 @@
 # EFAS skill assessment
-***
 
 Analysis of the skill of [EFAS (Europen Flood Awareness System)](https://www.efas.eu/en) formal flood notifications since the deployment of EFAS v4 (October 2020).
 
 
-## Structure of the repository
+## 1 Structure of the repository
 
 The repository contains six folders:
 
@@ -12,12 +11,12 @@ The repository contains six folders:
 * [data](https://github.com/casadoj/EFAS_skill/tree/cleaning/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
 * [docs](https://github.com/casadoj/EFAS_skill/tree/cleaning/docs) contains several documents associated to the development of the repository: the EGU documents, presentations in meetings...
 * [env](https://github.com/casadoj/EFAS_skill/tree/cleaning/env) contains the file _environment.yml_ with the Conda environment used to run this repository.
-* [notbook](https://github.com/casadoj/EFAS_skill/tree/cleaning/notebook) contains the notebooks used to develop the analysis.
+* [notebook](https://github.com/casadoj/EFAS_skill/tree/cleaning/notebook) contains the notebooks used to develop the analysis.
 * [py](https://github.com/casadoj/EFAS_skill/tree/cleaning/py) contains Python files with functions created during the analysis.
 * [results](https://github.com/casadoj/EFAS_skill/tree/cleaning/results) is used to save datasets and plots produced by running the notebooks.
 
 
-## Data
+## 2 Data
 
 The analysis is limited to the [EFAS fixed reporting points](https://github.com/casadoj/EFAS_skill/blob/cleaning/data/reporting_points/Station-2022-10-27v12.csv) with a catchment area larger than 500 km² (2357 points).
 
@@ -28,7 +27,24 @@ The original datasets used for the study are:
 * The [discharge return periods](https://github.com/casadoj/EFAS_skill/blob/cleaning/data/thresholds/return_levels.nc) associated to each reporting point. Even though the data set contains several return periods (1.5, 2, 5, 10, 20 years, ...), the analysis only uses the 5-year return period.
 
 
+## 3 Methods
 
+The whole analysis consists of 4 (5) major steps:
+
+### 3.1 Preprocess the discharge reanalysis
+
+This step is carried out in this [notebook](notebook/2_reanalysis_preprocessing.ipynb). The "observed" discharge time series for each reporting point is compared against its defined return period ($Q_{rp}$) to produce time series of exceedance over threshold. In principle, the time series of exceedance should be binary (0, non-exceedance; 1, exceedance); however, to allow for minor deviations between "observed" and forecasted discharge, a reducing factor ($\lambda$) can be used to create ternary time series of exceedance:
+
+* 0: $Q \lt \lambda \cdot Q_{rp}$
+* 1: $\lambda \cdot Q_{rp} \le Q \lt Q_{rp}$
+* 2: $Q_{rp} \le Q$).
+
+Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+
+* `rp`: return period (years) associated to the discharge threshold ($Q_{rp}$).
+* `reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
+* `file_thresholds`: location of the NetCDF file with the discharge associated to several return period for all the fixed reporting points.
+* `paths:output:exceedance:reanalysis` is the directory where the output of this step will be saved.
 
 
 
