@@ -75,6 +75,7 @@ This filter could be done in order to keep either smaller or larger catchments, 
 This [notebook](notebook/6_hits_misses_falsealarms.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
 
 ![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
+>***Figure 1**. Confusion matrix for an imbalanced classification, such as that of flood forecasting.*
 
 The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](docs/5_0_skill_eventwise_explanation.html).
 
