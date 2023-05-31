@@ -47,7 +47,18 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 * `paths:output:exceedance:reanalysis` is the directory where the output of this step will be saved.
 
 
+### 3.2 Preprocess the forecast discharge
 
+This [notebook](notebook/4_forecast_preprocessing.ipynb) preprocesses the discharge forecasts. The objective is the same as the previous step, i.e., to create a data set of exceedances over threshold, but in this case for the forecasts. The procedure is, however, a bit more complex since it involves overlapping forecasts from 4 numerical weather predictors (NWP) that, in some cases, have several runs (members) in every forecast.
+
+As in the reanalysis, the output of the forecast preprocessing are NetCDF files with the time series of exceedance over threshold. Depending on whether the `reducing_factor` is enabled or not, the NetCDF files will contain one or two variables: the exceedance over the discharge threshold ($Q_{rp}$), and, if applicable, the exceedance over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). In any case, the dataset contains values in the range 0-1 with the proportion of model runs (members) that exceeded the specific discharge threshold. For the deterministic NWP (DWD and ECMWF-HRES) values can only be either 0 or 1.
+
+Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+
+* `rp`: return period (years) associated to the discharge threshold ($Q_{rp}$).
+* `reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
+* `file_thresholds`: location of the NetCDF file with the discharge associated to several return period for all the fixed reporting points.
+* `paths:output:exceedance:forecast` is the directory where the output of this step will be saved.
 
 
 
