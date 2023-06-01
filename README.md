@@ -92,6 +92,45 @@ The third step is to **compute total exceedance probability** out of the probabi
 
 Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) of 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
 
+Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+
+* `probability`: an array of probability values (in the range 0-1) that will be tested.
+* `persistence`: an array of persistence values to be tested. Every persistence criterion is a pair of values (`[x, y]`) representing the number of $x$ positive forecast of a window of width $y$. For instance, a persistence of `[2, 3]` means that a notification would be sent if 2 out of 3 forecast predict the event.
+* `window` and `centre`: width, and location of the rolling window used to compute hits. This rolling window is a buffer applied on the predicted events to account for events predicted with a time shift with respect to the observation. The width must be an integer representing the amount of timesteps (12 h each), and the centre is a boolean.
+* `seaonality`: a boolean parameter to set if the analysis should be seasonal or not. _(not working yet)_
+
+
+### 3.5 Skill assessment
+
+This is the notebook in which we analyse the skill of EFAS predictions in the last 2 years and derive ways of changing the notification criteria in order to optimize skill. The outcome of this process is a set of plots and a few datasets including the optimized criteria and the table of reporting points including their skill for the optimial criteria.
+
+In this section we **compute skill** out of the hits, misses and false alarms derived in the previous section. Skill is measured in three different ways: $recall$, $precision$ and a combination of those named $f_{score}$. The $\beta$ coefficient in the $f_{score}$ is one of the parameters to be set in the configuration file. The default values is 1, for which the same importance is given to both $precision$ and $recall$. If $precision$ is deemed more importance, $\beta$ should be lower than 1, and the other way around if $recall$ is more important.
+
+$$recall = \frac{TP}{TP + FN}$$
+$$precision = \frac{TP}{TP + FP}$$
+$$f_{beta} = \frac{(1 + \beta^2) \cdot TP}{(1 + \beta^2) \cdot TP + \beta^2 \cdot FN + FP}$$
+
+Two plots are generated that show, respectively, the evolution of the hits and the skill regarding persistence, lead time, probability threshold and approach. A third plot shows especifically the evolution of skill for the fixed lead time (default 60 h) that will be used in the optimization.
+
+After exploring the skill, **the criteria are optimized for a fixed lead time and catchment area**. A new set of criteria is derived for each approach used to compute total exceedance probability (see Section 3.4). With these new sets of criteria maps and lineplots are generated to show the results and improvements compared to the current notification criteria.
+
+Finally, we analyse the **behaviour of the skill with varying catchment area** (for a fixed lead time) **and varying lead time** (for a fixed catchment area). Not only we compare the new optimal criteria against the current, but we rerun a optimization in which we look for the optimal probability threshold for each cathcment/lead time value. The objective of this second optimization is only exploratory, to check whether there is ground for improvement in the skill of the system with more complex notification criteria.
+
+Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+
+* `current_criteria`: as a benchmark, the current _approach_, _probability_ and _persistence_ criteria should be provided.
+* `leadtime`: minimum leadtime value for which the notification criteria will be optimized. By default is 60 h, to keep the current procedure of not sending notifications with less than 2 days in advance.
+* `area`: minimum catchment area for wich the notification criteria will be optimized. By default is 2000 km², so that the results of the optimization can be compared with the benchmark.
+* `beta`: the coefficient of the $f_{beta}$ score used as the target metric in the optimization. 
+* `kfold`: the number of split samples used in the optimization process. If None, the optimization will be done on the training set of stations and validated on the test set. If an integer is provided, the optimization will be repeated on $k_{fold}$ equal-size subsamples of the training set, averaged, and then validated on the test set.
+* `train_size`: a value between 0 and 1 that defines the proportion of reporting points to be included in the training sample.
+* `tolerance`: a float number that defines the skill difference required to consider one criteria better than the other. If two sets of criteria get a $f_{score}$ closer than this tolerance, the two sets are considered equally-performing; in that case, the set with the smaller difference between $recall$ and $precision$ would be chosen.
+
+
+
+
+
+
 
 
 
