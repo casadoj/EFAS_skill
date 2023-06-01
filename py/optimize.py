@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import xarray as xr
-from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit, train_test_split, KFold
 from compute import hits2skill
 from convert import dict2da
 
@@ -78,7 +78,7 @@ def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', 
 
 
 
-def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, random_state=0, beta=1, tolerance=1e-2, min_spread=True):
+def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, stratify=True, random_state=0, beta=1, tolerance=1e-2, min_spread=True):
     """A cross-validation version of the function of the function 'find_best_criteria'. It selects the criteria that maximizes the skill over a 'kfold' number of subsamples of the stations
     
     Inputs:
@@ -88,6 +88,7 @@ def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistenc
     dims:        list or string. Name(s) of the dimension(s) in 'skill' that will be optimized
     kfold:                int. Number of subsets of the stations to be produced
     train_size:           float. It should be between 0.0 and 1.0 and represents the proportion of the dataset to include in the train split
+    stratify:             bool. If True, the split sampling is done in a stratified way, so that the proportion of classes in 'station_events' is kept. If False, the sampling is random.
     ramdon_state:         int. The seed in the random selection of samples
     beta:                 float. A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
     tolerance:            float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
@@ -101,8 +102,11 @@ def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistenc
     
     # compute skill on 'kfold' sets of samples
     skill = {}
-    cv = StratifiedShuffleSplit(n_splits=kfold, train_size=train_size, random_state=random_state)
-    for i, (train, val) in enumerate(cv.split(station_events.index, station_events.values)):
+    if stratify:
+        kfolds = StratifiedShuffleSplit(n_splits=kfold, train_size=train_size, random_state=random_state)
+    else:
+        kfolds = KFold(n_splits=kfold, random_state=random_state, shuffle=True)
+    for i, (train, val) in enumerate(kfolds.split(station_events.index, station_events.values)):
 
         # convert indexes into station ID
         train = station_events.index[train]
