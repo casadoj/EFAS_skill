@@ -1,53 +1,52 @@
 reporting_points:
+    input: 
+        CSV: ../data/reporting_points/Station-2022-10-27v12.csv
+        GIS: ../data/GIS/fixed_report_points_500.shp
     area: 500 # minimum catchment area (km²)
-
-seasonality: False
-
-criteria:
-    probability: [0.05, 0.96, 0.025] # minimum, maximum and step values
-    persistence: [[1, 1], [2, 2], [2, 3], [3, 3], [2, 4], [3, 4], [4, 4]]
-    leadtime: all # hours
+    output: ../results/reporting_points/
     
-return_period:
-    file: ../data/thresholds/return_levels.nc
-    threshold: 5    # years
-    reducing_factor: 0.05 # None
-    
-study_period:
-    start:  # start date of the analysis (e.g. 2020-01-01)
-    end:    # end date of the analysis (e.g. 2022-12-31)
-
-#PATHS
-paths:
+discharge:
     input:
-        reporting_points: ../data/reporting_points/Station-2022-10-27v12.csv
-        discharge:
-            reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
-            forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
-        weights:
-            member: ../data/weights_member.nc
-            brier: ../data/weights_brier.nc
+        reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
+        forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+    study_period:
+        start:  # start date of the analysis (e.g. 2020-01-01)
+        end:    # end date of the analysis (e.g. 2022-12-31)
+    seasonality: False
+    return_period:
+        input: ../data/thresholds/return_levels.nc
+        threshold: 5    # years
+        reducing_factor: 0.05 # None
     output:
-        reporting_points: ../results/reporting_points/
-        discharge:
-            reanalysis: ../data/discharge/reanalysis/
-        exceedance:
-            reanalysis: ../results/exceedance/reanalysis/
-            forecast: ../results/exceedance/forecast/
-        hits: ../results/hits/
-        skill: ../results/skill/
+        reanalysis: ../data/discharge/reanalysis/
+            
+exceedance:
+    output:
+        reanalysis: ../results/exceedance/reanalysis/
+        forecast: ../results/exceedance/forecast/
+
+hits:
+    criteria:
+        probability: [0.05, 0.96, 0.025] # minimum, maximum and step values
+        persistence: [[1, 1], [2, 2], [2, 3], [3, 3], [2, 4], [3, 4], [4, 4]]
+    window: 5    # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
+    centre: True # whether the previous rolling window is centered or not
+    weights:
+        member: ../data/weights_member.nc
+        brier: ../data/weights_brier.nc
+    output: ../results/hits/
     
-skill_analysis:
+skill:
     current_criteria:
         approach: 1_deterministic_+_1_probabilistic
         probability: 0.3
         persistence: 3/3
-    window: 5    # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
-    center: True # whether the previous rolling window is centered or not
     leadtime: 60 # minimum leadtime (in hours) for which the notification criteria will be optimized
     area: 2000   # minimum catchment area (in km²) for which the notification criteria will be optimized
-    beta: 1.2    # coefficient of the fbeta-score (by default is 1)
+    beta: 1    # coefficient of the fbeta-score (by default is 1)
     optimization:
         kfold: 10 # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.8 # proportion of the complete set of reporting points in each cross-validation subset
         tolerance: 0.01 # criteria with a skill difference lower than this value will be considered equally-performing
+    output: ../results/skill/
+    
