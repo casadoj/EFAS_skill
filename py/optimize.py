@@ -63,7 +63,7 @@ def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', 
     
     Output:
     -------
-    skill:       xr.Dataset. A dataset similar to the input 'skill', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension
+    skill_criteria:  xr.Dataset. A dataset similar to the input 'skill', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension
     """
     
     if isinstance(dims, str):
@@ -78,7 +78,8 @@ def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', 
 
 
 
-def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, stratify=True, random_state=0, beta=1, tolerance=1e-2, min_spread=True):
+def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, stratify=[True, False], random_state=0, beta=1,
+                          tolerance=1e-2, min_spread=True):
     """A cross-validation version of the function of the function 'find_best_criteria'. It selects the criteria that maximizes the skill over a 'kfold' number of subsamples of the stations
     
     Inputs:
@@ -96,12 +97,14 @@ def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistenc
     
     Outputs:
     --------
-    skill:                xr.DataArray (persistence, approach, probability, kfold). The skill of each of the cross-validation subsets
-    best_criteria:        dict. Best set of criteria for each approach  
+    skill_val:            xr.DataArray (approach, kfold). The skill of each of the validation subsets
+    skill_criteria:       xr.Dataset. A dataset of with dimensions similar to the input 'hits', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension. It contains three variables with skill metrics (recall, precision and fscore) and as many variables as 'dims'
     """
     
+
     # compute skill on 'kfold' sets of samples
-    skill = {}
+    skill_train = {}
+    skill_val = {}
     if stratify:
         kfolds = StratifiedShuffleSplit(n_splits=kfold, train_size=train_size, random_state=random_state)
     else:
@@ -110,17 +113,21 @@ def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistenc
 
         # convert indexes into station ID
         train = station_events.index[train]
+        val = station_events.index[val]
 
         # subset of the 'hits' dataset with the stations selected for the optimization
         hits_train = hits.sel(id=train).sum('id', skipna=False)
+        hits_val = hits.sel(id=val).sum('id', skipna=False)
 
         # skill dataset for optimizing criteria
-        skill[i] = hits2skill(hits_train, beta=beta)#.sel(leadtime=min_leadtime).drop('leadtime')
+        skill_train[i] = hits2skill(hits_train, beta=beta)
+        skill_val[i] = hits2skill(hits_val, beta=beta)
 
     # concatenate the 'skill_cv' dictionary as xarray.DataArray
-    skill = dict2da(skill, dim='kfold')
-
-    # find the best criteria for the average over station sets
-    best_criteria = find_best_criteria(skill.mean('kfold'), metric=f'f{beta}', dims=dims, tolerance=tolerance, min_spread=min_spread)
+    skill_train = dict2da(skill_train, dim='kfold')
+    skill_val = dict2da(skill_val, dim='kfold')
     
-    return skill, best_criteria
+    # find the best criteria for the average over station sets
+    skill_criteria = find_best_criteria(skill_train.mean('kfold'), metric=f'f{beta}', dims=dims, tolerance=tolerance, min_spread=min_spread)#, benchmark_criteria=benchmark_criteria)
+
+    return skill_val, skill_criteria
