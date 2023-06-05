@@ -58,9 +58,9 @@ def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
     """
     
     # define projection
+    proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
     if ax is None:
         fig = plt.figure(figsize=kwargs.get('figsize', None))
-        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
         ax = plt.axes(projection=proj)
     
     # plot coatslines and country borders

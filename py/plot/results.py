@@ -690,7 +690,7 @@ def plot_skill_training(train, test, complete=None, save=None, **kwargs):
     xticks = np.arange(1, len(train.approach.data) + 1)
     for ax, score in zip(axes, list(test)):
         if 'kfold' in train.dims:
-            ax.boxplot(train[score].transpose())
+            ax.boxplot(train[score].transpose(), zorder=0)
         else:
             ax.scatter(xticks, train[score].data, c='k', zorder=1, label='train')
         ax.scatter(xticks, test[score].data, c='C1', zorder=3, label='test')
