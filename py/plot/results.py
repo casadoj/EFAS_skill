@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
 from optimize import find_best_criterion
+from compute import exceedance2events, buffer_events
 
            
         
@@ -705,6 +706,67 @@ def plot_skill_training(train, test, complete=None, save=None, **kwargs):
     ax.set_xticklabels(xlabels)
     handles, labels = ax.get_legend_handles_labels()
     fig.legend(handles, labels, bbox_to_anchor=kwargs.get('loc_legend', [.8, .8, .2, .1]))
+    
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+
+
+def plot_prediction(da, obs, probability, persistence=(1, 1), min_leadtime='all', center=True, w=5, save=None, **kwargs):
+    """It creates a plot with several heat maps that explain the process applied to compute hits, misses and false alarms.
+    
+    1. On top it shows a heat map of total probability (values from 0 to 1) of exceeding the discharge threshold. 
+    
+    2. The second plot is a binary heat map of exceedances over the probability threshold.
+    
+    3. The third plot shows the time steps for which the persistence criterion is met.
+    
+    4. The fourth plot shows a buffer over the 3rd plot.
+    
+    5. The fifth plot shows a binary heat map of exceedances over the discharge threshold in the observed data.
+    
+    Inputs:
+    -------
+    da:           xr.DataArray (leadtime, datetime). A matrix of total probability of exceeding the discharge threshold
+    obs:          xr.DataArray (datetime,). Binary matrix of exceedances over the discharge threshold in the observed data
+    probability:  float. A probability threshold that will be applied on the total probability of exceeding the discharge threshold
+    persistence:  list (2,). Persistence criterion consisting on the number of positive predictions out of a number of forecasts. For instance, a persistence of (2, 3) requires 2 positive prediction out of 3 forecasts
+    min_leadtime: string or int. The minimum value of lead time (in hours) from which notifications can be sent. If 'all', all lead times are taken into account
+    center:       boolean. Whether the rolling window used to buffer the predicted events should be centered or not
+    w:            int. Width of the rolling window used to buffer the predicted events
+    save:         string. File where the plot should be saved. If 'None', the plot won't be saved
+    """
+    
+    cmap = kwargs.get('cmap', 'magma_r')
+    norm = kwargs.get('norm', None)
+    
+    fig = plt.figure(figsize=kwargs.get('figsize', (16, 6.6)), constrained_layout=True)
+    height_ratios = [len(da.leadtime)] * 2 + [1] * 3
+    gs = fig.add_gridspec(nrows=len(height_ratios), height_ratios=height_ratios)
+    
+    # total probability
+    plot_DataArray(da, ytick_step=2, cbar=False, cbar_kws={'label': 'probability'}, title='total probability',
+                   xticklabels=[], xlabel=None, ylabel='leadtime (h)', cmap=cmap, norm=norm, ax=fig.add_subplot(gs[0]))
+    
+    # exceedance over probability threshold
+    plot_DataArray(da > probability, ytick_step=2, cbar=True, cbar_kws={'label': 'probability'}, title='exceedance', xlabel=None,
+                   xticklabels=[], ylabel='leadtime (h)', cmap=cmap, norm=norm, ax=fig.add_subplot(gs[1]))
+    
+    # predicted events
+    pred = exceedance2events(da, probability=probability, persistence=persistence, min_leadtime=min_leadtime)
+    plot_prediction.pred = pred
+    plot_DataArray(pred, title='predicted', xticklabels=[], cmap=cmap, norm=norm, cbar=False, ax=fig.add_subplot(gs[2]))
+    
+    # buffered, predicted events
+    buff = buffer_events(pred, center=center, w=w)
+    plot_prediction.buff = buff
+    plot_DataArray(buff, title='buffered', xticklabels=[], cmap=cmap, norm=norm, cbar=False, ax=fig.add_subplot(gs[3]))
+
+    # observed events
+    plot_DataArray(obs, xlabel='datetime', xtick_step=4, title='observed', cmap=cmap, norm=norm, cbar=False, ax=fig.add_subplot(gs[4]))
+    
+    if 'title' in kwargs:
+        fig.suptitle(kwargs['title'], fontsize=13);
     
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')

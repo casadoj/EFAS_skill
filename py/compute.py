@@ -144,22 +144,22 @@ def recompute_exceedance(obs, pred_high, pred_low):
     exceed_obs = np.zeros_like(obs)
     exceed_pred = np.zeros_like(pred_high)
 
-    # if observation exceeds Q5
+    # if observation exceeds the higher threshold
     mask = (obs == 2).data
     exceed_obs[mask] = 1
     exceed_pred[mask] = pred_low.data[mask]
 
-    # if observation exceeds 0.95*Q5 and some predictions exceed Q5
+    # if observation exceeds the lower threshold and some predictions exceed the higher
     mask = ((obs == 1) & (pred_high > 0)).data
     exceed_obs[mask.any(axis=(2, 3))] = 1
     exceed_pred[mask] = pred_low.data[mask]
 
-    # if observation exceeds 0.95*Q5 and none of the predictions exceed Q5
+    # if observation exceeds the lower threshold and none of the predictions exceed the higher
     mask = ((obs == 1) & (pred_high == 0)).data
     exceed_obs[mask.all(axis=(2, 3))] = 0
     exceed_pred[mask] = pred_high.data[mask]
 
-    # if observation does not exceed 0.95*Q5
+    # if observation does not exceed the lower threshold
     mask = (obs == 0).data
     exceed_obs[mask] = 0
     exceed_pred[mask] = pred_high.data[mask]
@@ -188,6 +188,7 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
     events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
     """
     
+
     # invert 'leadtime' order from longer to shorter lead times
     da = da.isel(leadtime=slice(None, None, -1))
 
@@ -198,7 +199,7 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
         exceedance = (da >= probability).astype(int)
 
     # compute persistence (rolling sum over a window exceeds a number of forecast positives)
-    events = (exceedance.rolling({'leadtime': persistence[1]}, centre=False, min_periods=1).sum() >= persistence[0]) & exceedance
+    events = (exceedance.rolling({'leadtime': persistence[1]}, center=False, min_periods=1).sum() >= persistence[0]) & exceedance
     events = events.isel(leadtime=slice(None, None, -1))
 
     if min_leadtime == 'all':
@@ -249,7 +250,7 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
 #         return da.fillna(0).any('dt').sum('lt')
 
 #     # apply custom function to 2D window of size (2,2)
-#     exc_rolling = exceedance.rolling(leadtime=persistence[1], datetime=3, centre={'leadtime': False, 'datetime': True}, min_periods=1)
+#     exc_rolling = exceedance.rolling(leadtime=persistence[1], datetime=3, center={'leadtime': False, 'datetime': True}, min_periods=1)
 #     exc_rolling = exc_rolling.construct(leadtime='lt', datetime='dt')
 #     events = xr.DataArray(np.zeros(exceedance.shape), dims=exceedance.dims, coords=exceedance.coords)
 #     for i in range(exc_rolling.shape[0]):
@@ -273,14 +274,14 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
 
 
 
-def buffer_events(da, centre=True, w=5):
+def buffer_events(da, center=True, w=5):
     """It creates a buffer around the matrix of predicted events to allow for short lags between observation and prediction. 
     It applys a rolling sum of window 'w' to the input matrix. The window function can be centered or not.
     
     Inputs:
     -------
     da:     xr.DataArray. Matrix of predicted events
-    centre: boolean. Whereas the rolling sum must be centered or right sided
+    center: boolean. Whereas the rolling sum must be centered or right sided
     w:      int. Width of the rolling sum window
     
     Output:
@@ -288,12 +289,12 @@ def buffer_events(da, centre=True, w=5):
     buffer: xr.DataArray. Matrix with the same size as the input matrix, but in which the events have been 'enlarged'
     """
     
-    if centre:
+    if center:
         mp = int(w / 2) + 1
-        buffer = (da.rolling({'datetime': w}, centre=True, min_periods=mp).sum() > 0).astype(int)
+        buffer = (da.rolling({'datetime': w}, center=True, min_periods=mp).sum() > 0).astype(int)
     else:
         mp = 1 # int(w / 2)
-        buffer = (da.rolling({'datetime': w}, centre=False, min_periods=mp).sum() > 0).astype(int)
+        buffer = (da.rolling({'datetime': w}, center=False, min_periods=mp).sum() > 0).astype(int)
         
     return buffer
 
@@ -319,7 +320,7 @@ def count_events(da):
 
 
 
-def events2hits(obs, pred, centre=True, w=1):#, verbose=True):
+def events2hits(obs, pred, center=True, w=1):#, verbose=True):
     """It computes the hits, misses and false alarms between two matrixes of observations and predictions.
     To allow for some lags in the predictions, a buffer can be applied by giving the attribute 'w' a value larger than 1
     
@@ -327,7 +328,7 @@ def events2hits(obs, pred, centre=True, w=1):#, verbose=True):
     -------
     obs:     xr.DataArray. Boolean matrix of observed exceedances over threshold
     pred:    xr.DataArray. Boolean matrix of predicted exceedances over threshold
-    centre:  boolean. Whereas the rolling sum must be centered or right sided
+    center:  boolean. Whereas the rolling sum must be centered or right sided
     w:       int. Width of the rolling sum window
     verbose: boolean. Whether to print or not the summary of results
     
@@ -339,7 +340,7 @@ def events2hits(obs, pred, centre=True, w=1):#, verbose=True):
     buffer:  xr.DataArray. The buffered matrix of predicted events
     tp:      xr.DataArray. A timeseries of correctly predicted events
     """
-    
+   
     # check that both Dataset have the same length in the matching dimensions
     dims = list(set(obs.dims).intersection(pred.dims))
     for dim in dims:
@@ -349,7 +350,7 @@ def events2hits(obs, pred, centre=True, w=1):#, verbose=True):
         pred.sel({dim: slice(dim_min, dim_max)})
     
     # buffer the predicted events
-    buff = buffer_events(pred, centre=centre, w=w)
+    buff = buffer_events(pred, center=center, w=w)
     events2hits.buffer = buff
 
     # compute the true positive timeseries
