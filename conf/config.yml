@@ -11,8 +11,8 @@ discharge:
         reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
         forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
     study_period:
-        start:  # start date of the analysis (e.g. 2020-01-01)
-        end:    # end date of the analysis (e.g. 2022-12-31)
+        start: 2021-01-01 # start date of the analysis (e.g. 2020-01-01)
+        end: 2022-12-31 18:00 # end date of the analysis (e.g. 2022-12-31)
     return_period:
         input: ../data/thresholds/return_levels.nc
         threshold: 5    # years
@@ -32,7 +32,7 @@ hits:
     window: 5    # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: True # whether the previous rolling window is centered or not
     seasonality: False
-    output: ../results/hits/new_brier/
+    output: ../results/hits/
     
 skill:
     current_criteria:
@@ -41,10 +41,13 @@ skill:
         persistence: 3/3
     leadtime: 60 # minimum leadtime (in hours) for which the notification criteria will be optimized
     area: 2000   # minimum catchment area (in km²) for which the notification criteria will be optimized
-    beta: 0.8    # coefficient of the fbeta-score (by default is 1)
+    beta: 1   # coefficient of the fbeta-score (by default is 1)
     optimization:
         kfold: 10 # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.707 # proportion of the complete set of reporting points in each cross-validation subset
         tolerance: 0.01 # criteria with a skill difference lower than this value will be considered equally-performing
+        minimize_spread: # whether to minimize the difference between precision and recall among criteria performing similarly in terms of fscore
+            probability: False
+            persistence: False
     output: ../results/skill/
     
