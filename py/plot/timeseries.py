@@ -5,6 +5,71 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
+
+
+
+def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=None, save=None, **kwargs):
+    """It creates a plot with the discharge time series and the identified flood events
+    
+    Inputs:
+    -------
+    discharge:  pandas.Series (timesteps,). Discharge timeseries
+    events1:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event
+    events2:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event. If None, it is not plotted
+    thresholds: list. If provided, it must contain 4 values with the discharge at four increasing return periods, e.g., 1.5, 2, 5 and 20 years
+    save:       string. If not None, it must be a string with the file name (including extension) where the plot will be saved
+    
+    Ouput:
+    ------
+    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+    """
+    
+    if events1 is not None:
+        start = max(discharge.index.min(), events1.index.min())
+        end = min(discharge.index.max(), events1.index.max())
+        discharge = discharge.loc[start:end]
+        events1 = events1.loc[start:end]
+        if events2 is not None:
+            events2 = events2.loc[start:end]
+    
+    fig, ax = plt.subplots(figsize=kwargs.get('figsize', (16, 3)))
+    
+    # plot discharge timeseries
+    ax.plot(discharge, lw=.7, zorder=0)
+    
+    # plot points of preliminary events
+    if events2 is not None:
+        ax.scatter(discharge[events2].index, discharge[events2], s=kwargs.get('size', 2), color='k')
+        ax.text(.005, .85, 'no. preliminary events: {0}'.format(events2.sum()), transform=ax.transAxes, fontsize=9)
+        
+    # plot points of the events
+    if events1 is not None:
+        ax.scatter(discharge[events1].index, discharge[events1], s=kwargs.get('size', 2), color='r')
+        ax.text(.005, .925, 'no. events: {0}'.format(events1.sum()), transform=ax.transAxes, fontsize=9, color='r')
+    
+    # find minimum and maximum discharge
+    qmax = discharge.max()
+    magnitude = len(str(int(qmax)))
+    ymin = - 10**(magnitude -2)
+    ymax = np.ceil(qmax / 10**(magnitude - 1)) * 10**(magnitude - 1) + 10**(magnitude - 2)
+
+    # return periods
+    if thresholds is not None:
+        ax.fill_between(discharge.index, *thresholds[0:2], color='green', edgecolor=None, alpha=.1, zorder=0, label='1.5-year')
+        ax.fill_between(discharge.index, *thresholds[1:3], color='yellow', edgecolor=None, alpha=.1, zorder=0, label='2-year')
+        ax.fill_between(discharge.index, *thresholds[2:4], color='red', edgecolor=None, alpha=.1, zorder=0, label='5-year')
+        ax.fill_between(discharge.index, thresholds[-1], ymax, color='mediumpurple', edgecolor=None, alpha=.1, zorder=0, label='20-year')
+
+    # settings: limits, labels, title, legend...
+    ax.set(xlim=kwargs.get('xlim', (discharge.index[0], discharge.index[-1])),
+           ylim=(ymin, ymax),
+           ylabel='discharge (m³/s)');
+    if 'title' in kwargs:
+        fig.text(.5, .9, kwargs['title'], horizontalalignment='center')
+    # fig.legend(loc=8, ncol=2, bbox_to_anchor=[0.9, .55, .2, .2]);
+    
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
         
         
 

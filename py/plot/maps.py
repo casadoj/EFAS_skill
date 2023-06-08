@@ -114,7 +114,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
     save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
     
-    cols_map = {'TP': 'hits', 'FN': 'misses', 'FP': 'false alarms'}
+    cols_map = {'TP': 'hits', 'FN': 'misses', 'FP': 'false alarms', 'n_events_obs': 'eventos'}
     
     # set up the plots
     ncols = len(cols)
@@ -259,3 +259,48 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
+        
+        
+        
+def map_events(stations, col, save=None, **kwargs):
+    """It plots a map and a histogram of the number of events.
+    
+    Inputs:
+    -------
+    stations:   pd.DataFrame (n_station, m). It must contain at least the columns X and Y (to be able to plot the map) and the column specified in 'col'
+    col:        string. Name of the columns of 'stations' that contains the number of events
+    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+    """
+    
+    # extract kwargs
+    s = kwargs.get('s', 2)
+    alpha = kwargs.get('alpha', .5)
+    if ('cmap' not in kwargs) or ('norm' not in kwargs):
+        xmax = stations[col].max()
+        cmap, norm = create_cmap('Oranges', np.arange(xmax + 2), 'no. events', [0, (0.41176, 0.41176, 0.41176, 1)])
+    else:
+        cmap = kwargs['cmap']
+        norm = kwargs['norm']
+    
+    # set up the plots
+    fig = plt.figure(figsize=kwargs.get('figsize', (7, 7)), constrained_layout=True)
+    gs = fig.add_gridspec(nrows=2, height_ratios=kwargs.get('height_ratios', [7, 1]))
+
+    # map
+    # define projection
+    if 'proj' not in kwargs:
+        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+    ax_map = fig.add_subplot(gs[0], projection=proj)
+    map_stations(stations.X, stations.Y, stations[col], cmap=cmap, norm=norm, size=s, alpha=alpha, ax=ax_map)
+
+    # histogram
+    ax_hist = fig.add_subplot(gs[1])
+    counts = stations[col].value_counts()
+    counts.sort_index(inplace=True)
+    color = [cmap(i) for i in np.linspace(0, cmap.N, norm.N).astype(int)]
+    plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
+    ax_hist.set(xlabel='no. observed events', xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5))
+    ax_hist.spines[['right', 'top']].set_visible(False)
+    
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
