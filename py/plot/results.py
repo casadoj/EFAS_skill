@@ -754,7 +754,9 @@ def plot_skill_training(train, test, complete=None, save=None, **kwargs):
         if complete is not None:
             ax.scatter(xticks, complete[score].data, c='steelblue', zorder=2, label='all')
         ax.set_title(score)
-    ax.set(ylim=ylim, ylabel='skill')
+        if ax == axes[0]:
+            ax.set_ylabel('skill')
+    ax.set_ylim(ylim)
     ax.set_xticks(xticks)
     xlabels = []
     for approach in list(train.approach.data):
