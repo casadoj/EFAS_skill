@@ -7,6 +7,7 @@ reporting_points:
     catchments: # catchments on which the skill analysis will focus
     selection:
         rho: 0.9 # the maximum correlation coefficient allowed between 2 reporting points
+        upstream: True # whether to give priority to stations upstream (True) or downstream (False)
     output: ../results/reporting_points/
     
 discharge:
