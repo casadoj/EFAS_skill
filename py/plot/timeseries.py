@@ -66,7 +66,6 @@ def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=Non
            ylabel='discharge (m³/s)');
     if 'title' in kwargs:
         fig.text(.5, .9, kwargs['title'], horizontalalignment='center')
-    # fig.legend(loc=8, ncol=2, bbox_to_anchor=[0.9, .55, .2, .2]);
     
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
@@ -93,7 +92,7 @@ def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, 
     if ax is None:
         fig, ax = plt.subplots(figsize=kwargs.get('figsize', (12, 6)))
     n_stn = stations.shape[0]
-    ax.set(xlim=(discharge.index[0], discharge.index[-1]), ylim=(0, n_stn + 1), ylabel='stations')
+    ax.set(xlim=(discharge.index[0], discharge.index[-1]), ylim=(0, n_stn + 1), ylabel='points')
     if yticks:
         ax.set_yticks(range(1, n_stn + 1), labels=stations.index)
     else:

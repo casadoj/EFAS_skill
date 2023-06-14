@@ -2,8 +2,11 @@ reporting_points:
     input: 
         CSV: ../data/reporting_points/Station-2022-10-27v12.csv
         GIS: ../data/GIS/fixed_report_points_500.shp
+        rivers: ../data/GIS/RiversForWebPage_EU_ready.shp
     area: 500 # minimum catchment area (km²)
-    catchemtns: # catchments on which the skill analysis will focus
+    catchments: # catchments on which the skill analysis will focus
+    selection:
+        rho: 0.9 # the maximum correlation coefficient allowed between 2 reporting points
     output: ../results/reporting_points/
     
 discharge:

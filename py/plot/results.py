@@ -8,62 +8,38 @@ import matplotlib.gridspec as gridspec
 import seaborn as sns
 from optimize import find_best_criterion
 from compute import exceedance2events, buffer_events
+from plot.maps import create_cmap
 
 
 
-def plot_events_timeseries(discharge, events1, events2=None, thresholds=None, save=None, **kwargs):
-    """It creates a plot with the discharge time series and the identified flood events
+def plot_correlation_matrix(corr, rho=.9, save=None, **kwargs):
+    """It creates a heat map that shows the correlation matrix and highlights the cases in which the correlation coefficient exceeds a certain value
     
     Inputs:
     -------
-    discharge:  pandas.Series (timesteps,). Discharge timeseries
-    events1:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event
-    events2:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event. If None, it is not plotted
-    thresholds: list. If provided, it must contain 4 values with the discharge at four increasing return periods, e.g., 1.5, 2, 5 and 20 years
-    save:       string. If not None, it must be a string with the file name (including extension) where the plot will be saved
-    
-    Ouput:
-    ------
-    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+    corr:  pd.DataFrame (n, n). Correlation matrix
+    rho:   float. The maximum value allowed for the correlation coefficient between two reporting points
+    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved 
     """
     
-    fig, ax = plt.subplots(figsize=kwargs.get('figsize', (16, 3)))
-    
-    # plot discharge timeseries
-    ax.plot(discharge, lw=.7, zorder=0)
-    
-    # plot points of preliminary events
-    if events2 is not None:
-        ax.scatter(discharge[events2].index, discharge[events2], s=kwargs.get('size', 2), color='k')
-        ax.text(.005, .85, 'no. preliminary events: {0}'.format(events2.sum()), transform=ax.transAxes, fontsize=9)
-        
-    # plot points of the events
-    ax.scatter(discharge[events1].index, discharge[events1], s=kwargs.get('size', 2), color='r')
-    ax.text(.005, .925, 'no. events: {0}'.format(events1.sum()), transform=ax.transAxes, fontsize=9, color='r')
-    
-    # find minimum and maximum discharge
-    qmax = discharge.max()
-    magnitude = len(str(int(qmax)))
-    ymin = - 10**(magnitude -2)
-    ymax = np.ceil(qmax / 10**(magnitude - 1)) * 10**(magnitude - 1) + 10**(magnitude - 2)
+    if ('cmap' not in kwargs) or ('norm' not in kwargs):
+        cmap, norm = create_cmap('Blues', np.arange(0, 1.01, .05), 'correlation coefficient')
+    else:
+        cmap = kwargs['cmap']
+        norm = kwargs['norm']
 
-    # return periods
-    if thresholds is not None:
-        ax.fill_between(discharge.index, *thresholds[0:2], color='green', edgecolor=None, alpha=.1, zorder=0, label='1.5-year')
-        ax.fill_between(discharge.index, *thresholds[1:3], color='yellow', edgecolor=None, alpha=.1, zorder=0, label='2-year')
-        ax.fill_between(discharge.index, *thresholds[2:4], color='red', edgecolor=None, alpha=.1, zorder=0, label='5-year')
-        ax.fill_between(discharge.index, thresholds[-1], ymax, color='mediumpurple', edgecolor=None, alpha=.1, zorder=0, label='20-year')
+    # compute exceedance of the correlation threshold
+    highly_correlated = corr > rho
+    highly_correlated = highly_correlated.astype(int)
+    highly_correlated[highly_correlated == 0] = np.nan
 
-    # settings: limits, labels, title, legend...
-    ax.set(xlim=kwargs.get('xlim', (discharge.index[0], discharge.index[-1])),
-           ylim=(ymin, ymax),
-           ylabel='discharge (m³/s)');
-    if 'title' in kwargs:
-        fig.text(.5, .9, kwargs['title'], horizontalalignment='center')
-    # fig.legend(loc=8, ncol=2, bbox_to_anchor=[0.9, .55, .2, .2]);
+    fig, ax = plt.subplots(figsize=kwargs.get('figsize', (7, 7)))
+    sns.heatmap(corr, vmin=0, vmax=1, ax=ax, cmap=cmap, norm=norm, cbar_kws={'label': 'Spearman correlation (-)', 'shrink': .5});
+    sns.heatmap(highly_correlated, ax=ax, cmap='Oranges', vmin=0.5, vmax=1.5, alpha=1, cbar=None)
+    ax.set_aspect('equal')
     
     if save is not None:
-        plt.savefig(save, dpi=300, bbox_inches='tight')
+        plt.savefig(save, bbox_inches='tight', dpi=300);
         
            
         

@@ -255,20 +255,21 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
     cbar.ax.tick_params(size=0)
     
     if 'title' in kwargs:
-        fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
+        fig.text(.5, 1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
         
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
         
         
         
-def map_events(stations, col, save=None, **kwargs):
+def map_events(stations, col, rivers=None, save=None, **kwargs):
     """It plots a map and a histogram of the number of events.
     
     Inputs:
     -------
     stations:   pd.DataFrame (n_station, m). It must contain at least the columns X and Y (to be able to plot the map) and the column specified in 'col'
     col:        string. Name of the columns of 'stations' that contains the number of events
+    rivers:   geopandas. Shapefile of rivers
     save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
     
@@ -291,7 +292,7 @@ def map_events(stations, col, save=None, **kwargs):
     if 'proj' not in kwargs:
         proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
     ax_map = fig.add_subplot(gs[0], projection=proj)
-    map_stations(stations.X, stations.Y, stations[col], cmap=cmap, norm=norm, size=s, alpha=alpha, ax=ax_map)
+    map_stations(stations.X, stations.Y, stations[col], rivers=rivers, cmap=cmap, norm=norm, size=s, alpha=alpha, ax=ax_map)
 
     # histogram
     ax_hist = fig.add_subplot(gs[1])
@@ -299,8 +300,12 @@ def map_events(stations, col, save=None, **kwargs):
     counts.sort_index(inplace=True)
     color = [cmap(i) for i in np.linspace(0, cmap.N, norm.N).astype(int)]
     plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
-    ax_hist.set(xlabel='no. observed events', xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5))
+    ax_hist.set(xlabel='no. observed events', xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5),
+                xticks=norm.boundaries[:-1])
     ax_hist.spines[['right', 'top']].set_visible(False)
     
+    if 'title' in kwargs:
+        fig.text(.5, 1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
+        
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
