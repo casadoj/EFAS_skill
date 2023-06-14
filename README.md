@@ -126,6 +126,10 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 * `train_size`: a value between 0 and 1 that defines the proportion of reporting points to be included in the training sample.
 * `tolerance`: a float number that defines the skill difference required to consider one criteria better than the other. If two sets of criteria get a $f_{score}$ closer than this tolerance, the two sets are considered equally-performing; in that case, the set with the smaller difference between $recall$ and $precision$ would be chosen.
 
+## 4 Results
+
+This [Confluence page](https://efascom.smhi.se/confluence/pages/viewpage.action?spaceKey=EJ&title=EFAS+skill+assessment) is a report of the complete study, including the analysis of the results. A PDF version can be found in the folder [docs](https://github.com/casadoj/EFAS_skill/blob/main/docs/Confluence_report.pdf).
+
 
 
 
