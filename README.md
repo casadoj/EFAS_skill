@@ -41,15 +41,15 @@ This step is carried out in this [notebook](notebook/2_reanalysis_preprocessing.
 
 Parameters in the [configuration file](config/config.yml) specifically involved in this step:
 
-* `rp`: return period (years) associated to the discharge threshold ($Q_{rp}$).
-* `reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
-* `file_thresholds`: location of the NetCDF file with the discharge associated to several return period for all the fixed reporting points.
-* `paths:output:exceedance:reanalysis` is the directory where the output of this step will be saved.
+* `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
+* `discharge>return_period>reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
+* `discharge>return_period>input`: location of the NetCDF file with the discharge associated to several return period for all the fixed reporting points.
+* `exceedance>output>forecast` is the directory where the output of this step will be saved.
 
 
 ### 3.2 Preprocess the forecast discharge
 
-This [notebook](notebook/4_forecast_preprocessing.ipynb) preprocesses the discharge forecasts. The objective is the same as the previous step, i.e., to create a data set of exceedances over threshold, but in this case for the forecasts. The procedure is, however, a bit more complex since it involves overlapping forecasts from 4 numerical weather predictors (NWP) that, in some cases, have several runs (members) in every forecast.
+This [notebook](notebook/3_forecast_preprocessing.ipynb) preprocesses the discharge forecasts. The objective is the same as in the previous step, i.e., to create a data set of exceedances over threshold, but in this case for the forecasts. The procedure is, however, a bit more complex since it involves overlapping forecasts from 4 numerical weather predictors (NWP) that, in some cases, have several runs (members) in every forecast.
 
 As in the reanalysis, the output of the forecast preprocessing are NetCDF files with the time series of exceedance over threshold. Depending on whether the `reducing_factor` is enabled or not, the NetCDF files will contain one or two variables: the exceedance over the discharge threshold ($Q_{rp}$), and, if applicable, the exceedance over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). In any case, the dataset contains values in the range 0-1 with the proportion of model runs (members) that exceeded the specific discharge threshold. For the deterministic NWP (DWD and ECMWF-HRES) values can only be either 0 or 1.
 
@@ -58,45 +58,45 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 * `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
 * `discharge>return_period>reducing_factor`: if not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
 * `discharge>return_period>input`: location of the NetCDF file with the discharge associated to several return periods for all the fixed reporting points.
-* `discharge>output>reanalysis` is the directory where the output of this step will be saved.
+* `exceedance>output>forecast` is the directory where the output of this step will be saved.
 
-### 3.3 Selection of reporting points
+### 3.3 Hits, misses and false alarms
 
-In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/3_0_select_stations) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
-
-In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we remove more reporting points. 
-
-This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
-
-### 3.4 Hits, misses and false alarms
-
-This [notebook](notebook/6_hits_misses_falsealarms.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
+This [notebook](notebook/3_hits_misses_falsealarms.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast, and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
 
 ![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
 >***Figure 1**. Confusion matrix for an imbalanced classification, such as that of flood forecasting.*
 
 The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](docs/5_0_skill_eventwise_explanation.html).
 
-If the exceedance datasets are ternary (see Sections 3.1 and 3.3), the second step in this section is to **recompute the exceedance** to convert these ternary datasets into binary. The combination of 2 ternary time series has 9 possible outcomes. In a nutshell, only two cases are interesting: when one of the time series is over the discharge threshold ($Q_{rp}$) and the other one is just over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). These two cases would be either a miss or a false alarm in a binary analysis; instead, in the ternary analysis they will be both considered as hits.
+If the exceedance datasets are ternary (see Sections 3.1 and 3.2), the second step in this section is to **recompute the exceedance** to convert these ternary datasets into binary. The combination of 2 ternary time series has 9 possible outcomes. In a nutshell, only two cases are interesting: when one of the time series is over the discharge threshold ($Q_{rp}$) and the other one is just over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). These two cases would be either a miss or a false alarm in a binary analysis; instead, in the ternary analysis they will be both considered as hits.
 
-The third step is to **compute total exceedance probability** out of the probabilities for each of the 4 NWP. Four aproaches are tested:
+The third step is to **compute total exceedance probability** out of the probabilities from each of the 4 NWP. Four aproaches are tested:
 
-* _1 deterministic and 1 probabilistic_: this is the current procedure, in which a notification is sent if both a deterministic NWP and an probabilistic NWP predict the flood with an exceedance probability over the threshold.
-* _Model mean_: the total exceedance probability is a simple mean over the probability of all the models. This approach gives the same weight to every model, which also means that gives higher weight to the single run of a deterministic model against the single runs of a probabilistic model.
-* _Member weighted: the total exceedance probability is a mean over all the model runs. In this approach the probabilistic models prevail over the deterministic, since they have more than one run.
-* _Performance weighted_: the weighted mean is done using a matrix of the Brier score, which gives different weigths to every model at every lead time.
+* _1 deterministic and 1 probabilistic_: this is the procedure currently used in EFAS, in which a notification is sent if both a deterministic NWP and an probabilistic NWP predict the flood with an exceedance probability over a threshold.
+* _Model mean_: the total exceedance probability is a simple mean over the probability of all the models. This approach gives the same weight to every model.
+* _Member weighted_: the total exceedance probability is a mean over all model runs. In this approach the probabilistic models prevail over the deterministic, since they have more than one run.
+* _Performance weighted_: the weighted mean is done using a weighing matrix based of the Brier score, which gives different weigths to every model at every lead time.
 
 **Forecasted events** (i.e. notifications) are computed by comparing the total exceedance probability matrix against a vector of possible probability thresholds. It is in this step that we include _persistence_ as a notification criteria. The forecasted events are calculated for the series of persistence values specified in the configuration file.
 
-Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) of 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
+Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) with 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
 
 Parameters in the [configuration file](config/config.yml) specifically involved in this step:
 
-* `probability`: an array of probability values (in the range 0-1) that will be tested.
-* `persistence`: an array of persistence values to be tested. Every persistence criterion is a pair of values (`[x, y]`) representing the number of $x$ positive forecast of a window of width $y$. For instance, a persistence of `[2, 3]` means that a notification would be sent if 2 out of 3 forecast predict the event.
-* `window` and `centre`: width, and location of the rolling window used to compute hits. This rolling window is a buffer applied on the predicted events to account for events predicted with a time shift with respect to the observation. The width must be an integer representing the amount of timesteps (12 h each), and the centre is a boolean.
-* `seaonality`: a boolean parameter to set if the analysis should be seasonal or not. _(not working yet)_
+* `hits>criteria>probability`: an array of probability values (in the range 0-1) that will be tested.
+* `hits>criteria>persistence`: an array of persistence values to be tested. Every persistence criterion is a pair of values (`[x, y]`) representing the number of $x$ positive forecast of a window of width $y$. For instance, a persistence of `[2, 3]` means that a notification would be sent if 2 out of 3 forecast predict the event.
+* `hits>window` and `hits>center`: width, and location of the rolling window used to compute hits. This rolling window is a buffer applied on the predicted events to account for events predicted with a time shift with respect to the observation. The width must be an integer representing the amount of timesteps (12 h each), and the centre is a boolean.
+* `hit>seaonality`: a boolean parameter to set if the analysis should be seasonal or not. _(not working yet)_
+* `hits>output`: directory where the resulting NetCDF files will be stored.
 
+### 3.4 Selection of reporting points
+
+In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/3_0_select_stations) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
+
+In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we remove more reporting points. 
+
+This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
 
 ### 3.5 Skill assessment
 
