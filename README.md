@@ -5,7 +5,7 @@ Analysis of the skill of [EFAS (Europen Flood Awareness System)](https://www.efa
 
 ## 1 Structure of the repository
 
-The repository contains six folders:
+The repository contains seven folders:
 
 * [conf](https://github.com/casadoj/EFAS_skill/tree/cleaning/conf) contains the configuration file (_config.yml_) used by all notebooks.
 * [data](https://github.com/casadoj/EFAS_skill/tree/cleaning/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
@@ -55,11 +55,10 @@ As in the reanalysis, the output of the forecast preprocessing are NetCDF files 
 
 Parameters in the [configuration file](config/config.yml) specifically involved in this step:
 
-* `rp`: return period (years) associated to the discharge threshold ($Q_{rp}$).
-* `reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
-* `file_thresholds`: location of the NetCDF file with the discharge associated to several return period for all the fixed reporting points.
-* `paths:output:exceedance:forecast` is the directory where the output of this step will be saved.
-
+* `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
+* `discharge>return_period>reducing_factor`: if not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
+* `discharge>return_period>input`: location of the NetCDF file with the discharge associated to several return periods for all the fixed reporting points.
+* `discharge>output>reanalysis` is the directory where the output of this step will be saved.
 
 ### 3.3 Selection of reporting points
 
@@ -68,7 +67,6 @@ In a first attempt, we tried to remove the spatial colinearity between reporting
 In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we remove more reporting points. 
 
 This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
-
 
 ### 3.4 Hits, misses and false alarms
 
