@@ -67,7 +67,7 @@ This [notebook](notebook/3_hits_misses_falsealarms.ipynb) compares the exceedanc
 ![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
 >***Figure 1**. Confusion matrix for an imbalanced classification, such as that of flood forecasting.*
 
-The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](docs/5_0_skill_eventwise_explanation.html).
+The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](notebooks/extra/explanation_of_the_procedure.ipynb).
 
 If the exceedance datasets are ternary (see Sections 3.1 and 3.2), the second step in this section is to **recompute the exceedance** to convert these ternary datasets into binary. The combination of 2 ternary time series has 9 possible outcomes. In a nutshell, only two cases are interesting: when one of the time series is over the discharge threshold ($Q_{rp}$) and the other one is just over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). These two cases would be either a miss or a false alarm in a binary analysis; instead, in the ternary analysis they will be both considered as hits.
 
@@ -92,37 +92,46 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 
 ### 3.4 Selection of reporting points
 
-In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/3_0_select_stations) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
+In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/5_select_pointds) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
 
-In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we remove more reporting points. 
+In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we removed more reporting points. 
 
 This filter could be done in order to keep either smaller or larger catchments, in either case, this filter would have hinder the skill analysis based on catchment area that will be part of the final results.
 
 ### 3.5 Skill assessment
 
-This is the notebook in which we analyse the skill of EFAS predictions in the last 2 years and derive ways of changing the notification criteria in order to optimize skill. The outcome of this process is a set of plots and a few datasets including the optimized criteria and the table of reporting points including their skill for the optimial criteria.
+This is the [notebook](notebooks/6_skill.ipynb) in which we analyse the skill of EFAS notifications in the last 2 years and derive ways of changing the notification criteria in order to optimize skill. The outcome of this process is a set of plots and a few datasets including the optimized criteria and the table of reporting points including their skill for the optimial criteria.
 
 In this section we **compute skill** out of the hits, misses and false alarms derived in the previous section. Skill is measured in three different ways: $recall$, $precision$ and a combination of those named $f_{score}$. The $\beta$ coefficient in the $f_{score}$ is one of the parameters to be set in the configuration file. The default values is 1, for which the same importance is given to both $precision$ and $recall$. If $precision$ is deemed more importance, $\beta$ should be lower than 1, and the other way around if $recall$ is more important.
 
 $$recall = \frac{TP}{TP + FN}$$
+
 $$precision = \frac{TP}{TP + FP}$$
+
 $$f_{beta} = \frac{(1 + \beta^2) \cdot TP}{(1 + \beta^2) \cdot TP + \beta^2 \cdot FN + FP}$$
 
-Two plots are generated that show, respectively, the evolution of the hits and the skill regarding persistence, lead time, probability threshold and approach. A third plot shows especifically the evolution of skill for the fixed lead time (default 60 h) that will be used in the optimization.
+Two plots are generated that show, respectively, the evolution of the hits and the skill regarding persistence, lead time, probability threshold and approach. A third plot shows especifically the evolution of skill for the fixed lead time (default 60 h) and catchment area (default 2000 km²) that will be used in the optimization.
 
-After exploring the skill, **the criteria are optimized for a fixed lead time and catchment area**. A new set of criteria is derived for each approach used to compute total exceedance probability (see Section 3.4). With these new sets of criteria maps and lineplots are generated to show the results and improvements compared to the current notification criteria.
+After the previous exploration, **the criteria are optimized for a fixed lead time and catchment area**. A new set of criteria is derived for each of the approaches used to compute total exceedance probability (see Section 3.3). With these new sets of criteria maps and lineplots are generated to show the results and improvements compared to the current notification criteria.
 
 Finally, we analyse the **behaviour of the skill with varying catchment area** (for a fixed lead time) **and varying lead time** (for a fixed catchment area). Not only we compare the new optimal criteria against the current, but we rerun a optimization in which we look for the optimal probability threshold for each cathcment/lead time value. The objective of this second optimization is only exploratory, to check whether there is ground for improvement in the skill of the system with more complex notification criteria.
 
 Parameters in the [configuration file](config/config.yml) specifically involved in this step:
 
-* `current_criteria`: as a benchmark, the current _approach_, _probability_ and _persistence_ criteria should be provided.
-* `leadtime`: minimum leadtime value for which the notification criteria will be optimized. By default is 60 h, to keep the current procedure of not sending notifications with less than 2 days in advance.
-* `area`: minimum catchment area for wich the notification criteria will be optimized. By default is 2000 km², so that the results of the optimization can be compared with the benchmark.
-* `beta`: the coefficient of the $f_{beta}$ score used as the target metric in the optimization. 
-* `kfold`: the number of split samples used in the optimization process. If None, the optimization will be done on the training set of stations and validated on the test set. If an integer is provided, the optimization will be repeated on $k_{fold}$ equal-size subsamples of the training set, averaged, and then validated on the test set.
-* `train_size`: a value between 0 and 1 that defines the proportion of reporting points to be included in the training sample.
-* `tolerance`: a float number that defines the skill difference required to consider one criteria better than the other. If two sets of criteria get a $f_{score}$ closer than this tolerance, the two sets are considered equally-performing; in that case, the set with the smaller difference between $recall$ and $precision$ would be chosen.
+* `skill>current_criteria`: as a benchmark, the current _approach_, _probability_ and _persistence_ criteria should be provided.
+* `sekill>leadtime`: minimum leadtime value for which the notification criteria will be optimized. By default is 60 h, to keep the current procedure of not sending notifications with less than 2 days in advance.
+* `skill>area`: minimum catchment area for wich the notification criteria will be optimized. By default is 2000 km², so that the results of the optimization can be compared with the benchmark.
+* `skill>beta`: the coefficient of the $f_{beta}$ score used as the target metric in the optimization. 
+* `skill>optimization>kfold`: the number of split samples used in the optimization process. If None, the optimization will be done on the training set of stations and validated on the test set. If an integer is provided, the optimization will be repeated on $k_{fold}$ equal-size subsamples of the training set, averaged, and then validated on the test set.
+* `skill>optimization>train_size`: a value between 0 and 1 that defines the proportion of reporting points to be included in the training sample.
+* `skill>optimization>tolerance`: a float number that defines the skill difference required to consider one criteria better than the other. If two sets of criteria get a $f_{score}$ closer than this tolerance, the two sets are considered equally-performing; in that case, the definition of the best set depends on the followint paramenter.
+* `skill>optimization>minimize_spread`: it controls how to define the best value of the criteria out of those performing equally. If True, the selected value is the one with a minimum difference between precision and recall. If False, the minimum value is selected as the best. This parameter needs to be defined for each criterion, i.e., `probability` and `persistence`.
+
+There is a final [notebook](noteboooks/7_summarize_results.ipynb) that imports the datasets of hits and the optimized criteria and exports a table that summarizes the results of the analysis.
+
+### 3.6 Extras
+
+There are [2 extra notebooks](notebooks/extra/) that were used to explain the whole procedure and generate plots regarding specific events.
 
 ## 4 Results
 
