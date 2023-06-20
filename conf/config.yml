@@ -12,46 +12,46 @@ reporting_points:
     
 discharge:
     input:
-        reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/
-        forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/
+        reanalysis: E:/casadje/Documents/skill_assessment/data/CDS/reanalysis/  # directory were the original reanalysis discharge files are stored
+        forecast: E:/casadje/Documents/skill_assessment/data/CDS/forecast/      # directory were the original forecast discharge files are stored
     study_period:
-        start: 2021-01-01 # start date of the analysis (e.g. 2020-01-01)
-        end: 2022-12-31 18:00 # end date of the analysis (e.g. 2022-12-31)
+        start: 2021-01-01                                                       # start date of the analysis (e.g. 2020-01-01)
+        end: 2022-12-31 18:00                                                   # end date of the analysis (e.g. 2022-12-31)
     return_period:
-        input: ../data/thresholds/return_levels.nc
-        threshold: 5    # years
-        reducing_factor: 0.05 # None
+        input: ../data/thresholds/return_levels.nc                              # NetCDF file with the return periods of discharge
+        threshold: 5                                                            # return period whose exceedance is considered a flood event
+        reducing_factor: 0.05                                                   # factor reducing the discharge associated to the previous return period (not necessary)
     output:
-        reanalysis: ../data/discharge/reanalysis/
+        reanalysis: ../data/discharge/reanalysis/                               # directory where the preprocessed reanalysis discharge will be saved
             
 exceedance:
     output:
-        reanalysis: ../results/exceedance/reanalysis/
-        forecast: ../results/exceedance/forecast/
+        reanalysis: ../results/exceedance/reanalysis/                           # directory where the reanalysis exceedance probability will be saved
+        forecast: ../results/exceedance/forecast/                               # directory where the forecast exceedance probability will be saved
 
 hits:
     criteria:
-        probability: [0.05, 0.96, 0.025] # minimum, maximum and step values
-        persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]
-    window: 5    # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
-    center: True # whether the previous rolling window is centered or not
-    seasonality: False
-    output: ../results/hits/
+        probability: [0.05, 0.96, 0.025]                                        # search values of the probability criterion: minimum, maximum and step
+        persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]           # search values for the persistence criterion
+    window: 5                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
+    center: True                                                                # whether the previous rolling window is centered or not
+    seasonality: False                                                          # whether to split the analysis in seasons or not
+    output: ../results/hits/                                                    # directory where the NetCDF files of hits/misses/false alarms will be stored
     
 skill:
-    current_criteria:
+    current_criteria:                                                           # benchmark criteria
         approach: 1_deterministic_+_1_probabilistic
         probability: 0.3
         persistence: 3/3
-    leadtime: 60 # minimum leadtime (in hours) for which the notification criteria will be optimized
-    area: 2000   # minimum catchment area (in km²) for which the notification criteria will be optimized
-    beta: 1   # coefficient of the fbeta-score (by default is 1)
+    leadtime: 60                                                                # minimum leadtime (in hours) for which the notification criteria will be optimized
+    area: 2000                                                                  # minimum catchment area (in km²) for which the notification criteria will be optimized
+    beta: 1                                                                     # coefficient of the fbeta-score (by default is 1)
     optimization:
-        kfold: 10 # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
-        train_size: 0.707 # proportion of the complete set of reporting points in each cross-validation subset
-        tolerance: 0.01 # criteria with a skill difference lower than this value will be considered equally-performing
-        minimize_spread: # whether to minimize the difference between precision and recall among criteria performing similarly in terms of fscore
+        kfold: 10                                                               # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
+        train_size: 0.707                                                       # proportion of the complete set of reporting points in each cross-validation subset
+        tolerance: 0.01                                                         # criteria with a skill difference lower than this value will be considered equally-performing
+        minimize_spread:                                                        # whether to minimize the difference between precision and recall among criteria performing similarly in terms of fscore
             probability: False
             persistence: False
-    output: ../results/skill/
+    output: ../results/skill/                                                   # directory where results will be saved
     
