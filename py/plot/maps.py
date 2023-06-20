@@ -74,7 +74,7 @@ def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
     # plot all the stations
     if mask is not None:
         # plot masked stations
-        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 4, c='dimgray', alpha=kwargs.get('alpha', .5),
+        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
                    label='stations w/o events', zorder=0)
         x = x[~mask]
         y = y[~mask]
@@ -118,7 +118,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
     
     # set up the plots
     ncols = len(cols)
-    fig = plt.figure(figsize=kwargs.get('figsize', (ncols * 5, 6)), constrained_layout=True)
+    fig = plt.figure(figsize=kwargs.get('figsize', (ncols * 5, 5.5)), constrained_layout=True)
     gs = fig.add_gridspec(nrows=2, ncols=ncols, height_ratios=kwargs.get('height_ratios', [5, 1]))
 
     # find maximum value of the Y axis in the histograms
@@ -179,7 +179,7 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         # ancillary texts
         n_points = z.shape[0]
         n_zeros = counts.loc[0]
-        ax_hist.text(.5, 1.15, f'total points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
+        ax_hist.text(.5, 1.15, f'total no. points: {n_points}', horizontalalignment='center', transform=ax_hist.transAxes)
         ax_hist.text(0, n_zeros + ymax / 40, n_zeros, horizontalalignment='center')
     
     if 'title' in kwargs:
@@ -204,7 +204,7 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
     """
 
     # set up the plots
-    fig = plt.figure(figsize=kwargs.get('figsize', (15, 6)), constrained_layout=True)
+    fig = plt.figure(figsize=kwargs.get('figsize', (15, 5.5)), constrained_layout=True)
     gs = fig.add_gridspec(nrows=2, ncols=3, height_ratios=kwargs.get('height_ratios', [5, 1]))
     axes = np.empty((2, 3)).astype('object')
     
@@ -255,7 +255,7 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
     cbar.ax.tick_params(size=0)
     
     if 'title' in kwargs:
-        fig.text(.5, 1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
+        fig.text(.5, 1.1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
         
     if save is not None:
         plt.savefig(save, bbox_inches='tight', dpi=300);
@@ -276,6 +276,7 @@ def map_events(stations, col, rivers=None, save=None, **kwargs):
     # extract kwargs
     s = kwargs.get('s', 2)
     alpha = kwargs.get('alpha', .5)
+    yscale = kwargs.get('yscale', 'linear')
     if ('cmap' not in kwargs) or ('norm' not in kwargs):
         xmax = stations[col].max()
         cmap, norm = create_cmap('Oranges', np.arange(xmax + 2), 'no. events', [0, (0.41176, 0.41176, 0.41176, 1)])
@@ -303,6 +304,8 @@ def map_events(stations, col, rivers=None, save=None, **kwargs):
     ax_hist.set(xlabel='no. observed events', xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5),
                 xticks=norm.boundaries[:-1])
     ax_hist.spines[['right', 'top']].set_visible(False)
+    if yscale != 'linear':
+        ax_hist.set_yscale(yscale)
     
     if 'title' in kwargs:
         fig.text(.5, 1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
