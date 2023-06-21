@@ -5,7 +5,7 @@ reporting_points:
         rivers: ../data/GIS/RiversForWebPage_EU_ready.shp                      # optional shapefile of rivers. Only used for plots
     area: 500                                                                  # minimum catchment area (km²)
     catchments:                                                                # catchments on which the skill analysis will focus
-    KGE:  0.5                                                                  # minimum values of KGE that a reporting point must meet to be included in the skill assessment
+    KGE:                                                                    # minimum values of KGE that a reporting point must meet to be included in the skill assessment
     selection:
         rho: 0.9                                                               # the maximum correlation coefficient allowed between 2 reporting points
         upstream: True                                                         # whether to give priority to stations upstream (True) or downstream (False) reporting points
@@ -34,7 +34,7 @@ hits:
     criteria:
         probability: [0.05, 0.96, 0.025]                                        # search values of the probability criterion: minimum, maximum and step
         persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]           # search values for the persistence criterion
-    window: 5                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
+    window: 1                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: True                                                                # whether the previous rolling window is centered or not
     seasonality: False                                                          # whether to split the analysis in seasons or not
     output: ../results/hits/                                                    # directory where the NetCDF files of hits/misses/false alarms will be stored
@@ -46,9 +46,9 @@ skill:
         persistence: 3/3
     leadtime: 60                                                                # minimum leadtime (in hours) for which the notification criteria will be optimized
     area: 2000                                                                  # minimum catchment area (in km²) for which the notification criteria will be optimized
-    beta: 1                                                                    # coefficient of the fbeta-score (by default is 1)
+    beta: 1.2                                                                   # coefficient of the fbeta-score (by default is 1)
     optimization:
-        kfold: 5                                                               # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
+        kfold: 10                                                               # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.707                                                       # proportion of the complete set of reporting points in each cross-validation subset
         stratify: False                                                         # whether the sampling should be done randomly (False) or based on the number of "observed" events (True)
         tolerance: 0.01                                                         # criteria with a skill difference lower than this value will be considered equally-performing
