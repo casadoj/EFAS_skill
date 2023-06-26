@@ -503,3 +503,37 @@ def hits_by_area(hits, station_area, area_ranges):
         hits_area.loc[dict(area=area)] = hits.sel(id=stn_area).sum('id', skipna=False)
         
     return hits_area
+
+
+
+def limit_leadtime(da):
+    """Given a DataArray or Dataset in which one of its dimensions is 'leadtime', it converts to NaN values at lond lead times for which either the meteorological model doesn't predict, or that the persistence can no be complied with
+    
+    Input:
+    ------
+    da:   xr.DataArray or xr.Dataset (leadtime,persistence,model?...) A xarray object that must contain a dimension named 'leadtime' and a dimension named 'persistence'. The dimension 'model' is optional.
+    
+    Output:
+    -------
+    da:   xr.DataArray or xr.Dataset (leadtime,persistence,model?...). Same as the input but long lead times may have been converted to NaN
+    """
+    
+    # convert to -999 values at long leadtimes for which the model has no forecast or the persistence is impossible to be met
+    if 'model' in da.dims:
+        for model in da.model.data:
+            last_leadtime = models[model]['leadtimes'] * 6
+            for persistence in da.persistence.data:
+                n_forecasts = int(persistence.split('/')[0]) - 1
+                max_leadtime = last_leadtime - n_forecasts * 12
+                if max_leadtime < da.leadtime.max():
+                    sel = {'model': model, 'persistence': persistence, 'leadtime': slice(max_leadtime + 1, None)}
+                    da.loc[sel] = -999  
+    else:
+        last_leadtime = int(persistence.split('/')[0]) - 1
+        if last_leadtime > 0:
+            hits_stn.sel(persistence=persistence)[dict(leadtime=slice(-last_leadtime, None))] = -999
+                
+    # convert the -999 just created to NaN
+    da = da.where(da != -999, other=np.nan)
+    
+    return da

@@ -526,8 +526,9 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', r
         
         # probability of the optimal criteria
         if optimal_criteria is not None:
-            ax2.axhline(optimal_criteria[key]['probability'],
-                       color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
+            prob = optimal_criteria[key]['probability']
+            max_x = skill_opt[metric].sel({coldim: key, 'persistence': persistence}).to_pandas().last_valid_index()
+            ax2.hlines(prob, 12, max_x, color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
             
         # probability optimized for each value of the target variable
         if optimized_criteria is not None:
@@ -605,8 +606,8 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, coldim='approach',
         if shades:
             y1_optimal = skill_optimal[['recall', 'precision']].min(axis=1)
             y2_optimal = skill_optimal[['recall', 'precision']].max(axis=1)
-            ax1.fill_between(skill_optimal.index, y1_optimal, y2_optimal, alpha=alpha, color=colors[1], zorder=7, label=f'P-R (optimal)')
-        ax1.plot(skill_optimal.index, skill_optimal[metric], c=colors[1], lw=lw, label=f'{metric} (optimal)', zorder=3)
+            ax1.fill_between(skill_optimal.index, y1_optimal, y2_optimal, alpha=alpha, color=colors[1], zorder=1, label=f'P-R (optimal)')
+        ax1.plot(skill_optimal.index, skill_optimal[metric], c=colors[1], lw=lw, label=f'{metric} (optimal)', zorder=7)
         persistence = optimal_criteria[key]['persistence']
         
         # skill optimized for each value of the target variable
@@ -677,9 +678,9 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, coldim='approach',
 
         # probability of the optimal criteria
         if optimal_criteria is not None:
-            p = int(str(persistence).split('/')[0])
-            ax2.axhline(optimal_criteria[key]['probability'],
-                       color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
+            prob = optimal_criteria[key]['probability']
+            max_x = skill_opt[metric].sel({coldim: key, 'persistence': persistence}).to_pandas().last_valid_index()
+            ax2.hlines(prob, 12, max_x, color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
 
         # probability optimized for each value of the target variable
         if optimized_criteria is not None:
