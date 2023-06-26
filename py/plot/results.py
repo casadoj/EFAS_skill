@@ -419,7 +419,7 @@ def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', co
         
         
         
-def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, current_criteria=None, optimized_criteria=None, save=None, **kwargs):
+def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', reference=None, current_criteria=None, optimized_criteria=None, save=None, **kwargs):
     """It generates a graph with as many lineplots as approaches in the 'hits' dataset. The lineplots reprensent both the evolution of true positives (hits) and false positives (false alarms) and probability with regard to a specified variable
     
     Inputs:
@@ -427,6 +427,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
     hits:               xr.Dataset (area, persistence, approach, probability). It contains as variables TP (true positives), FN (false negatives) and FP (false positives)
     optimal_criteria:   dict. For each approach in 'hits', it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
     variable:           string. Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
+    coldim:             string. Name of the dimension that defines each of the plots in the graph
     reference:          int of float. Fixed value of the 'variable' for which 'optimal_criteria' was fitted
     current_criteria:   dict. It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
     optimized_criteria: xr.DataArray (variable, approach, persistence). It contains the optimized probability threshold for each combination of the 'variable', approach and persistence
@@ -448,12 +449,13 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
         obs_current = hits.sel(current_criteria)['TP'] + hits.sel(current_criteria)['FN']
         pred_current = hits.sel(current_criteria)['TP'] + hits.sel(current_criteria)['FP']
     
-    for ax1, (approach, criteria) in zip(axes, optimal_criteria.items()):
+    for ax1, (key, criteria) in zip(axes, optimal_criteria.items()):
         
         # HITS, FALSE POSITIVES
         # ---------------------
         
-        ds = hits.sel(approach=approach)
+        sel = {coldim: key}
+        ds = hits.sel(sel)
         
         # hits/false alarms for the current operational criteria
         if current_criteria is not None:
@@ -467,16 +469,16 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
         pred = hits.sel(criteria)['TP'] + hits.sel(criteria)['FP']
         ax1.fill_between(hits[variable], hits.sel(criteria)['TP'] / obs, pred / obs, color=colors[1], alpha=alpha, zorder=1, label='FP (optimal)')
         ax1.plot(hits[variable], hits.sel(criteria)['TP'] / obs, c=colors[1], label=f'TP (optimal)', lw=lw, zorder=5)
-        persistence = optimal_criteria[approach]['persistence']
+        persistence = optimal_criteria[key]['persistence']
         
         # hits/false alarms optimized for each value of the target variable
         if optimized_criteria is not None:
-            probability = optimized_criteria.sel(approach=approach, persistence=persistence)
+            probability = optimized_criteria.sel(sel).sel(persistence=persistence)
             hits_var = pd.DataFrame(index=probability[variable].data, columns=list(hits))
             for v, p in zip(hits_var.index, probability.data):
                 if np.isnan(p): # due to persistence
                     continue
-                hits_var.loc[v] = hits.sel({variable: v, 'probability': p, 'approach': approach, 'persistence': persistence}).to_pandas()
+                hits_var.loc[v] = hits.sel({variable: v, 'probability': p, coldim: key, 'persistence': persistence}).to_pandas()
             obs = hits_var['TP'] + hits_var['FN']
             pred = hits_var['TP'] + hits_var['FP']
             y1 = (hits_var['TP'] / obs).astype(float)
@@ -494,7 +496,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
                xlabel=kwargs.get('xlabel', variable),
                ylim=kwargs.get('ylim', (-.05, 2.05)),
                xlim=kwargs.get('xlim' ,(hits[variable].min(), hits[variable].max())))
-        ax1.set_title(approach.replace('_', ' '))
+        ax1.set_title(key.replace('_', ' '))
         if loc_text == 1:
             x, y, ha, va = .975, .975, 'right', 'top'
         elif loc_text == 2:
@@ -524,7 +526,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
         
         # probability of the optimal criteria
         if optimal_criteria is not None:
-            ax2.axhline(optimal_criteria[approach]['probability'],
+            ax2.axhline(optimal_criteria[key]['probability'],
                        color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
             
         # probability optimized for each value of the target variable
@@ -553,7 +555,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, reference=None, curr
         
         
         
-def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, metric='f1', current_criteria=None, optimized_criteria=None,
+def plot_skill_by_variable(skill, optimal_criteria, variable, coldim='approach', reference=None, metric='f1', current_criteria=None, optimized_criteria=None,
                            shades=True, save=None, **kwargs):
     """It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
     
@@ -562,6 +564,7 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
     skill:              xr.Dataset (area, persistence, approach, probability). It contains as variables recall, precision and the specified metric
     optimal_criteria:   dict. For each approach in skill, it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
     variable:           string. Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
+    coldim:             string. Name of the dimension that defines each of the plots in the graph
     reference:          int of float. Fixed value of the 'variable' for which 'optimal_criteria' was fitted
     metric:             string. Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
     current_criteria:   dict. It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
@@ -582,11 +585,11 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
     fig, axes = plt.subplots(ncols=4, sharex=True, sharey=True, figsize=kwargs.get('figsize', (18, 4)))
     
     if current_criteria is not None:
-        skill_current = skill.sel(current_criteria).to_pandas().drop(['probability', 'approach', 'persistence'], axis=1)
+        skill_current = skill.sel(current_criteria).to_pandas().drop(['probability', coldim, 'persistence'], axis=1)
         y1_current = skill_current[['recall', 'precision']].min(axis=1)
         y2_current = skill_current[['recall', 'precision']].max(axis=1)
 
-    for ax1, approach in zip(axes, skill.approach.data):
+    for ax1, key in zip(axes, skill[coldim].data):
 
         # SKILL
         # -----
@@ -598,22 +601,22 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
                 ax1.plot(skill_current.index, skill_current[metric], c=colors[0], lw=lw, label=f'{metric} (current)', zorder=6)
 
         # skill for the optimal criteria (that optimized for the reference value of the variable)
-        skill_optimal = skill.sel(optimal_criteria[approach]).to_pandas().drop(['probability', 'approach', 'persistence'], axis=1)
+        skill_optimal = skill.sel(optimal_criteria[key]).to_pandas().drop(['probability', coldim, 'persistence'], axis=1)
         if shades:
             y1_optimal = skill_optimal[['recall', 'precision']].min(axis=1)
             y2_optimal = skill_optimal[['recall', 'precision']].max(axis=1)
             ax1.fill_between(skill_optimal.index, y1_optimal, y2_optimal, alpha=alpha, color=colors[1], zorder=7, label=f'P-R (optimal)')
         ax1.plot(skill_optimal.index, skill_optimal[metric], c=colors[1], lw=lw, label=f'{metric} (optimal)', zorder=3)
-        persistence = optimal_criteria[approach]['persistence']
+        persistence = optimal_criteria[key]['persistence']
         
         # skill optimized for each value of the target variable
         if optimized_criteria is not None:
-            probability = optimized_criteria.sel(approach=approach, persistence=persistence).data
+            probability = optimized_criteria.sel({coldim: key}).sel(persistence=persistence).data
             skill_var = pd.DataFrame(index=optimized_criteria[variable].data, columns=list(skill))
             for v, p in zip(skill_var.index, probability):
                 if np.isnan(p): # due to persistence
                     continue
-                skill_var.loc[v] = skill.sel({variable: v, 'probability': p, 'approach': approach, 'persistence': persistence}).to_pandas()
+                skill_var.loc[v] = skill.sel({variable: v, 'probability': p, coldim: key, 'persistence': persistence}).to_pandas()
             if shades:
                 y1_var = skill_var[['recall', 'precision']].min(axis=1)
                 y2_var = skill_var[['recall', 'precision']].max(axis=1)
@@ -625,7 +628,7 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
             ax1.axvline(x=reference, ls='-', lw=.5, color='k')
 
         # settings
-        ax1.set_title(approach.replace('_', ' '))
+        ax1.set_title(key.replace('_', ' '))
         if loc_text == 1:
             x, y, ha, va = .975, .975, 'right', 'top'
         elif loc_text == 2:
@@ -646,6 +649,8 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
             color = 'k'
         elif all(criteria_disp):
             color = colors[1]
+        else:
+            color = 'k'
         ax1.text(x, y, f'persistence = {persistence}', color=color, horizontalalignment=ha, verticalalignment=va, transform=ax1.transAxes,
                  backgroundcolor='w')
         ax1.set(xlabel=kwargs.get('xlabel', variable),
@@ -673,7 +678,7 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
         # probability of the optimal criteria
         if optimal_criteria is not None:
             p = int(str(persistence).split('/')[0])
-            ax2.axhline(optimal_criteria[approach]['probability'],
+            ax2.axhline(optimal_criteria[key]['probability'],
                        color=colors[1], lw=lw, ls=':', zorder=4, label='prob. (optimal)')
 
         # probability optimized for each value of the target variable
@@ -702,14 +707,15 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, reference=None, me
         
         
         
-def plot_skill_training(train, test, complete=None, save=None, **kwargs):
+def plot_skill_training(train, test, complete=None, xdim='approach', save=None, **kwargs):
     """Scatter (and box) plot of the performance achieved for every approach in the train, test and complete data sets.
     
     Inputs:
     -------
-    train:    xr.Dataset (approach, (kfold)). The skill in the training set.The 'kfold' dimension is not mandatory, it would contain the skill in any of the folds of the cross-validation
-    test:     xr.Dataset (approach,). The skill in the test set
-    complete: xr.Dataset (approach,). The skill in the complete set (training + test)
+    train:    xr.Dataset (xdim, (kfold)). The skill in the training set.The 'kfold' dimension is not mandatory, it would contain the skill in any of the folds of the cross-validation
+    test:     xr.Dataset (xdim,). The skill in the test set
+    complete: xr.Dataset (xdim,). The skill in the complete set (training + test)
+    xdim:     string. Name of the dimension in 'train', 'test' and 'complete' to plot on the X axis
     save:     string. Directory and filename (including extension) where the graph will be saved
     """
     
@@ -720,7 +726,7 @@ def plot_skill_training(train, test, complete=None, save=None, **kwargs):
     # plot performance
     ncols = len(train)
     fig, axes = plt.subplots(ncols=ncols, figsize=(figsize[0] * ncols, figsize[1]), sharex=True, sharey=True)
-    xticks = np.arange(1, len(train.approach.data) + 1)
+    xticks = np.arange(1, len(train[xdim].data) + 1)
     for ax, score in zip(axes, list(test)):
         if 'kfold' in train.dims:
             ax.boxplot(train[score].transpose(), zorder=0)
@@ -735,8 +741,11 @@ def plot_skill_training(train, test, complete=None, save=None, **kwargs):
     ax.set_ylim(ylim)
     ax.set_xticks(xticks)
     xlabels = []
-    for approach in list(train.approach.data):
-        xlabels.append(''.join([x[0].upper() for x in approach.split('_')]))
+    for label in list(train[xdim].data):
+        if len(label) > 3:
+            xlabels.append(''.join([x[0].upper() for x in label.split('_')]))
+        else:
+            xlabels.append(label)
     ax.set_xticklabels(xlabels)
     handles, labels = ax.get_legend_handles_labels()
     fig.legend(handles, labels, bbox_to_anchor=kwargs.get('loc_legend', [.8, .8, .2, .1]))

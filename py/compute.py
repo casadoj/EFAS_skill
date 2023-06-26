@@ -151,12 +151,18 @@ def recompute_exceedance(obs, pred_high, pred_low):
 
     # if observation exceeds the lower threshold and some predictions exceed the higher
     mask = ((obs == 1) & (pred_high > 0)).data
-    exceed_obs[mask.any(axis=(2, 3))] = 1
+    if len(mask.shape) == 4:
+        exceed_obs[mask.any(axis=(2, 3))] = 1
+    elif len(mask.shape) == 3:
+        exceed_obs[mask.any(axis=2)] = 1
     exceed_pred[mask] = pred_low.data[mask]
 
     # if observation exceeds the lower threshold and none of the predictions exceed the higher
     mask = ((obs == 1) & (pred_high == 0)).data
-    exceed_obs[mask.all(axis=(2, 3))] = 0
+    if len(mask.shape) == 4:
+        exceed_obs[mask.all(axis=(2, 3))] = 0
+    elif len(mask.shape) == 3:
+        exceed_obs[mask.all(axis=2)] = 0
     exceed_pred[mask] = pred_high.data[mask]
 
     # if observation does not exceed the lower threshold
