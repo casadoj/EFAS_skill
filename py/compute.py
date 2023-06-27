@@ -326,7 +326,7 @@ def count_events(da):
 
 
 
-def events2hits(obs, pred, center=True, w=1):#, verbose=True):
+def events2hits(obs, pred, center=True, w=1):
     """It computes the hits, misses and false alarms between two matrixes of observations and predictions.
     To allow for some lags in the predictions, a buffer can be applied by giving the attribute 'w' a value larger than 1
     
@@ -336,7 +336,6 @@ def events2hits(obs, pred, center=True, w=1):#, verbose=True):
     pred:    xr.DataArray. Boolean matrix of predicted exceedances over threshold
     center:  boolean. Whereas the rolling sum must be centered or right sided
     w:       int. Width of the rolling sum window
-    verbose: boolean. Whether to print or not the summary of results
     
     Output:
     -------
@@ -400,7 +399,7 @@ def hits2skill(hits, beta=1):
         if isinstance(b, int):
             score = f'f{b}'
         else:
-            score = f'f{b:.1f}'
+            score = f'f{b}'
         skill[score] = (1 +  b**2) * hits.TP / ((1 +  b**2) * hits.TP + b**2 * hits.FN + hits.FP)
     
     return skill
