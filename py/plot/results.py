@@ -329,7 +329,7 @@ def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', co
         
         # extract best 'X' value and score for each combination of 'rowdim' and 'linedim'
         # best_x = ds[metric].round(r).idxmax(xdim)
-        best_x = find_best_criterion(ds, dim=xdim, metric=metric)[xdim]
+        best_x = find_best_criterion(ds, dim=xdim, metric=metric, tolerance=.01, min_spread=False)[xdim]
         
         ncols = len(ds)
         nrows = len(ds[rowdim])
@@ -443,14 +443,23 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', r
     alpha = kwargs.get('alpha', .15)
     loc_text = kwargs.get('loc_text', 1)
     
-    fig, axes = plt.subplots(ncols=4, figsize=kwargs.get('figsize', (18, 4)), sharex=True, sharey=True)
+    ncols = len(hits[coldim])
+    fig, axes = plt.subplots(ncols=ncols, figsize=kwargs.get('figsize', (4.5 * ncols, 4)), sharex=True, sharey=True)
     
     if current_criteria is not None:
         obs_current = hits.sel(current_criteria)['TP'] + hits.sel(current_criteria)['FN']
         pred_current = hits.sel(current_criteria)['TP'] + hits.sel(current_criteria)['FP']
     
-    for ax1, (key, criteria) in zip(axes, optimal_criteria.items()):
+    # for ax1, (key, criteria) in zip(axes, optimal_criteria.items()):
+    for ax1, key in zip(axes, hits[coldim].data):
         
+        if key not in optimal_criteria:
+            ax1.set(title=key.replace('_', ' '),
+                    xlabel=kwargs.get('xlabel', variable))
+            if ax1 == axes[0]:
+                ax1.text(-.15, .5, r'$\frac{x}{obs}$', horizontalalignment='right', transform=ax1.transAxes)
+            continue
+            
         # HITS, FALSE POSITIVES
         # ---------------------
         
@@ -465,6 +474,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', r
             ax1.plot(hits[variable], tp, c=colors[0], label=f'TP (current)', lw=lw, ls='-', zorder=3)
         
         # hits/false alarms for the optimized criteria
+        criteria = optimal_criteria[key]
         obs = hits.sel(criteria)['TP'] + hits.sel(criteria)['FN']
         pred = hits.sel(criteria)['TP'] + hits.sel(criteria)['FP']
         ax1.fill_between(hits[variable], hits.sel(criteria)['TP'] / obs, pred / obs, color=colors[1], alpha=alpha, zorder=1, label='FP (optimal)')
@@ -584,7 +594,8 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, coldim='approach',
     alpha = kwargs.get('alpha', .15)
     loc_text = kwargs.get('loc_text', 1)
       
-    fig, axes = plt.subplots(ncols=4, sharex=True, sharey=True, figsize=kwargs.get('figsize', (18, 4)))
+    ncols = len(skill[coldim])
+    fig, axes = plt.subplots(ncols=ncols, sharex=True, sharey=True, figsize=kwargs.get('figsize', (4.5 * ncols, 4)))
     
     if current_criteria is not None:
         skill_current = skill.sel(current_criteria).to_pandas().drop(['probability', coldim, 'persistence'], axis=1)
@@ -592,7 +603,14 @@ def plot_skill_by_variable(skill, optimal_criteria, variable, coldim='approach',
         y2_current = skill_current[['recall', 'precision']].max(axis=1)
 
     for ax1, key in zip(axes, skill[coldim].data):
-
+        
+        if key not in optimal_criteria:
+            ax1.set(title=key.replace('_', ' '),
+                    xlabel=kwargs.get('xlabel', variable))
+            if ax1 == axes[0]:
+                ax1.set_ylabel('skill')
+            continue
+        
         # SKILL
         # -----
         
