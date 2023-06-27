@@ -178,7 +178,7 @@ def recompute_exceedance(obs, pred_high, pred_low):
 
 
 
-def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='all'):
+def exceedance2events(da, probability=None, persistence=(1, 1), leadtime=None):
     """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
     The persistence criterion defines the number of forecasts that must predict an exceedance in order to be considered an event.
     
@@ -187,13 +187,12 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
     da:           xr.DataArray. A matrix of exceedances over probability threshold, or a matrix of probability of exceedance (in that case the attribute 'probability' is required). It must have a dimension called 'leadtime', over which the function will compute persistence
     probability:  float or xr.DataArray. Probability thresholds used to convert a 'da' of exceedance probability into a DataArray of exceedances over threshold. If None, the function implies that 'da' is already a DataArray of exceedances over threshold
     persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
-    min_leadtime: str of int. The minimum leadtime (in hours) above which the events will be notified. If 'all', the computation will be done for every leadtime in 'da.leadtime'
+    leadtime:     int or list. A list of lead times (in hours) between which the events will be computed. If an integer, the computation will done from that lead time to the longest lead time in 'da.leadtime'. If None, the computation will be done for every leadtime in 'da.leadtime'
     
     Output:
     -------
-    events:       xr.DataArray. A matrix of predicted events. The dimension 'leadtime' in the input DataArray (length 20 in the usual case) is collapsed to a single value.
+    events:       xr.DataArray. A matrix of predicted events. If 'leadtime' is None or an integer, the dimension 'leadtime' in the input DataArray is collapsed to a single value. If 'leadtime' is a list, the dimension will have as many values as the length of the list.
     """
-    
 
     # invert 'leadtime' order from longer to shorter lead times
     da = da.isel(leadtime=slice(None, None, -1))
@@ -208,16 +207,22 @@ def exceedance2events(da, probability=None, persistence=(1, 1), min_leadtime='al
     events = (exceedance.rolling({'leadtime': persistence[1]}, center=False, min_periods=1).sum() >= persistence[0]) & exceedance
     events = events.isel(leadtime=slice(None, None, -1))
 
-    if min_leadtime == 'all':
+    if leadtime is None:
         events_agg = events.copy()
         for lt in events_agg.leadtime.data:
-            events_agg.loc[dict(leadtime=lt)] = events.sel(leadtime=slice(lt, None)).any('leadtime')
-        return events_agg.astype(int)
-    elif min_leadtime in da.leadtime:
-        # check if there's any predicted event
-        return events.sel(leadtime=slice(min_leadtime, None)).any('leadtime').astype(int)
+            events_agg.loc[dict(leadtime=lt)] = events.sel(leadtime=slice(lt, None)).any('leadtime').astype(int)
     else:
-        return "ERROR. The attribute 'min_leadtime' must be 'all' or a value in 'da.leadtime'."
+        if isinstance(leadtime, int):
+            leadtimes = [leadtime, None]
+        else:
+            leadtimes = leadtime + [None]
+        events_agg = {}
+        for lt, LT in zip(leadtimes[:-1], leadtimes[1:]):
+            aux = events.sel(leadtime=slice(lt + 1, LT))
+            events_agg[aux.leadtime.data.min()] = aux.any('leadtime').astype(int)
+        events_agg = dict2da(events_agg, dim='leadtime')
+            
+    return events_agg
         
         
         
