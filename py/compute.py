@@ -532,10 +532,14 @@ def limit_leadtime(da):
                 if max_leadtime < da.leadtime.max():
                     sel = {'model': model, 'persistence': persistence, 'leadtime': slice(max_leadtime + 1, None)}
                     da.loc[sel] = -999  
-    else:
-        last_leadtime = int(persistence.split('/')[0]) - 1
-        if last_leadtime > 0:
-            hits_stn.sel(persistence=persistence)[dict(leadtime=slice(-last_leadtime, None))] = -999
+    elif 'approach' in da.dims:
+        last_leadtime = max([dct['leadtimes'] for model, dct in models.items()]) * 6
+        for persistence in da.persistence.data:
+            n_forecasts = int(persistence.split('/')[0]) - 1
+            max_leadtime = last_leadtime - n_forecasts * 12
+            if max_leadtime < da.leadtime.max():
+                sel = {'persistence': persistence, 'leadtime': slice(max_leadtime + 1, None)}
+                da.loc[sel] = -999
                 
     # convert the -999 just created to NaN
     da = da.where(da != -999, other=np.nan)
