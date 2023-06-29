@@ -34,20 +34,20 @@ hits:
     criteria:
         probability: [0.05, 0.96, 0.025]                                        # search values of the probability criterion: minimum, maximum and step
         persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]           # search values for the persistence criterion
-    leadtime:                                                                    # integer or list of lead times between which hits will be computed
+    leadtime: [0, 48, 168]                                                                    # integer or list of lead times between which hits will be computed
     window: 1                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: True                                                                # whether the previous rolling window is centered or not
     seasonality: False                                                          # whether to split the analysis in seasons or not
-    output: ../results/hits/                                                    # directory where the NetCDF files of hits/misses/false alarms will be stored
+    output: ../results/hits/NWP/leadtime_ranges2/                                                    # directory where the NetCDF files of hits/misses/false alarms will be stored
     
 skill:
     current_criteria:                                                           # benchmark criteria
         approach: 1_deterministic_+_1_probabilistic
         probability: 0.3
         persistence: 3/3
-    leadtime: 60                                                                  # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
+    leadtime:                                                                   # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
     area: 2000                                                                      # minimum/maximum catchment area (km²) for which the notification criteria will be optimized
-    beta: 1.25                                                                   # coefficient of the fbeta-score (by default is 1)
+    beta: 0.8                                                                   # coefficient of the fbeta-score (by default is 1)
     optimization:
         kfold: 10                                                               # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.707                                                       # proportion of the complete set of reporting points in each cross-validation subset
@@ -56,5 +56,5 @@ skill:
         minimize_spread:                                                        # whether to minimize the difference between precision and recall among criteria performing similarly in terms of fscore
             probability: False
             persistence: False
-    output: ../results/skill/                                                   # directory where results will be saved
+    output: ../results/skill/NWP/leadtime_ranges2/                                                   # directory where results will be saved
     
