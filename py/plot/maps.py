@@ -103,6 +103,72 @@ def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
         
         
         
+def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
+    """It plots a map of Europe with the reporting points and their number of flood events
+    
+    Inputs:
+    -------
+    x:        pandas.Series (stations,). Coordinate X of the stations
+    y:        pandas.Series (stations,). Coordinate Y of the stations
+    z:        pandas.Series (stations,). Number of flood events identified in each station
+    mask:     pandas.Series (stations,). A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
+    rivers:   geopandas. Shapefile of rivers
+    ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
+    save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
+    
+    Ouput:
+    ------
+    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+    """
+    
+    # define projection
+    proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+    if ax is None:
+        fig = plt.figure(figsize=kwargs.get('figsize', None))
+        ax = plt.axes(projection=proj)
+    
+    # add polygon of land
+    ax.add_feature(cf.NaturalEarthFeature('physical', 'land', '50m', edgecolor=None, facecolor='gray'), alpha=.5, zorder=0)
+    # # plot coatslines and country borders
+    # ax.add_feature(cf.COASTLINE, lw=.7, zorder=0)
+    # ax.add_feature(cf.BORDERS, lw=.7, ls='--', color='k', zorder=0)
+    
+    # plot rivers
+    if rivers is not None:
+        rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
+    
+    # plot all the stations
+    if mask is not None:
+        # plot masked stations
+        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
+                   label='stations w/o events', zorder=0)
+        x = x[~mask]
+        y = y[~mask]
+        z = z[~mask]
+
+    # plot non-masked stations
+    sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
+                    alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
+    map_stations.colorbar = sct
+    
+    # settings
+    if ax is None:
+        plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
+        plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
+        # ax.set_extent([-13, 45, 30, 70])
+        ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
+    else:
+        map_stations.legend = ax.get_legend_handles_labels()
+    ax.axis('off')
+    
+    if 'title' in kwargs:
+        ax.set_title(kwargs['title'])
+        
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+        
+        
 def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=None, **kwargs):
     """It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
     
