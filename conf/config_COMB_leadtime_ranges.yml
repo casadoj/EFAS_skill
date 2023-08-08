@@ -45,7 +45,7 @@ skill:
         approach: 1_deterministic_+_1_probabilistic
         probability: 0.3
         persistence: 3/3
-    leadtime: 60                                                                     # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
+    leadtime:                                                                        # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
     area: 2000                                                                      # minimum/maximum catchment area (km²) for which the notification criteria will be optimized
     beta: 0.8                                                                   # coefficient of the fbeta-score (by default is 1)
     optimization:
