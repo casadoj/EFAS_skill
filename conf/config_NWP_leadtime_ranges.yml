@@ -38,7 +38,7 @@ hits:
     window: 1                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: True                                                                # whether the previous rolling window is centered or not
     seasonality: False                                                          # whether to split the analysis in seasons or not
-    output: ../results/hits/2020_2023/NWP/12_60_144_180/                        # directory where the NetCDF files of hits/misses/false alarms will be stored
+    output: ../results/hits/2020_2023/                                          # directory where the NetCDF files of hits/misses/false alarms will be stored
     
 skill:
     current_criteria:                                                           # benchmark criteria
@@ -56,5 +56,5 @@ skill:
         minimize_spread:                                                        # whether to minimize the difference between precision and recall among criteria performing similarly in terms of fscore
             probability: False
             persistence: False
-    output: ../results/skill/2020_2023/NWP/12_60_144_180/                                                   # directory where results will be saved
+    output: ../results/skill/2020_2023/ #NWP/12_60_144_180/                                                   # directory where results will be saved
     
