@@ -490,7 +490,7 @@ def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', r
                 if np.isnan(p): # due to persistence
                     continue
                 hits_var.loc[v] = hits.sel({variable: v, 'probability': p, coldim: key, 'persistence': persistence}).to_pandas()
-            obs = hits_var['TP'] + hits_var['FN']
+            obs = (hits_var['TP'] + hits_var['FN']).replace(0, np.nan)
             pred = hits_var['TP'] + hits_var['FP']
             y1 = (hits_var['TP'] / obs).astype(float)
             y2 = (pred / obs).astype(float)
@@ -1063,3 +1063,55 @@ def plot_brier_skill(BSS, save=None, **kwargs):
     
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+        
+        
+def plot_skill_by_persistence(skill, xdim='probability', coldim='approach', linedim='persistence', metric='f1',
+                              benchmark=None, save=None, **kwargs):
+    """It generates a graph with as many line plots as approaches in the 'skill' dataset. The line plots reprensent the evolution of skill depending on persistence
+    
+    Inputs:
+    -------
+    skill:              xr.Dataset (area, persistence, approach, probability). It contains as variables recall, precision and the specified metric
+    probability:        list or np.array. List of probability thresholds to be plotted
+    coldim:             string. Name of the dimension that defines each of the plots in the graph
+    reference:          int of float. Fixed value of the 'variable' for which 'optimal_criteria' was fitted
+    metric:             string. Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
+    current_criteria:   dict. It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
+    save:               string. Path where the graph will be saved. By default is 'None', and the graph is not saved.
+    
+    Ouput:
+    ------
+    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    """
+    
+    lw = kwargs.get('lw', 1.2)
+    alpha = kwargs.get('alpha', .666)
+    cmap = plt.get_cmap(kwargs.get('cmap', 'coolwarm'))
+    colors = ListedColormap(cmap(np.linspace(0, 1, len(skill[linedim])))).colors
+
+    ncols = len(skill[coldim])
+    fig, axes = plt.subplots(ncols=ncols, figsize=(4.5 * ncols, 4), sharex=True, sharey=True)
+
+    for ax, col in zip(axes, skill[coldim].data):
+
+        da = skill[metric].sel({coldim: col})
+        
+        if benchmark is not None:
+            # ax.axvline(current_criteria[xdim], lw=lw / 2, c='k', zorder=0)
+            ax.scatter(benchmark[xdim], benchmark[metric].data, marker='x', lw=lw, c='k', zorder=20, label='current')
+        for line, color in zip(da[linedim].data, colors):
+            serie = da.sel({linedim: line}).to_pandas()
+            ax.plot(serie.index, serie, c=color, lw=lw, alpha=alpha, label=line)
+
+        ax.set_xlabel(xdim)
+        if ax == axes[0]:
+            ax.set_ylabel(f'{metric} (-)')
+        ax.set_title(col.replace('_', ' '))
+
+    ax.set(xlim=(skill[xdim].min(), skill[xdim].max()), ylim=(-.02, 1.02))
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, bbox_to_anchor=kwargs.get('loc_legend', [.78, .62, .2, .3]), frameon=False);
+
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight');
