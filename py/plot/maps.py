@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import geopandas as gpd
 import xarray as xr
 from datetime import datetime, timedelta
 import matplotlib as mpl
@@ -328,15 +329,19 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         
         
         
-def map_events(stations, col, rivers=None, save=None, **kwargs):
+def map_events(stations: pd.DataFrame, col: str, rivers: gpd.GeoDataFrame = None, save: str = None, **kwargs):
     """It plots a map and a histogram of the number of events.
     
     Inputs:
     -------
-    stations:   pd.DataFrame (n_station, m). It must contain at least the columns X and Y (to be able to plot the map) and the column specified in 'col'
-    col:        string. Name of the columns of 'stations' that contains the number of events
-    rivers:   geopandas. Shapefile of rivers
-    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+    stations:   pd.DataFrame (n_station, m)
+        It must contain at least the columns X and Y (to be able to plot the map) and the column specified in 'col'
+    col:        string
+        Name of the columns of 'stations' that contains the number of events
+    rivers:   geopandas
+        Shapefile of rivers
+    save:       string
+        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
     
     # extract kwargs
@@ -367,11 +372,17 @@ def map_events(stations, col, rivers=None, save=None, **kwargs):
     counts.sort_index(inplace=True)
     color = [cmap(i) for i in np.linspace(0, cmap.N, norm.N).astype(int)]
     plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
-    ax_hist.set(xlabel='no. observed events', xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5),
-                xticks=norm.boundaries[:-1])
+    ax_hist.set(xlabel='no. observed events',
+                xlim=(norm.boundaries.min() - .5, norm.boundaries.max() - .5),
+                xticks=norm.boundaries[:-1],
+                ylabel='no. points')
+    ax_hist.set_axisbelow(True)
+    ax_hist.grid(axis='y', zorder=0, ls=':', lw=0.5)
     ax_hist.spines[['right', 'top']].set_visible(False)
     if yscale != 'linear':
         ax_hist.set_yscale(yscale)
+        yticks = [int(y) for y in ax_hist.get_yticks() if (y >= 1) & (y <= 1000)]
+        ax_hist.set_yticks(yticks, labels=yticks)
     
     if 'title' in kwargs:
         fig.text(.5, 1, kwargs['title'], horizontalalignment='center', verticalalignment='top', fontsize=13)
