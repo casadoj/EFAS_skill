@@ -10,7 +10,7 @@ import seaborn as sns
 from optimize import find_best_criterion
 from compute import exceedance2events, buffer_events
 from plot.maps import create_cmap
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Dict
 from collections.abc import Iterable
 from pathlib import Path
 
@@ -934,13 +934,27 @@ def plot_skill_by_probability(skill: xr.Dataset, probability: Union[List, np.arr
         
         
         
-def plot_weights(Weights, save=None, **kwargs):
-    """It creates a stacked bar plot to represent the distribution of weights among NWP models for each lead time. A plot is created for each approach in 'Weights'
+def plot_weights(Weights: xr.Dataset, save: Union[str, Path] = None, **kwargs):
+    """It creates a stacked bar plot to represent the distribution of weights among NWP models for each lead time. A plot is created for each variable in 'Weights'
     
     Inputs:
     -------
-    Weights:   xr.Dataset (leadtime, model). It contains the DataArray of weights for each approach
-    save:      string. Path where the graph will be saved. By default is 'None', and the graph is not saved.
+    Weights: xr.Dataset
+        It contains the DataArray of weights for each approach. It contains as many variables as approaches; every variable contains a matrix of 2 dimensions: leadtime and model.
+    save: Union[str, Path]
+        Path where the graph will be saved. By default is 'None', and the graph is not saved.
+        
+    Kwargs:
+    -------
+    alpha: float
+        Transparency of the bar plots
+    lw: float
+        Width of the lines representing specific lead times
+    ls: str
+        Style of the lines representing specific lead times
+    cmap: str
+        Colour map used to represent the different models
+    offset: int
     """
     
     # extract kwargs
@@ -949,6 +963,7 @@ def plot_weights(Weights, save=None, **kwargs):
     ls = kwargs.get('ls', ':')
     cmap = plt.get_cmap(kwargs.get('cmap', 'coolwarm'))
     colors = ListedColormap(cmap(np.linspace(0, 1, len(Weights.model)))).colors
+    offset = kwargs.get('offset', 12)
     
     # set up the plots
     ncols = len(Weights)
@@ -959,33 +974,34 @@ def plot_weights(Weights, save=None, **kwargs):
         # extract weights for an approach
         weights = da.to_pandas().transpose()
         weights.replace(np.nan, 0, inplace=True)
-        weights.index -= 12
+        weights.index += offset
+        weights.index /= 24
         
         # barplot
         cumweight = pd.Series(0, index=weights.index)
         for model, color in zip(['EUE', 'COS', 'EUD', 'DWD'], colors):
-            ax.bar(weights.index, bottom=cumweight, height=weights[model], width=12, align='edge', color=color, alpha=alpha, label=model)
+            ax.bar(weights.index, bottom=cumweight, height=weights[model], width=.5, align='edge', color=color, alpha=alpha, label=model)
             cumweight += weights[model]
         
         # auxiliary lines
-        ax.axvline(2 * 24, c='k', ls=ls, lw=lw)
-        ax.axvline(5.5 * 24, c='k', ls=ls, lw=lw)
-        ax.axvline(7 * 24, c='k', ls=ls, lw=lw)
-        if ax == axes[-1]:
-            ax.text(2 * 24, 0.01, 'start notifications', rotation=90, horizontalalignment='right', verticalalignment='bottom', fontsize=11)
-            ax.text(5.5 * 24, 0.01, 'end COS', rotation=90, horizontalalignment='right', verticalalignment='bottom', fontsize=11)
-            ax.text(7 * 24, 0.01, 'end DWD', rotation=90, horizontalalignment='right', verticalalignment='bottom', fontsize=11)
+        ax.axvline(weights.index[4], c='k', ls=ls, lw=lw)
+        ax.axvline(weights.index[11], c='k', ls=ls, lw=lw)
+        ax.axvline(weights.index[14], c='k', ls=ls, lw=lw)
         
         # configuraion
         ax.set_title(approach.replace('_', ' '))
-        ax.set_xlabel('lead time (h)')
+        ax.set_xlabel('lead time (d)')
         if ax == axes[0]:
             ax.set_ylabel('cumulative weight (-)')
+            ax.text(weights.index[4], 0.01, 'start notif.', rotation=90, ha='right', va='bottom', fontsize=10.5, color='k')
+            ax.text(weights.index[11], 0.01, 'end COS', rotation=90, ha='right', va='bottom', fontsize=10.5, color='k')
+            ax.text(weights.index[14], 0.01, 'end DWD', rotation=90, ha='right', va='bottom', fontsize=10.5, color='k')
         # ax.spines[['top', 'bottom', 'left', 'right']].set_visible(False)
     
     # plot limits
-    xticks = weights.index[::4]
-    ax.set(xlim=(weights.index.min(), weights.index.max()), ylim=(0, 1), xticks=xticks);
+    ax.set(xlim=(weights.index.min(), weights.index.max()),
+           ylim=(0, 1),
+           xticks=weights.index[::4]);
     
     # legend
     handles, labels = ax.get_legend_handles_labels()
@@ -996,28 +1012,27 @@ def plot_weights(Weights, save=None, **kwargs):
         
         
         
-def plot_brier_skill(BSS, save=None, **kwargs):
+def plot_brier_skill(BSS: xr.DataArray, save: Union[str, Path] = None, **kwargs):
     """A line plot of the evolution of the Brier skill score with lead time.
     
     Inputs:
     -------
-    BSS:    xr.DataArray (leadtime, model). Brier skill score
-    save:   string. Path where the graph will be saved. By default is 'None', and the graph is not saved.
+    BSS:    xr.DataArray (leadtime, model)
+        Brier skill score
+    save:   Union[str, Path]
+        Path where the graph will be saved. By default is 'None', and the graph is not saved.
     """
     
     r = kwargs.get('round', .2)
     lw = kwargs.get('lw', 1.4)
     cmap = kwargs.get('cmap', 'coolwarm_r')
     colors = ListedColormap(cmap(np.linspace(0, 1, len(BSS.model)))).colors
-    
+    offset = kwargs.get('offset', -12)
     
     df = BSS.to_pandas().transpose()
-
+    df.index = (df.index + offset) / 24
+    
     fig, ax = plt.subplots(figsize=kwargs.get('figsize', (4.5, 4.5)))
-
-    ax.axhline(0, c='k', lw=.5, zorder=0)
-    ax.axvline(df.index[4], c='k', lw=.5, ls=':', zorder=0)
-
 
     for model, color in zip(['EUE', 'COS', 'EUD', 'DWD'], colors):
         ax.plot(df.index, df[model], lw=lw, c=color, label=model)
@@ -1027,9 +1042,18 @@ def plot_brier_skill(BSS, save=None, **kwargs):
     else:
         ymax = np.round(np.ceil(df.abs().max().max() / r) * r, 2)
         ylim = (-ymax, ymax)
-    ax.set(xlabel='lead time (h)', xlim=(df.index.min(), df.index.max()),
+    ax.set(xlabel='lead time (d)', xlim=(df.index.min(), df.index.max()),
            ylabel='Brier skill score (-)', ylim=ylim)
     ax.set_xticks(df.index[::4])
+    
+    ax.axhline(0, c='k', lw=.5, zorder=0)
+    ax.axvline(df.index[4], c='k', lw=.5, ls=':', zorder=0)
+    ax.text(df.index[4], ylim[1] * .99, 'start notif.', rotation=90, va='top', ha='right', fontsize=10)
+    ax.axvline(df.index[10], c='k', lw=.5, ls=':', zorder=0)
+    ax.text(df.index[10], ylim[1] * .99, 'end COS', rotation=90, va='top', ha='right', fontsize=10)
+    ax.axvline(df.index[13], c='k', lw=.5, ls=':', zorder=0)
+    ax.text(df.index[13], ylim[1] * .99, 'end DWD', rotation=90, va='top', ha='right', fontsize=10)
+    
     fig.legend(frameon=False, bbox_to_anchor=[1.1, .6, .1, .3]);
     
     if save is not None:
@@ -1112,3 +1136,117 @@ def plot_skill_by_persistence(skill: xr.Dataset, xdim: str = 'probability', cold
 
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight');
+        
+        
+        
+def PR_CSI(CSI: float) -> tuple[np.ndarray, np.ndarray]:
+    """Given a value of CSI (critical success index), it returns all possible pairs of values of precision and recall that correspond to that CSI
+    
+    Input:
+    ------
+    CSI: float
+        Value of the critical success index
+    Output:
+    -------
+    precision: np.ndarray
+        Array of precision values
+    recall: np.ndarray
+        Array of recall values
+    """
+    
+    assert 0 <= CSI <= 1, '"CSI" must be a value between 0 and 1'
+    
+    e = .005
+    Pmin = 2 * CSI / (1 + CSI)
+    P = np.linspace(Pmin, 1 + e, 100)
+    R = CSI * P / (P - (1 - P) * CSI)
+    
+    return np.concatenate((R[::-1], P)), np.concatenate((P[::-1], R))
+
+
+
+def PR_fscore(fscore: float, beta: float = 1) -> tuple[np.ndarray, np.ndarray]:
+    """Given a value of the f-score, it returns all possible pairs of values of precision and recall that correspond to that f-score
+    
+    Input:
+    ------
+    fscore: float
+        Value of the fscore
+    beta: float
+        Coefficient that gives more weight to precision (beta < 0) or recall (beta > 0) in the computation of the f-score
+    Output:
+    -------
+    P: np.ndarray
+        Array of precision values
+    R: np.ndarray
+        Array of recall values
+    """
+    
+    assert 0 <= fscore <= 1, '"CSI" must be a value between 0 and 1'
+    assert beta > 0, '"beta" must be a positive value.'
+    
+    e = .005
+    Pmin = fscore / (1 + beta**2 * (1 - fscore))
+    P = np.linspace(Pmin, 1 + e, 100)
+    R = beta**2 * fscore * P / ((1 + beta**2) * P - fscore)
+    
+    return P, R
+
+
+
+def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
+    """It creates the figure of the Roebber diagram. This diagram shows in a single plot the precision and recall values (X and Y axis), the bias and the specified metric (background lines).
+    
+    Inputs:
+    -------
+    metric: str
+        Metric that will be shown in the background of the diagram. Either "CSI" (critical success index) or "fscore"
+    beta: float
+        If the metric is the f-score, coefficient that weights precision in the computation of the f-score
+    ax:
+        Matplotlib axes where the diagram will be added. If not provided (default), a figure will be created
+    """
+    
+    assert beta > 0, '"beta" must be a positive value.'
+    assert metric in ['CSI', 'fscore'], '"metric" must be one of these values: "CSI" or "fscore"'
+    
+    figsize = kwargs.get('figsize', (5, 5))
+    lw = kwargs.get('lw', .5)
+    lim = kwargs.get('lim', (-.02, 1.02))
+    
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    fs = ax.get_xticklabels()[0].get_fontsize()
+    ax.plot([0, 1], [0, 1], lw=lw, c='k', ls='--')
+
+    metric_values = np.arange(.2, 1., .2)
+    P = np.linspace(0, 1, 101)
+
+    for value in metric_values:
+        if metric == 'CSI':
+            P, R = PR_CSI(CSI=value)
+        elif metric == 'fscore':
+            P, R = PR_fscore(fscore=value, beta=beta)
+        ax.plot(P, R, lw=.5, c='k', ls='-', zorder=0)
+        i = int(len(P) * .8)
+        ax.text(P[i], R[i], f'{value:.1}', ha='center', va='center', fontsize=fs,
+                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.05'))#, backgroundcolor='w')
+        for i in [0, -1]:
+            ax.plot([0, P[i]], [0, R[i]], lw=lw, c='k', ls='--', zorder=0)
+            bias = R[i] / P[i]
+            if bias < 1:
+                ax.text(lim[1] + .01, bias, f'{bias:.1f}', ha='left', va='center', fontsize=fs)
+            if bias > 1:
+                ax.text(1 / bias, lim[1] + .01, f'{bias:.1f}', ha='center', va='bottom', fontsize=fs)
+        
+    ax.set(xlim=(-.02, 1.02),
+           xlabel='precision',
+           ylim=(-.02, 1.02),
+           ylabel='recall')
+    ax.text(1.1, .5, 'bias', rotation=90, va='center')
+    ax.text(.5, 1.1, 'bias', ha='center')
+    
+    if 'title' in kwargs:
+        ax.text(.5, 1.125, kwargs['title'], ha='center', fontsize=12)
+        
+    return fig, ax 
