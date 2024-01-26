@@ -6,10 +6,13 @@ from datetime import datetime, timedelta
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from matplotlib.colors import ListedColormap
 import seaborn as sns
 import cartopy.crs as ccrs
 import cartopy.feature as cf
 from optimize import find_best_criterion
+from pathlib import Path
+from typing import Union, List, Tuple, Dict
   
         
         
@@ -40,126 +43,250 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 
 
 
-def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
-    """It plots a map of Europe with the reporting points and their number of flood events
+# def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
+#     """It plots a map of Europe with the reporting points and their number of flood events
     
-    Inputs:
-    -------
-    x:        pandas.Series (stations,). Coordinate X of the stations
-    y:        pandas.Series (stations,). Coordinate Y of the stations
-    z:        pandas.Series (stations,). Number of flood events identified in each station
-    mask:     pandas.Series (stations,). A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
-    rivers:   geopandas. Shapefile of rivers
-    ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
-    save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
+#     Inputs:
+#     -------
+#     x:        pandas.Series (stations,). Coordinate X of the stations
+#     y:        pandas.Series (stations,). Coordinate Y of the stations
+#     z:        pandas.Series (stations,). Number of flood events identified in each station
+#     mask:     pandas.Series (stations,). A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
+#     rivers:   geopandas. Shapefile of rivers
+#     ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
+#     save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
     
-    Ouput:
-    ------
-    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
-    """
+#     Ouput:
+#     ------
+#     The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+#     """
     
-    # define projection
-    proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
-    if ax is None:
-        fig = plt.figure(figsize=kwargs.get('figsize', None))
-        ax = plt.axes(projection=proj)
+#     # define projection
+#     proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+#     if ax is None:
+#         fig = plt.figure(figsize=kwargs.get('figsize', None))
+#         ax = plt.axes(projection=proj)
     
-    # plot coatslines and country borders
-    ax.add_feature(cf.COASTLINE, lw=.7, zorder=0)
-    ax.add_feature(cf.BORDERS, lw=.7, ls='--', color='k', zorder=0)
+#     # plot coatslines and country borders
+#     ax.add_feature(cf.COASTLINE, lw=.7, zorder=0)
+#     ax.add_feature(cf.BORDERS, lw=.7, ls='--', color='k', zorder=0)
     
-    # plot rivers
-    if rivers is not None:
-        rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
+#     # plot rivers
+#     if rivers is not None:
+#         rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
     
-    # plot all the stations
-    if mask is not None:
-        # plot masked stations
-        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
-                   label='stations w/o events', zorder=0)
-        x = x[~mask]
-        y = y[~mask]
-        z = z[~mask]
+#     # plot all the stations
+#     if mask is not None:
+#         # plot masked stations
+#         ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
+#                    label='stations w/o events', zorder=0)
+#         x = x[~mask]
+#         y = y[~mask]
+#         z = z[~mask]
 
-    # plot non-masked stations
-    sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
-                    alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
-    map_stations.colorbar = sct
+#     # plot non-masked stations
+#     sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
+#                     alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
+#     map_stations.colorbar = sct
     
-    # settings
-    if ax is None:
-        plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
-        plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
-        # ax.set_extent([-13, 45, 30, 70])
-        ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
-    else:
-        map_stations.legend = ax.get_legend_handles_labels()
-    ax.axis('off')
+#     # settings
+#     if ax is None:
+#         plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
+#         plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
+#         # ax.set_extent([-13, 45, 30, 70])
+#         ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
+#     else:
+#         map_stations.legend = ax.get_legend_handles_labels()
+#     ax.axis('off')
     
-    if 'title' in kwargs:
-        ax.set_title(kwargs['title'])
+#     if 'title' in kwargs:
+#         ax.set_title(kwargs['title'])
         
-    if save is not None:
-        plt.savefig(save, dpi=300, bbox_inches='tight')
+#     if save is not None:
+#         plt.savefig(save, dpi=300, bbox_inches='tight')
         
         
         
-def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
+# def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
+#     """It plots a map of Europe with the reporting points and their number of flood events
+    
+#     Inputs:
+#     -------
+#     x:        pandas.Series (stations,). Coordinate X of the stations
+#     y:        pandas.Series (stations,). Coordinate Y of the stations
+#     z:        pandas.Series (stations,). Number of flood events identified in each station
+#     mask:     pandas.Series (stations,). A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
+#     rivers:   geopandas. Shapefile of rivers
+#     ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
+#     save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
+    
+#     Ouput:
+#     ------
+#     The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+#     """
+    
+#     # define projection
+#     proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+#     if ax is None:
+#         fig = plt.figure(figsize=kwargs.get('figsize', None))
+#         ax = plt.axes(projection=proj)
+    
+#     # add polygon of land
+#     ax.add_feature(cf.NaturalEarthFeature('physical', 'land', '50m', edgecolor=None, facecolor='gray'), alpha=.5, zorder=0)
+#     # # plot coatslines and country borders
+#     # ax.add_feature(cf.COASTLINE, lw=.7, zorder=0)
+#     # ax.add_feature(cf.BORDERS, lw=.7, ls='--', color='k', zorder=0)
+    
+#     # plot rivers
+#     if rivers is not None:
+#         rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
+    
+#     # plot all the stations
+#     if mask is not None:
+#         # plot masked stations
+#         ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
+#                    label='stations w/o events', zorder=0)
+#         x = x[~mask]
+#         y = y[~mask]
+#         z = z[~mask]
+
+#     # plot non-masked stations
+#     sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
+#                     alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
+#     map_stations.colorbar = sct
+    
+#     # settings
+#     if ax is None:
+#         plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
+#         plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
+#         # ax.set_extent([-13, 45, 30, 70])
+#         ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
+#     else:
+#         map_stations.legend = ax.get_legend_handles_labels()
+#     ax.axis('off')
+    
+#     if 'title' in kwargs:
+#         ax.set_title(kwargs['title'])
+        
+#     if save is not None:
+#         plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+        
+    
+def map_stations(x: pd.Series, y: pd.Series, z: pd.Series, theta: pd.Series = None, mask: pd.Series = None, rivers: gpd.GeoDataFrame = None, ax=None, save: Union[str, Path] = None, **kwargs):
     """It plots a map of Europe with the reporting points and their number of flood events
     
     Inputs:
     -------
-    x:        pandas.Series (stations,). Coordinate X of the stations
-    y:        pandas.Series (stations,). Coordinate Y of the stations
-    z:        pandas.Series (stations,). Number of flood events identified in each station
-    mask:     pandas.Series (stations,). A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
-    rivers:   geopandas. Shapefile of rivers
-    ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
-    save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
+    x:        pandas.Series (stations,)
+        Coordinate X of the stations
+    y:        pandas.Series (stations,)
+        Coordinate Y of the stations
+    z:        pandas.Series (stations,)
+        Values of the variable to be plotted
+    theta:    pandas.Series (stations,)
+        If provided, the marker of the scatter plot will be arrows. Theta represents the angle (in radians) of the arrow
+    mask:     pandas.Series (stations,)
+        A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
+    rivers:   geopandas
+        Shapefile of rivers
+    ax:       matplotlib.axis
+        Axis in which the plot will be embedded. If None, a new figure will be created
+    save:     string
+        A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
+    
+    Kwargs:
+    -------
+    alpha: float
+        Transparency of the points
+    extent: List
+        Extension of the map [xmin, xmax, ymin, ymax]
+    cmap:
+        Colour map
+    figsize: Tuple
+        size of the figure
+    headaxislength: float
+        If arrows are plotted, the length of the arrow head axis
+    headwidth: float
+        If arrows are pltoted, the width of the arrow head
+    norm:
+        Normalization of the colour map
+    scale: int
+        Size of the arrows (in case 'theta' is not None)
+    size: float
+        Size of the points
+    width: float
+        If arrows are plotted, the widht of the arrow line
     
     Ouput:
     ------
     The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
     """
     
-    # define projection
-    proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
-    if ax is None:
-        fig = plt.figure(figsize=kwargs.get('figsize', None))
-        ax = plt.axes(projection=proj)
+    alpha = kwargs.get('alpha', 1)
+    extent = kwargs.get('extent', [-10, 44, 28, 69])#[-13, 45, 30, 70])
+    cmap = kwargs.get('cmap', 'viridis')
+    figsize = kwargs.get('figsize', None)
+    hw = kwargs.get('headwidht', 4)
+    hal = kwargs.get('headaxislength', hw * 1.15)
+    hl = 1.5 * hw
+    norm = kwargs.get('norm', None)
+    scale = kwargs.get('scale', 60)
+    s = kwargs.get('size', 1)
+    w = kwargs.get('width', .00175)
     
+    # define projection
+    proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10,
+                                          central_latitude=52,
+                                          false_easting=4321000,
+                                          false_northing=3210000,
+                                          globe=ccrs.Globe(ellipse='GRS80'))
+    if ax is None:
+        # cbar = True
+        fig = plt.figure(figsize=figsize)
+        ax = plt.axes(projection=proj)
+        
     # add polygon of land
-    ax.add_feature(cf.NaturalEarthFeature('physical', 'land', '50m', edgecolor=None, facecolor='gray'), alpha=.5, zorder=0)
-    # # plot coatslines and country borders
-    # ax.add_feature(cf.COASTLINE, lw=.7, zorder=0)
-    # ax.add_feature(cf.BORDERS, lw=.7, ls='--', color='k', zorder=0)
+    ax.add_feature(cf.NaturalEarthFeature('physical', 'land', '50m', edgecolor=None, facecolor='whitesmoke'), alpha=.5, zorder=0)
+    # plot coatslines and country borders
+    ax.add_feature(cf.COASTLINE, lw=.5, color='darkgray', zorder=0)
+    ax.add_feature(cf.BORDERS, lw=.5, ls=':', color='darkgray', zorder=0)
+    ax.set_extent(extent)
     
     # plot rivers
     if rivers is not None:
-        rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='gray', ax=ax, zorder=0)
+        rivers.to_crs(crs='epsg:3035').plot(lw=kwargs.get('lw', .5), color='lightsteelblue', ax=ax, zorder=0)
     
     # plot all the stations
     if mask is not None:
         # plot masked stations
-        ax.scatter(x[mask], y[mask], s=kwargs.get('size', 1) / 8, c='dimgray', alpha=kwargs.get('alpha', .5),
-                   label='stations w/o events', zorder=0)
+        ax.scatter(x[mask], y[mask], marker='.', s=s / 5, c='dimgray', alpha=alpha, label='stations w/o events', zorder=0)
         x = x[~mask]
         y = y[~mask]
         z = z[~mask]
+        if theta is not None:
+            theta = theta[~mask]
 
     # plot non-masked stations
-    sct = ax.scatter(x, y, c=z, s=kwargs.get('size', 1), cmap=kwargs.get('cmap', 'viridis'), norm=kwargs.get('norm', None),
-                    alpha=kwargs.get('alpha', .5))#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
+    if theta is None:
+        sct = ax.scatter(x, y, c=z, s=s, cmap=cmap, norm=norm, alpha=alpha)#, vmin=kwargs.get('vmin', 1), vmax=kwargs.get('vmax', max(z.max(), 2)))
+    elif isinstance(theta, pd.Series):
+        sct = ax.quiver(x, y, np.cos(theta), np.sin(theta),
+                        z, cmap=cmap, norm=norm, alpha=alpha,
+                        scale=scale,
+                        width=w,
+                        headwidth=hw,
+                        headlength=hl,
+                        headaxislength=hal)
     map_stations.colorbar = sct
     
     # settings
-    if ax is None:
-        plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
-        plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
-        # ax.set_extent([-13, 45, 30, 70])
-        ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
-    else:
-        map_stations.legend = ax.get_legend_handles_labels()
+    # if cbar: # when ax is None
+    #     plt.colorbar(sct, location='bottom', shrink=.4, label='no. events')
+    #     plt.gcf().set_size_inches(kwargs.get('figsize', (8, 8)))
+    #     ax.legend(bbox_to_anchor=[.2, -.2, .5, .1]);
+    # else:
+    #     map_stations.legend = ax.get_legend_handles_labels()
     ax.axis('off')
     
     if 'title' in kwargs:
@@ -212,12 +339,12 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
         else:
             cmap, norm = create_cmap('Oranges', np.arange(0, cmax + 2, 1), col, specify_color=(0, (.27, .50, .70, 1)))
         if ('TP' in col or 'FN' in col) and (mask is not None):
-            map_stations(stations.X, stations.Y, z, ax=ax_map, mask=~mask,
-                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
+            map_stations(stations.X, stations.Y, z, ax=ax_map, mask=~mask, 
+                         cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
             z = z[mask]
         else:
             map_stations(stations.X, stations.Y, z, ax=ax_map,
-                              cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
+                         cmap=cmap, norm=norm, size=kwargs.get('s', 4), alpha=.66, title=cols_map[col])
         ticks = np.arange(cmax + 1).astype(int)
         if len(ticks) > 6:
             ticks = ticks[::2]
@@ -283,7 +410,11 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
     
     # find projection
     if 'proj' not in kwargs:
-        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10,
+                                              central_latitude=52, 
+                                              false_easting=4321000, 
+                                              false_northing=3210000,
+                                              globe=ccrs.Globe(ellipse='GRS80'))
     else:
         proj = kwargs['proj']
     
@@ -329,46 +460,69 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         
         
         
-def map_events(stations: pd.DataFrame, col: str, rivers: gpd.GeoDataFrame = None, save: str = None, **kwargs):
+def map_events(x: pd.Series, y: pd.Series, events: pd.Series, rivers: gpd.GeoDataFrame = None, save: Union[str, Path] = None, **kwargs):
     """It plots a map and a histogram of the number of events.
     
     Inputs:
     -------
-    stations:   pd.DataFrame (n_station, m)
-        It must contain at least the columns X and Y (to be able to plot the map) and the column specified in 'col'
-    col:        string
-        Name of the columns of 'stations' that contains the number of events
+    x: pandas.Series (stations,)
+        Coordinate X of the stations
+    y: pandas.Series (stations,)
+        Coordinate Y of the stations
+    z: pandas.Series (stations,)
+        Number of flood events identified in each station
     rivers:   geopandas
         Shapefile of rivers
     save:       string
         Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+        
+    Kwargs:
+    -------
+    alpha: float
+        Transparency of the points
+    extent: List
+        Extension of the map [xmin, xmax, ymin, ymax]
+    cmap:
+        Colour map
+    figsize: Tuple
+        size of the figure
+    norm:
+        Normalization of the colour map
+    size: float
+        Size of the points
     """
     
     # extract kwargs
-    s = kwargs.get('s', 2)
-    alpha = kwargs.get('alpha', .5)
-    yscale = kwargs.get('yscale', 'linear')
+    alpha = kwargs.get('alpha', 1)
+    extent = kwargs.get('extent', [-10, 44, 28, 69])#[-13, 45, 30, 70])
     if ('cmap' not in kwargs) or ('norm' not in kwargs):
-        xmax = stations[col].max()
-        cmap, norm = create_cmap('Oranges', np.arange(xmax + 2), 'no. events', [0, (0.41176, 0.41176, 0.41176, 1)])
+        xmax = events.max()
+        Or = ListedColormap(mpl.cm.get_cmap('Oranges', 128)(np.linspace(.15, 1., 128)), 'blues')
+        cmap, norm = create_cmap(Or, np.arange(xmax + 2), 'no. events', [0, 'dimgray'])#(0.41176, 0.41176, 0.41176, 1)])
     else:
         cmap = kwargs['cmap']
         norm = kwargs['norm']
+    s = kwargs.get('size', 2)
+    yscale = kwargs.get('yscale', 'linear')
     
     # set up the plots
     fig = plt.figure(figsize=kwargs.get('figsize', (7, 7)), constrained_layout=True)
     gs = fig.add_gridspec(nrows=2, height_ratios=kwargs.get('height_ratios', [7, 1]))
 
     # map
-    # define projection
-    if 'proj' not in kwargs:
-        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10, central_latitude=52, false_easting=4321000, false_northing=3210000, globe=ccrs.Globe(ellipse='GRS80'))
+    if 'proj' not in kwargs: # define projection
+        proj = ccrs.LambertAzimuthalEqualArea(central_longitude=10,
+                                              central_latitude=52,
+                                              false_easting=4321000,
+                                              false_northing=3210000,
+                                              globe=ccrs.Globe(ellipse='GRS80'))
     ax_map = fig.add_subplot(gs[0], projection=proj)
-    map_stations(stations.X, stations.Y, stations[col], rivers=rivers, cmap=cmap, norm=norm, size=s, alpha=alpha, ax=ax_map)
+    map_stations(x, y, events, #mask=events == 0,
+                 rivers=rivers, cmap=cmap, norm=norm, size=s, alpha=alpha, ax=ax_map, extent=extent)
 
     # histogram
     ax_hist = fig.add_subplot(gs[1])
-    counts = stations[col].value_counts()
+    counts = events.value_counts()
     counts.sort_index(inplace=True)
     color = [cmap(i) for i in np.linspace(0, cmap.N, norm.N).astype(int)]
     plt.bar(counts.index, counts, width=1, alpha=.66, color=color)
@@ -389,3 +543,76 @@ def map_events(stations: pd.DataFrame, col: str, rivers: gpd.GeoDataFrame = None
         
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+        
+        
+def gauge_legend(theta_min: float = 20, ax=None, **kwargs):
+    """It creates a legend that is a gauge charg.
+    
+    Input:
+    ------
+    theta_min: float
+        Minimum angle (in degrees) in the gauge chart. This angle will represent the best value of the variable
+    ax:       matplotlib.axis
+        Axis in which the plot will be embedded. If None, a new figure will be created
+        
+    Keywords:
+    ---------
+    lw: float
+        Line width
+    r:  float
+        Radius of the gauge chart
+    width: float
+        Width of the arrow
+    headwidth: float
+        Width of the head of the arrow
+    headaxislength: float
+        Lenght of the axis of the arrow head
+    scale: float
+        Size of the arrow
+    """
+    
+    theta_max = 180 - theta_min
+    c = 'dimgray'
+    lw = kwargs.get('lw', .2)
+    r = kwargs.get('r', 1) # radius of the circle
+    w = kwargs.get('width', .005)
+    hw = kwargs.get('headwidth', 6)
+    hal = kwargs.get('headaxislength', hw*1.2)
+    scale = kwargs.get('scale', 2.2)
+    
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    # plot the arch
+    theta = np.linspace(np.deg2rad(theta_min), np.deg2rad(theta_max), 100)
+    x = r * np.cos(theta)
+    y = r * np.sin(theta)
+    ax.plot(x, y, c, lw=lw*2)
+    
+    # plot the arch limits
+    ax.plot([0, x[0]], [0, y[0]], c, lw=lw)
+    ax.plot([0, x[-1]], [0, y[-1]], c, lw=lw)
+
+    # ticks and example arrow
+    labels = {theta_min: 1,
+              55: .5,
+              90: 0,
+              125: -.5,
+              theta_max: -1}
+    for i, (angle, label) in enumerate(labels.items()):
+        mult = np.array([.95, 1, 1.05, 1.3])
+        x_line = mult * r * np.cos(np.deg2rad(angle))
+        y_line = mult * r * np.sin(np.deg2rad(angle))
+        ax.plot(x_line[[0, 2]], y_line[[0, 2]], color='k', linewidth=1)
+        ax.text(x_line[3], y_line[3], label, ha='center', va='center')
+        if i == 1:
+            ax.quiver(0, 0, x_line[1], y_line[1], scale=scale, width=w, headwidth=hw, headlength=hw*1.5, headaxislength=hal)
+    
+    # setting
+    ax.set_aspect('equal')
+    ax.spines[['top', 'left', 'bottom', 'right']].set_visible(False)
+    ax.set(xticks=[],
+           yticks=[])
+    if 'title' in kwargs:
+        ax.text(0, -.3, kwargs['title'], ha='center', va='center')
