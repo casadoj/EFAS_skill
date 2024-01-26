@@ -45,7 +45,16 @@
 %% for the whole article with \linenumbers.
 %% \usepackage{lineno}
 
-\journal{Nuclear Physics B}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{graphics}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\journal{Journal of Hydrology}
 
 \begin{document}
 
@@ -76,7 +85,7 @@
 %%             country={}}
 %% \fntext[label3]{}
 
-\title{Title of Your Manuscript}
+\title{Issuing flood warnings at a continental scale: the case of the European Flood Awareness System}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -94,44 +103,61 @@
 %%             state={},
 %%             country={}}
 
-\author[inst1]{Author One}
+\author[inst1]{Jesús Casado-Rodríguez}
+\author[inst1]{Peter Salamon}
+\author[inst2]{Stefania Grimaldi}
+\author[inst2]{Corentin Carton De Wiart}
+\author[inst2]{Christel Prudhomme}
+\author[inst2]{Calum Baugh}
+\author[inst2]{Ervin Zsoter}
+\author[inst3]{Ilias Pechlivanidis}
+\author[inst3]{Nina Bosshard}
+\author[inst4]{Michaela Mikulickova}
 
-\affiliation[inst1]{organization={Department One},%Department and Organization
-            addressline={Address One}, 
-            city={City One},
-            postcode={00000}, 
-            state={State One},
-            country={Country One}}
+\affiliation[inst1]{organization={European Commission, Joint Research Centre, Directorate E - Space, Security and Migration},%Department and Organization
+            addressline={Via Enrico Fermi 2749}, 
+            city={Ispra},
+            postcode={21027}, 
+            state={(VA)},
+            country={Italy}}
 
-\author[inst2]{Author Two}
-\author[inst1,inst2]{Author Three}
+\affiliation[inst2]{organization={European Centre for Medium Range Weather Forecasts},%Department and Organization
+            addressline={Shinfield Park}, 
+            city={Reading},
+            postcode={WC2R 2LS}, 
+            country={UK}}
 
-\affiliation[inst2]{organization={Department Two},%Department and Organization
-            addressline={Address Two}, 
-            city={City Two},
-            postcode={22222}, 
-            state={State Two},
-            country={Country Two}}
+\affiliation[inst3]{organization={Swedish Meteorological and Hydrological Institute},%Department and Organization
+            city={Norrköping},
+            country={Sweden}}
 
+\affiliation[inst4]{organization={Slovak Hydrometeorological Institute},%Department and Organization
+            city={Bratislava},
+            country={Slovakia}}
+			
 \begin{abstract}
 %% Text of abstract
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The European Flood Awareness System (EFAS) of the Copernicus Emergency Management Service is an operational forecasting system whose aim is to raise awareness about floods in European transnational rivers. It produces probabilistic, medium-range discharge forecasts twice a day by running the open-source hydrological model LISFLOOD with four different meteorological forcing, two deterministic forecasts from the DWD (German Weather Service) and the ECMWF (European Centre for Medium Range Weather Forecasts), respectively, and two probabilistic forecasts from ECMWF and the Cosmo Consortium (COSMO-LEPS). Based on these forecasts, flood notifications are issued to the EFAS partners if a set of criteria is met: contributing area larger than 2000 km², lead time from 2 to 10 days, at least one deterministic model exceeds the discharge threshold (5-year return period), and at least one probabilistic model predicts 30\% exceedance probability of that discharge threshold for three or more consecutive forecasts. 
+However, the operational EFAS is being regularly updated, so the configuration of EFAS has changed since the time these notification criteria were defined. For instance, the temporal resolution has increased from daily to 6-hourly, and the spatial resolution is planned to improve from 5km to approximately 1.5 km (1 arc-minute). 
+This study aims at assessing the skill of the notification criteria above presented with the current system setup, and to derive a new set of criteria that optimizes the notification skill. We will focus on three research questions: (i) how can we combine the different models (deterministic and probabilistic) into a grand ensemble and what probability threshold optimizes skill? (ii) Is the persistence criterion (i.e. 3 consecutive forecasts need to provide persistent predictions of high flood risk) adding to the skill both at shorter and larger lead times? (iii) Can we reduce the contributing area threshold without compromising skill?
+The study will make use of reanalysis, driven by meteorological observations, and forecast data at over 1200 points across Europe. By comparing the reanalysis data with the simulated discharge threshold, a total of 678 “observed” flood events have been identified in the years 2021 and 2022. We have tested 4 approaches in which to combine the 4 meteorological forcing and several combinations of the probability and persistence criteria. For each of the runs we computed binary classification skill metrics such as recall, precision and the f-beta score, and we have searched for the combination of criteria that maximizes this latter metric. We have also looked into how the skill of the system evolves with lead-time and catchment area.
+The outcome of this study will be applied to the EFAS operational system, directly impacting the preparedness of the relevant authorities in future flood events.
 \end{abstract}
 
 %%Graphical abstract
-\begin{graphicalabstract}
-\includegraphics{grabs}
-\end{graphicalabstract}
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
 
 %%Research highlights
-\begin{highlights}
-\item Research highlight 1
-\item Research highlight 2
-\end{highlights}
+%\begin{highlights}
+%\item Research highlight 1
+%\item Research highlight 2
+%\end{highlights}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
-keyword one \sep keyword two
+EFAS \sep flood warnings \sep floods early warning system \sep probabilistic forecasting
 %% PACS codes here, in the form: \PACS code \sep code
 \PACS 0000 \sep 1111
 %% MSC codes here, in the form: \MSC code \sep code

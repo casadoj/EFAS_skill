@@ -59,6 +59,7 @@
 \usepackage{multirow}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{siunitx}
 
 \journal{Journal of Hydrology}
 
@@ -143,7 +144,7 @@
 
 \begin{abstract}
 %% Text of abstract
-The European Flood Awareness System (EFAS) of the Copernicus Emergency Management Service is an operational forecasting system whose aim is to raise awareness about floods in European transnational rivers. It produces probabilistic, medium-range discharge forecasts twice a day by running the open-source hydrological model LISFLOOD with four different meteorological forcing, two deterministic forecasts from the DWD (German Weather Service) and the ECMWF (European Centre for Medium Range Weather Forecasts), respectively, and two probabilistic forecasts from ECMWF and the Cosmo Consortium (COSMO-LEPS). Based on these forecasts, flood notifications are issued to the EFAS partners if a set of criteria is met: contributing area larger than 2000 km², lead time from 48 to 240 h, at least one deterministic model exceeds the discharge threshold (5-year return period), and at least one probabilistic model predicts 30\% exceedance probability of that discharge threshold for three or more consecutive forecasts. 
+The European Flood Awareness System (EFAS) of the Copernicus Emergency Management Service is an operational forecasting system whose aim is to raise awareness about floods in European transnational rivers. It produces probabilistic, medium-range discharge forecasts twice a day by running the open-source hydrological model LISFLOOD with four different meteorological forcing, two deterministic forecasts from the DWD (German Weather Service) and the ECMWF (European Centre for Medium Range Weather Forecasts), respectively, and two probabilistic forecasts from ECMWF and the Cosmo Consortium (COSMO-LEPS). Based on these forecasts, flood notifications are issued to the EFAS partners if a set of criteria is met: contributing area larger than 2000 km², lead time from 2 to 10 days, at least one deterministic model exceeds the discharge threshold (5-year return period), and at least one probabilistic model predicts 30\% exceedance probability of that discharge threshold for three or more consecutive forecasts. 
 However, the operational EFAS is being regularly updated, so the configuration of EFAS has changed since the time these notification criteria were defined. For instance, the temporal resolution has increased from daily to 6-hourly, and the spatial resolution is planned to improve from 5km to approximately 1.5 km (1 arc-minute). 
 This study aims at assessing the skill of the notification criteria above presented with the current system setup, and to derive a new set of criteria that optimizes the notification skill. We will focus on three research questions: (i) how can we combine the different models (deterministic and probabilistic) into a grand ensemble and what probability threshold optimizes skill? (ii) Is the persistence criterion (i.e. 3 consecutive forecasts need to provide persistent predictions of high flood risk) adding to the skill both at shorter and larger lead times? (iii) Can we reduce the contributing area threshold without compromising skill?
 The study will make use of reanalysis, driven by meteorological observations, and forecast data at over 1200 points across Europe. By comparing the reanalysis data with the simulated discharge threshold, a total of 678 “observed” flood events have been identified in the years 2021 and 2022. We have tested 4 approaches in which to combine the 4 meteorological forcing and several combinations of the probability and persistence criteria. For each of the runs we computed binary classification skill metrics such as recall, precision and the f-beta score, and we have searched for the combination of criteria that maximizes this latter metric. We have also looked into how the skill of the system evolves with lead-time and catchment area.
@@ -265,7 +266,7 @@ Both the Brier scores and their associated weights are specific for a NWP and a 
 \subsection{Contingency table}
 \label{sec:methods_contingency}
 
-The flood notification skill assessment is a binary classification task in which we compare two time series: the predicted and the observed events. In such classification  problems, the contingency table (Table \ref{tab:contingency_table}) summarizes the outcome of the model and its four terms are used to assess the skill (see section \ref{sec:metrics}). Floods are rare events, which means that the classification task is highly imbalanced and the amount of true negatives will be orders of magnitude larger than any of the other terms. For that reason, the true negatives will be disregarded both in the computation of the contingency table and in the selection of the target skill metric.
+The flood notification skill assessment is a binary classification task in which we compare two time series: the predicted and the observed events. In such classification  problems, the contingency table (Table \ref{tab:contingency_table}) summarizes the outcome of the model and its four terms are used to assess the skill (see section \ref{sec:methods_metrics}). Floods are rare events, which means that the classification task is highly imbalanced and the amount of true negatives will be orders of magnitude larger than any of the other terms. For that reason, the true negatives will be disregarded both in the computation of the contingency table and in the selection of the target skill metric.
 
 \begin{table}
     \centering
@@ -345,7 +346,7 @@ Shouldn't the criteria be optimized for 1000 km2 instead of 2000 km2, since that
 \subsection{Analysis of "observed" events}
 \label{sec:obs_events}
 
-Figure \ref{fig:map_observed} shows the geographical distribution of the 1239 reporting points used in the optimization; colours represent the amount of "observed" flood events. There is a higher proportion of stations with events in Central Europe, British Isles and the Mediterranean catchments than in Eastern and North-Eastern Europe. During the study period there were major events in the Rhine, Meuse and Ebro, which can be spotted in the map. 61\% of the reporting points did not experience a flood during the study period. This means that in this proportion of the sample we cannot predict neither hits nor misses; the only possible value we can derive for these 61\% of points are false alarms, which means that the f-score  can be either nonexistent or 0. On top of that, the percentage of reporting points with only 1 "observed" event is 29\%; for these points the f-score can only be either 0 or 1. These two facts have an implication in the overall skill of the system, as we will see later on.
+Figure \ref{fig:map_observed} shows the geographical distribution of the 1239 reporting points used in the optimization; colours represent the amount of "observed" flood events. There is a higher proportion of stations with events in Central Europe, British Isles and the Mediterranean catchments than in Eastern and North-Eastern Europe. During the study period there were major events in the Rhine, Meuse and Ebro, which can be spotted in the map. 61\% of the reporting points did not exceed the 5 year return period during the study period. This means that in this proportion of the sample we cannot predict neither hits nor misses; the only term of the contingency table that we can derive for these 61\% of points are false alarms, which means that the f-score  can be either nonexistent or 0. On top of that, the percentage of reporting points with only 1 "observed" event is 29\%; for these points the f-score can only be either 0 or 1. These two facts have an implication in the overall skill of the system, as we will see later on.
 
 \begin{figure}
     \centering
@@ -372,235 +373,205 @@ We have also looked into the duration of the "observed" flood events (Figure \re
     \label{fig:event_duration}
 \end{figure}
 
-\subsection{Benchmark: current notification criteria}
-\label{sec:benchmark}
-
-As a benchmark, the starting point of the skill analysis was to compute the skill of the current notification criteria. Figure \ref{fig:benchmark} shows the hits, misses and false alarms when using the current notification criteria for lead times larger than 48 h. On top, the maps show the geographical distribution of the three variables, and at the bottom, a histogram shows the distribution.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{figures/hits_maps_reporting_points_2000km2_1239points_current_060h.jpg}
-    \caption{Maps of hits, misses and false alarms for the current notification criteria. The colour scale changes depending on the variable; orange (darker orange) means poor values, whereas blue (darker blue) better values. In the case of hits and misses a mask has been applied to remove reporting points with no observed events (gray points), since none of these variables can be computed if there are not events to be predicted or missed. The histograms at the bottom show the distributions of hits, misses and false alarms over the whole domain.}
-    \label{fig:benchmark}
-\end{figure}
-
-With the current notification criteria,  41\% (361/874) of the events would be notified and 62\% (361/584) of the notifications would be correct. The current criteria seems too strict, which means that notifications are only sent with a high level of certainty; therefore, whenever sent, they turn out to be mostly correct, but many events are missed. If we turn this values into skill (see Table 1), the current criteria  has an $f_{0.8}$ score of 0.515.
-
 \subsection{Individual NWP}
 \label{sec:results_NWP}
 
-In a second step, before studying how to combine the numerical weather prediction (NWP) models, we analysed the skill of each of the models individually. There are two objectives in this analysis. First, understand which models are more skillful in order to include this skill in the computation of total probability. Second, to compare the skill  of individual NWP models against the benchmark, the current notification criteria.
+Before studying how to combine the numerical weather prediction (NWP) models, we analysed the skill of each of the models individually. There are two objectives in this analysis. First, understand which models are more skillful in order to include this skill in the computation of total probability. Second, to compare the skill  of individual NWP models against the benchmark, the current notification criteria.
 
 \subsubsection{Probabilistic skill}
 \label{sec:NWP_prob_skill}
 
-As a first approach to the NWP skill, we computed the Brier score for each meteorological forcing at every lead time. The Brier score is an error metric whose values are not easily to interpret, therefore we computed the Brier skill score instead, using as a benchmark a model that never predicts an event ($P_{pred}=0$). The Brier skill score represents the relative skill of a model compared to that reference; in our case, values below zero represent below-average skill, whereas values above zero represent above-average skill. 
+As a first approach to the NWP skill, we computed the Brier score for each NWP at daily lead times. The Brier score is an error metric whose values are errors not easy to interpret because the magnitude of the error depends on the variable at hand, which in the case of rare events like floods is very low. Instead, the Brier skill score (BSS) represents the relative skill of a model compared to a reference; models stronger than the reference get positive BSS, whereas models weaker than the reference get negative BSS. We selected as a reference a dummy model that never predicts an event ($P_{pred}=0$) \cite{Legg2004}.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{figures/Brier_skill_score_5.pdf}
-    \caption{Brier skill score for every meteorological model and lead time. The reference ($BSS=0$) is a model that never predicts an event. Blue lines are probabilistic models, and orange lines deterministic ones.}
-    \label{fig:brier_score}
+    \caption{Brier skill score of the four NWP used in EFAS at daily lead times. The reference ($BSS=0$) is a model that never predicts an event. Blue lines represent probabilistic models, and orange lines deterministic ones.}
+    \label{fig:BSS}
 \end{figure}
 
-The plot above proves that probabilistic models are more skillful than deterministic ones. Only for very short lead times (0-1 days) the deterministic models show a skill close to the probabilistic models. This is important for EFAS notifications, since we do not send formal notifications with less than 48 h lead time (dotted line). As lead time increases, the skill of the predictions degrades; this degradation affects less EUE than the other models. The two deterministic models have poor skill at their forecast horizon; in the case of EUD at 10 days lead time the skill is worse than a model that never predicts a flood. Overall, the most skillful model is EUE and the less skillful is DWD. In a subsequent section these skill results will be used as weighing factors in the computation of total probability (see Figure \ref{fig:weights}).
+The plot above proves that probabilistic models are more skillful than deterministic ones. Only for very short lead times (0-1 days) the deterministic models show a skill close to the probabilistic models. This is important for EFAS notifications, since we do not send formal notifications with less than 2 days lead time (leftmost dotted line). As lead time increases, the skill of the predictions degrades; this degradation affects less EUE than the other models. The two deterministic models have poor skill at their forecast horizon; in the case of EUD at 10 days lead time the skill is worse than a model that never predicts a flood. Overall, the most skillful model is EUE and the less skillful is DWD. In section \ref{sec:results_COMB} the Brier scores will be converted into weighing factors for the computation of total probability (see Figure \ref{fig:weights}).
 
 \subsubsection{Notification skill}
-\label{sec:NWP_not_skill}
+\label{sec:NWP_skill}
 
-In the previous section, we studied the probabilistic skill of the individual NWP models. Now we will see how these models would have performed if notifications would be sent based uniquely in one of them. First, we want to have a general picture of how notification skill evolves according to the 3 dimensions here involved (lead time, probability threshold and persistence). Second, we will optimize the probability and persistence criteria for a fixed lead time.
+In this section we analysed how the NWP would have performed if notifications would be sent based uniquely in one of them. First, we want to have a general picture of how notification skill evolves according to the 3 dimensions here involved (lead time, probability threshold and persistence). Second, we will optimize the probability and persistence criteria for a fixed lead time.
 
-Figure \ref{fig:NWP_skill_leadtime} exhibits the evolution of the notification skill with lead time and probability threshold for a scenario with no persistence. The black, solid line is the notification skill of the current notification criteria, as a benchmark to compare the skill of the individual NWP models. Every colour line represents a different probability threshold; orange lines represent thresholds below 50\% and blue lines over it. For the two deterministic models (DWD, EUD) all lines overlap, since the probability threshold does not affect a deterministic forecast.
+Figure \ref{fig:NWP_skill_leadtime} exhibits the evolution of the notification skill with lead time and probability threshold for a scenario with no persistence. The black, solid line is the notification skill of the current notification criteria, as a benchmark to compare the skill of the individual NWP models. Every colour line represents a different probability threshold; orange lines represent thresholds below 50\% and blue lines over that value. For the two deterministic models (DWD, EUD) all lines overlap, since the probability threshold does not affect a deterministic forecast.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/skill_probability_leadtime_1-1_NWP.jpg}
-    \caption{Evolution of skill with daily lead times and probability threshold for each NWP model. As a benchmark, the black, solid line represents the skill of current operational criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
+    \includegraphics[width=1\textwidth]{figures/skill_probability_leadtime_1-1_NWP.pdf}
+    \caption{Evolution of the notification skill with daily lead times and probability threshold for each NWP model in an scenario with no persistence. Each plot represents a different NWP. As a benchmark, the black, solid line represents the skill of the current operational criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
     \label{fig:NWP_skill_leadtime}
 \end{figure}
 
-In line with what we have seen in Figure \ref{fig:brier_score}, probabilistic models are more skillful than the deterministic models. They also outperform the current notification criteria, which means that there is ground for improving the skill of EFAS. Deterministic models are as skillful as the current criteria only for the very first lead time.
+In line with Figure \ref{fig:BSS}, the probabilistic models are more skillful than the deterministic. Under some conditions, they even outperform the current notification criteria, which means that there is ground for improving the skill of EFAS. Deterministic models are as skillful as the current criteria only for the very first lead time.
 
-As expected, notification skill degrades with lead time. This applies to all cases (deterministic, probabilistic and benchmark), but the rate of degradation is affected by the probability threshold. Low probability thresholds degrade sharply at short lead times, and high probability thresholds have a larger rate decrealoss of skill at long lead times (see EUE over 7 days). 
+As expected, notification skill degrades with lead time. This applies to all cases (deterministic, probabilistic and benchmark), but the rate of degradation is affected by the probability threshold. Low probability thresholds degrade sharply at short lead times, and high probability thresholds have a larger loss of skill at long lead times (see EUE over 7 days). 
 
-There is a range of probability thresholds from approximately 40\% to 80\% with similar good skill. Within this range, larger thresholds perform slightly better at short lead times, and lower thresholds perform slightly better at mid-long lead times. Since we need to find out a single probability threshold for the notification criteria, the selection of the optimal criteria will focus on a lead time range from 2 days (the minimum formal notification lead time) to 5.5 days (the maximum lead time in COSMO-LEPS). In this range we avoid the large uncertainty at long lead times and we focus on the lead times at which the majority of the formal notifications are issued.
+There is a range of probability thresholds from approximately 40\% to 80\% with similar good skill. Within this range, larger thresholds perform slightly better at short lead times, and lower thresholds perform slightly better at mid-long lead times. Since we need to find out a single probability threshold for the notification criteria, the selection of the optimal criteria will focus on a lead time range from 2 days (the minimum formal notification lead time) to 5.5 days (the maximum lead time in COS). In this range we avoid the large uncertainty at long lead times and we focus on the lead times at which the majority of the formal notifications are issued.
 
-Figure \ref{fig:NWP_skill_leadtime} removed persistence from the analysis. To evaluate the effects of persistence in the notification skill we have produced the plot in Figure \ref{fig:NWP_skill_probability}, which shows the evolution of skill with the probability threshold and persistence for a fixed lead time range (2-5.5 days). The benchmark (current notification criteria) is now a single point corresponding the 30\% probability and persistence 3/3. As the probability threshold does not affect deterministic forecasts, the lines for the two deterministic models (DWD and EUD) are horizontal.
+So far, we have removed persistence from the exploration. To evaluate the effects of persistence in the notification skill we have produced the plot in Figure \ref{fig:NWP_skill_probability}, which shows the evolution of skill with the probability threshold and persistence for a fixed lead time range (2-5.5 days). The benchmark (current notification criteria) is now a single point corresponding the 30\% probability and persistence 3/3. As the probability threshold does not affect deterministic forecasts, the lines for the two deterministic models (DWD and EUD) are horizontal.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/skill_persistence_probability_060h_NWP.jpg}
-    \caption{Evolution of the skill with probability and persistence for a fixed lead time range from 2 to 5.5 days. Each plot represents a different NWP model. As a benchmark, the black dot represents the current criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
+    \includegraphics[width=1\textwidth]{figures/skill_persistence_probability_060h_NWP.pdf}
+    \caption{Evolution of the notification skill with probability threshold and persistence  for each NWP model at a fixed lead time range (from 2 to 5.5 days). Each plot represents a different NWP model. As a benchmark, the black dot represents the current criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
     \label{fig:NWP_skill_probability}
 \end{figure}
 
-For the lead time range from 2 to 5.5 days, three out of 4 NWP models are able to replicate or improved the current skill at some combinations of persistence and probability. Only DWD is less skillful than the benchmark.
+Three out of four NWP models are able to replicate or improved the skill of the current notification criteria at some combinations of persistence and probability. Only DWD is less skillful than the benchmark.
 
-The skill of the probabilistic models show a trade-off between probability threshold and persistence. Both criteria allow to remove false positives (or uncertain events) by taking more strict values, so they play the same role. Therefore, increasing values of persistence require lower probability thresholds to optimize the skill. All in all, the highest skill is given by the scenario of no persistence (that in Figure \ref{fig:NWP_skill_probability}). At this scenario of no persistence, there is a wide range of probability thresholds (from 40/50\% to 90\%) that perform similarly good.
+The skill of the probabilistic models shows a trade-off between probability threshold and persistence. Both criteria play the same role, which is removing false positives (or uncertain events) by taking stricter values. Hence, increasing values of persistence require lower probability thresholds to optimize the skill. Nevertheless, the scenario of no persistence produces the highest notification skill. At this scenario, there is a wide range of probability thresholds (from 40/50\% to 90\%) that perform similarly good.
 
-Persistence does make a larger difference in the deterministic models. Their skill improves dramatically as soon as some persistence is added in the criteria. For the most stringent persistence (3/3), the skill of the deterministic EUD is as good as that of the probabilistic ECMWF-HRES, and even better than COSMO-LEPS. However, as explained earlier, this is a sub-optimal set of criteria; it does not outperform the probabilistic models with no persistence.
+Persistence does make a larger difference in the deterministic models. Their skill improves dramatically as soon as some persistence is added in the criteria. For the most stringent persistence (3/3), the skill of the deterministic EUD is as good as that of the probabilistic EUE, and even better than COSMO-LEPS. However, as explained earlier, this is a sub-optimal set of criteria; it does not outperform the probabilistic models with no persistence.
 
-Three ideas can be extracted from this section:
-\begin{itemize}
-    \item Probabilistic models, specifically ECMWF-ENS, are the most skillful and could outperform the current notification criteria under specific conditions. This idea is clearer in Figure \ref{fig:NWP_skill_probability}, which shows skill with no persistence.
-    \item There is a range of equally good performing probability thresholds.
-    \item The persistence criterion is very useful for the deterministic models, which are the least-performing, but hinders the skill of probabilistic models.
-\end{itemize}
-
-With the knowledge gained in the previous section, we can run the optimization and better understand the results. After some trials, we have decided to optimize the notification criteria for four lead time ranges: 12-48 h, 48-132 h, 132-168 h and 168-240 h. The 48 h divide is based on the minimum lead time for formal notifications, and the 132 and 168 h divides are the maximum lead times of COSMO-LEPS and DWD, respectively. As already mentioned, the discussion will be focused on the 60-132 h range, since it is at these lead times that the majority of the notifications are sent.
-
-Table 1 summarizes the results of the optimization of notification criteria for the individual NWP models. The results are organised by lead time ranges; for each range, the table presents the optimized criteria (probability and persistence) and the skill metrics (recall, precision and f0.8) for the available NWP models. As a benchmark, the first row in each lead time range shows the skill of the current operational criteria. The objective of the optimization is two-fold; first, to compare the optimal skill of the different NWPs; second, to set a baseline against which we can assess the added value of combining all NWPs.
+With the knowledge gained in the previous exploration, we were in a better position to optimize the notification criteria and understand the results. Table 1 summarizes the results of the optimization of notification criteria for the individual NWP models. The results are organised by lead time ranges; for each range, the table presents the optimized criteria (probability and persistence) and the skill metrics (recall, precision and f0.8) for the available NWP models. As a benchmark, the first row in each lead time range shows the skill of the current operational criteria. The objective of the optimization is two-fold: first, to compare the optimal skill of the different NWPs, second, to set a baseline against which we can assess the added value of combining all NWPs.
 
 \begin{table}
     \centering
-    \caption{Summary of the optimization of the notification criteria for individual meteorological forcing and four lead time ranges. Skill metrics refer to the complete set of reporting points. Figures highlighted in blue represent the best value among the meteorological models for a given lead time range, whereas those highlighted in orange the worst value among them. As a benchmark, the first row shows the skill of the current notification criteria.}
+    \caption{Summary of the optimization of the notification criteria for individual NWP and four lead time ranges. Skill metrics refer to the complete set of reporting points.  The initial row serves as a benchmark, indicating the skill of the current notification criteria. In each lead time range, bold figures highlight the peak value for a specific metric.}
     \footnotesize
     \begin{tabular}{cccccccc}
-        \hline
-        lead time & model & probability & persistence & recall & precision & $f_{0.8}$ & rank \\
-        \hline
-        < 2 d& 1D+1P & 0.300& 3/3 & 0.522 & \textbf{0.735} & 0.634 & 3 \\
+        \toprule
+        lead time & model & probability & persistence & recall & precision & $\text{f}_{0.8}$ & rank \\
+        \midrule
+        \textless 2 d & 1D+1P & 0.300& 3/3 & 0.522 & \textbf{0.735} & 0.634 & 3 \\
          & COS & 0.875 & 1/1 & 0.673 & 0.718 & \textbf{0.700} & 1 \\
          & DWD & - & 2/2 & 0.585 & 0.583 & 0.583 & 5 \\
          & EUD & - & 2/2 & 0.580 & 0.671 & 0.632 & 4 \\
          & EUE & 0.800 & 1/1 & \textbf{0.681} & 0.711 & 0.699 & 2 \\
-         \hline
-        2-5.5 d& 1D+1P & 0.300& 3/3 & 0.413 & 0.618 & 0.518 & 3 \\
+         \midrule
+        2-5.5 d & 1D+1P & 0.300& 3/3 & 0.413 & 0.618 & 0.518 & 3 \\
          & COS & 0.725 & 1/1 & 0.387 & 0.687 & 0.518 & 2 \\
          & DWD & - & 3/3 & \textbf{0.420} & 0.522 & 0.477 & 5 \\
          & EUD & - & 3/3 & 0.416 & 0.612 & 0.517 & 4 \\
          & EUE & 0.650 & 1/1 & 0.416 & \textbf{0.725} & \textbf{0.562} & 1 \\
-         \hline
-        5.5-7 d& 1D+1P & 0.300& 3/3 & 0.215 & \textbf{0.612} & 0.356 & 2 \\
-         & DWD & - & 2/2 & \textbf{0.291} & 0.358 & 0.28 & 4 \\
+         \midrule
+        5.5-7 d & 1D+1P & 0.300& 3/3 & 0.215 & \textbf{0.612} & 0.356 & 2 \\
+         & DWD & - & 2/2 & \textbf{0.291} & 0.358 & 0.328 & 4 \\
          & EUD & - & 2/2 & 0.273 & 0.429 & 0.351 & 3 \\
          & EUE & 0.450 & 1/1 & 0.264 & 0.605 & \textbf{0.402} & 1 \\
-         \hline
-        7-10 d& 1D+1P & 0.300& 3/3 & 0.120 & \textbf{0.625} & 0.237 & 3 \\
+         \midrule
+        7-10 d & 1D+1P & 0.300& 3/3 & 0.120 & \textbf{0.625} & 0.237 & 3 \\
          & EUD & - & 2/2 & 0.244 & 0.336 & 0.293 & 2 \\
          & EUE & 0.175 & 2/2 & \textbf{0.287} & 0.396 & \textbf{0.345} & 1 \\
-         \hline
+         \bottomrule
     \end{tabular}
     \label{tab:NWP_optimization}
 \end{table}
 
-For the first lead time range, the best NWP is COSMO-LEPS (COS), with ECMWF-ENS (EUE) showing almost equal skill. Both EUE and COS optimized a very high probability threshold and persistence was not required. The skill of the 2 deterministic NWP is distinctively lower, especially in the case of DWD. The 2 models optimized a persistence of 2/2. When comparing the skill of individual NWP with the current operational criteria, we find out that any of the 2 probabilistic models independently outperform the current criteria, and the deterministic EUD almost reaches the benchmark skill.
+When looking at the f-score, the current notification criteria (1D+1P) are outperformed at any lead time range by at least one NWP. If we focus in the lead time range from 2 to 5.5 days, the current criteria are able to notify 41\% of the events (recall) and 62\% of the notifications are correct (precision). The current criteria seem too strict, i.e., notifications are issued only with a high level of certainty. Whenever sent, they turn out to be mostly correct, but many events are missed. If we turn this values into skill (see Table 1), the current criteria  has an $f_{0.8}$ score of 0.518.
 
-The picture does not change when looking at lead times from 2 to 5.5 days. The 2 probabilistic NWP have a higher skill than the deterministic ones and outperform the current operational criteria, but in this case EUE outperforms COS. Neither of the probabilistic models require persistence and the probability thresholds are lower than in the previous lead time range, but still higher than the 30\% value used currently. Again the deterministic models require a persistence of 3, and EUD almost equals the benchmark skill. Overall, there is a loss in skill of approximately 20\% compared with the first 2 days forecast. 
+For the first lead time range, the best NWP is COS, with EUE showing almost equal skill. Both EUE and COS optimized a very high probability threshold and persistence was not required. The skill of the 2 deterministic NWP is distinctively lower, especially in the case of DWD. The 2 models optimized a persistence of 2/2. When comparing the skill of individual NWP with the current operational criteria, we find out that any of the 2 probabilistic models independently outperform the current criteria, and the deterministic EUD almost reaches the benchmark skill.
 
-For lead times from 5.5 to 7 days COS is not available any more. The only probabilistic model, EUE, outperforms the deterministic models and the benchmark. The probability threshold optimized for this lead time range is lower than in shorter lead times, but still larger than the current operational value. In general, there has been a loss in skill of approximately 30\% with respect to the previous lead time range (above 40\% compared with the first 2 days forecast).
+The picture does not change when looking at lead times from 2 to 5.5 days. The 2 probabilistic NWP have a higher skill than the deterministic ones and outperform the current operational criteria, but in this case EUE is the best NWP. Neither of the probabilistic models require persistence and the probability thresholds are lower than in the previous lead time range, but still higher than the 30\% value used currently. Again the deterministic models require a persistence of 3, and EUD almost equals the benchmark skill. Overall, there is a loss in skill of approximately 20\% compared with the first 2 days of forecast. 
+
+For lead times from 5.5 to 7 days COS is not available any more. The only probabilistic model, EUE, outperforms the deterministic models and the benchmark. The probability threshold optimized for this lead time range is lower than in shorter lead times, but still larger than the current operational value. In general, there has been a loss in skill of approximately 30\% with respect to the previous lead time range (above 40\% compared with the first 2 days of forecast).
 
 In the last 3 days of forecast only EUE and EUD are available. Both of the NWP models outperform the current criteria, but EUE is clearly more skillful than EUD. This long lead time range is the only one for which EUE required persistence (2/2), whereas the probability threshold is slightly lower than in the previous range.
 
-The conclusions of the optimization are:
+Comment the Roebber diagram!!! Negatively biases, i.e., EFAS produces less notifications that the number of actual events.
 
-\begin{itemize}
-    \item Individual models outperform the current notification criteria. Even a deterministic model as EUD has similar skill.
-    \item EUE will be the baseline for the combination methods, since it has proven to be the most skillful model.
-\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/roebber_fscore_60h.pdf}
+    \caption{Roebber diagram of the optimized criteria at the lead time range from 2 to 5.5 days. Triangles represent individual NWP and circles the 4 combination of NWP tested in this work. As a reference, the skill of the current notification criteria is been added as a black cross. The Roebber diagram shows in a single plot 4 skill metrics: precision and recall in the X and Y axis, bias is represented by the dashed lines, and the f0.8 score by the solid lines.} 
+    \label{fig:roebber_NWP}
+\end{figure}
 
 \subsection{Combination of models}
-\label{ref:results_COMB}
+\label{sec:results_COMB}
 
-Three of the four combination methods compute total probability. To do so weights need to be assigned to every NWP model. Figure \ref{fig:weights} shows the distribution of weights among NWP models for those three combination methods, and how the weights change with lead time.
+Three of the four combination methods compute total probability. To do so weights need to be assigned to every NWP. Figure \ref{fig:weights} shows the distribution of weights among NWP models for those three combination methods, and how the weights change with lead time.
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figures/weights.pdf}
-    \caption{Weights applied to compute the total probability out of the NWP models. Every plot represents a different approach, and colours represent the NWP models (blue for probabilistic and orange for deterministic models).}
+    \caption{Weights applied to compute the total probability out of the NWP models. Every plot represents a different approach. Colours represent the NWP (blue for probabilistic and orange for deterministic models).}
     \label{fig:weights}
 \end{figure}
 
-The model mean approach attributes equal weights to each model. The changes in the weights with lead time occur when the maximum lead time of a model is exceeded (5.5 days for COSMO-LEPS and 7 days for DWD). This is the approach in which the deterministic models are given the same importance as the probabilistic models.
+The model mean (MM) approach attributes equal weights to each model. The changes in the weights with lead time occur when the maximum lead time of a model is exceeded (5.5 days for COS and 7 days for DWD). This is the approach in which the deterministic models are given the same importance as the probabilistic models.
 
-In the weighting based on the number of members, every model run is assigned equal weight. Therefore, EUE, which has a significant larger number of members, prevails over any other model. Even for the first 5 days for which all the models are available, EUE gets 70\% of the weight. Instead, the sum of the two deterministic models (EUD and DWD) has a maximum weight of 4\% from the 5\textsuperscript{th} to the 7\textsuperscript{th} day. If we compare these weights to the current 30\% probability criterion, it means that in the case that EUE completely fails to predict an event, the 30\% total probability could never be achieved at lead times longer than 5 days, and only if all the other models were completely correct would the event be notified at lead times shorter than 5 days. In general, this approach relies heavily on the skill of EUE, which fortunately is the most skillful model.
+In the member weighted (MW) combination, every model run is assigned an equal weight. Therefore, EUE, which has a significant larger number of members, prevails over any other NWP. Even for the first 5 days, when all the models are available, EUE gets 70\% of the weight. Instead, the sum of the two deterministic models (EUD and DWD) has a maximum weight of 4\% from days 5.5 to 7. If we compare these weights to the current 30\% probability criterion, it means that in the case that EUE completely fails to predict an event, the 30\% total probability could never be achieved at lead times longer than 5.5 days, and only if all the other models were completely correct would the event be notified at lead times shorter than 5.5 days. In general, this approach relies heavily on the skill of EUE, which fortunately is the most skillful model (see Figure \ref{fig:BSS}).
 
-In the last approach, the Brier score values from Figure \ref{fig:weights} were transformed to be used as weighing factors in the computation of the total probability. This transformation consisted of re-scaling the original values by inverse distance weighing, so that the sum of all weights is 1. The resulting weights vary with lead time, showing a transition from short to long lead times. At very short lead times the deterministic models are skillful, so they sum up to a third of the weight. As the lead time increases, the probabilistic models, especially EUE, take most of the weight. At lead times from 48 to 132 h, when most notifications are sent, the probabilistic models carry at least 80\% of the weight.
+In the Brier weighted (BW) combination, the Brier score values from section \ref{sec:NWP_prob_skill} were transformed to be used as weighing factors in the computation of the total probability. This transformation consisted of re-scaling the original values by inverse distance weighing, so that the sum of all weights is 1. The resulting weights vary with lead time, showing a transition from short to long lead times. At very short lead times the deterministic models are skillful, so they sum up to a third of the weight. As the lead time increases, the probabilistic models, especially EUE, take most of the weight. At lead times from 2 to 5.5 days, when most of the notifications are sent, the probabilistic models carry at least 80\% of the weight.
 
 \subsubsection{Notification skill}
-\label{sec:COM_not_skill}
+\label{sec:COMB_skill}
 
-Figure \ref{fig:COMB_skill_leadtime} and Figure \ref{fig:COMB_skill_probability} replicate the analysis of the notification skill previously done for the individual NWP models, but this time for the combination methods. Figure \ref{fig:COMB_skill_leadtime} shows the evolution of the notification skill with lead time and probability for a fixed persistence value (no persistence). Figure \ref{fig:COMB_skill_probability} shows, instead, the evolution with probability and persistence for a fixed lead time range (2-5.5 days). Together they give us an overall picture of the behaviour of skill in the four dimensions: combination method, lead time, probability threshold and persistence.
+Figure \ref{fig:COMB_skill_leadtime} and Figure \ref{fig:COMB_skill_probability} replicate the analysis of the notification skill previously done for the individual NWP models, but this time for the combination methods. Figure \ref{fig:COMB_skill_leadtime} shows the evolution of the notification skill with lead time and probability threshold for a fixed persistence value (no persistence). Figure \ref{fig:COMB_skill_probability} presents, instead, the evolution with probability and persistence for a fixed lead time range (2-5.5 days). Together they portray an overall picture of the behaviour of skill in the four dimensions: combination method, lead time, probability threshold and persistence.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/skill_probability_leadtime_1-1_COMB.jpg}
-    \caption{Evolution of skill notification with lead time and probability threshold for an scenario without the persistence criterion. Each plot represents a different approach in combining the meteorological forcing. The black, solid line represents the current criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
+    \includegraphics[width=1\textwidth]{figures/skill_probability_leadtime_1-1_COMB_vs_EUE.pdf}
+    \caption{Evolution of the notification skill with daily lead times and probability threshold for each of the combination methods in an scenario with no persistence. Each plot represents a different combination of NWP. As a benchmark, the black, solid line represents the skill of EUE with optimized criteria (65\% probability and no persistence).}
     \label{fig:COMB_skill_leadtime}
 \end{figure}
 
-All combination methods can outperform the current notification criteria for a certain range of probability threshold at any lead time. In any case, the improvement in skill is limited, especially in the mid lead time range. The skill among approaches is fairly similar, but we can already notice that the member weighted  and Brier weighted  approaches slightly outperform the other two. Except for the model mean  approach, larger probability thresholds perform better at short lead times and smaller at longer lead times; this behaviour was already seen in the individual NWP models.
+As EUE is the most skillful NWP, using it as a benchmark establishes  a tough competition. Three out four of combinations (1D+1P, MW, BW) are capable of adding value to the EUE benchmark, but only from lead time 4 onward. In any case, the improvement in skill is limited. The skill among combinations is fairly similar, but we can already notice that the member weighted  and Brier weighted  approaches slightly outperform the other two. Except for the model mean, larger probability thresholds perform better at short lead times and smaller thresholds at longer lead times. Despite that fact, there is equifinality in the optimum of the probability thresholds. This behaviour of the probability threshold was already seen in the individual NWP.
+
+Regardless of the NWP or combination of NWP, the notification skill degrades notably with lead time. Even if at lead time 0 the skill is high (up to 0.74), the minimum lead time criterion limits the EFAS notification skill to values slightly lower than 0.6. The degradation continues and, from day 7 onward, the skill drops below 0.4, which may me an indicator for creating a new limitation on the maximum lead time at which notifications are issued.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/skill_persistence_probability_060h_COMB.jpg}
-    \caption{Evolution of skill with probability and persistence for a fixed lead time range from 2 to 5.5 days. Each plot represents a different approach in combining the meteorological forcing. The black dot represents the current criteria (1 deterministic + 1 probabilistic, 30\% probability and a persistence of 3 forecasts).}
+    \includegraphics[width=1\textwidth]{figures/skill_persistence_probability_060h_COMB_vs_EUE.pdf}
+    \caption{Evolution of the notification skill with probability threshold and persistence  for each combination of NWP at a fixed lead time range (from 2 to 5.5 days). Each plot represents a different NWP model. Each plot represents a different combination of NWP. As a benchmark, the black cross represents the skill of EUE with optimized criteria (65\% probability and no persistence).}
     \label{fig:COMB_skill_probability}
 \end{figure}
 
-The introduction of the persistence criterion limits the maximum attainable skill. In all four approaches, the highest skill is achieved with no persistence (1/1). For that scenario, all approaches can obtain a similar skill, but member weighted and Brier weighted  slightly outperform the other approaches. The optimal probability threshold for those two approaches (MW and BW) ranges between 40\% and 70\%.
+Figure \ref{fig:COMB_skill_probability} proves that introducing the persistence criterion limits the maximum attainable skill. Across all four combinations, the highest skill is reached when no persistence is applied (1/1). In this scenario, all combinations exhibit similar maximum skill. Only member weighted (MW) and Brier weighted  (BW) marginally surpass the baseline (EUE). These two combinations show optimal skill within a range of probability thresholds spanning 40\% to 70\%. In both instances, the maximum skill is achieved at a probability threshold lower than that optimized for EUE.
 
-It is interesting the lack of sensitivity with probability of the current criteria (dark blue line in the left hand side pane). Even for the lowest probability threshold the f0.8 score is 0.5, whereas in the other approaches there is a steep loss in skill as the probability threshold moves towards very low values.
+The absence of sensitivity to probability in the current criteria (indicated by the dark blue line in the left-hand side pane) is noteworthy. Even at the lowest probability threshold, the f0.8 score remains at 0.5, unlike other approaches where there is a significant decline in performance as the probability threshold approaches very low values.
 
-Table 2 summarizes the results of the optimization of notification criteria for the combination methods in an identical way as Table 1 did for the NWP models. The results are organised by lead time ranges; for each range, the table presents the optimized criteria (probability and persistence) and the skill metrics (recall, precision and f0.8) for the four methods. As a baseline, the first row in each lead time range shows the skill of the ECMWF-ENS, which we established as the reference model NWP model in Table 1. The objective of the optimization is again two-fold: to compare the four approaches used to combine the NWP models, and to assess the added value of combining all NWPs instead of simply using the baseline. 
+Table 2 summarizes the results of the optimization of the notification criteria for the combination methods in an identical way as Table 1 did for the NWP. The results are organised by lead time ranges; for each range, the table presents the optimized criteria (probability and persistence) and the skill metrics (recall, precision and f0.8) for the four methods. As a baseline, the first row in each lead time range shows the skill of EUE, which we established as the reference NWP in Table 1. The objective of the optimization is again two-fold: to compare the four combinations of NWP models, and to assess the added value of combining all NWPs instead of simply using the baseline. 
 
 \begin{table}
     \centering
-    \caption{Summary of the optimization of the notification criteria for the combination methods and four lead time ranges. Skill metrics refer to the complete set of reporting points. Figures highlighted in blue represent the best value among the methods for a given lead time range, whereas those highlighted in orange the worst value among them. As a benchmark, the first row shows the skill of ECMWF-ENS, the best-performing NWP model.}
+    \caption{Summary of the optimization of the notification criteria for the combination methods and four lead time ranges. Skill metrics refer to the complete set of reporting points. The initial row serves as a baseline, indicating the skill of EUE, the top-performing NWP. In each lead time range, bold figures highlight the peak value for a specific metric. }
     \begin{tabular}{cccccccc}
-        \hline
+        \toprule
         lead time & method & probability & persistence & recall & precision & $f_{0.8}$ & rank \\
-        \hline
-        < 2 d& EUE & 0.800 & 1/1 & \textbf{0.681} & 0.711 & 0.699 & 4 \\
+        \midrule
+        \textless 2 d& EUE & 0.800 & 1/1 & \textbf{0.681} & 0.711 & 0.699 & 4 \\
          & 1D+1P & 0.925 & 1/1 & 0.662 & 0.717 & 0.694 & 5 \\
          & MM & 0.775 & 1/1 & 0.628 & \textbf{0.838} & \textbf{0.741} & 1 \\
          & MW & 0.750 & 1/1 & 0.673 & 0.718 & 0.700 & 3 \\
          & BW & 0.950 & 1/1 & 0.620 & 0.829 & 0.733 & 2 \\
-         \hline
-        2-5.5 d& EUE & 0.650 & 1/1 & 0.416 & \textbf{0.725} & 0.562 & 3 \\
+         \midrule
+        2-5.5 d & EUE & 0.650 & 1/1 & 0.416 & \textbf{0.725} & 0.562 & 3 \\
          & 1D+1P & 0.600 & 1/1 & \textbf{0.455} & 0.643 & 0.554 & 5 \\
          & MM & 0.700 & 1/1 & 0.424 & 0.700 & 0.559 & 4 \\
          & MW & 0.500 & 1/1 & \textbf{0.455} & 0.692 & 0.574 & 2 \\
          & BW & 0.525 & 1/1 & 0.451 & 0.700 & \textbf{0.576} & 1 \\
-         \hline
-        5.5-7 d& EUE & 0.450 & 1/1 & 0.264 & \textbf{0.605} & \textbf{0.402} & 1 \\
+         \midrule
+        5.5-7 d & EUE & 0.450 & 1/1 & 0.264 & \textbf{0.605} & \textbf{0.402} & 1 \\
          & 1D+1P & 0.425 & 1/1 & 0.262 & 0.599 & 0.399 & 4 \\
          & MM & 0.500 & 1/1 & \textbf{0.276} & 0.412 & 0.345 & 5 \\
          & MW & 0.425 & 1/1 & 0.271 & 0.579 & 0.401 & 2 \\
          & BW & 0.450 & 1/1 & 0.268 & 0.586 & 0.400 & 3 \\
-         \hline
-        7-10 d& EUE & 0.175 & 2/2 & \textbf{0.287} & 0.396 & \textbf{0.345} & 1 \\
+         \midrule
+        7-10 d & EUE & 0.175 & 2/2 & \textbf{0.287} & 0.396 & \textbf{0.345} & 1 \\
          & 1D+1P & 0.250 & 1/1 & 0.256 & 0.414 & 0.334 & 4 \\
          & MM & 0.225 & 2/2 & 0.252 & 0.334 & 0.296 & 5 \\
          & MW & 0.175 & 2/2 & 0.278 & 0.402 & 0.343 & 3 \\
          & BW & 0.300 & 1/1 & 0.255 & \textbf{0.445} & \textbf{0.345} & 1 \\
-         \hline
+         \bottomrule
     \end{tabular}
     \label{tab:COMB_optimization}
 \end{table}
 
-At the shortest lead time range, two approaches clearly outperform the baseline (model mean and Brier weighted). Of these two, the best skill is obtained by MM (f0.8=0.741); the skill of this approach can be explained by the higher weight it assigns to the deterministic models, which showed skill at this short lead time range (see Figure \ref{fig:weights}). Regarding the optimize criteria, none of the four approaches required persistence and the probability thresholds are all in the top quartile.
+In the shortest lead time range, two combinations clearly outperform the baseline (MM, BW). Between the two, MM exhibits the highest skill ($f_{0.8}=0.741$). This proficiency can be attributed to MM emphasis on deterministic models, which demonstrated notable skill at very short lead times (see Figure \ref{fig:weights}). As of the optimized criteria, none of the four methods required persistence, and probability thresholds fell within the top quartile. At this lead time range EFAS formal notifications are not issued, so the results above are only informative, but do not affect the selection of new criteria.
 
-From day 2 to 5.5, the best performing approaches are Brier weighted and member weighted. Both show similar skill and outperform the baseline. They do not require persistence and the optimal probability threshold is around 50\% (see Figure \ref{fig:COMB_skill_probability} for an idea on the uncertainty in the definition of the probability threshold). Compared with the previous lead time range, there is a loss in skill of approximately 20\%.
+From day 2 to 5.5, BW and WW stand out as the top-performing combinations, showcasing comparable skill that surpass the baseline. Both approaches operate optimally without the need for persistence, with the probability threshold hovering around 50\% (refer to Figure \ref{fig:COMB_skill_probability} for a sense of the uncertainty in defining the probability threshold). Compared with the preceding lead time range, there is an evident decline in skill by approximately 20\%. This is the lead time range at which most of the notifications are issued, so the decision about the new notification criteria will be based on this results.
 
-At the third lead time range, from 5.5 to 7 days, none of the approaches outperform the baseline, even though three of them (1D+1P, MW and BW) obtained very similar skill. None of these three approaches required persistence, and the probability thresholds are slightly lower than in the previous lead time range (around 40\%). Compared with the previous lead time range, the loss in skill is around 30\% (45\% with respect to the first range).
+In the third lead time range, from 5.5 to 7 days, none of the combinations outperform the baseline, despite three of them (1D+1P, MW and BW) attaining very similar skill. None of these three methods necessitated the use of persistence, and the associated probability thresholds were slightly lower than those in the preceding lead time range (around 40\%). When compared with the prior lead time range, there is a decrease in skill of around 30\% (45\% when compared to the the first range).
 
-Brier weighted is the approach with the best skill in the longest lead time range, same skill as the baseline. Member weighted has a skill only slightly poorer. The optimized criteria differ between them, though. MW required a persistence of 2 out of 2 forecasts and a rather low probability threshold (0.175); exactly the same criteria optimized for the baseline. BW, instead, did not require persistence and the probability threshold (30\%) follows the decreasing trend in previous lead time ranges.
+In the longest lead time range, BW emerges as the best-performing combination, with a skill on par with the baseline. MW, while slightly less proficient, shows similar skill. However, their optimized criteria differ. MW requires a persistence of 2 out of 2 forecasts and a relatively low probability threshold (0.175) — precisely the same criteria optimized for the baseline. In contrast, BW does not require persistence, and its probability threshold (30\%) aligns with the decreasing trend observed in previous lead time ranges.
 
-The conclusions of this section are:
-
-\begin{itemize}
-    \item ECMWF-ENS is a tough baseline, that was only clearly outperformed for the first 2 days lead time.
-    \item Member weighted  and Brier weighted  are the two most promising approaches. When looking at the most interesting lead time range (48-132 h):
-    \begin{itemize}
-        \item Their skill is fairly the same.
-        \item Their optimal criteria is similar: no persistence and a probability threshold around 50\%.
-    \end{itemize}
-\end{itemize}  
-
-The decision about the most appropriate approach between MW and BW can not be based purely on skill metrics, but on other factors such as how easy it can be implemented operationally, how easy it is to be understood by the EFAS partners, or how it would be affected by removing or adding other meteorological models. BW seems to be the most logic approach as it grants higher importance to the most skillful models. It would also be the most robust approach in case of removing or adding NWP models. These two approaches perform equally good because they grant ECMWF-ENS (the model with highest skill and the largest number of members) most of the weight. If a more skillful model with fewer members would be added, BW would be able to extract that value more easily than MW. On the contrary, MW seems simpler to implement and would not require to run reforecasts whenever there is a new EFAS version or a new NWP model.
-
-If we chose the Brier weighted approach with no persistence and probability threshold 52.5\% as the optimal, the distribution of hits, misses and false alarms would be that of Figure \ref{fig:maps_BW}. With this set of criteria EFAS would be able to predict 45\% of the events, and 70\% of the predictions would be correct. As a reminder, these figures were 41\% and 62\% for the current criteria.
+If we chose the BW combination with no persistence and probability threshold 52.5\% as the optimal, the distribution of hits, misses and false alarms would be that of Figure \ref{fig:maps_BW}. With this set of criteria EFAS would be able to predict 45\% of the events, and 70\% of the predictions would be correct. As a reminder, these figures were 41\% and 62\% for the current criteria.
 
 \begin{figure}
     \centering
@@ -617,7 +588,7 @@ The results of the previous sections refer to a set of reporting points with a c
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figures/skill_vs_area_2000km2_1239points_060h.jpg}
-    \caption{Evolution of skill with catchment area limit. Each plot represents a different approach in which the meteorological forcings are combined. The primary Y axis indicates skill, and the secondary Y axis indicates the probability threshold. The continuous lines are the target skill score (f0.8). The dotted lines are the probability thresholds. Black objects represent the current operational criteria and blue ones the criteria optimized for a fixed area threshold (represented by the vertical, solid, black line).}
+    \caption{Evolution of skill with catchment area limit. Each plot represents a different combination of the NWP. The primary Y axis indicates skill, and the secondary Y axis indicates the probability threshold. The continuous lines are the target skill score (f0.8). The dotted lines are the probability thresholds. Black objects represent the current operational criteria and blue ones the criteria optimized for a fixed area threshold (represented by the vertical, solid, black line).}
     \label{fig:skill_area}
 \end{figure}
 
@@ -639,6 +610,33 @@ The main outcome of this experiment is that the global skill of the system does 
 \section{Discussion}
 \label{sec:discussion}
 
+Three ideas can be extracted from the exploration of the notification skill in the individual NWP:
+\begin{itemize}
+    \item Probabilistic models, specifically ECMWF-ENS, are the most skillful and could outperform the current notification criteria under specific conditions. This idea is clearer in Figure \ref{fig:NWP_skill_probability}, which shows skill with no persistence.
+    \item There is a range of equally good performing probability thresholds.
+    \item The persistence criterion is very useful for the deterministic models, which are the least-performing, but hinders the skill of probabilistic models.
+\end{itemize}
+
+The conclusions of the optimization of criteria for the individual NWP:
+\begin{itemize}
+    \item Individual models outperform the current notification criteria. Even a deterministic model as EUD has similar skill.
+    \item EUE will be the baseline for the combination methods, since it has proven to be the most skillful model.
+
+\end{itemize}
+
+The conclusions of the optimization of criteria for the combination of NWP:
+
+\begin{itemize}
+    \item ECMWF-ENS is a tough baseline, that was only clearly outperformed for the first 2 days lead time.
+    \item Member weighted  and Brier weighted  are the two most promising approaches. When looking at the most interesting lead time range (48-132 h):
+    \begin{itemize}
+        \item Their skill is fairly the same.
+        \item Their optimal criteria is similar: no persistence and a probability threshold around 50\%.
+    \end{itemize}
+\end{itemize}  
+
+The decision about the most appropriate approach between MW and BW can not be based purely on skill metrics, but on other factors such as how easy it can be implemented operationally, how easy it is to be understood by the EFAS partners, or how it would be affected by removing or adding other meteorological models. BW seems to be the most logic approach as it grants higher importance to the most skillful models. It would also be the most robust approach in case of removing or adding NWP models. These two approaches perform equally good because they grant EUE (the model with highest skill and the largest number of members) most of the weight. If a more skillful model with fewer members would be added, BW would be able to extract that value more easily than MW. On the contrary, MW seems simpler to implement and would not require to run reforecasts whenever there is a new EFAS version or a new NWP model.
+
 \section{Conclusions}
 \label{sec:conclusions}
 
@@ -653,12 +651,12 @@ Finally, we have analysed the possibility of relaxing the current criterion that
 Future work:
 
 \begin{itemize}
-\item In the future, when EFASv5 reforecast will be available, it will be interesting to redo the analysis for this version, especially regarding the question about reducing the area threshold.
+\item In the future, when EFAS5 reforecast will be available, it will be interesting to redo the analysis for this version, especially regarding the question about reducing the area threshold.
 \end{itemize}
 
 \section{Data availability}
 
-The reanalysis discharge data was downloaded from the \href{https://cds.climate.copernicus.eu}{Climate Data Store}. The forecast discharge data was extracted from the ECMWF Meteorological Archival and Retrieval System. The data set of reporting points was provided by HYDRO. All the scripts, preprocessed data and results of the analysis can be found in this \href{https://github.com/casadoj/EFAS_skill}{GitHub repository}.
+The reanalysis discharge data was downloaded from the \href{https://cds.climate.copernicus.eu}{Climate Data Store}. The forecast discharge data was extracted from the ECMWF Meteorological Archival and Retrieval System. The data set of reporting points was provided by HYDRO. All the scripts, pre-processed data and results of the analysis can be found in this \href{https://github.com/casadoj/EFAS_skill}{GitHub repository}.
 
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
