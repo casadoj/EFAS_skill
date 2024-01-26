@@ -4,6 +4,7 @@ import xarray as xr
 from datetime import datetime, timedelta
 from tqdm import tqdm_notebook
 from convert import dict2da
+from typing import Union, List, Tuple, Dict
 
 
 # models
@@ -381,17 +382,20 @@ def events2hits(obs, pred, center=True, w=1):
             
             
             
-def hits2skill(hits, beta=1):
+def hits2skill(hits: xr.Dataset, beta: Union[float, List[float]] = 1) -> xr.Dataset:
     """It computes skill metrics (recall, precision and f1) out of a Dataset of hits, misses and false alarms.
     
     Input:
     ------
-    hits:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms)
-    beta:       float or list of floats. A coefficient (or list of coefficients) of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
+    hits: xr.Dataset
+        It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms)
+    beta: Union[float, List[float]]
+        A coefficient (or list of coefficients) of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
     
     Output:
     -------
-    skill:      xr.Dataset. It contains three DataArrays with the metrics 'recall', 'precision', and 'fbeta' scores.
+    skill: xr.Dataset
+        It contains three DataArrays with the metrics 'recall', 'precision', and 'fbeta' scores.
     
     
     """
@@ -545,3 +549,31 @@ def limit_leadtime(da):
     da = da.where(da != -999, other=np.nan)
     
     return da
+
+
+def compute_skill(TP: Union[int, np.ndarray, pd.Series], FN: Union[int, np.ndarray, pd.Series], FP: Union[int, np.ndarray, pd.Series], beta: float = 1) -> Tuple[Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series]]:
+    """Given values of true positives, false negatives and false positives, compute the skill metrics recall, precision and f-score
+    
+    Inputs:
+    -------
+    TP: Union[int, np.ndarray, pd.Series]
+        True positives
+    FN: Union[int, np.ndarray, pd.Series]
+        False negatives
+    FP: Union[int, np.ndarray, pd.Series]
+        False positives
+    beta: float
+        Parameter of the f-score that balances the importance of recall and precision in the computation of the f-score. The default value (1) gives equal value to precision and recall; values lower than 1 prioritize precision; values larger than 1 prioritize recall
+        
+    Returns:
+    --------
+    recall: Union[int, np.ndarray, pd.Series]
+    precision: Union[int, np.ndarray, pd.Series]
+    fscore: Union[int, np.ndarray, pd.Series]
+    """
+    
+    recall = TP / (TP + FN)
+    precision = TP / (TP + FP)
+    fscore = (1 +  beta**2) * TP / ((1 +  beta**2) * TP + beta**2 * FN + FP)
+    
+    return recall, precision, fscore
