@@ -2,7 +2,7 @@ reporting_points:
     input: 
         CSV: ../data/reporting_points/Station-2022-10-27v12_KGE.csv            # table of fixed reporting points
         GIS: ../data/GIS/fixed_report_points_500.shp                           # shapefile of fixed reporting points used to correct river and catchment names, and add the Pfafstetter code
-        rivers: ../data/GIS/RiversForWebPage_EU_ready.shp                      # optional shapefile of rivers. Only used for plots
+    rivers: ../data/GIS/rivers_europe.shp                      # optional shapefile of rivers. Only used for plots
     area: 500                                                                  # minimum catchment area (km²)
     catchments:                                                                # catchments on which the skill analysis will focus
     KGE: 0.5                                                                       # minimum values of KGE that a reporting point must meet to be included in the skill assessment
