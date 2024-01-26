@@ -1107,7 +1107,7 @@ def plot_weights(Weights: xr.Dataset, save: Union[str, Path] = None, **kwargs):
     
     # legend
     handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, bbox_to_anchor=[.8, .6, .2, .3], frameon=False);
+    fig.legend(handles[::-1], labels[::-1], bbox_to_anchor=[.8, .6, .2, .3], frameon=False);
 
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
