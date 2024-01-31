@@ -20,7 +20,7 @@ discharge:
         end: 2023-06-30 18:00                                                   # end date of the analysis (e.g. 2022-12-31 18:00 )
     return_period:
         input: ../data/thresholds/return_levels.nc                              # NetCDF file with the return periods of discharge
-        threshold: 100                                                            # return period whose exceedance is considered a flood event
+        threshold: 2                                                            # return period whose exceedance is considered a flood event
         reducing_factor: 0.05                                                   # factor reducing the discharge associated to the previous return period (not necessary)
     output:
         reanalysis: ../data/discharge/reanalysis/                               # directory where the preprocessed reanalysis discharge will be saved
