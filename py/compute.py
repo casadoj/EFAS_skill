@@ -450,19 +450,25 @@ def define_area_ranges(area_min, area_max, scale='semilog'):
 
 
 
-def summarize_by_area(station_area, station_events, area_ranges):
+def summarize_by_area(station_area: pd.Series, station_events: pd.Series, area_ranges: np.array) -> pd.DataFrame:
     """It calculates the amount of stations and observed events at different catchment area thresholds
     
     Inputs:
     -------
-    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
-    station_events:   pd.Series (id,). Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
-    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
+    station_area: pd.Series (id,)
+        Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
+    station_events: pd.Series (id,)
+        Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
+    area_ranges: np.array (area,)
+        Values of catchment area in which the results will be discretized
     
     Output:
     -------
-    summary:          pd.DataFrame(area,2). Summary of number of stations and observed events by catchment area
+    summary: pd.DataFrame(area,2)
+        Summary of number of stations and observed events by catchment area
     """
+    
+    assert station_area.size == station_events.size, 'The size of the input pd.Series "station_area" and "station_events" must be equal.'
     
     # DataFrame to save the number of stations and observed events for each area range
     summary = pd.DataFrame(index=area_ranges, columns=['n_stations', 'n_events_obs'])

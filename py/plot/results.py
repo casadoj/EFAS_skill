@@ -13,6 +13,7 @@ from plot.maps import create_cmap
 from typing import Union, List, Tuple, Dict
 from collections.abc import Iterable
 from pathlib import Path
+from typing import Union, Dict, Tuple, List
 
 
 
@@ -424,19 +425,27 @@ def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', co
         
         
         
-def plot_hits_by_variable(hits, optimal_criteria, variable, coldim='approach', reference=None, current_criteria=None, optimized_criteria=None, save=None, **kwargs):
+def plot_hits_by_variable(hits: xr.Dataset, optimal_criteria: Dict, variable: str, coldim: str = 'approach', reference: Union[int, float] = None, current_criteria: Dict = None, optimized_criteria: xr.DataArray = None, save: Union[Path, str] = None, **kwargs):
     """It generates a graph with as many lineplots as approaches in the 'hits' dataset. The lineplots reprensent both the evolution of true positives (hits) and false positives (false alarms) and probability with regard to a specified variable
     
     Inputs:
     -------
-    hits:               xr.Dataset (area, persistence, approach, probability). It contains as variables TP (true positives), FN (false negatives) and FP (false positives)
-    optimal_criteria:   dict. For each approach in 'hits', it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
-    variable:           string. Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
-    coldim:             string. Name of the dimension that defines each of the plots in the graph
-    reference:          int of float. Fixed value of the 'variable' for which 'optimal_criteria' was fitted
-    current_criteria:   dict. It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
-    optimized_criteria: xr.DataArray (variable, approach, persistence). It contains the optimized probability threshold for each combination of the 'variable', approach and persistence
-    save:               string. Path where the graph will be saved. By default is 'None', and the graph is not saved.
+    hits: xr.Dataset (area, persistence, approach, probability)
+        It contains as variables TP (true positives), FN (false negatives) and FP (false positives)
+    optimal_criteria: Dict
+        For each approach in 'hits', it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
+    variable: str
+        Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
+    coldim: str
+        Name of the dimension that defines each of the plots in the graph
+    reference: Union[str, float]
+        Fixed value of the 'variable' for which 'optimal_criteria' was fitted
+    current_criteria: Dict
+        It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
+    optimized_criteria: xr.DataArray (variable, approach, persistence)
+        It contains the optimized probability threshold for each combination of the 'variable', approach and persistence
+    save: Union[Path, str]
+        Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
     Ouput:
     ------
@@ -743,16 +752,21 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
         
         
         
-def plot_skill_training(train, test, complete=None, xdim='approach', save=None, **kwargs):
+def plot_skill_training(train: xr.Dataset, test: xr.Dataset, complete: xr.Dataset = None, xdim: str = 'approach', save: Union[str, Path] = None, **kwargs):
     """Scatter (and box) plot of the performance achieved for every approach in the train, test and complete data sets.
     
     Inputs:
     -------
-    train:    xr.Dataset (xdim, (kfold)). The skill in the training set.The 'kfold' dimension is not mandatory, it would contain the skill in any of the folds of the cross-validation
-    test:     xr.Dataset (xdim,). The skill in the test set
-    complete: xr.Dataset (xdim,). The skill in the complete set (training + test)
-    xdim:     string. Name of the dimension in 'train', 'test' and 'complete' to plot on the X axis
-    save:     string. Directory and filename (including extension) where the graph will be saved
+    train: xr.Dataset (xdim, (kfold))
+        The skill in the training set.The 'kfold' dimension is not mandatory, it would contain the skill in any of the folds of the cross-validation
+    test: xr.Dataset (xdim,)
+        The skill in the test set
+    complete: xr.Dataset (xdim,)
+        The skill in the complete set (training + test)
+    xdim: string
+        Name of the dimension in 'train', 'test' and 'complete' to plot on the X axis
+    save: Union[str, Path]
+        Directory and filename (including extension) where the graph will be saved
     """
     
     # kwargs
@@ -784,7 +798,7 @@ def plot_skill_training(train, test, complete=None, xdim='approach', save=None, 
             xlabels.append(label)
     ax.set_xticklabels(xlabels)
     handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, bbox_to_anchor=kwargs.get('loc_legend', [.8, .8, .2, .1]))
+    fig.legend(handles, labels, bbox_to_anchor=kwargs.get('loc_legend', [.8, .8, .2, .1]), frameon=False)
     
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
@@ -1274,4 +1288,77 @@ def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
     if 'title' in kwargs:
         ax.text(.5, 1.125, kwargs['title'], ha='center', fontsize=12)
         
-    return fig, ax 
+    return fig, ax
+
+
+
+def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Union[int, float] = None, metric: str = 'f1', current_criteria: Dict = None,
+                            save: Union[Path, str] = None, **kwargs):
+    """It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
+    
+    Inputs:
+    -------
+    skill: xr.Dataset (area, persistence, approach, probability)
+        It contains as variables recall, precision and the specified metric
+    optimal_criteria: Dict
+        For each approach in skill, it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
+    reference: Union[int, float]
+        Fixed value of the 'variable' for which 'optimal_criteria' was fitted
+    metric: str
+        Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
+    current_criteria: Dict
+        It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
+    save: Union[Path, str]
+        Path where the graph will be saved. By default is 'None', and the graph is not saved.
+    
+    Ouput:
+    ------
+    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    """
+
+    colors = kwargs.get('colors', ['k', 'steelblue', 'orange'])
+    lw = kwargs.get('lw', 1.2)
+    alpha = kwargs.get('alpha', .666)
+    figsize = kwargs.get('figsize', (13, 4))
+    xlabel = kwargs.get('xlabel', None)
+    xscale = kwargs.get('xscale', 'linear')
+    xlim = kwargs.get('xlim', None)
+
+    fig, axes = plt.subplots(ncols=3, figsize=figsize, sharex=True, sharey=True)
+    
+    if current_criteria is not None:
+        df = skill.sel(current_criteria).to_pandas()
+        for ax, met in zip(axes, [metric, 'recall', 'precision']):
+            ax.plot(df.index, df[met], 'k', lw=lw, label='current', zorder=0)
+
+
+    for i, (model, criteria) in enumerate(optimal_criteria.items()):
+        if model == 'current':
+            continue
+        c = colors[model]
+        if len(model.split('_')) > 1:
+            label = ''.join([x[0] for x in model.split('_')]).upper()
+        else:
+            label = model
+        zorder = 1 + i
+        df = skill.sel(criteria).to_pandas()
+        for j, (ax, met) in enumerate(zip(axes, [metric, 'recall', 'precision'])):
+            ax.plot(df.index, df[met], lw=lw, c=c, alpha=alpha, label=label, zorder=i+1)
+            if i == 0:
+                ax.axvline(reference, c='k', ls=':', lw=.5)
+                ax.set(xlabel=xlabel,
+                       title=met)
+            if (i == 0) & (j == 0):
+                ax.text(reference, 0, 'min. area', rotation=90, ha='right', va='bottom', fontsize=14)
+                ax.set(ylabel='skill (-)')
+
+
+    ax.set(ylim=(-.02, 1.02),
+           xlim=xlim,
+           xscale=xscale)
+
+    fig.legend(*ax.get_legend_handles_labels(), frameon=False, bbox_to_anchor=[.9, .5, .12, .43]);
+
+    # export
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
