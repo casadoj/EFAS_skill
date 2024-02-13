@@ -592,7 +592,7 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
     optimal_criteria: Dict
         For each approach in skill, it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
     variable: str
-        Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
+        Name of the variable in 'skill' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
     coldim: str
         Name of the dimension that defines each of the plots in the graph
     reference: Union[int, float]
@@ -649,8 +649,8 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
         if shades:
             y1_optimal = skill_optimal[['recall', 'precision']].min(axis=1)
             y2_optimal = skill_optimal[['recall', 'precision']].max(axis=1)
-            ax1.fill_between(skill_optimal.index, y1_optimal, y2_optimal, alpha=alpha, color=colors[1], zorder=1, label=f'P-R (optimal)')
-        ax1.plot(skill_optimal.index, skill_optimal[metric], c=colors[1], lw=lw, label=f'{metric} (optimal)', zorder=7)
+            ax1.fill_between(skill_optimal.index, y1_optimal, y2_optimal, alpha=alpha, color=colors[1], zorder=1, label=f'P-R (fixed)')
+        ax1.plot(skill_optimal.index, skill_optimal[metric], c=colors[1], lw=lw, label=f'{metric} (fixed)', zorder=7)
         persistence = optimal_criteria[key]['persistence']
         
         # skill optimized for each value of the target variable
@@ -664,8 +664,8 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
             if shades:
                 y1_var = skill_var[['recall', 'precision']].min(axis=1)
                 y2_var = skill_var[['recall', 'precision']].max(axis=1)
-                ax1.fill_between(skill_var.index, y1_var, y2_var, alpha=alpha, color=colors[2], zorder=2, label=f'P-R ({variable} optimized)')
-            ax1.plot(skill_var.index, skill_var[metric], c=colors[2], lw=lw, label=f'{metric} ({variable} optimized)', zorder=8)
+                ax1.fill_between(skill_var.index, y1_var, y2_var, alpha=alpha, color=colors[2], zorder=2, label=f'P-R ({variable}-specific)')
+            ax1.plot(skill_var.index, skill_var[metric], c=colors[2], lw=lw, label=f'{metric} ({variable}-specific)', zorder=8)
 
         # reference line
         if reference is not None:
@@ -701,8 +701,8 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
                 xlim=kwargs.get('xlim', (skill[variable].min(), skill[variable].max())),
                 xscale=kwargs.get('xscale', 'linear'),
                 ylim=(-.025, 1.025))
-        if ax1 == axes[0]:
-            ax1.set_ylabel('skill')
+        # if ax1 == axes[0]:
+        #     ax1.set_ylabel('skill')
         if 'xticks' in kwargs:
             step = int(kwargs['xticks'])
             xticks = skill[variable].data[step::step]
@@ -724,19 +724,19 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
             prob = optimal_criteria[key]['probability']
             xmin = skill[variable].data.min()
             xmax = skill[metric].sel({coldim: key, 'persistence': persistence, 'probability': prob}).to_pandas().last_valid_index()
-            ax2.hlines(prob, xmin, xmax, color=colors[1], lw=lw, ls='--', zorder=4, label='prob. (optimal)')
+            ax2.hlines(prob, xmin, xmax, color=colors[1], lw=lw, ls='--', zorder=4, label='prob. (fixed)')
 
         # probability optimized for each value of the target variable
         if optimized_criteria is not None:
             ax2.plot(optimized_criteria[variable].data, probability,
-                     c=colors[2], lw=lw, ls='--', zorder=5, label=f'prob. ({variable} optimized)')
+                     c=colors[2], lw=lw, ls='--', zorder=5, label=f'prob. ({variable}-specific)')
 
         # settings
         ax2.set(ylim=(-.025, 1.025))
-        if ax1 == axes[-1]:
-            ax2.set_ylabel('probability')
-        else:
-            ax2.set_yticklabels([])
+        # if ax1 == axes[-1]:
+        #     ax2.set_ylabel('probability')
+        # else:
+        ax2.set_yticklabels([])
             
     # legend
     handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1282,7 +1282,7 @@ def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
            xlabel='precision',
            ylim=(-.02, 1.02),
            ylabel='recall')
-    ax.text(1.1, .5, 'bias', rotation=90, va='center')
+    ax.text(1.12, .5, 'bias', rotation=90, va='center')
     ax.text(.5, 1.1, 'bias', ha='center')
     
     if 'title' in kwargs:
@@ -1292,8 +1292,7 @@ def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
 
 
 
-def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Union[int, float] = None, metric: str = 'f1', current_criteria: Dict = None,
-                            save: Union[Path, str] = None, **kwargs):
+def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Union[int, float] = None, metric: str = 'f1', current_criteria: Dict = None, plot_prob: bool = False, save: Union[Path, str] = None, **kwargs):
     """It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
     
     Inputs:
@@ -1308,6 +1307,8 @@ def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Uni
         Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
     current_criteria: Dict
         It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
+    plot_prob: bool
+        Whether to add (True) or not (False) a fourth plot with the optimal probability threshold of each model
     save: Union[Path, str]
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
@@ -1319,17 +1320,23 @@ def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Uni
     colors = kwargs.get('colors', ['k', 'steelblue', 'orange'])
     lw = kwargs.get('lw', 1.2)
     alpha = kwargs.get('alpha', .666)
-    figsize = kwargs.get('figsize', (13, 4))
+    figsize = kwargs.get('figsize', (4.5, 4))
     xlabel = kwargs.get('xlabel', None)
     xscale = kwargs.get('xscale', 'linear')
     xlim = kwargs.get('xlim', None)
-
-    fig, axes = plt.subplots(ncols=3, figsize=figsize, sharex=True, sharey=True)
+    
+    ncols = 4 if plot_prob else 3
+    fig, axes = plt.subplots(ncols=ncols, figsize=(figsize[0] * ncols, figsize[1]), sharex=True, sharey=True)
     
     if current_criteria is not None:
         df = skill.sel(current_criteria).to_pandas()
         for ax, met in zip(axes, [metric, 'recall', 'precision']):
             ax.plot(df.index, df[met], 'k', lw=lw, label='current', zorder=0)
+        if plot_prob:
+            axes[-1].axhline(current_criteria['probability'], c='k', lw=lw, label='current', zorder=0)
+            axes[-1].axvline(reference, c='k', ls='--', lw=1)
+            axes[-1].set(xlabel=xlabel,
+                        title='probability threshold')
 
 
     for i, (model, criteria) in enumerate(optimal_criteria.items()):
@@ -1350,14 +1357,18 @@ def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Uni
                        title=met)
             if (i == 0) & (j == 0):
                 ax.text(reference, 0, 'min. area', rotation=90, ha='right', va='bottom', fontsize=14)
-                ax.set(ylabel='skill (-)')
+                if not plot_prob:
+                    ax.set(ylabel='skill (-)')
+        if plot_prob:
+            axes[-1].axhline(criteria['probability'], lw=lw, c=c, alpha=alpha, label=label, zorder=i+1)
 
 
     ax.set(ylim=(-.02, 1.02),
            xlim=xlim,
            xscale=xscale)
 
-    fig.legend(*ax.get_legend_handles_labels(), frameon=False, bbox_to_anchor=[.9, .5, .12, .43]);
+    anchor = [.9, .5, .09, .43] if plot_prob else [.9, .5, .12, .43]
+    fig.legend(*ax.get_legend_handles_labels(), frameon=False, bbox_to_anchor=anchor);
 
     # export
     if save is not None:

@@ -47,7 +47,7 @@ skill:
         persistence: 3/3
     leadtime: 60                                                                   # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
     area: 2000                                                                  # minimum/maximum catchment area (km²) for which the notification criteria will be optimized
-    beta: 1                                                                   # coefficient of the fbeta-score (by default is 1)
+    beta: 1.25                                                                   # coefficient of the fbeta-score (by default is 1)
     optimization:
         kfold: 10                                                               # number of splits in the cross-validation optimization. If None, cross-validation will not be applied
         train_size: 0.707                                                       # proportion of the complete set of reporting points in each cross-validation subset
