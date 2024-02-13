@@ -12,24 +12,36 @@ import cartopy.crs as ccrs
 import cartopy.feature as cf
 from optimize import find_best_criterion
 from pathlib import Path
-from typing import Union, List, Tuple, Dict
+from typing import Union, List, Tuple, Dict, Literal, Optional
   
         
         
-def create_cmap(cmap, bounds, name='', specify_color=None):
-    """Given the name of a colour map and the boundaries, it creates a discrete colour ramp for future plots
+def create_cmap(
+    cmap: Union[str, mpl.colors.Colormap],
+    bounds: List[float],
+    name: str = '', 
+    specify_color: Optional[Tuple[int, Union[str, Tuple[float, float, float, float]]]] = None
+) -> Tuple[mpl.colors.Colormap, mpl.colors.Normalize]:
+    """
+    Given the name of a colour map and the boundaries, it creates a discrete colour ramp for future plots
     
-    Inputs:
-    ------
-    cmap:          string. Matplotlib's name of a colourmap. E.g. 'coolwarm', 'Blues'...
-    bounds:        list. Values that define the limits of the discrete colour ramp
-    name:          string. Optional. Name given to the colour ramp
-    specify_color: tuple (position, color). It defines a specific color for a specific position in the colour scale. Position must be an integer, and color must be either a colour name or a tuple of 4 floats (red, gren, blue, transparency)
+    Parameters:
+    ----------
+    cmap: str or matplotlib.colors.Colormap
+        Matplotlib's name of a colourmap. E.g. 'coolwarm', 'Blues'...
+    bounds: list of floats
+        Values that define the limits of the discrete colour ramp
+    name: str, optional
+        Name given to the colour ramp
+    specify_color: tuple, optional
+        It defines a specific color for a specific position in the colour scale. Position must be an integer, and color must be either a colour name or a tuple of 4 floats (red, gren, blue, transparency)
     
-    Outputs:
+    Returns:
     --------
-    cmap:   List of colours
-    norm:   List of boundaries
+    cmap : matplotlib.colors.Colormap
+        A discrete color map object.
+    norm : matplotlib.colors.Normalize
+        A normalization object.
     """
     
     cmap = plt.get_cmap(cmap)
@@ -43,10 +55,48 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 
 
 
+def combine_cmaps(
+    cmap1: Union[str, mpl.colors.Colormap],
+    cmap2: Union[str, mpl.colors.Colormap],
+    lower1: float = .2,
+    lower2: float = .05,
+    name: Optional[str] = None
+) -> mpl.colors.Colormap:
+    """
+    Given 2 colour maps, it creates a new colour map by combining them. Its used to create diverging colour maps from to monocolour maps.
+    
+    Parameters:
+    ----------
+    cmap1: str or matplotlib.colors.Colormap
+        Matplotlib's name of a colourmap. E.g. 'Blues'...
+    cmap2: str or matplotlib.colors.Colormap
+        Matplotlib's name of a colourmap. E.g. 'Oranges'...
+    lower1: float
+        The minimum value of "cmap1" to be used. In the case of "cmap2", it defines the maximum value as (1 - lower1)
+    lower2: float
+        The minimum value of "cmap2" to be used. In the case of "cmap1", it defines the maximum value as (1 - lower2)
+    name: str, optional
+        Name given to the colour ramp
+    
+    Returns:
+    --------
+    matplotlib.colors.ListedColormap
+        A new colour map combining the two input colour maps
+    """
+    
+    top = cm.get_cmap(cmap1, 128)
+    bottom = cm.get_cmap(cmap2, 128)
+    newcolors = np.vstack((top(np.linspace(lower, 1 - upper, 128)),
+                           bottom(np.linspace(upper, 1 - lower, 128))))
+    
+    return ListedColormap(newcolors, name=name)
+    
+    
+    
 # def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
 #     """It plots a map of Europe with the reporting points and their number of flood events
     
-#     Inputs:
+#     Parameters:
 #     -------
 #     x:        pandas.Series (stations,). Coordinate X of the stations
 #     y:        pandas.Series (stations,). Coordinate Y of the stations
@@ -56,7 +106,7 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 #     ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
 #     save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
     
-#     Ouput:
+#     Returns:
 #     ------
 #     The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
 #     """
@@ -110,7 +160,7 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 # def map_stations(x, y, z, mask=None, rivers=None, ax=None, save=None, **kwargs):
 #     """It plots a map of Europe with the reporting points and their number of flood events
     
-#     Inputs:
+#     Parameters:
 #     -------
 #     x:        pandas.Series (stations,). Coordinate X of the stations
 #     y:        pandas.Series (stations,). Coordinate Y of the stations
@@ -120,7 +170,7 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
 #     ax:       matplotlib.axis. Axis in which the plot will be embedded. If None, a new figure will be created
 #     save:     string. A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
     
-#     Ouput:
+#     Returns:
 #     ------
 #     The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
 #     """
@@ -173,54 +223,66 @@ def create_cmap(cmap, bounds, name='', specify_color=None):
         
         
     
-def map_stations(x: pd.Series, y: pd.Series, z: pd.Series, theta: pd.Series = None, mask: pd.Series = None, rivers: gpd.GeoDataFrame = None, ax=None, save: Union[str, Path] = None, **kwargs):
-    """It plots a map of Europe with the reporting points and their number of flood events
+def map_stations(
+    x: pd.Series, 
+    y: pd.Series, 
+    z: pd.Series, 
+    theta: Optional[pd.Series] = None,
+    mask: Optional[pd.Series] = None,
+    rivers: Optional[gpd.GeoDataFrame] = None,
+    ax: Optional[matplotlib.axes.Axes] = None,
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    It plots a map of Europe with the reporting points and their number of flood events
     
-    Inputs:
-    -------
-    x:        pandas.Series (stations,)
+    Parameters:
+    -----------
+    x: pandas.Series
         Coordinate X of the stations
-    y:        pandas.Series (stations,)
+    y: pandas.Series
         Coordinate Y of the stations
-    z:        pandas.Series (stations,)
+    z: pandas.Series
         Values of the variable to be plotted
-    theta:    pandas.Series (stations,)
+    theta: pandas.Series, optional
         If provided, the marker of the scatter plot will be arrows. Theta represents the angle (in radians) of the arrow
-    mask:     pandas.Series (stations,)
+    mask: pandas.Series, optional
         A boolean series of stations to be plotted differently, i.e., not included in the colour scale based on 'z'
-    rivers:   geopandas
+    rivers: geopandas.GeoDataFrame, optional
         Shapefile of rivers
-    ax:       matplotlib.axis
+    ax: matplotlib.axes.Axes, optional
         Axis in which the plot will be embedded. If None, a new figure will be created
-    save:     string
+    save: string, optional
         A string with the file name (including extension) where the plot will be saved. If None, the plot is not saved
     
-    Kwargs:
-    -------
-    alpha: float
+    Other parameters:
+    -----------------
+    alpha: float, optional
         Transparency of the points
-    extent: List
+    extent: List[float], optional
         Extension of the map [xmin, xmax, ymin, ymax]
-    cmap:
+    cmap: matplotlib.colors.Colormap, optional
         Colour map
-    figsize: Tuple
+    figsize: Tuple[float, float], optional
         size of the figure
-    headaxislength: float
+    headaxislength: float, optional
         If arrows are plotted, the length of the arrow head axis
-    headwidth: float
+    headwidth: float, optional
         If arrows are pltoted, the width of the arrow head
-    norm:
+    norm: matplotlib.colors.Normalize, optional
         Normalization of the colour map
-    scale: int
+    scale: int, optional
         Size of the arrows (in case 'theta' is not None)
-    size: float
+    size: float, optional
         Size of the points
-    width: float
+    width: float, optional
         If arrows are plotted, the widht of the arrow line
     
-    Ouput:
+    Returns:
     ------
-    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+    None
+        The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
     """
     
     alpha = kwargs.get('alpha', 1)
@@ -297,15 +359,29 @@ def map_stations(x: pd.Series, y: pd.Series, z: pd.Series, theta: pd.Series = No
         
         
         
-def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=None, **kwargs):
-    """It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
+def map_hits(
+    stations: pd.DataFrame, 
+    cols: List = ['TP', 'FN', 'FP'], 
+    mask: Optional[pd.Series] = None, 
+    rivers: Optional[pgd.GeoDataFrame] = None, 
+    save: Optional[Union[str, Path]] = None, 
+    **kwargs
+) -> None:
+    """
+    It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
     
-    Inputs:
-    -------
-    stations:   pd.DataFrame (n_station, m). It must contain at least the columns X and Y (to be able to plot the map) and the columns specified in 'cols'
-    cols:       list. List of columns to be plotted. For each column a map and a histogram will be drawn
-    mask:       pd.Series (n_stations,). A boolean series with the selection of stations to skip. This is meant to skip stations without observed flood events in the plots of true positives (TP) and false negatives (FN)
-    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+    Parameters:
+    -----------
+    stations: pd.DataFrame
+        It must contain at least the columns X and Y (to be able to plot the map) and the columns specified in 'cols'
+    cols: list
+        List of columns to be plotted. For each column a map and a histogram will be drawn
+    mask: pd.Series, optional
+        A boolean series with the selection of stations to skip. This is meant to skip stations without observed flood events in the plots of true positives (TP) and false negatives (FN)
+    rivers: geopandas.GeoDataFrame, optional
+        Shapefile of rivers
+    save: string
+        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
     
     cols_map = {'TP': 'hits', 'FN': 'misses', 'FP': 'false alarms', 'n_events_obs': 'eventos'}
@@ -384,17 +460,35 @@ def map_hits(stations, cols=['TP', 'FN', 'FP'], mask=None, rivers=None, save=Non
 
         
         
-def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolwarm', norm=None, rivers=None, save=None, **kwargs):
-    """It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
+def map_skill(
+    stations: pd.DataFrame, 
+    cols: List = ['recall', 'precision', 'f1'], 
+    bins: int = 50, 
+    cmap: Union[str, mpl.colors.Colormap] = 'coolwarm', 
+    norm: Optional[mpl.colors.Normalize] = None, 
+    rivers: Optional[gpd.GeoDataFrame] = None, 
+    save: Optional[Union[str, Path]] = None, 
+    **kwargs
+) -> None:
+    """
+    It creates a graph that plots both a map and a histogram for each of the variables in 'cols'. These plots show the performance of reporting points individually.
     
-    Inputs:
+    Parameters:
     -------
-    stations:   pd.DataFrame (n_station, m). It must contain at least the columns X and Y (to be able to plot the map) and the columns specified in 'cols'
-    cols:       list. List of columns to be plotted. For each column a map and a histogram will be drawn
-    bins:       int. Number of bins in which the histograms will be divided
-    cmap:       string. Matplotlib colormap to be used in the plots
-    norm:       matplotlib.colors.BoundaryNorm. Used to create a discrete colour scale out of 'cmap'
-    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+    stations: pd.DataFrame
+        It must contain at least the columns X and Y (to be able to plot the map) and the columns specified in 'cols'
+    cols: list of str
+        List of columns to be plotted. For each column a map and a histogram will be drawn
+    bins: int
+        Number of bins in which the histograms will be divided
+    cmap: str or matplotlib.colors.Colormap
+        Matplotlib colormap to be used in the plots
+    norm: matplotlib.colors.Normalize
+        Used to create a discrete colour scale out of 'cmap'
+    rivers: geopandas.GeoDataFrame, optional
+        Shapefile of rivers
+    save: str of Path
+        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
     """
 
     # set up the plots
@@ -460,36 +554,48 @@ def map_skill(stations, cols=['recall', 'precision', 'f1'], bins=50, cmap='coolw
         
         
         
-def map_events(x: pd.Series, y: pd.Series, events: pd.Series, rivers: gpd.GeoDataFrame = None, save: Union[str, Path] = None, **kwargs):
-    """It plots a map and a histogram of the number of events.
+def map_events(
+    x: pd.Series, 
+    y: pd.Series, 
+    events: pd.Series, 
+    rivers: gpd.GeoDataFrame = None, 
+    save: Union[str, Path] = None,
+    **kwargs
+) -> None:
+    """
+    It plots a map and a histogram of the number of events.
     
-    Inputs:
+    Parameters:
     -------
-    x: pandas.Series (stations,)
+    x: pandas.Series
         Coordinate X of the stations
     y: pandas.Series (stations,)
         Coordinate Y of the stations
-    z: pandas.Series (stations,)
+    events: pandas.Series
         Number of flood events identified in each station
-    rivers:   geopandas
+    rivers: geopandas.GeoDataFrame
         Shapefile of rivers
-    save:       string
+    save: str or Path
         Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
         
     Kwargs:
     -------
-    alpha: float
+    alpha: float, optional
         Transparency of the points
-    extent: List
+    extent: list, optional
         Extension of the map [xmin, xmax, ymin, ymax]
-    cmap:
+    cmap: str or matplotlib.colors.Colormap, optional
         Colour map
-    figsize: Tuple
+    figsize: tuple, optional
         size of the figure
-    norm:
+    norm: matplotlib.colors.Normalize, optional
         Normalization of the colour map
-    size: float
+    size: float, optional
         Size of the points
+        
+    Returns:
+    --------
+    None
     """
     
     # extract kwargs
@@ -546,7 +652,11 @@ def map_events(x: pd.Series, y: pd.Series, events: pd.Series, rivers: gpd.GeoDat
         
         
         
-def gauge_legend(theta_min: float = 20, ax=None, **kwargs):
+def gauge_legend(
+    theta_min: float = 20,
+    ax: Optional[mpl.axes.Axes] =None,
+    **kwargs
+):
     """It creates a legend that is a gauge charg.
     
     Input:
