@@ -10,22 +10,32 @@ import seaborn as sns
 from optimize import find_best_criterion
 from compute import exceedance2events, buffer_events
 from plot.maps import create_cmap
-from typing import Union, List, Tuple, Dict
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Union, Dict, Tuple, List
+from typing import Union, Dict, Tuple, List, Optional, Literal
 
 
 
-def plot_correlation_matrix(corr, rho=.9, save=None, **kwargs):
-    """It creates a heat map that shows the correlation matrix and highlights the cases in which the correlation coefficient exceeds a certain value
-    
-    Inputs:
-    -------
-    corr:  pd.DataFrame (n, n). Correlation matrix
-    rho:   float. The maximum value allowed for the correlation coefficient between two reporting points
-    save:       string. Directory where to save the plot as a JPG file. If None (default), the plot won't be saved 
+def plot_correlation_matrix(
+    corr: pd.DataFrame,
+    rho: float = .9,
+    save: Union[str, Path] = None,
+    **kwargs
+) -> None:
     """
+    It creates a heat map that shows the correlation matrix and highlights the cases in which the correlation coefficient exceeds a certain value
+    
+    Parameters:
+    -------
+    corr: pd.DataFrame
+        Correlation matrix
+    rho: float
+        The maximum value allowed for the correlation coefficient between two reporting points
+    save: str or Path
+        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved 
+    """
+    
+    assert 0 < rho < 1, 'ERROR. "rho" must be a float between 0 and 1'
     
     if ('cmap' not in kwargs) or ('norm' not in kwargs):
         cmap, norm = create_cmap('Blues', np.arange(0, 1.01, .05), 'correlation coefficient')
@@ -48,15 +58,30 @@ def plot_correlation_matrix(corr, rho=.9, save=None, **kwargs):
         
            
         
-def graphic_explanation(obs, pred, id, model, window, probability, forecast=False, verbose=True, **kwargs):
-    """It creates a graph with six plots that explain how hits, misses and false alarms are computed.
+def graphic_explanation(
+    obs: xr.DataArray, 
+    pred: xr.DataArray, 
+    id: int, 
+    model: Literal['current', 'model_mean', 'weighted_mean'], 
+    window: int, 
+    probability: float, 
+    forecast=False, 
+    verbose=True, 
+    **kwargs
+) -> None:
+    """
+    It creates a graph with six plots that explain how hits, misses and false alarms are computed.
     
-    Inputs:
+    Parameters:
     -------
-    obs:         xarray.DataArray (id, forecast, leadtime). Boolean matrix of observed events
-    pred:        xarray.DataArray (id, model, forecast, leadtime, probability). Boolean matrix of predicted events
-    id:          int. Station ID
-    model:       string. Criteria: 'current', 'model_mean', 'weighted_mean'
+    obs:         xarray.DataArray
+        Boolean matrix of observed events
+    pred:        xarray.DataArray
+        Boolean matrix of predicted events
+    id:          int
+        Station ID
+    model:       string
+        Criteria: 'current', 'model_mean', 'weighted_mean'
     window:      int. Moving window centered on the observed event to take into account predictions in the vicinity of the actual event
     probability: float. Threshold of total probability (0-1)
     forecast:    tuple (star, end). Datetimes with the start and end timesteps to be plotted
@@ -115,13 +140,22 @@ def graphic_explanation(obs, pred, id, model, window, probability, forecast=Fals
         
         
         
-def plot_DataArray(da: xr.DataArray, ax=None, **kwargs):
-    """It creates a heatmap plot of a 2D DataArray
+def plot_DataArray(
+    da: xr.DataArray, 
+    ax: Optional[mpl.axes.Axes] = None, 
+    **kwargs
+) -> None:
+    """
+    It creates a heatmap plot of a 2D DataArray
     
     Input:
     ------
-    da:   xr.DataArray (n,m)
-    ax:   matplotlib.axes
+    da:   xr.DataArray
+    ax:   matplotlib.axes.Axes, optional
+    
+    Returns:
+    --------
+    None
     """
     
     # extract kwargs
@@ -190,20 +224,38 @@ def plot_DataArray(da: xr.DataArray, ax=None, **kwargs):
         
         
         
-def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, linedim='approach', beta=1, yscale='linear', xtick_step=4, save=None, **kwargs):
-    """It creates several lineplots of hits (TP), misses (FN) and false alarms (FP).
+def lineplot_hits(
+    ds: xr.Dataset,
+    xdim: str = 'probability', 
+    coldim: str = 'persistence', 
+    rowdim: Optional[str] = None, 
+    linedim: str = 'approach',
+    beta: float = 1, 
+    yscale: Literal['linear', 'log', 'semilog'] = 'linear', 
+    xtick_step: int = 4,
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    It creates several lineplots of hits (TP), misses (FN) and false alarms (FP).
     
     Depending on the dimensions of the analysis, a plot will be created for each combination of 'rowdim' and 'coldim'.
     
-    Inputs:
-    -------
-    ds:       xr.Dataset. It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms). Its dimensions must be those defined in `xdim`, `coldim`, `rowdim` and `linedim
-    xdim:       string. Dimension in `ds` that will be represented in the X axis of the plots
-    coldim:     string. Dimension in `ds` that will be used to create several columns of plots
-    rowdim:     string. Dimension in `ds` that will be used to create several rows of plots. If None, there will be only one single line of plots
+    Parameters:
+    -----------
+    ds: xr.Dataset
+        It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms). Its dimensions must be those defined in `xdim`, `coldim`, `rowdim` and `linedim
+    xdim: str
+        Dimension in `ds` that will be represented in the X axis of the plots
+    coldim: str
+        Dimension in `ds` that will be used to create several columns of plots
+    rowdim: str, optional
+        Dimension in `ds` that will be used to create several rows of plots. If None, there will be only one single line of plots
     yscale:     string. Type of scaling used in the Y axis, e.g., 'linear' or 'log'
-    xtick_step: int. Frequency of the labels in the X axis
-    save:       str. Directory where a JPG file of the plot will be saved
+    xtick_step: int
+        Frequency of the labels in the X axis
+    save: str or Path
+        Directory where a JPG file of the plot will be saved
     """
     
     xmin, xmax = ds[xdim].min(), ds[xdim].max()
@@ -305,21 +357,39 @@ def lineplot_hits(ds, xdim='probability', coldim='persistence', rowdim=None, lin
         
         
 
-def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', coldim=None, linedim='approach', save=None, **kwargs):
-    """It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created. If 'coldim' is None,  the columns represent the metrics (variables of the Dataset 'ds'). If 'coldim' is not None, columns represent the dimension specified and the different metrics (variables in the Dataset 'ds') are represented by line colours.
+def lineplot_skill(
+    ds: xr.Dataset,
+    metric: str = 'f1',
+    xdim: str = 'probability',
+    rowdim: str = 'persistence',
+    coldim: Optional[str] = None,
+    linedim: str = 'approach',
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    It creates a lineplot with the results of the eventwise skill analysis. A series of plots will be created. If 'coldim' is None,  the columns represent the metrics (variables of the Dataset 'ds'). If 'coldim' is not None, columns represent the dimension specified and the different metrics (variables in the Dataset 'ds') are represented by line colours.
     
-    Inputs:
+    Parameters:
     -------
-    ds:       xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute "metric"), 'recall' and 'precision'.
-    metric:   string. Name of the skill metric for which the criteria will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
-    xdim:     string. It defines the dimension in 'ds' that will correspond to the X axis in the plots
-    rowdim:   string. It defines the dimension in 'ds' that will correspond to the rows in which the graph will be divided
-    coldim:   string. It defines the dimension in 'ds' that will correspond to the cols in which the graph will be divided. If None (default), each column will represent a different skill metric (variables in 'ds')
-    linedim:  string. It defines the dimension in 'ds' that will correspond to the different lines in the plots
-    save:     string. Directory and filename (including extension) where the graph will be saved
+    ds: xr.Dataset
+        It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute "metric"), 'recall' and 'precision'.
+    metric: str
+        Name of the skill metric for which the criteria will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    xdim: str
+        It defines the dimension in 'ds' that will correspond to the X axis in the plots
+    rowdim: str
+        It defines the dimension in 'ds' that will correspond to the rows in which the graph will be divided
+    coldim: str, optional
+        It defines the dimension in 'ds' that will correspond to the cols in which the graph will be divided. If None (default), each column will represent a different skill metric (variables in 'ds')
+    linedim: str
+        It defines the dimension in 'ds' that will correspond to the different lines in the plots
+    save: str or Path
+        Directory and filename (including extension) where the graph will be saved
     
     Output:
     -------
+    None
     """
 
     # extract kwargs
@@ -425,12 +495,22 @@ def lineplot_skill(ds, metric='f1', xdim='probability', rowdim='persistence', co
         
         
         
-def plot_hits_by_variable(hits: xr.Dataset, optimal_criteria: Dict, variable: str, coldim: str = 'approach', reference: Union[int, float] = None, current_criteria: Dict = None, optimized_criteria: xr.DataArray = None, save: Union[Path, str] = None, **kwargs):
+def plot_hits_by_variable(
+    hits: xr.Dataset, 
+    optimal_criteria: Dict, 
+    variable: str, 
+    coldim: str = 'approach', 
+    reference: Optional[Union[int, float]] = None, 
+    current_criteria: Optional[Dict] = None, 
+    optimized_criteria: Optional[xr.DataArray] = None, 
+    save: Optional[Union[Path, str]] = None, 
+    **kwargs
+) -> None:
     """It generates a graph with as many lineplots as approaches in the 'hits' dataset. The lineplots reprensent both the evolution of true positives (hits) and false positives (false alarms) and probability with regard to a specified variable
     
-    Inputs:
-    -------
-    hits: xr.Dataset (area, persistence, approach, probability)
+    Parameters:
+    -----------
+    hits: xr.Dataset
         It contains as variables TP (true positives), FN (false negatives) and FP (false positives)
     optimal_criteria: Dict
         For each approach in 'hits', it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
@@ -438,18 +518,19 @@ def plot_hits_by_variable(hits: xr.Dataset, optimal_criteria: Dict, variable: st
         Name of the variable in 'hits' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
     coldim: str
         Name of the dimension that defines each of the plots in the graph
-    reference: Union[str, float]
+    reference: int or float, optional
         Fixed value of the 'variable' for which 'optimal_criteria' was fitted
-    current_criteria: Dict
+    current_criteria: Dict, optional
         It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
     optimized_criteria: xr.DataArray (variable, approach, persistence)
         It contains the optimized probability threshold for each combination of the 'variable', approach and persistence
-    save: Union[Path, str]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
-    Ouput:
-    ------
-    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    Returns:
+    --------
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
     
     colors = kwargs.get('colors', ['k', 'steelblue', 'orange'])
@@ -581,13 +662,25 @@ def plot_hits_by_variable(hits: xr.Dataset, optimal_criteria: Dict, variable: st
         
         
         
-def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: str, coldim: str = 'approach', reference: Union[int, float] = None, metric: str = 'f1', current_criteria: Dict = None, optimized_criteria: xr.Dataset = None,
-                           shades: bool = True, save: Union[Path, str] = None, **kwargs):
-    """It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
+def plot_skill_by_variable(
+    skill: xr.Dataset, 
+    optimal_criteria: Dict, 
+    variable: str, 
+    coldim: str = 'approach', 
+    reference: Optional[Union[int, float]] = None, 
+    metric: str = 'f1', 
+    current_criteria: Optional[Dict] = None, 
+    optimized_criteria: Optional[xr.Dataset] = None,
+    shades: bool = True,
+    save: Optional[Union[Path, str]] = None,
+    **kwargs
+) -> None:
+    """
+    It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
     
-    Inputs:
-    -------
-    skill: xr.Dataset (area, persistence, approach, probability)
+    Parameters:
+    -----------
+    skill: xr.Dataset
         It contains as variables recall, precision and the specified metric
     optimal_criteria: Dict
         For each approach in skill, it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
@@ -595,22 +688,23 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
         Name of the variable in 'skill' that will be displayed in the X axis. for which 'optimized_criteria' was fitted
     coldim: str
         Name of the dimension that defines each of the plots in the graph
-    reference: Union[int, float]
+    reference: int or float, optional
         Fixed value of the 'variable' for which 'optimal_criteria' was fitted
     metric: str
         Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
-    current_criteria: Dict
+    current_criteria: dict, optional
         It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
-    optimized_criteria: xr.Dataset (variable, approach, persistence)
+    optimized_criteria: xr.Dataset, optional
         It contains as variables probability, recall, precision and the specified metric  
     shades: bool
         If True, a shaded shape shows the difference bewteen recall and precision
-    save: Union[Path, str]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
-    Ouput:
-    ------
-    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    Returns:
+    --------
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
 
     colors = kwargs.get('color', ['k', 'steelblue', 'orange'])
@@ -752,21 +846,32 @@ def plot_skill_by_variable(skill: xr.Dataset, optimal_criteria: Dict, variable: 
         
         
         
-def plot_skill_training(train: xr.Dataset, test: xr.Dataset, complete: xr.Dataset = None, xdim: str = 'approach', save: Union[str, Path] = None, **kwargs):
+def plot_skill_training(
+    train: xr.Dataset, 
+    test: xr.Dataset, 
+    complete: Optional[xr.Dataset] = None, 
+    xdim: str = 'approach', 
+    save: Optional[Union[str, Path]] = None, 
+    **kwargs)
+-> None:
     """Scatter (and box) plot of the performance achieved for every approach in the train, test and complete data sets.
     
-    Inputs:
-    -------
-    train: xr.Dataset (xdim, (kfold))
+    Parameters:
+    -----------
+    train: xr.Dataset
         The skill in the training set.The 'kfold' dimension is not mandatory, it would contain the skill in any of the folds of the cross-validation
-    test: xr.Dataset (xdim,)
+    test: xr.Dataset
         The skill in the test set
-    complete: xr.Dataset (xdim,)
+    complete: xr.Dataset, optional
         The skill in the complete set (training + test)
-    xdim: string
+    xdim: str
         Name of the dimension in 'train', 'test' and 'complete' to plot on the X axis
-    save: Union[str, Path]
+    save: str or pathlib.Path, optional
         Directory and filename (including extension) where the graph will be saved
+        
+    Returns:
+    --------
+    None
     """
     
     # kwargs
@@ -818,7 +923,7 @@ def plot_prediction(da, obs, probability, persistence=(1, 1), min_leadtime='all'
     
     5. The fifth plot shows a binary heat map of exceedances over the discharge threshold in the observed data.
     
-    Inputs:
+    Parameters:
     -------
     da:           xr.DataArray (leadtime, datetime). A matrix of total probability of exceeding the discharge threshold
     obs:          xr.DataArray (datetime,). Binary matrix of exceedances over the discharge threshold in the observed data
@@ -866,50 +971,62 @@ def plot_prediction(da, obs, probability, persistence=(1, 1), min_leadtime='all'
         
         
         
-def plot_skill_by_probability(skill: xr.Dataset, probability: Union[List, np.array], persistence: str = '1/1', coldim: str = 'approach', ref_p: Union[int, float] = None, metric: str = 'f1', benchmark: xr.Dataset = None, save: Union[Path, str] = None, **kwargs):
-    """It generates a graph with as many line plots as approaches in the 'skill' dataset. The line plots reprensent the evolution of skill depending on the probability threshold
+def plot_skill_by_probability(
+    skill: xr.Dataset, 
+    probability: Union[List, np.array], 
+    persistence: str = '1/1', 
+    coldim: str = 'approach', 
+    ref_prob: Optional[Union[int, float]] = None, 
+    metric: str = 'f1', 
+    benchmark: xr.Dataset = None, 
+    save: Union[Path, str] = None, 
+    **kwargs
+) -> None:
+    """
+    It generates a graph with as many line plots as approaches in the 'skill' dataset. The line plots reprensent the evolution of skill depending on the probability threshold
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     skill: xr.Dataset
         It contains as variables recall, precision and the specified metric
-    probability: Union[List, np.array]
+    probability: list or np.array
         List of probability thresholds to be plotted
     persistence: str
         Fixed value of persistence
     coldim: str
         Name of the dimension that defines each of the plots in the graph
-    ref_p: Union[int, float]
+    ref_prob: int or float, optional
         Value of probability used as reference
-    metric: string
+    metric: str
         Name of the target metric. This metric should be a variable in both datasets 'skill' and 'benchmark'
-    benchmark: xr.Dataset
+    benchmark: xr.Dataset, optional
         Skill of the a benchmark set of criteria
-    save: Union[Path, str]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
-    Kwargs:
-    -------
+    Other parameters:
+    -----------------
     alpha: float
         Transparency of the lines
-    cmap: str
+    cmap: Union[str, mpl.colors.Colormap]
         Colour map used to plot the different lines in 'linedim'
     label: str
         Name given to the benchmark in the legend
-    loc_leged: List[float]
-        Location of the legend [xmin, ymin, width, height]
+    loc_leged: Tuple[float, float, float, float]
+        Location of the legend (xmin, ymin, width, height)
     lw: float
         Width of the lines
     offset: int
         Number of hours used to convert the initial lead time values into days
-    xlim: Tuple
+    xlim: Tuple[float, float]
         Limits of the X axis
-    ylim: Tuple
+    ylim: Tuple[float, float]
         Limites of the Y axis
     
     Ouput:
     ------
-    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
     
     # extract kwargs
@@ -938,7 +1055,7 @@ def plot_skill_by_probability(skill: xr.Dataset, probability: Union[List, np.arr
             criteria = {coldim: key, 'probability': p, 'persistence': persistence}
             df = skill.sel(criteria).to_pandas()
             df.index = (df.index + offset) / 24
-            if p == ref_p:
+            if p == ref_prob:
                 ax.plot(df.index, df[metric], c='k', ls='--', lw=lw, alpha=1, label=f'P ≥ {p:.2f}', zorder=24)
             else:
                 ax.plot(df.index, df[metric], c=c, lw=lw, alpha=alpha, label=f'P ≥ {p:.2f}')
@@ -963,11 +1080,21 @@ def plot_skill_by_probability(skill: xr.Dataset, probability: Union[List, np.arr
         plt.savefig(save, dpi=300, bbox_inches='tight');
         
         
-def plot_skill_by_persistence(skill: xr.Dataset, xdim: str = 'probability', coldim: str = 'approach', linedim: str = 'persistence', metric: str = 'f1', benchmark: xr.Dataset = None, save: Union[Path, str] = None, **kwargs):
-    """It generates a graph with as many line plots as approaches in the 'skill' dataset. The line plots reprensent the evolution of skill depending on persistence
+def plot_skill_by_persistence(
+    skill: xr.Dataset, 
+    xdim: str = 'probability', 
+    coldim: str = 'approach', 
+    linedim: str = 'persistence', 
+    metric: str = 'f1', 
+    benchmark: Optional[xr.Dataset] = None,
+    save: Optional[Union[Path, str]] = None, 
+    **kwargs
+) -> None:
+    """
+    It generates a graph with as many line plots as approaches in the 'skill' dataset. The line plots reprensent the evolution of skill depending on persistence
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     skill: xr.Dataset
         Skill of the several combinations of criteria tested. It contains as variables recall, precision and the metric specified in 'metric'
     xdim: str
@@ -976,33 +1103,34 @@ def plot_skill_by_persistence(skill: xr.Dataset, xdim: str = 'probability', cold
         Name of the dimension in 'skill' that defines the columns in the fiture
     linedime: str
         Name of the dimension in 'skill' that defines the lines in each of the plots
-    metric: string
+    metric: str
         Name of the target metric. This metric should be a variable in both datasets 'skill' and 'benchmark'
-    benchmark: xr.Dataset
+    benchmark: xr.Dataset, optional
         Skill of the a benchmark set of criteria
-    save: Union[Path, str]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
-    Kwargs:
-    -------
+    Other parameters:
+    -----------------
     alpha: float
         Transparency of the lines
-    cmap: str
+    cmap: Union[str, mpl.colors.Colormap]
         Colour map used to plot the different lines in 'linedim'
-    loc_leged: List[float]
-        Location of the legend [xmin, ymin, width, height]
     label: str
         Name given to the benchmark in the legend
+    loc_leged: Tuple[float, float, float, float]
+        Location of the legend (xmin, ymin, width, height)
     lw: float
         Width of the lines
     marker: str
         Symbol to use to plot the benchmark
     size: float
         Size of the marker that represents the benchmark
-    
-    Ouput:
-    ------
-    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+   
+    Returns:
+    --------
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
     
     # extract kwargs
@@ -1050,27 +1178,38 @@ def plot_skill_by_persistence(skill: xr.Dataset, xdim: str = 'probability', cold
         
         
         
-def plot_weights(Weights: xr.Dataset, save: Union[str, Path] = None, **kwargs):
-    """It creates a stacked bar plot to represent the distribution of weights among NWP models for each lead time. A plot is created for each variable in 'Weights'
+def plot_weights(
+    Weights: xr.Dataset, 
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    It creates a stacked bar plot to represent the distribution of weights among NWP models for each lead time. A plot is created for each variable in 'Weights'
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     Weights: xr.Dataset
         It contains the DataArray of weights for each approach. It contains as many variables as approaches; every variable contains a matrix of 2 dimensions: leadtime and model.
-    save: Union[str, Path]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
         
-    Kwargs:
-    -------
+    Other parameters:
+    -----------------
     alpha: float
         Transparency of the bar plots
+    cmap: Union[str, mpl.colors.Colormap]
+        Colour map used to plot the different lines in 'linedim'
     lw: float
         Width of the lines representing specific lead times
     ls: str
         Style of the lines representing specific lead times
-    cmap: str
-        Colour map used to represent the different models
     offset: int
+        Number of hours used to convert the initial lead time values into days
+        
+    Returns:
+    --------
+    None
+        The plot shows the cumulative weights assigned to each model in every combination
     """
     
     # extract kwargs
@@ -1128,15 +1267,36 @@ def plot_weights(Weights: xr.Dataset, save: Union[str, Path] = None, **kwargs):
         
         
         
-def plot_brier_skill(BSS: xr.DataArray, save: Union[str, Path] = None, **kwargs):
-    """A line plot of the evolution of the Brier skill score with lead time.
+def plot_brier_skill(
+    BSS: xr.DataArray, 
+    save: Optional[Union[str, Path]] = None, 
+    **kwargs
+) -> None:
+    """
+    A line plot of the evolution of the Brier skill score with lead time.
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     BSS:    xr.DataArray (leadtime, model)
         Brier skill score
     save:   Union[str, Path]
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
+        
+    Other parameters:
+    -----------------
+    cmap: Union[str, mpl.colors.Colormap], optional
+        Colour map used to plot the different lines in 'linedim'
+    lw: float, optional
+        Width of the lines
+    offset: int, optional
+        Number of hours used to convert the initial lead time values into days
+    r: float, optional
+        Rounding value
+    
+    Returns:
+    --------
+    None
+        A line plot of the evolution of probabilistic skill (Brier skill score) with lead time, where every line represents a different model
     """
     
     r = kwargs.get('round', .2)
@@ -1178,14 +1338,16 @@ def plot_brier_skill(BSS: xr.DataArray, save: Union[str, Path] = None, **kwargs)
         
         
 def PR_CSI(CSI: float) -> tuple[np.ndarray, np.ndarray]:
-    """Given a value of CSI (critical success index), it returns all possible pairs of values of precision and recall that correspond to that CSI
+    """
+    Given a value of CSI (critical success index), it returns all possible pairs of values of precision and recall that correspond to that CSI
     
-    Input:
-    ------
+    Parameters:
+    -----------
     CSI: float
         Value of the critical success index
-    Output:
-    -------
+        
+    Returns:
+    --------
     precision: np.ndarray
         Array of precision values
     recall: np.ndarray
@@ -1204,16 +1366,18 @@ def PR_CSI(CSI: float) -> tuple[np.ndarray, np.ndarray]:
 
 
 def PR_fscore(fscore: float, beta: float = 1) -> tuple[np.ndarray, np.ndarray]:
-    """Given a value of the f-score, it returns all possible pairs of values of precision and recall that correspond to that f-score
+    """
+    Given a value of the f-score, it returns all possible pairs of values of precision and recall that correspond to that f-score
     
-    Input:
-    ------
+    Parameters:
+    -----------
     fscore: float
         Value of the fscore
     beta: float
         Coefficient that gives more weight to precision (beta < 0) or recall (beta > 0) in the computation of the f-score
-    Output:
-    -------
+    
+    Returns:
+    --------
     P: np.ndarray
         Array of precision values
     R: np.ndarray
@@ -1232,17 +1396,39 @@ def PR_fscore(fscore: float, beta: float = 1) -> tuple[np.ndarray, np.ndarray]:
 
 
 
-def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
-    """It creates the figure of the Roebber diagram. This diagram shows in a single plot the precision and recall values (X and Y axis), the bias and the specified metric (background lines).
+def roebber_diagram(
+    metric: Literal['CSI', 'fscore'] = 'fscore',
+    beta: float = 1,
+    ax: Optional[mpl.axes.Axes] = None,
+    **kwargs
+) -> Tuple[plt.Figure, mpl.axes.Axes]:
+    """
+    It creates the figure of the Roebber diagram. This diagram shows in a single plot the precision and recall values (X and Y axis), the bias and the specified metric (background lines).
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     metric: str
         Metric that will be shown in the background of the diagram. Either "CSI" (critical success index) or "fscore"
     beta: float
         If the metric is the f-score, coefficient that weights precision in the computation of the f-score
-    ax:
+    ax: matplotlib.axes.Axes, optional
         Matplotlib axes where the diagram will be added. If not provided (default), a figure will be created
+        
+    Other parameters:
+    -----------------
+    figsize: Tuple[float, float], optional
+        Size of every individual plot in the figure
+    lw: float, optional
+        Width of the lines
+    lim: Tuple[float, float], optional
+        Limits of the X and Y axis
+    dashes: Tuple[int, int], optional
+        Lenght of the lines and spaces in the dashed line that represents bias
+    
+    Returns:
+    --------
+    fig: plt.Figure
+    ax: mpl.axes.Axes
     """
     
     assert beta > 0, '"beta" must be a positive value.'
@@ -1292,38 +1478,66 @@ def roebber_diagram(metric: str = 'CSI', beta: float = 1, ax=None, **kwargs):
 
 
 
-def plot_skill_by_area(skill: xr.Dataset, optimal_criteria: Dict, reference: Union[int, float] = None, metric: str = 'f1', current_criteria: Dict = None, plot_prob: bool = False, save: Union[Path, str] = None, **kwargs):
-    """It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
+def plot_skill_by_area(
+    skill: xr.Dataset, 
+    optimal_criteria: Dict, 
+    reference: Optional[Union[int, float]] = None, 
+    metric: str = 'f1', 
+    current_criteria: Optional[Dict] = None, 
+    plot_prob: bool = False, 
+    save: Optional[Union[Path, str]] = None, 
+    **kwargs
+) -> None:
+    """
+    It generates a graph with as many lineplots as approaches in the 'skill' dataset. The lineplots reprensent both the evolution of skill and probability with regard to a specified variable
     
-    Inputs:
-    -------
-    skill: xr.Dataset (area, persistence, approach, probability)
+    Parameters:
+    -----------
+    skill: xr.Dataset
         It contains as variables recall, precision and the specified metric
     optimal_criteria: Dict
         For each approach in skill, it contains a dictionary with the best combination of criteria for that approach {'approach', 'probability', 'persistence'}
-    reference: Union[int, float]
+    reference: int or float, optional
         Fixed value of the 'variable' for which 'optimal_criteria' was fitted
     metric: str
         Name of the target metric. This metric should be a variable in both datasets 'skill' and 'optmized_criteria'
-    current_criteria: Dict
+    current_criteria: dict, optional
         It contains the current operation criteria used in EFAS {'approach', 'probability', 'persistence'}
     plot_prob: bool
         Whether to add (True) or not (False) a fourth plot with the optimal probability threshold of each model
-    save: Union[Path, str]
+    save: str or pathlib.Path, optional
         Path where the graph will be saved. By default is 'None', and the graph is not saved.
     
-    Ouput:
-    ------
-    The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    Other parameters:
+    -----------------
+    alpha: float, optional
+        Transparency of the lines
+    colors: list[Union[str, mpl.Colors]], optional
+        Colour map used to plot the different lines
+    figsize: Tuple[float, float], optional
+        Size of every individual plot in the figure
+    lw: float, optional
+        Width of the lines
+    xlabel: str, optional
+        Label of the X axis
+    xlim: Tuple[float, float], optional
+        Limits of the X axis
+    xscale: Literal['linear', 'log', 'semilog'], optional
+        Scaling of the X axis
+    
+    Returns:
+    --------
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
-
-    colors = kwargs.get('colors', ['k', 'steelblue', 'orange'])
-    lw = kwargs.get('lw', 1.2)
+    
     alpha = kwargs.get('alpha', .666)
+    colors = kwargs.get('colors', ['k', 'steelblue', 'orange'])
     figsize = kwargs.get('figsize', (4.5, 4))
+    lw = kwargs.get('lw', 1.2)
     xlabel = kwargs.get('xlabel', None)
-    xscale = kwargs.get('xscale', 'linear')
     xlim = kwargs.get('xlim', None)
+    xscale = kwargs.get('xscale', 'linear')
     
     ncols = 4 if plot_prob else 3
     fig, axes = plt.subplots(ncols=ncols, figsize=(figsize[0] * ncols, figsize[1]), sharex=True, sharey=True)
