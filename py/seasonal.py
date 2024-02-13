@@ -4,17 +4,20 @@ import xarray as xr
 
 
 
-def month2season(month):
+def month2season(month: int) -> str:
     """It provides the season of a month
     
-    Inputs:
-    -------
-    month:  int (1-12)
+    Parameters:
+    -----------
+    month:  int
     
-    Output:
-    -------
-    season:  str. Season of the year
+    Returns:
+    --------
+    str
+        Season of the year
     """
+    
+    assert month in range(1, 13), "'month' must be a value between 1 and 12"
     
     month_to_season = {1: 'winter', 2: 'winter', 3: 'winter',
                        4: 'spring', 5: 'spring', 6: 'spring',
@@ -28,21 +31,23 @@ month2season_vec = np.vectorize(month2season)
 
 
 
-def disaggregate_by_season(da, dim='datetime'):
+def disaggregate_by_season(da: xr.DataArray, dim: str = 'datetime') -> xr.DataArray:
     """Given a DataArray with a datetime dimension, it creates a new dimension named 'season' to store the data corresponding to each of the 4 seasons
     
-    Input:
-    ------
-    da:   xr.DataArray. One of its dimensions must be of type datetime
-    dim:  string. Name of the dimension in 'da' of type datetime that will be used to split the 4 seasons
+    Parameters:
+    -----------
+    da: xr.DataArray
+        One of its dimensions must be of type datetime
+    dim: str
+        Name of the dimension in 'da' of type datetime that will be used to split the 4 seasons
     
-    Output:
-    -------
-    da_season: xr.DataArray. A new DataArray with one extra dimension: 'season'
+    Returns:
+    --------
+    xr.DataArray
+        A new DataArray with one extra dimension: 'season'
     """
     
-    if dim not in da.dims:
-        return 'ERROR. The dimension "dim" is not in the DataArray'
+    assert dim in da.dims, 'ERROR. The dimension "dim" is not in the DataArray'
     
     seasons = ['winter', 'spring', 'summer', 'autumn']
     array_seasons = xr.apply_ufunc(month2season_vec, da[dim].dt.month, vectorize=True)

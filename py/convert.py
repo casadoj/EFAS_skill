@@ -2,24 +2,26 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from datetime import datetime, timedelta
+from typing import Union, List, Tuple, Dict, Literal
 
 
 
-def dict2da(dictionary, dim):
+def dict2da(dictionary: Dict, dim: str) -> xr.DataArray:
     """It converts a dictionary of xarray.Datarray into a single xarray.DataArray combining the keys in the dictionary in a new dimension
     
     Inputs:
     -------
-    dictionary: dict. A dictionary of xarray.DataArray
-    dim:        str. Name of the new dimension in which the keys of 'dictionary' will be combined
+    dictionary: Dict
+        A dictionary of xarray.DataArray
+    dim: str
+        Name of the new dimension in which the keys of 'dictionary' will be combined
     
     Output:
     -------
-    array:      xr.DataArray.
+    array: xr.DataArray.
     """
     
-    if isinstance(dictionary, dict) is False:
-        return 'ERROR. The input data must be a Python dictionary.'
+    assert isinstance(dictionary, dict), 'ERROR. The input data must be a Python dictionary.'
         
     data = list(dictionary.values())
     coord = xr.DataArray(list(dictionary), dims=dim)
@@ -28,14 +30,20 @@ def dict2da(dictionary, dim):
 
 
 
-def df2da(df, dims, plot=False, **kwargs):
+def df2da(df: pd.DataFrame, dims: List, plot: bool = False, **kwargs) -> xr.DataArray:
     """It converts a pandas.DataFrame into a xarray.DataArray
     
     Inputs:
     -------
-    df:    pandas.DataFrame
-    dims:  list (2,). Names of the dimensions for the DataArray. The first dimension corresponds to the columns in the DataFrame, and the second dimension to the index
-    plot:  boolean. Whether to plot or not a heat map of the data
+    df: pd.DataFrame
+    dims: List
+        Names of the dimensions for the DataArray. The first dimension corresponds to the columns in the DataFrame, and the second dimension to the index
+    plot: bool
+        Whether to plot or not a heat map of the data
+    
+    Output:
+    -------
+    da: xr.DataArray
     """
     
     da = xr.DataArray(df.transpose(), dims=dims, coords={dims[0]: df.columns.tolist(), dims[1]: df.index.tolist()})
@@ -49,14 +57,21 @@ def df2da(df, dims, plot=False, **kwargs):
 
 
 
-def reshape_DataArray(da, trim=False, chunks=None):
+def reshape_DataArray(da: xr.DataArray, trim: bool = False, chunks: Dict = None) -> xr.DataArray:
     """It converts a DataArray with 'forecast' and 'leadtime' dimensions into another DataArray with a 'datetime' and 'leadtime' dimensions.
     
     Inputs:
     -------
-    da:       xarray.DataArray. Original DataArray
-    trim:     boolean. Remove timesteps (at the beginning and end) for which all forecasts are not available
-    chunks:   dict. A dictionary that specifies the size of Dask chunks in which the DataArray will be segmented
+    da: xr.DataArray
+        Original DataArray
+    trim: bool
+        Remove timesteps (at the beginning and end) for which all forecasts are not available
+    chunks: Dict
+        A dictionary that specifies the size of Dask chunks in which the DataArray will be segmented
+        
+    Output:
+    -------
+    da_new: xr.DataArray
     """
     
     # compute frequencies of leadtime and forecast, and start and end datetime in the input DataArray

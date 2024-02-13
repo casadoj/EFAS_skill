@@ -4,7 +4,7 @@ import xarray as xr
 from datetime import datetime, timedelta
 from tqdm import tqdm_notebook
 from convert import dict2da
-from typing import Union, List, Tuple, Dict
+from typing import Union, List, Tuple, Dict, Literal
 
 
 # models
@@ -15,22 +15,31 @@ models = {'COS': {'members': 20, 'leadtimes': 22},
 
 
 
-def identify_events(discharge, upper_bound, lower_bound=None):
-    """It identifies the start of flood events given the discharge series and the thresholds.
+def identify_events(
+    discharge: pd.DataFrame,
+    upper_bound: pd.Series,
+    lower_bound: pd.Series = None
+) -> pd.DataFrame:
+    """
+    It identifies the start of flood events given the discharge series and the thresholds.
     
        * If only the 'upper_bound' is provided, an event is considered a period during which discharge exceeds that upper bound.
     
        * If both 'upper_bound' and 'lower_bound' are provided, an event is considered a period of time during which discharge exceeds for some time the upper bound and never goes below the lower bound.
     
-    Inputs:
-    -------
-    discharge:   pandas.DataFrame (timesteps, stations). Discharge timeseries for the multiple stations under analysis
-    upper_bound: pandas.Series (stations,). Discharge upper threshold above which a flood event starts
-    lower_bound: pandas.Series (stations,). Discharge lower threshold below which a flood event finishes. If not provided, the 'upper_bound' is used to define the end of an event
+    Parameters:
+    -----------
+    discharge: pd.DataFrame
+        Discharge timeseries for the multiple stations under analysis
+    upper_bound: pd.Series
+        Discharge upper threshold above which a flood event starts
+    lower_bound: pd.Series
+        Discharge lower threshold below which a flood event finishes. If not provided, the 'upper_bound' is used to define the end of an event
     
-    Output:
-    -------
-    events:      pandas.DataFrame (timesteps, stations). Boolean table with Trues at the timesteps when a flood event starts
+    Returns:
+    --------
+    events: pd.DataFrame
+        Boolean table with Trues at the timesteps when a flood event starts
     """
     
     # make sure the order of the stations is the same in 'discharge' and 'upper_bound'
@@ -73,17 +82,25 @@ def identify_events(discharge, upper_bound, lower_bound=None):
 
 
 
-def discharge2exceedance(model_files, thresholds, verbose=True):
-    """From a list of files (NetCDF) corresponding to consecutive forecast, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
+def discharge2exceedance(
+    model_files: Dict,
+    thresholds: xr.DataArray,
+    verbose: bool = True
+) -> xr.DataArray:
+    """
+    From a list of NetCDFfiles corresponding to consecutive forecasts, it extracts the data corresponding to a station and it creates a boolean matrix of exceedance (1) non-exceedance (0).
     
-    Inputs:
-    -------
-    model_files: dictionary. The keys are the different NWP (numerical weather predicitons) models and the values a list of file names
-    threshold:   xarray.DataArray (id,). Matrix of 1 dimension (station ID) containint the discharge threshold
+    Parameters:
+    -----------
+    model_files: Dict
+        The keys are the different NWP (numerical weather predicitons) models and the values a list of file names
+    threshold: xr.DataArray
+        Matrix of 1 dimension (station ID) containint the discharge threshold
     
-    Output:
-    -------
-    A xarray.DataArray with a boolean matrix of exceedance/non-exceedance of the threshold. This DataArray has 4 dimensions: id, model, forecast, leadtime
+    Returns:
+    --------
+    exceedance: xarray.DataArray
+        A boolean matrix of exceedance/non-exceedance of the threshold
     """
     
     exceedance = {}
@@ -126,19 +143,29 @@ def discharge2exceedance(model_files, thresholds, verbose=True):
 
 
 
-def recompute_exceedance(obs, pred_high, pred_low):
-    """It recomputes exceedances given DataArrays of observed and predicted exceedance based on 2 discharge thresholds
+def recompute_exceedance(
+    obs: xr.DataArray,
+    pred_high: xr.DataArray,
+    pred_low: xr.DataArray
+) -> Tuple[xr.DataArray, xr.DataArray]:
+    """
+    It recomputes exceedances given DataArrays of observed and predicted exceedance based on 2 discharge thresholds
     
-    Inputs:
-    -------
-    obs:         xr.DataArray ('datetime', 'id'). Observed exceedance over the discharge thresholds. It has 3 possible values: 2, exceedance over the higher threshold; 1, exceedance over the lower threshold; 0, non-exeedance
-    pred_high:   xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) over the higher discharge threshold
-    pred_low:    xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) over the lower discharge threshold
+    Parameters:
+    -----------
+    obs: xr.DataArray
+        Observed exceedance over the discharge thresholds. It has 3 possible values: 2, exceedance over the higher threshold; 1, exceedance over the lower threshold; 0, non-exeedance
+    pred_high: xr.DataArray
+        Probability of exceedance (0-1) over the higher discharge threshold
+    pred_low: xr.DataArray
+        Probability of exceedance (0-1) over the lower discharge threshold
     
-    Outputs:
+    Returns:
     --------
-    exceed_obs:  xr.DataArray ('datetime', 'id'). The input observed exeedance recomputed with only 2 classes: 1, exceedance; 0, non-exceedance
-    exceed_pred: xr.DataArray ('datetime', 'id', 'model', 'leadtime'). Probability of exceedance (0-1) as a combination of the exceedances for the higher and lower thresholds
+    exceed_obs: xr.DataArray
+        The input observed exeedance recomputed with only 2 classes: 1, exceedance; 0, non-exceedance
+    exceed_pred: xr.DataArray
+        Probability of exceedance (0-1) as a combination of the exceedances for the higher and lower thresholds
     """
     
     # create empty xarray.DataArrays for observed and predicted exceedance
@@ -179,20 +206,31 @@ def recompute_exceedance(obs, pred_high, pred_low):
 
 
 
-def exceedance2events(da, probability=None, persistence=(1, 1), leadtime=None):
-    """It defines predicted events out of a DataArray of exceendances over a probability threshold. 
+def exceedance2events(
+    da: xr.DataArray, 
+    probability: Union[float, xr.DataArray] = None, 
+    persistence: Tuple = (1, 1), 
+    leadtime: Union[int, List] = None
+) -> xr.DataArray:
+    """
+    It defines predicted events out of a DataArray of exceendances over a probability threshold. 
     The persistence criterion defines the number of forecasts that must predict an exceedance in order to be considered an event.
     
-    Inputs:
-    -------
-    da:           xr.DataArray. A matrix of exceedances over probability threshold, or a matrix of probability of exceedance (in that case the attribute 'probability' is required). It must have a dimension called 'leadtime', over which the function will compute persistence
-    probability:  float or xr.DataArray. Probability thresholds used to convert a 'da' of exceedance probability into a DataArray of exceedances over threshold. If None, the function implies that 'da' is already a DataArray of exceedances over threshold
-    persistence:  tuple (a, b). Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
-    leadtime:     int or list. A list of lead times (in hours) between which the events will be computed. If an integer, the computation will done from that lead time to the longest lead time in 'da.leadtime'. If None, the computation will be done for every leadtime in 'da.leadtime'
+    Parameters:
+    -----------
+    da: xr.DataArray
+        A matrix of exceedances over probability threshold, or a matrix of probability of exceedance (in that case the attribute 'probability' is required). It must have a dimension called 'leadtime', over which the function will compute persistence
+    probability: float or xr.DataArray
+        Probability thresholds used to convert a 'da' of exceedance probability into a DataArray of exceedances over threshold. If None, the function implies that 'da' is already a DataArray of exceedances over threshold
+    persistence: tuple
+        Two values that define the number of positive forecasts (a) out of a series of consecutive forecast (b) needed to consider the prediction as an event
+    leadtime: int or list
+        A list of lead times (in hours) between which the events will be computed. If an integer, the computation will done from that lead time to the longest lead time in 'da.leadtime'. If None, the computation will be done for every leadtime in 'da.leadtime'
     
-    Output:
-    -------
-    events:       xr.DataArray. A matrix of predicted events. If 'leadtime' is None or an integer, the dimension 'leadtime' in the input DataArray is collapsed to a single value. If 'leadtime' is a list, the dimension will have as many values as the length of the list.
+    Returns:
+    --------
+    events: xr.DataArray
+        A matrix of predicted events. If 'leadtime' is None or an integer, the dimension 'leadtime' in the input DataArray is collapsed to a single value. If 'leadtime' is a list, the dimension will have as many values as the length of the list.
     """
 
     # invert 'leadtime' order from longer to shorter lead times
@@ -286,19 +324,28 @@ def exceedance2events(da, probability=None, persistence=(1, 1), leadtime=None):
 
 
 
-def buffer_events(da, center=True, w=5):
-    """It creates a buffer around the matrix of predicted events to allow for short lags between observation and prediction. 
+def buffer_events(
+    da: xr.DataArray, 
+    center: bool = True, 
+    w: int = 5
+) -> xr.DataArray:
+    """
+    It creates a buffer around the matrix of predicted events to allow for short lags between observation and prediction. 
     It applys a rolling sum of window 'w' to the input matrix. The window function can be centered or not.
     
-    Inputs:
-    -------
-    da:     xr.DataArray. Matrix of predicted events
-    center: boolean. Whereas the rolling sum must be centered or right sided
-    w:      int. Width of the rolling sum window
+    Parameters:
+    -----------
+    da: xr.DataArray
+        Matrix of predicted events
+    center: bool
+        Whereas the rolling sum must be centered or right sided
+    w: int
+        Width of the rolling sum window
     
-    Output:
-    -------
-    buffer: xr.DataArray. Matrix with the same size as the input matrix, but in which the events have been 'enlarged'
+    Returns:
+    --------
+    buffer: xr.DataArray
+        Matrix with the same size as the input matrix, but in which the events have been 'enlarged'
     """
     
     if center:
@@ -312,16 +359,19 @@ def buffer_events(da, center=True, w=5):
 
 
 
-def count_events(da):
-    """Given a boolean DataArray of exceedances over probability threshold, it counts the number of events in the timeseries
+def count_events(da: xr.DataArray) -> xr.DataArray:
+    """
+    Given a boolean DataArray of exceedances over probability threshold, it counts the number of events in the timeseries
     
-    Input:
-    ------
-    da:       xr.DataArray. Boolean matrix of exceedances over probability threshold. It must contain a 'datetime' dimension
+    Parameters:
+    -----------
+    da:       xr.DataArray
+        Boolean matrix of exceedances over probability threshold. It must contain a 'datetime' dimension
     
-    Output:
-    -------
-    n_events: xr.DataArray. A matrix with the counts of events over the dimension 'datetime' (which collapses)"""
+    Returns:
+    --------
+    n_events: xr.DataArray
+        A matrix with the counts of events over the dimension 'datetime' (which collapses)"""
     
     # compute onsets: difference equal to 1
     onsets = (xr.concat([da.isel(datetime=[0]), da.diff('datetime')], dim='datetime') == 1).astype(int)
@@ -332,24 +382,38 @@ def count_events(da):
 
 
 
-def events2hits(obs, pred, center=True, w=1):
-    """It computes the hits, misses and false alarms between two matrixes of observations and predictions.
+def events2hits(
+    obs: xr.DataArray,
+    pred: xr.DataArray,
+    center: bool = True,
+    w: int = 1
+) -> xr.Dataset:
+    """
+    It computes the hits, misses and false alarms between two matrixes of observations and predictions.
     To allow for some lags in the predictions, a buffer can be applied by giving the attribute 'w' a value larger than 1
     
-    Inputs:
-    -------
-    obs:     xr.DataArray. Boolean matrix of observed exceedances over threshold
-    pred:    xr.DataArray. Boolean matrix of predicted exceedances over threshold
-    center:  boolean. Whereas the rolling sum must be centered or right sided
-    w:       int. Width of the rolling sum window
+    Parameters:
+    -----------
+    obs: xr.DataArray
+        Boolean matrix of observed exceedances over threshold
+    pred: xr.DataArray
+        Boolean matrix of predicted exceedances over threshold
+    center: bool
+        Whereas the rolling sum must be centered or right sided
+    w: int
+        Width of the rolling sum window
     
-    Output:
-    -------
+    Returns:
+    --------
     As an object:
-    hits:    xr.Dataset. Contains three variables: TP, true positives; FN, false negatives; FP, false positives
+    hits: xr.Dataset
+        Contains three variables: TP, true positives; FN, false negatives; FP, false positives
+    
     As methods:
-    buffer:  xr.DataArray. The buffered matrix of predicted events
-    tp:      xr.DataArray. A timeseries of correctly predicted events
+    buffer:  xr.DataArray
+        The buffered matrix of predicted events
+    tp:      xr.DataArray
+        A timeseries of correctly predicted events
     """
    
     # check that both Dataset have the same length in the matching dimensions
@@ -382,22 +446,24 @@ def events2hits(obs, pred, center=True, w=1):
             
             
             
-def hits2skill(hits: xr.Dataset, beta: Union[float, List[float]] = 1) -> xr.Dataset:
-    """It computes skill metrics (recall, precision and f1) out of a Dataset of hits, misses and false alarms.
+def hits2skill(
+    hits: xr.Dataset,
+    beta: Union[float, List[float]] = 1
+) -> xr.Dataset:
+    """
+    It computes skill metrics (recall, precision and f1) out of a Dataset of hits, misses and false alarms.
     
-    Input:
-    ------
+    Parameters:
+    -----------
     hits: xr.Dataset
         It contains three DataArrays with names 'TP' (hits), 'FN' (misses) and 'FP' (false alarms)
-    beta: Union[float, List[float]]
+    beta: float or list of floats
         A coefficient (or list of coefficients) of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
     
-    Output:
-    -------
+    Returns:
+    --------
     skill: xr.Dataset
         It contains three DataArrays with the metrics 'recall', 'precision', and 'fbeta' scores.
-    
-    
     """
     
     skill = xr.Dataset({'recall': hits.TP / (hits.TP + hits.FN),
@@ -415,18 +481,26 @@ def hits2skill(hits: xr.Dataset, beta: Union[float, List[float]] = 1) -> xr.Data
 
 
 
-def define_area_ranges(area_min, area_max, scale='semilog'):
-    """Define an array of catchment area ranges
+def define_area_ranges(
+    area_min: int, 
+    area_max: int, 
+    scale: Literal['linear', 'log', 'semilog'] = 'semilog'
+) -> np.array:
+    """
+    Define an array of catchment area ranges
     
-    Inputs:
-    -------
-    area_min: int. Minimum catchment area
-    area_max: int. Maximum catchment area
-    scale:    str. Type of scale: 'linear', 'log', 'semilog'
+    Parameters:
+    -----------
+    area_min: int
+        Minimum catchment area
+    area_max: int
+        Maximum catchment area
+    scale: str
+        Type of scale: 'linear', 'log', 'semilog'
     
-    Output:
-    -------
-    areas:    np.array.
+    Returns:
+    --------
+    areas: np.array
     """
     
     # linear scale
@@ -450,21 +524,26 @@ def define_area_ranges(area_min, area_max, scale='semilog'):
 
 
 
-def summarize_by_area(station_area: pd.Series, station_events: pd.Series, area_ranges: np.array) -> pd.DataFrame:
-    """It calculates the amount of stations and observed events at different catchment area thresholds
+def summarize_by_area(
+    station_area: pd.Series, 
+    station_events: pd.Series, 
+    area_ranges: np.array
+) -> pd.DataFrame:
+    """
+    It calculates the amount of stations and observed events at different catchment area thresholds
     
-    Inputs:
-    -------
-    station_area: pd.Series (id,)
+    Parameters:
+    -----------
+    station_area: pd.Series
         Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
-    station_events: pd.Series (id,)
+    station_events: pd.Series
         Number of observed events of each of the stations contained in the dimension 'id' of the dataset 'hits' 
-    area_ranges: np.array (area,)
+    area_ranges: np.array
         Values of catchment area in which the results will be discretized
     
-    Output:
-    -------
-    summary: pd.DataFrame(area,2)
+    Returns:
+    --------
+    summary: pd.DataFrame
         Summary of number of stations and observed events by catchment area
     """
     
@@ -486,18 +565,27 @@ def summarize_by_area(station_area: pd.Series, station_events: pd.Series, area_r
 
 
 
-def hits_by_area(hits, station_area, area_ranges):
-    """Given a Dataset of hits by station ID and the area of the stations, it computes the hits grouped by catchment area threshold
+def hits_by_area(
+    hits: xr.Dataset,
+    station_area: pd.Series,
+    area_ranges: np.array
+) -> xr.Dataset:
+    """
+    Given a Dataset of hits by station ID and the area of the stations, it computes the hits grouped by catchment area threshold
     
-    Inputs:
-    -------
-    hits:             xr.Dataset (id, persistence, approach, probability). It contains 3 variables: 'TP' true positives, 'FN' false negatives, 'FP' false positives
-    station_area:     pd.Series (id,). Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
-    area_ranges:      np.array (area,). Values of catchment area in which the results will be discretized
+    Parameters:
+    -----------
+    hits: xr.Dataset
+        It contains 3 variables: 'TP' true positives, 'FN' false negatives, 'FP' false positives
+    station_area: pd.Series
+        Catchment area of each of the stations contained in the dimension 'id' of the dataset 'hits'
+    area_ranges: np.array
+        Values of catchment area in which the results will be discretized
     
-    Output:
-    -------
-    hits_area:        xr.Dataset (persistence, approach, probability, area). It contains the same 3 variables as the original dataset 'hits', but aggregated by ranges of catchment area
+    Returns:
+    --------
+    hits_area: xr.Dataset
+        It contains the same 3 variables as the original dataset 'hits', but aggregated by ranges of catchment area
     """
     
     # Dataset to save hits, misses and false alarms by area range
@@ -520,16 +608,19 @@ def hits_by_area(hits, station_area, area_ranges):
 
 
 
-def limit_leadtime(da):
-    """Given a DataArray or Dataset in which one of its dimensions is 'leadtime', it converts to NaN values at lond lead times for which either the meteorological model doesn't predict, or that the persistence can no be complied with
+def limit_leadtime(da: Union[xr.DataArray, xr.Dataset]) -> Union[xr.DataArray, xr.Dataset]:
+    """
+    Given a DataArray or Dataset in which one of its dimensions is 'leadtime', it converts to NaN values at lond lead times for which either the meteorological model doesn't predict, or that the persistence can no be complied with
     
-    Input:
-    ------
-    da:   xr.DataArray or xr.Dataset (leadtime,persistence,model?...) A xarray object that must contain a dimension named 'leadtime' and a dimension named 'persistence'. The dimension 'model' is optional.
+    Parameters:
+    -----------
+    da:   xr.DataArray or xr.Dataset
+        A xarray object that must contain a dimension named 'leadtime' and a dimension named 'persistence'. The dimension 'model' is optional.
     
-    Output:
-    -------
-    da:   xr.DataArray or xr.Dataset (leadtime,persistence,model?...). Same as the input but long lead times may have been converted to NaN
+    Returns:
+    --------
+    da:   xr.DataArray or xr.Dataset
+        Same as the input but long lead times may have been converted to NaN
     """
     
     # convert to -999 values at long leadtimes for which the model has no forecast or the persistence is impossible to be met
@@ -557,25 +648,31 @@ def limit_leadtime(da):
     return da
 
 
-def compute_skill(TP: Union[int, np.ndarray, pd.Series], FN: Union[int, np.ndarray, pd.Series], FP: Union[int, np.ndarray, pd.Series], beta: float = 1) -> Tuple[Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series]]:
-    """Given values of true positives, false negatives and false positives, compute the skill metrics recall, precision and f-score
+def compute_skill(
+    TP: Union[int, np.ndarray, pd.Series], 
+    FN: Union[int, np.ndarray, pd.Series], 
+    FP: Union[int, np.ndarray, pd.Series], 
+    beta: float = 1
+) -> Tuple[Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series], Union[int, np.ndarray, pd.Series]]:
+    """
+    Given values of true positives, false negatives and false positives, compute the skill metrics recall, precision and f-score
     
-    Inputs:
-    -------
-    TP: Union[int, np.ndarray, pd.Series]
+    Parameters:
+    -----------
+    TP: int, np.ndarray or pd.Series
         True positives
-    FN: Union[int, np.ndarray, pd.Series]
+    FN: int, np.ndarray or pd.Series
         False negatives
-    FP: Union[int, np.ndarray, pd.Series]
+    FP: int, np.ndarray or pd.Series
         False positives
     beta: float
         Parameter of the f-score that balances the importance of recall and precision in the computation of the f-score. The default value (1) gives equal value to precision and recall; values lower than 1 prioritize precision; values larger than 1 prioritize recall
         
     Returns:
     --------
-    recall: Union[int, np.ndarray, pd.Series]
-    precision: Union[int, np.ndarray, pd.Series]
-    fscore: Union[int, np.ndarray, pd.Series]
+    recall: int, np.ndarray or pd.Series
+    precision: int, np.ndarray or pd.Series
+    fscore: int, np.ndarray or pd.Series
     """
     
     recall = TP / (TP + FN)

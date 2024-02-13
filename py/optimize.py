@@ -4,23 +4,36 @@ import xarray as xr
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split, KFold
 from compute import hits2skill
 from convert import dict2da
+from typing import Union, List, Tuple, Dict, Literal
 
 
 
-def find_best_criterion(skill, dim='probability', metric='f1', tolerance=1e-2, min_spread=True):
+def find_best_criterion(
+    skill: xr.Dataset,
+    dim: str = 'probability',
+    metric: str = 'f1',
+    tolerance: float = 1e-2,
+    min_spread: bool = True
+) -> xr.Dataset:
     """It searches for the value of a dimension in a dataset that maximizes a skill metric.
     
-    Inputs:
-    -------
-    skill:      xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision. The function works regardless of the number of dimensions, as long as one of them matches with the dimension to be optimized, defined in the attribute 'dim'
-    dim:        string. Name of the dimension in 'skill' that will be optimized
-    metric:     string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
-    tolerance:  float. Minimum value of improving skill that is considered in the optimization. All the values of the dimension 'dim' whose skill differs less than this tolerance from the maximum skill are considered candidates. The selection of the best candidate among these values depends on the attribute `min_spread`.
-    min_spread: boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
+    Parameters:
+    -----------
+    skill: xr.Dataset
+        It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision. The function works regardless of the number of dimensions, as long as one of them matches with the dimension to be optimized, defined in the attribute 'dim'
+    dim: str
+        Name of the dimension in 'skill' that will be optimized
+    metric: str
+        Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    tolerance: float
+        Minimum value of improving skill that is considered in the optimization. All the values of the dimension 'dim' whose skill differs less than this tolerance from the maximum skill are considered candidates. The selection of the best candidate among these values depends on the attribute `min_spread`.
+    min_spread: bool
+        If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
     
-    Output:
-    -------
-    xr.Dataset. Matrix that contains 4 variables ('dim', recall, precision, 'metric') correspoding to the optimized values of the dimension 'dim' and the skill corresponding to that value measured in terms of recall, precision and the selected target 'metric'. It has one dimension less than the original Dataset 'ds', since the  dimension 'dim' was removed and optimized.
+    Returns:
+    --------
+    xr.Dataset
+        Matrix that contains 4 variables ('dim', recall, precision, 'metric') correspoding to the optimized values of the dimension 'dim' and the skill corresponding to that value measured in terms of recall, precision and the selected target 'metric'. It has one dimension less than the original Dataset 'ds', since the  dimension 'dim' was removed and optimized.
     """
 
     # compute skill loss with respect to the maximum
@@ -50,26 +63,38 @@ def find_best_criterion(skill, dim='probability', metric='f1', tolerance=1e-2, m
 
 
 
-def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', tolerance=1e-2, min_spread=[True, False]):
+def find_best_criteria(
+    skill: xr.Dataset,
+    dims: Union[Tuple[str, ...], str] = ('probability', 'persistence'),
+    metric: str = 'f1',
+    tolerance: float = 1e-2,
+    min_spread: Union[Tuple[bool, ...], bool] = (True, False)
+) -> xr.Dataset:
     """It searches for the combination of criteria that maximizes a skill metric.
     
-    Inputs:
-    -------
-    skill:      xr.Dataset. It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
-    dims:       list or string. Name(s) of the dimension(s) in 'skill' that will be optimized
-    metric:     string. Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
-    tolerance:  float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
-    min_spread: list or boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
+    Parameters:
+    -----------
+    skill: xr.Dataset
+        It contains the arrays of skill for several metrics. At least, it should have the variables  for the chosen target metric (see attribute 'metric'), recall and precision.
+    dims: tuple of str or str
+        Name(s) of the dimension(s) in 'skill' that will be optimized
+    metric: str
+        Name of the skill metric for which the criterium will be optimize. This name should be one of the variables in the Dataset 'ds'. By default, f1
+    tolerance: float
+        Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    min_spread: tuple of bool or bool
+        If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
     
-    Output:
-    -------
-    skill_criteria:  xr.Dataset. A dataset similar to the input 'skill', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension
+    Returns:
+    --------
+    xr.Dataset
+        A dataset similar to the input 'skill', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension
     """
     
     if isinstance(dims, str):
-        dims = [dims]
+        dims = (dims,)
     if isinstance(min_spread, bool):
-        min_spread = [min_spread] * len(dims)
+        min_spread = (min_spread,) * len(dims)
         
     for dim, spread in zip(dims, min_spread):
         skill = find_best_criterion(skill, metric=metric, dim=dim, tolerance=tolerance, min_spread=spread)
@@ -78,30 +103,54 @@ def find_best_criteria(skill, dims=['probability', 'persistence'], metric='f1', 
 
 
 
-def find_best_criteria_cv(hits, station_events, dims=['probability', 'persistence'], kfold=5, train_size=.8, stratify=[True, False], random_state=0, beta=1,
-                          tolerance=1e-2, min_spread=True):
-    """A cross-validation version of the function of the function 'find_best_criteria'. It selects the criteria that maximizes the skill over a 'kfold' number of subsamples of the stations
+def find_best_criteria_cv(
+    hits: xr.Dataset,
+    station_events: pd.Series,
+    dims: Union[Tuple[str, ...], str] = ('probability', 'persistence'),
+    kfold: int = 5,
+    train_size: float = .8,
+    stratify: bool = True,
+    random_state: int = 0,
+    beta: float = 1,
+    tolerance: float = 1e-2,
+    min_spread: Union[Tuple[bool, ...], bool] = (True, False)
+) -> Tuple[xr.DataArray, xr.Dataset]:
+    """
+    A cross-validation version of the function of the function 'find_best_criteria'. It selects the criteria that maximizes the skill over a 'kfold' number of subsamples of the stations
     
-    Inputs:
-    -------
-    hits:                 xarray.Dataset (id, persistence, approach, probability). A boolean matrix of hits, misses and false alarms. It must contain three variables: 'tp' hits, 'fn' misses, 'fp' false alarms
-    station_events:       pd.Series. The number of observed events in the set of the stations used for the optimization. It will be used as a covariable in the stratified sampling in order to keep the proportion of events in each of the subsets
-    dims:        list or string. Name(s) of the dimension(s) in 'skill' that will be optimized
-    kfold:                int. Number of subsets of the stations to be produced
-    train_size:           float. It should be between 0.0 and 1.0 and represents the proportion of the dataset to include in the train split
-    stratify:             bool. If True, the split sampling is done in a stratified way, so that the proportion of classes in 'station_events' is kept. If False, the sampling is random.
-    ramdon_state:         int. The seed in the random selection of samples
-    beta:                 float. A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
-    tolerance:            float. Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
-    min_spread: boolean. If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
+    Parameters:
+    -----------
+    hits: xr.Dataset
+        A boolean matrix of hits, misses and false alarms. It must contain three variables: 'tp' hits, 'fn' misses, 'fp' false alarms
+    station_events: pd.Series
+        The number of observed events in the set of the stations used for the optimization. It will be used as a covariable in the stratified sampling in order to keep the proportion of events in each of the subsets
+    dims: tuple of str or str
+        Name(s) of the dimension(s) in 'skill' that will be optimized
+    kfold: int
+        Number of subsets of the stations to be produced
+    train_size: float
+        It should be between 0.0 and 1.0 and represents the proportion of the dataset to include in the train split
+    stratify: bool
+        If True, the split sampling is done in a stratified way, so that the proportion of classes in 'station_events' is kept. If False, the sampling is random.
+    random_state: int
+        The seed in the random selection of samples
+    beta: float
+        A coefficient of the f score that balances the importance of misses and false alarms. By default is 1, so misses and false alarms penalize the same. If beta is lower than 1, false alarms penalize more than misses, and the other way around if beta is larger than 1 
+    tolerance: float
+        Minimum value of improving skill that is considered in the optimization. For all the highest values of the dimension 'dim' that differ less than this tolerance from the maximum skill, the value that minimizes the difference between recall and precision will be selected.
+    min_spread: tuple of bool or bool
+        If True, the selection of the best 'dim' value is based, for those values within the tolerance, on the minimum difference between precision and recall; therefore, if True, the DataArrays 'recall' and 'precision' are required. If False, the minimum among the candidates is selected as the best
     
-    Outputs:
+    Returns:
     --------
-    skill_val:            xr.DataArray (approach, kfold). The skill of each of the validation subsets
-    skill_criteria:       xr.Dataset. A dataset of with dimensions similar to the input 'hits', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension. It contains three variables with skill metrics (recall, precision and fscore) and as many variables as 'dims'
+    skill_val: xr.DataArray
+        The skill of each of the validation subsets
+    skill_criteria: xr.Dataset
+        A dataset of with dimensions similar to the input 'hits', in which the dimensions 'dims' have been removed and transformed to variables containing the optimized value of each dimension. It contains three variables with skill metrics (recall, precision and fscore) and as many variables as 'dims'
     """
     
-
+    assert 0 < train_size < 1, "'train_size' must be a float betwee 0 and 1"
+    
     # compute skill on 'kfold' sets of samples
     skill_train = {}
     skill_val = {}
