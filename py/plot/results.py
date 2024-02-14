@@ -852,9 +852,10 @@ def plot_skill_training(
     complete: Optional[xr.Dataset] = None, 
     xdim: str = 'approach', 
     save: Optional[Union[str, Path]] = None, 
-    **kwargs)
--> None:
-    """Scatter (and box) plot of the performance achieved for every approach in the train, test and complete data sets.
+    **kwargs
+) -> None:
+    """
+    Scatter (and box) plot of the performance achieved for every approach in the train, test and complete data sets.
     
     Parameters:
     -----------

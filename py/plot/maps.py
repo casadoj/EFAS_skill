@@ -60,7 +60,7 @@ def combine_cmaps(
     cmap2: Union[str, mpl.colors.Colormap],
     lower1: float = .2,
     lower2: float = .05,
-    name: Optional[str] = None
+    name: Optional[str] = ''
 ) -> mpl.colors.Colormap:
     """
     Given 2 colour maps, it creates a new colour map by combining them. Its used to create diverging colour maps from to monocolour maps.
@@ -84,10 +84,10 @@ def combine_cmaps(
         A new colour map combining the two input colour maps
     """
     
-    top = cm.get_cmap(cmap1, 128)
-    bottom = cm.get_cmap(cmap2, 128)
-    newcolors = np.vstack((top(np.linspace(lower, 1 - upper, 128)),
-                           bottom(np.linspace(upper, 1 - lower, 128))))
+    top = mpl.cm.get_cmap(cmap1, 128)
+    bottom = mpl.cm.get_cmap(cmap2, 128)
+    newcolors = np.vstack((top(np.linspace(lower1, 1 - lower2, 128)),
+                           bottom(np.linspace(lower2, 1 - lower1, 128))))
     
     return ListedColormap(newcolors, name=name)
     
@@ -230,7 +230,7 @@ def map_stations(
     theta: Optional[pd.Series] = None,
     mask: Optional[pd.Series] = None,
     rivers: Optional[gpd.GeoDataFrame] = None,
-    ax: Optional[matplotlib.axes.Axes] = None,
+    ax: Optional[mpl.axes.Axes] = None,
     save: Optional[Union[str, Path]] = None,
     **kwargs
 ) -> None:
@@ -363,7 +363,7 @@ def map_hits(
     stations: pd.DataFrame, 
     cols: List = ['TP', 'FN', 'FP'], 
     mask: Optional[pd.Series] = None, 
-    rivers: Optional[pgd.GeoDataFrame] = None, 
+    rivers: Optional[gpd.GeoDataFrame] = None, 
     save: Optional[Union[str, Path]] = None, 
     **kwargs
 ) -> None:
