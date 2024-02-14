@@ -20,7 +20,7 @@ discharge:
         end: 2023-06-30 18:00                                                   # end date of the analysis (e.g. 2022-12-31 18:00 )
     return_period:
         input: ../data/thresholds/return_levels.nc                              # NetCDF file with the return periods of discharge
-        threshold: 100                                                            # return period whose exceedance is considered a flood event
+        threshold: 2                                                            # return period whose exceedance is considered a flood event
         reducing_factor: 0.05                                                   # factor reducing the discharge associated to the previous return period (not necessary)
     output:
         reanalysis: ../data/discharge/reanalysis/                               # directory where the preprocessed reanalysis discharge will be saved
@@ -33,7 +33,7 @@ exceedance:
 hits:
     criteria:
         probability: [0.05, 0.96, 0.025]                                        # search values of the probability criterion: minimum, maximum and step
-        persistence: [[1, 1], [2, 2], [3, 3]]                                   # search values for the persistence criterion
+        persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]                                   # search values for the persistence criterion
     leadtime: [0, 24, 48, 72, 96, 120, 144, 168, 192, 216]                      # integer or list of lead times between which hits will be computed
     window: 1                                                                   # width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: True                                                                # whether the previous rolling window is centered or not
@@ -45,7 +45,7 @@ skill:
         approach: 1_deterministic_+_1_probabilistic
         probability: 0.3
         persistence: 3/3
-    leadtime:                                                                 # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
+    leadtime: 60                                                                 # minimum/maximum leadtime (hours) for which the notification criteria will be optimized
     area: 2000                                                                  # minimum/maximum catchment area (km²) for which the notification criteria will be optimized
     beta: 0.8                                                                   # coefficient of the fbeta-score (by default is 1)
     optimization:
