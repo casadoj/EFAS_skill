@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from matplotlib.ticker import MultipleLocator
 from matplotlib.colors import ListedColormap
 import seaborn as sns
 from optimize import find_best_criterion
@@ -156,6 +157,7 @@ def plot_DataArray(
     Returns:
     --------
     None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
     """
     
     # extract kwargs
@@ -1011,6 +1013,8 @@ def plot_skill_by_probability(
         Transparency of the lines
     cmap: Union[str, mpl.colors.Colormap]
         Colour map used to plot the different lines in 'linedim'
+    figsize: tuple, optional
+        Size of the figure
     label: str
         Name given to the benchmark in the legend
     loc_leged: Tuple[float, float, float, float]
@@ -1019,6 +1023,8 @@ def plot_skill_by_probability(
         Width of the lines
     offset: int
         Number of hours used to convert the initial lead time values into days
+    xlabel: str, optional
+        Label of the X axis
     xlim: Tuple[float, float]
         Limits of the X axis
     ylim: Tuple[float, float]
@@ -1031,12 +1037,13 @@ def plot_skill_by_probability(
     """
     
     # extract kwargs
+    alpha = kwargs.get('alpha', .666)
     cmap = plt.get_cmap(kwargs.get('cmap', 'coolwarm_r'))
     colors = ListedColormap(cmap(np.linspace(0, 1, len(probability)))).colors
-    lw = kwargs.get('lw', 1.2)
-    alpha = kwargs.get('alpha', .666)
-    offset = kwargs.get('offset', -12) 
     label = kwargs.get('label', 'current')
+    lw = kwargs.get('lw', 1.2)
+    offset = kwargs.get('offset', -12) 
+    xlabel = kwargs.get('xlabel', 'lead time ≥ (d)')
     
     # set up the figure
     ncols = len(skill[coldim])
@@ -1065,7 +1072,7 @@ def plot_skill_by_probability(
         ax.axvline(df.index[2], c='k', ls=':', lw=lw / 2)
         ax.axvline(df.index[5], c='k', ls=':', lw=lw / 2)
         ax.axvline(df.index[6], c='k', ls=':', lw=lw / 2)
-        ax.set_xlabel(kwargs.get('xlabel', 'lead time ≥ (d)'))
+        ax.set_xlabel(xlabel)
         if ax == axes[0]:
             ax.set_ylabel(f'{metric} (-)')
             ax.text(df.index[2], .9999, 'start notif.', rotation=90, horizontalalignment='right', verticalalignment='top', fontsize=10)
@@ -1586,5 +1593,67 @@ def plot_skill_by_area(
     fig.legend(*ax.get_legend_handles_labels(), frameon=False, bbox_to_anchor=anchor);
 
     # export
+    if save is not None:
+        plt.savefig(save, dpi=300, bbox_inches='tight')
+        
+        
+        
+def plot_area_distribution(
+    area: pd.Series,
+    mask: Optional[Union[List, pd.Series]] = None,
+    reference: Optional[int] = 2000,
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    Plots a histogram of the number of reporting points depending on catchment area. If 'mask' is provided, the histogram of the whole set of reporting points is compared with that of a subset, e.g., the reporting points with observed flood events
+    
+    Parameters:
+    -----------
+    area: pd.Series
+        Catchment area of the reporting points
+    mask: list or pd.Series, optional
+        Subset of stations. It is thought to be used as a selection of stations with observed events
+    reference: int, optional
+        Reference catchment area, e.g., the minimum area for which notifications are issued
+    save: str or Path, optional
+        If provided, file name where the plot will be saved
+        
+    Other parameters:
+    -----------------
+    alpha: float, optional
+        Transparency
+    figsize: Tuple, optional
+        Size of the plot
+    xlim: Tuple, optional
+        Limits of the X axis
+        
+    Returns:
+    --------
+    None
+        The graph is plotted on the screen, and saved if a path is set in the attribute 'save'
+    """
+    
+    alpha = kwargs.get('alpha', .5)
+    figsize = kwargs.get('figsize', (6, 5.5))
+    xlim = kwargs.get('xlim', (0, np.ceil(area.max() / 500) * 500))
+    
+    
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.histplot(area, ax=ax, binwidth=500, alpha=alpha, label='all')
+    if mask is not None:
+        sns.histplot(area[mask], ax=ax, binwidth=500, alpha=alpha, color='orange', label='w/ events')
+    if reference is not None:
+        ax.axvline(reference, color='k', ls=':', lw=.75)
+    ax.set(xlabel='area (km²)',
+           ylabel='no. reporting points',
+           xlim=(xlim));
+    ax.xaxis.set_major_locator(MultipleLocator(10000))
+    ax.xaxis.set_minor_locator(MultipleLocator(2000))
+    ax.yaxis.set_major_locator(MultipleLocator(100))
+    ax.yaxis.set_minor_locator(MultipleLocator(20))
+    ax.spines[['right', 'top']].set_visible(False)
+    ax.legend(frameon=False)
+
     if save is not None:
         plt.savefig(save, dpi=300, bbox_inches='tight')
