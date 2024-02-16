@@ -608,14 +608,16 @@ def hits_by_area(
 
 
 
-def limit_leadtime(da: Union[xr.DataArray, xr.Dataset]) -> Union[xr.DataArray, xr.Dataset]:
+def limit_leadtime(da: Union[xr.DataArray, xr.Dataset], exp: Literal['NWP', 'COMB']) -> Union[xr.DataArray, xr.Dataset]:
     """
     Given a DataArray or Dataset in which one of its dimensions is 'leadtime', it converts to NaN values at lond lead times for which either the meteorological model doesn't predict, or that the persistence can no be complied with
     
     Parameters:
     -----------
     da:   xr.DataArray or xr.Dataset
-        A xarray object that must contain a dimension named 'leadtime' and a dimension named 'persistence'. The dimension 'model' is optional.
+        A xarray object that must contain a dimension named 'leadtime' and a dimension named 'persistence'.
+    exp: str
+        Type of models to be checked: 'NWP' for individual meteorological models, 'COMB' for combinations of models
     
     Returns:
     --------
@@ -624,7 +626,7 @@ def limit_leadtime(da: Union[xr.DataArray, xr.Dataset]) -> Union[xr.DataArray, x
     """
     
     # convert to -999 values at long leadtimes for which the model has no forecast or the persistence is impossible to be met
-    if 'model' in da.dims:
+    if exp == 'NWP':
         for model in da.model.data:
             last_leadtime = models[model]['leadtimes'] * 6
             for persistence in da.persistence.data:
@@ -633,7 +635,7 @@ def limit_leadtime(da: Union[xr.DataArray, xr.Dataset]) -> Union[xr.DataArray, x
                 if max_leadtime < da.leadtime.max():
                     sel = {'model': model, 'persistence': persistence, 'leadtime': slice(max_leadtime + 1, None)}
                     da.loc[sel] = -999  
-    elif 'approach' in da.dims:
+    elif exp == 'COMB':
         last_leadtime = max([dct['leadtimes'] for model, dct in models.items()]) * 6
         for persistence in da.persistence.data:
             n_forecasts = int(persistence.split('/')[0]) - 1
