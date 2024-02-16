@@ -9,7 +9,7 @@ class Config:
     reporting_points: Dict = field(default_factory=dict)
     discharge: Dict = field(default_factory=dict)
     exceedance: Dict = field(default_factory=dict)
-    hits: Dict = field(default_factory=dict)
+    confusion_matrix: Dict = field(default_factory=dict)
     skill: Dict = field(default_factory=dict)
 
     def __post_init__(self):
@@ -21,13 +21,13 @@ class Config:
         self.reporting_points['selection']['upstream'] = self.reporting_points.get('selection', {}).get('upstream', True)
         self.discharge['return_period']['threshold'] = self.discharge['return_period'].get('threshold', 5)
         self.discharge['return_period']['reducing_factor'] = self.discharge['return_period'].get('reducing_factor', None)
-        self.hits['criteria']['probability'] = self.hits['criteria'].get('probability', [.05, .096, .05])
-        self.hits['criteria']['persistence'] = self.hits['criteria'].get('persistence', [(1, 1), (2, 2), (2, 3)])
-        self.hits['leadtime'] = self.hits.get('leadtime', None)
-        self.hits['window'] = self.hits.get('window', 1)
-        self.hits['center'] = self.hits.get('center', True)
-        self.hits['seasonality'] = self.hits.get('seasonality', False)
-        self.hits['current_criteria'] = self.hits.get('current_criteria', None)
+        self.confusion_matrix['criteria']['probability'] = self.confusion_matrix['criteria'].get('probability', [.05, .096, .05])
+        self.confusion_matrix['criteria']['persistence'] = self.confusion_matrix['criteria'].get('persistence', [(1, 1), (2, 2), (2, 3)])
+        self.confusion_matrix['leadtime'] = self.confusion_matrix.get('leadtime', None)
+        self.confusion_matrix['window'] = self.confusion_matrix.get('window', 1)
+        self.confusion_matrix['center'] = self.confusion_matrix.get('center', True)
+        self.confusion_matrix['seasonality'] = self.confusion_matrix.get('seasonality', False)
+        self.confusion_matrix['current_criteria'] = self.confusion_matrix.get('current_criteria', None)
         self.skill['leadtime'] = self.skill.get('leadtime', 60)
         self.skill['area'] = self.skill.get('area', 2000)
         self.skill['beta'] = self.skill.get('beta', 1)
@@ -43,7 +43,7 @@ class Config:
             self.discharge['input'][dataset] = Path(self.discharge.get('input', {}).get(dataset, None))
             self.discharge['output'][dataset] = Path(self.discharge.get('output', {}).get(dataset, f'../data/discharge/{dataset}'))
             self.exceedance['output'][dataset] = Path(self.exceedance.get('output', {}).get(dataset, f'../data/exceedance/{dataset}'))
-        self.hits['output'] = Path(self.hits.get('output', f'../results/hits/'))
+        self.confusion_matrix['output'] = Path(self.confusion_matrix.get('output', f'../results/confusion_matrix/'))
         self.skill['output'] = Path(self.skill.get('output', f'../results/skill/'))
         
         # Convert date strings to datetime objects

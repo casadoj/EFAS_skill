@@ -1075,7 +1075,7 @@ def plot_skill_by_probability(
         ax.set_xlabel(xlabel)
         if ax == axes[0]:
             ax.set_ylabel(f'{metric} (-)')
-            ax.text(df.index[2], .9999, 'start notif.', rotation=90, horizontalalignment='right', verticalalignment='top', fontsize=10)
+            ax.text(df.index[2], .9999, 'start warnings', rotation=90, horizontalalignment='right', verticalalignment='top', fontsize=10)
             ax.text(df.index[5], .9999, 'end COS', rotation=90, horizontalalignment='right', verticalalignment='top', fontsize=10)
             ax.text(df.index[6], .9999, 'end DWD', rotation=90, horizontalalignment='right', verticalalignment='top', fontsize=10)
         ax.set_title(key.replace('_', ' '))
@@ -1578,7 +1578,7 @@ def plot_skill_by_area(
                 ax.set(xlabel=xlabel,
                        title=met)
             if (i == 0) & (j == 0):
-                ax.text(reference, 0, 'min. area', rotation=90, ha='right', va='bottom', fontsize=14)
+                ax.text(reference, 0, 'current limit', rotation=90, ha='right', va='bottom', fontsize=14)
                 if not plot_prob:
                     ax.set(ylabel='skill (-)')
         if plot_prob:
