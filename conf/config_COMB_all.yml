@@ -35,7 +35,7 @@ confusion_matrix:
     criteria:
         probability: [0.05, 0.96, 0.025]
         persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]
-    leadtime: [0, 48, 132, 168]
+    leadtime: 
     window: 1
     center: True
     output: ../results/confusion_matrix/

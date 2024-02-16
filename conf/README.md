@@ -70,7 +70,7 @@ This section configures the computation of notification skill, and specially the
 
 ```yaml
     current_criteria: benchmark criteria
-        approach:
+        model:
         probability:
         persistence:
     leadtime: minimum leadtime (hours) for which notifications will be issued
