@@ -1,19 +1,19 @@
 import numpy as np
 import pandas as pd
-from typing import Union, List, Tuple, Dict, Literal
+from typing import Union, List, Tuple, Dict, Literal, Optional
 
 
 
 def area_increment(area: pd.Series) -> pd.Series:
     """It computes the increment in catchment area between contiguous points.
     
-    Input:
-    ------
+    Parameters:
+    -----------
     area: pd.Series
         Catchment area of the points of interest. All the points should belong to the same river.
     
-    Output:
-    -------
+    Returns:
+    --------
     area_inc: pd.Series
         Area increment between contiguous points. The point with largest catchment area has no value.
     """
@@ -28,11 +28,16 @@ def area_increment(area: pd.Series) -> pd.Series:
 
 
 
-def filter_points(stations: pd.DataFrame, threshold: float = .1, verbose: bool = False) -> pd.DataFrame:
-    """From a table of stations including river and catchment area, it removes those whose catchment area does not increase more than a threshold compared with the station directly downstream
+def filter_points(
+    stations: pd.DataFrame,
+    threshold: float = .1,
+    verbose: bool = False
+) -> pd.DataFrame:
+    """
+    From a table of stations including river and catchment area, it removes those whose catchment area does not increase more than a threshold compared with the station directly downstream
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     stations: pd.DataFrame
         Table of original stations. It must contain two fields: 'river' with the river name, 'area' with the catcment area
     threshold: float
@@ -40,8 +45,8 @@ def filter_points(stations: pd.DataFrame, threshold: float = .1, verbose: bool =
     verbose: bool
         Whether to show on screen the process or not
     
-    Output:
-    -------
+    Returns:
+    --------
     stations_sel: pd.DataFrame
         Table of stations that comply with the established threshold
     """
@@ -80,22 +85,28 @@ def filter_points(stations: pd.DataFrame, threshold: float = .1, verbose: bool =
     
     
     
-def filter_correlation_matrix(correlation_matrix: pd.DataFrame, rho: flaot = .9) -> pd.DataFrame:
-    """This function is used to filter a correlation matrix based on a certain threshold. It takes in 3 parameters:
+def filter_correlation_matrix(
+    correlation_matrix: pd.DataFrame,
+    rho: Optional[float] = .9
+) -> pd.DataFrame:
+    """
+    This function is used to filter a correlation matrix based on a certain threshold. It takes in 3 parameters:
     
-    Inputs:
-    -------
+    Parameters:
+    -----------
     correlation_matrix: pd.DataFrame
         A DataFrame that represents a correlation matrix.
     rho: float
         Value between -1 and 1 that represents the threshold of correlation coefficient, default value is 0.9
     
-    Output:
+    Returns:
     -------
     cm: pd.DataFrame
     """
         
     cm = correlation_matrix.copy()
+    
+    assert (rho is None) or (-1 <= rho <= 1), 'ERROR. "rho" must be a value between -1 and 1.'
     
     # remove the upper diagonal
     for i in range(cm.shape[0]):
