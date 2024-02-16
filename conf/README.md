@@ -2,10 +2,11 @@
 
 This document explains the structure of the configuration file. Each section of the configuration file is outlined below with a description of its purpose and the meaning of its keys.
 
-## Reporting_points
+## Reporting points
 
 This section configures the selection of reporting points that will be used in the skill assessment.
 
+```yaml
     input: 
         CSV: table of fixed reporting points
         GIS: shapefile of fixed reporting points used to correct river and catchment names, and add the Pfafstetter code
@@ -17,11 +18,13 @@ This section configures the selection of reporting points that will be used in t
         rho: the maximum correlation coefficient allowed between 2 reporting points
         upstream: whether to give priority to stations upstream (True) or downstream (False) reporting points
     output: directory where the output table of reporting points will be saved
-    
+```
+   
 ## Discharge
 
 This section defines the raw data in the analysis —reanalysis and forecast discharge—, the study period, and the return period that will be considered as the event threshold.
 
+```yaml
     input:
         reanalysis: directory were the original reanalysis discharge files are stored
         forecast: directory were the original forecast discharge files are stored
@@ -34,19 +37,23 @@ This section defines the raw data in the analysis —reanalysis and forecast dis
         reducing_factor: factor reducing the discharge associated to the previous return period (not necessary)
     output:
         reanalysis: directory where the preprocessed reanalysis discharge will be saved
-            
+```
+ 
 ## Exceedance
 
 Where to save the files of probability of exceeding the discharge threshold.
 
+```yaml
     output:
         reanalysis: directory where the reanalysis exceedance probability will be saved
         forecast: directory where the forecast exceedance probability will be saved
+```
 
 ## Hits
 
 This section configures how the contingecy table —hits, misses and false alarms— will be computed. It is here were you define the combinations of notification criteria —probability and persistence— that will be tested.
 
+```yaml
     experiment: type of analysis to be carried out: NWP, individual assessment of meteo models; COMB, assessment of the combination of models
     criteria:
         probability: search values of the probability criterion: minimum, maximum and step
@@ -55,11 +62,13 @@ This section configures how the contingecy table —hits, misses and false alarm
     window: width of the rolling window used to compute hits (no. of timesteps) to allow for a time shift between forecast and observation
     center: whether the previous rolling window is centered or not
     output: directory where the NetCDF files of hits/misses/false alarms will be stored
-    
+```
+
 ## Skill
 
 This section configures the computation of notification skill, and specially the parameters of the criteria optimization.
 
+```yaml
     current_criteria: benchmark criteria
         approach:
         probability:
@@ -76,3 +85,4 @@ This section configures the computation of notification skill, and specially the
             probability:
             persistence:
     output: directory where results will be saved
+```
