@@ -27,13 +27,18 @@ def plot_correlation_matrix(
     It creates a heat map that shows the correlation matrix and highlights the cases in which the correlation coefficient exceeds a certain value
     
     Parameters:
-    -------
+    -----------
     corr: pd.DataFrame
         Correlation matrix
     rho: float
         The maximum value allowed for the correlation coefficient between two reporting points
     save: str or Path
-        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved 
+        Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
+        
+    Returns:
+    --------
+    None
+        A plot that shows for each station the timesteps at which discharge exceeded the thresholds
     """
     
     assert 0 < rho < 1, 'ERROR. "rho" must be a float between 0 and 1'
@@ -87,6 +92,11 @@ def graphic_explanation(
     probability: float. Threshold of total probability (0-1)
     forecast:    tuple (star, end). Datetimes with the start and end timesteps to be plotted
     verbose:     boolean
+    
+    Returns:
+    --------
+    None
+        A plot that shows for each station the timesteps at which discharge exceeded the thresholds
     """
 
     if forecast is False:

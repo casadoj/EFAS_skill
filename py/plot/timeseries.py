@@ -2,27 +2,59 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from datetime import datetime, timedelta
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
+from pathlib import Path
+from typing import List, Tuple, Dict, Literal, Optional, Union
 
 
 
-def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=None, save=None, **kwargs):
-    """It creates a plot with the discharge time series and the identified flood events
-    
-    Inputs:
-    -------
-    discharge:  pandas.Series (timesteps,). Discharge timeseries
-    events1:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event
-    events2:    pandas.Series (timestpes,). Boolean series that defines the beginning of a flood event. If None, it is not plotted
-    thresholds: list. If provided, it must contain 4 values with the discharge at four increasing return periods, e.g., 1.5, 2, 5 and 20 years
-    save:       string. If not None, it must be a string with the file name (including extension) where the plot will be saved
-    
-    Ouput:
-    ------
-    The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+def plot_events_timeseries(
+    discharge: pd.Series,
+    events1: Optional[pd.Series] = None,
+    events2: Optional[pd.Series] = None,
+    thresholds: Optional[Tuple[float, float, float, float]] = None,
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
     """
+    It creates a plot with the discharge time series and the identified flood events
+    
+    Parameters:
+    -----------
+    discharge:  pandas.Series
+        Discharge timeseries
+    events1:    pandas.Series
+        Boolean series that defines the beginning of a flood event
+    events2:
+        Boolean series that defines the beginning of a flood event. If None, it is not plotted
+    thresholds: tuple
+        If provided, it must contain 4 values with the discharge at four increasing return periods, e.g., 1.5, 2, 5 and 20 years
+    save: str of pathlib.Path
+        If not None, it must be a string with the file name (including extension) where the plot will be saved
+    
+    Other parameters:
+    -----------------
+    figsize: tuple, optional
+        Size of the figure
+    size: int, optional
+        Size of the dots that represent events
+    title: str, optional
+        Title of the plot
+    xlim: tuple, optional
+        Limits of the X axis
+    
+    Returns:
+    --------
+    None
+        The plot is printed in the screen, and if 'save' is provided, it saves the figure as a PNG file
+    """
+    
+    figsize = kwargs.get('figsize', (16, 3))
+    s = kwargs.get('size', 2)
+    xlim = kwargs.get('xlim', (discharge.index[0], discharge.index[-1]))
     
     if events1 is not None:
         start = max(discharge.index.min(), events1.index.min())
@@ -32,19 +64,19 @@ def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=Non
         if events2 is not None:
             events2 = events2.loc[start:end]
     
-    fig, ax = plt.subplots(figsize=kwargs.get('figsize', (16, 3)))
+    fig, ax = plt.subplots(figsize=figsize)
     
     # plot discharge timeseries
     ax.plot(discharge, lw=.7, zorder=0)
     
     # plot points of preliminary events
     if events2 is not None:
-        ax.scatter(discharge[events2].index, discharge[events2], s=kwargs.get('size', 2), color='k')
+        ax.scatter(discharge[events2].index, discharge[events2], s=s, color='k')
         ax.text(.005, .85, 'no. preliminary events: {0}'.format(events2.sum()), transform=ax.transAxes, fontsize=9)
         
     # plot points of the events
     if events1 is not None:
-        ax.scatter(discharge[events1].index, discharge[events1], s=kwargs.get('size', 2), color='r')
+        ax.scatter(discharge[events1].index, discharge[events1], s=s, color='r')
         ax.text(.005, .925, 'no. events: {0}'.format(events1.sum()), transform=ax.transAxes, fontsize=9, color='r')
     
     # find minimum and maximum discharge
@@ -61,7 +93,7 @@ def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=Non
         ax.fill_between(discharge.index, thresholds[-1], ymax, color='mediumpurple', edgecolor=None, alpha=.1, zorder=0, label='20-year')
 
     # settings: limits, labels, title, legend...
-    ax.set(xlim=kwargs.get('xlim', (discharge.index[0], discharge.index[-1])),
+    ax.set(xlim=xlim,
            ylim=(ymin, ymax),
            ylabel='discharge (m³/s)');
     if 'title' in kwargs:
@@ -72,19 +104,46 @@ def plot_events_timeseries(discharge, events1=None, events2=None, thresholds=Non
         
         
 
-def exceedances_timeline(discharge, stations, thresholds=['rl5'], yticks=False, ax=None, save=None, **kwargs):
-    """It creates a timeline with the exceedances of the discharge thresholds
+def exceedances_timeline(
+    discharge: pd.DataFrame,
+    stations: pd.DataFrame,
+    thresholds: List[str] = ['rl5'],
+    yticks: bool = False,
+    ax: Optional[mpl.axes.Axes] = None,
+    save: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> None:
+    """
+    It creates a timeline with the exceedances of the discharge thresholds
     
-    Input:
-    ------
-    discharge:  pd.DataFrame (timesteps, stations). Raw timeseries
-    stations:   pd.DataFrame (stations, x). Table of attributes of the stations
-    thresholds: list. Name of columns in 'stations' that will be used as thresholds: 'rl1.5', 'rl2', 'rl5', 'rl20' ...
-    yticks:     boolean. Whether to add the station IDs as labels or not
+    Parameters:
+    -----------
+    discharge:  pd.DataFrame
+        Raw timeseries
+    stations:   pd.DataFrame
+        Table of attributes of the stations
+    thresholds: list
+        Name of columns in 'stations' that will be used as thresholds: 'rl1.5', 'rl2', 'rl5', 'rl20' ...
+    yticks: bool
+        Whether to add the station IDs as labels or not
+    ax: matplotlib.axes.Axes, optional
+        If provided, the figure will be plotted in this axes
+    save: str or Path
+        Directory where a the plot will be saved
+        
+    Other parameters:
+    -----------------
+    figsize: tuple, optional
+        Size of the figure
+    grid: bool, optional
+        Whether to show the grid of the plot or not
+    title: str, optional
+        Title of the plot
     
-    Output:
-    -------
-    A plot that shows for each station the timesteps at which discharge exceeded the thresholds
+    Returns:
+    --------
+    None
+        A plot that shows for each station the timesteps at which discharge exceeded the thresholds
     """
 
     discharge = discharge.loc[:, stations.index]
