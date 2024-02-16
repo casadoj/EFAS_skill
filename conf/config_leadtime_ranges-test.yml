@@ -20,7 +20,7 @@ discharge:
         end: 2023-06-30 18:00
     return_period:
         input: ../data/thresholds/return_levels.nc
-        threshold: 5
+        threshold: 2
         reducing_factor: 0.05
     output:
         reanalysis: ../data/discharge/reanalysis/
@@ -30,15 +30,15 @@ exceedance:
         reanalysis: ../results/exceedance/reanalysis/
         forecast: ../results/exceedance/forecast/
 
-hits:
-    experiment: NWP
+confusion_matrix:
+    experiment: COMB
     criteria:
         probability: [0.05, 0.96, 0.025]
         persistence: [[1, 1], [2, 4], [2, 3], [2, 2], [3, 4], [3, 3]]
     leadtime: [0, 48, 132, 168]
     window: 1
     center: True
-    output: ../results/hits/
+    output: ../results/confusion_matrix/
     
 skill:
     current_criteria:

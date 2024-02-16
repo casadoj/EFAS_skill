@@ -49,9 +49,9 @@ Where to save the files of probability of exceeding the discharge threshold.
         forecast: directory where the forecast exceedance probability will be saved
 ```
 
-## Hits
+## Confusion matrix
 
-This section configures how the contingecy table —hits, misses and false alarms— will be computed. It is here were you define the combinations of notification criteria —probability and persistence— that will be tested.
+This section configures how the confusion matrix —hits, misses and false alarms— will be computed. It is here were you define the combinations of notification criteria —probability and persistence— that will be tested.
 
 ```yaml
     experiment: type of analysis to be carried out: NWP, individual assessment of meteo models; COMB, assessment of the combination of models
