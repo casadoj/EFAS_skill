@@ -1,10 +1,10 @@
 # Index
 
-## Observed discharge
+## 1 Observed discharge
 
 The notebook [*1_observed_discharge.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/1_observed_discharge.ipynb) was meant to analyse the observed discharge time series in the hDMS database (Hydrological Data Management Service). It could be removed, since it has not been used in the end.
 
-## Preprocessing reanalysis discharge
+## 2 Preprocessing reanalysis discharge
 
 The notebook [*2_reanalysis_preprocessing.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/2_reanalysis_preprocessing.ipynb) processes the raw EFAS reanalysis discharge data to extract the data necessary for the following steps in the skill analysis.
 
@@ -12,7 +12,7 @@ The raw discharge data was downloaded from the Climate Data Store (CDS) and cons
 
 In a second step, the discharge timeseries are compared against a discharge return period to create new binary time series of exceedance/non-exceedance over the specified discharge threshold. To account for events in which the peak discharge is close to the threshold, there's an option to create a 3-class exceedance timeseries: 0, non-exceendance; 1, exceedance over the reduced threshold ($0.95\cdot Q_{rp}$); 2, exceedance over the actual threshold ($Q_{rp}$). By default, the reducing factor is $0.95$, but this value can be changed in the parameter `reducing_factor` of the configuration file.
 
-## Preprocessing forecast discharge
+## 3 Preprocessing forecast discharge
 
 The notebook [*3_forecast_preprocessing.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/3_forecast_preprocessing.ipynb) computes the probability of the forecasted discharge of exceeding a threshold associated with a specific return period.
 
@@ -24,7 +24,7 @@ The output is the probability of exceeding the specified return period. This is 
 
 The results are saved inside the repository as NetCDF, saving one file per reporting point.
 
-## Calculating the confusion matrix
+## 4 Calculating the confusion matrix
 
 The notebook [*4_confusion_matrix.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/4_confusion_matrix.ipynb) computes the hits (true positives, $TP$), misses (false negatives, $FN$) and false alarms (false positives, $FP$) for all the reporting points exceeding a minimum catchment area and the complete study period.
 
@@ -44,3 +44,13 @@ This notebook can be run under two different experiments (`hits>experiment` in t
     * *brier_weighted*: the total probability matrix is the weighted mean of the models, where each model gets a weight relative to its probabilistic skill, measured in terms of Brier score.
 
 In any case, the result is a new set of NetCDF files (one for station) that contains matrixes of hits, misses and false alarms for every combination of the criteria.
+
+## 5 Selection of reporting points
+
+The notebook [*5_select_points.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/5_select_points.ipynb) does a selection of reporting points based on the correlation between the reanalysis discharge time series. The selection is done on a catchment basis. From every pair of reporting points with a Spearman correlation coefficient larger than a given value, either the upstream or downstream one is kept depending on the value of the attribute `upstream` in the configuration file.
+
+As a result, the notebook generates a folder for each catchment with a series of plots (hydrograph with flood events, correlation matrix, maps of reporting points...), a CSV file with the original and selected number of reporting points and observed events, and a PARQUET file with the table of attributes of the selected reporting points.
+
+## 6 Compute skill
+
+## 7 Summarize results
