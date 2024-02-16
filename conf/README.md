@@ -1,5 +1,4 @@
 # Structure of the configuration file
-***
 
 This document explains the structure of the configuration file. Each section of the configuration file is outlined below with a description of its purpose and the meaning of its keys.
 
