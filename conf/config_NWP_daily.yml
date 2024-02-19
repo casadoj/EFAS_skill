@@ -7,7 +7,7 @@ reporting_points:
     catchments:
     KGE: 0.5
     selection:
-        rho: 0.9
+        rho: 
         upstream: True
     output: ../results/reporting_points/
     
