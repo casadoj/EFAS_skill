@@ -19,8 +19,8 @@ from typing import Union, Dict, Tuple, List, Optional, Literal
 
 def plot_correlation_matrix(
     corr: pd.DataFrame,
-    rho: float = .9,
-    save: Union[str, Path] = None,
+    rho: Optional[float] = None,
+    save: Optional[Union[str, Path]] = None,
     **kwargs
 ) -> None:
     """
@@ -30,9 +30,9 @@ def plot_correlation_matrix(
     -----------
     corr: pd.DataFrame
         Correlation matrix
-    rho: float
+    rho: float, optional
         The maximum value allowed for the correlation coefficient between two reporting points
-    save: str or Path
+    save: str or Path, optional
         Directory where to save the plot as a JPG file. If None (default), the plot won't be saved
         
     Returns:
@@ -41,7 +41,7 @@ def plot_correlation_matrix(
         A plot that shows for each station the timesteps at which discharge exceeded the thresholds
     """
     
-    assert 0 < rho < 1, 'ERROR. "rho" must be a float between 0 and 1'
+    assert (rho is None) or (0 < rho < 1), 'ERROR. "rho" must be a float between 0 and 1'
     
     if ('cmap' not in kwargs) or ('norm' not in kwargs):
         cmap, norm = create_cmap('Blues', np.arange(0, 1.01, .05), 'correlation coefficient')
@@ -50,13 +50,15 @@ def plot_correlation_matrix(
         norm = kwargs['norm']
 
     # compute exceedance of the correlation threshold
-    highly_correlated = corr > rho
-    highly_correlated = highly_correlated.astype(int)
-    highly_correlated[highly_correlated == 0] = np.nan
+    if rho is not None:
+        highly_correlated = corr > rho
+        highly_correlated = highly_correlated.astype(int)
+        highly_correlated[highly_correlated == 0] = np.nan
 
     fig, ax = plt.subplots(figsize=kwargs.get('figsize', (7, 7)))
     sns.heatmap(corr, vmin=0, vmax=1, ax=ax, cmap=cmap, norm=norm, cbar_kws={'label': 'Spearman correlation (-)', 'shrink': .5});
-    sns.heatmap(highly_correlated, ax=ax, cmap='Oranges', vmin=0.5, vmax=1.5, alpha=1, cbar=None)
+    if rho is not None:
+        sns.heatmap(highly_correlated, ax=ax, cmap='Oranges', vmin=0.5, vmax=1.5, alpha=1, cbar=None)
     ax.set_aspect('equal')
     
     if save is not None:
@@ -991,8 +993,8 @@ def plot_skill_by_probability(
     coldim: str = 'approach', 
     ref_prob: Optional[Union[int, float]] = None, 
     metric: str = 'f1', 
-    benchmark: xr.Dataset = None, 
-    save: Union[Path, str] = None, 
+    benchmark: Optional[xr.Dataset] = None, 
+    save: Optional[Union[Path, str]] = None, 
     **kwargs
 ) -> None:
     """
