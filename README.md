@@ -39,7 +39,7 @@ This step is carried out in this [notebook](./notebook/2_reanalysis_preprocessin
 * 1: $\lambda \cdot Q_{rp} \le Q \lt Q_{rp}$
 * 2: $Q_{rp} \le Q$).
 
-Parameters in the [configuration file](./config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
+Parameters in the [configuration file](./conf/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
 * `discharge>return_period>reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
@@ -53,7 +53,7 @@ This [notebook](./notebook/3_forecast_preprocessing.ipynb) preprocesses the disc
 
 As in the reanalysis, the output of the forecast preprocessing are NetCDF files with the time series of exceedance over threshold. Depending on whether the `reducing_factor` is enabled or not, the NetCDF files will contain one or two variables: the exceedance over the discharge threshold ($Q_{rp}$), and, if applicable, the exceedance over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). In any case, the dataset contains values in the range 0-1 with the proportion of model runs (members) that exceeded the specific discharge threshold. For the deterministic NWP (DWD and ECMWF-HRES) values can only be either 0 or 1.
 
-Parameters in the [configuration file](./config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
+Parameters in the [configuration file](./conf/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
 * `discharge>return_period>reducing_factor`: if not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
@@ -82,7 +82,7 @@ The third step is to **compute total exceedance probability** out of the probabi
 
 Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) with 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
 
-Parameters in the [configuration file](./config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
+Parameters in the [configuration file](./conf/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `hits>criteria>probability`: an array of probability values (in the range 0-1) that will be tested.
 * `hits>criteria>persistence`: an array of persistence values to be tested. Every persistence criterion is a pair of values (`[x, y]`) representing the number of $x$ positive forecast of a window of width $y$. For instance, a persistence of `[2, 3]` means that a notification would be sent if 2 out of 3 forecast predict the event.
