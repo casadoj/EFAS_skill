@@ -7,24 +7,24 @@ Analysis of the skill of [EFAS (Europen Flood Awareness System)](https://www.efa
 
 The repository contains seven folders:
 
-* [conf](https://github.com/casadoj/EFAS_skill/tree/cleaning/conf) contains the configuration file (_config.yml_) used by all notebooks.
-* [data](https://github.com/casadoj/EFAS_skill/tree/cleaning/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
-* [docs](https://github.com/casadoj/EFAS_skill/tree/cleaning/docs) contains several documents associated to the development of the repository: the EGU documents, presentations in meetings...
-* [env](https://github.com/casadoj/EFAS_skill/tree/cleaning/env) contains the file _environment.yml_ with the Conda environment used to run this repository.
-* [notebook](https://github.com/casadoj/EFAS_skill/tree/cleaning/notebook) contains the notebooks used to develop the analysis.
-* [py](https://github.com/casadoj/EFAS_skill/tree/cleaning/py) contains Python files with functions created during the analysis.
-* [results](https://github.com/casadoj/EFAS_skill/tree/cleaning/results) is used to save datasets and plots produced by running the notebooks.
+* [conf](https://github.com/casadoj/EFAS_skill/tree/conf) contains the configuration file (_config.yml_) used by all notebooks.
+* [data](https://github.com/casadoj/EFAS_skill/tree/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
+* [docs](https://github.com/casadoj/EFAS_skill/tree/docs) contains several documents associated to the development of the repository: the EGU documents, presentations in meetings...
+* [env](https://github.com/casadoj/EFAS_skill/tree/env) contains the file _environment.yml_ with the Conda environment used to run this repository.
+* [notebook](https://github.com/casadoj/EFAS_skill/tree/notebook) contains the notebooks used to develop the analysis.
+* [py](https://github.com/casadoj/EFAS_skill/tree/py) contains Python files with functions created during the analysis.
+* [results](https://github.com/casadoj/EFAS_skill/tree/results) is used to save datasets and plots produced by running the notebooks.
 
 
 ## 2 Data
 
-The analysis is limited to the [EFAS fixed reporting points](https://github.com/casadoj/EFAS_skill/blob/cleaning/data/reporting_points/Station-2022-10-27v12.csv) with a catchment area larger than 500 km² (2357 points).
+The analysis is limited to the [EFAS fixed reporting points](https://github.com/casadoj/EFAS_skill/blob/data/reporting_points/Station-2022-10-27v12.csv) with a catchment area larger than 500 km² (2357 points).
 
 The original datasets used for the study are:
 
-* EFAS v4 discharge reanalysis (_water balance_). This discharge data was downloaded from the [Copernicus Climate Data Store](https://cds.climate.copernicus.eu/#!/home) (CDS) for the complete EFAS domain, and then the time series specific to each reporting point was extracted and saved as NetCDF files in the [_data/discharge/reanalysis/_](https://github.com/casadoj/EFAS_skill/tree/cleaning/data/discharge/reanalysis) folder. Due to file size limitations in GitHub, the original files downloaded from the CDS are not in the repository.
+* EFAS v4 discharge reanalysis (_water balance_). This discharge data was downloaded from the [Copernicus Climate Data Store](https://cds.climate.copernicus.eu/#!/home) (CDS) for the complete EFAS domain, and then the time series specific to each reporting point was extracted and saved as NetCDF files in the [_data/discharge/reanalysis/_](https://github.com/casadoj/EFAS_skill/tree/data/discharge/reanalysis) folder. Due to file size limitations in GitHub, the original files downloaded from the CDS are not in the repository.
 * EFAS v4 discharge forecast. This data was extracted by Corentin from the Meteorological Archival and Retrival System (MARS) and provided as NetCDF files for each forecast date and model (COSMO, ECMWF-HRES, ECMWF-ENS, DWD). Due to the size of these files, the original files are not included in the repository.
-* The [discharge return periods](https://github.com/casadoj/EFAS_skill/blob/cleaning/data/thresholds/return_levels.nc) associated to each reporting point. Even though the data set contains several return periods (1.5, 2, 5, 10, 20 years, ...), the analysis only uses the 5-year return period.
+* The [discharge return periods](https://github.com/casadoj/EFAS_skill/blob/data/thresholds/return_levels.nc) associated to each reporting point. Even though the data set contains several return periods (1.5, 2, 5, 10, 20 years, ...), the analysis only uses the 5-year return period.
 
 
 ## 3 Methods
@@ -39,7 +39,7 @@ This step is carried out in this [notebook](notebook/2_reanalysis_preprocessing.
 * 1: $\lambda \cdot Q_{rp} \le Q \lt Q_{rp}$
 * 2: $Q_{rp} \le Q$).
 
-Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+Parameters in the [configuration file](config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
 * `discharge>return_period>reducing_factor`: it not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
@@ -53,16 +53,16 @@ This [notebook](notebook/3_forecast_preprocessing.ipynb) preprocesses the discha
 
 As in the reanalysis, the output of the forecast preprocessing are NetCDF files with the time series of exceedance over threshold. Depending on whether the `reducing_factor` is enabled or not, the NetCDF files will contain one or two variables: the exceedance over the discharge threshold ($Q_{rp}$), and, if applicable, the exceedance over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). In any case, the dataset contains values in the range 0-1 with the proportion of model runs (members) that exceeded the specific discharge threshold. For the deterministic NWP (DWD and ECMWF-HRES) values can only be either 0 or 1.
 
-Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+Parameters in the [configuration file](config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `discharge>return_period>threshold`: return period (years) associated to the discharge threshold ($Q_{rp}$).
 * `discharge>return_period>reducing_factor`: if not None, a value between 0-1 that reduces the discharge threshold ($Q_{rp}$) in order to produce the 3-class exceedance time series explained above.
 * `discharge>return_period>input`: location of the NetCDF file with the discharge associated to several return periods for all the fixed reporting points.
 * `exceedance>output>forecast` is the directory where the output of this step will be saved.
 
-### 3.3 Hits, misses and false alarms
+### 3.3 Confusion matrix
 
-This [notebook](notebook/3_hits_misses_falsealarms.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast, and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
+This [notebook](notebook/4_confusion_matrix.ipynb) compares the exceedance over threshold for both the reanalyses (observation) and the forecast, and computes the entries of the confusion matrix (hits, misses, false alarms) that will be later on used to compute skill.
 
 ![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
 >***Figure 1**. Confusion matrix for an imbalanced classification, such as that of flood forecasting.*
@@ -82,7 +82,7 @@ The third step is to **compute total exceedance probability** out of the probabi
 
 Finally, the **hits, misses, and false alarms** are computed from the comparison between the "observed" and the forecasted events. The results are saved as NetCDF file, one for each reporting point. Every NetCDF file contains 3 matrixes ($TP$ for true positives or hits, $FN$ for false negatives of misses, $FP$ for false positives or false alarms) with 4 dimensions (_approach_, _probability_, _persistence_, _leadtime_).
 
-Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+Parameters in the [configuration file](config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `hits>criteria>probability`: an array of probability values (in the range 0-1) that will be tested.
 * `hits>criteria>persistence`: an array of persistence values to be tested. Every persistence criterion is a pair of values (`[x, y]`) representing the number of $x$ positive forecast of a window of width $y$. For instance, a persistence of `[2, 3]` means that a notification would be sent if 2 out of 3 forecast predict the event.
@@ -92,7 +92,7 @@ Parameters in the [configuration file](config/config.yml) specifically involved 
 
 ### 3.4 Selection of reporting points
 
-In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/5_select_pointds) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
+In a first attempt, we tried to remove the spatial colinearity between reporting points. The idea was that the reporting points in the same catchment might be highly correlated, so including all of them in the skill analysis would not be correct. With that idea in mind, there is a [notebook](notebook/5_select_points.ipynb) that analyses the reporting points in a catchment basis and filters out highly correlated points. 
 
 In the end, this step has been removed from the pipeline due to the limited amount of data that we have, which would be even smaller if we removed more reporting points. 
 
@@ -116,7 +116,7 @@ After the previous exploration, **the criteria are optimized for a fixed lead ti
 
 Finally, we analyse the **behaviour of the skill with varying catchment area** (for a fixed lead time) **and varying lead time** (for a fixed catchment area). Not only we compare the new optimal criteria against the current, but we rerun a optimization in which we look for the optimal probability threshold for each cathcment/lead time value. The objective of this second optimization is only exploratory, to check whether there is ground for improvement in the skill of the system with more complex notification criteria.
 
-Parameters in the [configuration file](config/config.yml) specifically involved in this step:
+Parameters in the [configuration file](config/config_COMB_leadtime_ranges.yml) specifically involved in this step:
 
 * `skill>current_criteria`: as a benchmark, the current _approach_, _probability_ and _persistence_ criteria should be provided.
 * `sekill>leadtime`: minimum leadtime value for which the notification criteria will be optimized. By default is 60 h, to keep the current procedure of not sending notifications with less than 2 days in advance.
