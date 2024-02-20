@@ -67,7 +67,7 @@ This [notebook](./notebook/4_confusion_matrix.ipynb) compares the exceedance ove
 ![Figure 1. Confusion matrix for an imbalanced classification, such as that of flood forecasting.](confusion_matrix.JPG)
 >***Figure 1**. Confusion matrix for an imbalanced classification, such as that of flood forecasting.*
 
-The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](./notebooks/extra/explanation_of_the_procedure.ipynb).
+The first step in this section is to **reshape the forecast exceedance matrix**. Originally this matrix has, for each station and NWP model, the dimensions _forecast_ (in date and time units and a frequency of 12 hours) and _leadtime_ (in hours with frequency 6 hours). These dimensions cannot be directly compared with the _datetime_ dimension in the reanalysis dataset (date and time units and a frequency of 6 hours). Hence, the forecast dataset needs to be reshaped into two new dimensions: _datetime_ (same units and frequency as _datetime_ in the reanalysis data) and _leadtime_ (in hours but with frequency 12 h, instead of 6 h as originally). A thorough explanation of this step can be found in this [document](./notebook/extra/explanation_of_the_procedure.ipynb).
 
 If the exceedance datasets are ternary (see Sections 3.1 and 3.2), the second step in this section is to **recompute the exceedance** to convert these ternary datasets into binary. The combination of 2 ternary time series has 9 possible outcomes. In a nutshell, only two cases are interesting: when one of the time series is over the discharge threshold ($Q_{rp}$) and the other one is just over the reduced discharge threshold ($\lambda \cdot Q_{rp}$). These two cases would be either a miss or a false alarm in a binary analysis; instead, in the ternary analysis they will be both considered as hits.
 
@@ -100,7 +100,7 @@ This filter could be done in order to keep either smaller or larger catchments, 
 
 ### 3.5 Skill assessment
 
-This is the [notebook](./notebooks/6_skill.ipynb) in which we analyse the skill of EFAS notifications in the last 2 years and derive ways of changing the notification criteria in order to optimize skill. The outcome of this process is a set of plots and a few datasets including the optimized criteria and the table of reporting points including their skill for the optimial criteria.
+This is the [notebook](./notebook/6_skill.ipynb) in which we analyse the skill of EFAS notifications in the last 2 years and derive ways of changing the notification criteria in order to optimize skill. The outcome of this process is a set of plots and a few datasets including the optimized criteria and the table of reporting points including their skill for the optimial criteria.
 
 In this section we **compute skill** out of the hits, misses and false alarms derived in the previous section. Skill is measured in three different ways: $recall$, $precision$ and a combination of those named $f_{score}$. The $\beta$ coefficient in the $f_{score}$ is one of the parameters to be set in the configuration file. The default values is 1, for which the same importance is given to both $precision$ and $recall$. If $precision$ is deemed more importance, $\beta$ should be lower than 1, and the other way around if $recall$ is more important.
 
@@ -131,7 +131,7 @@ There is a final [notebook](./noteboooks/7_summarize_results.ipynb) that imports
 
 ### 3.6 Extras
 
-There are [2 extra notebooks](./notebooks/extra/) that were used to explain the whole procedure and generate plots regarding specific events.
+There are [2 extra notebooks](./notebook/extra/) that were used to explain the whole procedure and generate plots regarding specific events.
 
 ## 4 Results
 
