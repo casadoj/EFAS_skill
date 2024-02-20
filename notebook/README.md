@@ -2,11 +2,11 @@
 
 ## 1 Observed discharge
 
-The notebook [*1_observed_discharge.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/1_observed_discharge.ipynb) was meant to analyse the observed discharge time series in the hDMS database (Hydrological Data Management Service). It could be removed, since it has not been used in the end.
+The notebook [*1_observed_discharge.ipynb*](1_observed_discharge.ipynb) was meant to analyse the observed discharge time series in the hDMS database (Hydrological Data Management Service). It could be removed, since it has not been used in the end.
 
 ## 2 Preprocessing reanalysis discharge
 
-The notebook [*2_reanalysis_preprocessing.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/2_reanalysis_preprocessing.ipynb) processes the raw EFAS reanalysis discharge data to extract the data necessary for the following steps in the skill analysis.
+The notebook [*2_reanalysis_preprocessing.ipynb*](2_reanalysis_preprocessing.ipynb) processes the raw EFAS reanalysis discharge data to extract the data necessary for the following steps in the skill analysis.
 
 The raw discharge data was downloaded from the Climate Data Store (CDS) and consists of NetCDF files for every year of the analysis. These NetCDF files contain values for the complete EFAS domain, but the succeeding analysis only require the time series for specific points: the selected reporting points. The code extracts these timeseries and saves the result in a folder of the repository.
 
@@ -14,7 +14,7 @@ In a second step, the discharge timeseries are compared against a discharge retu
 
 ## 3 Preprocessing forecast discharge
 
-The notebook [*3_forecast_preprocessing.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/3_forecast_preprocessing.ipynb) computes the probability of the forecasted discharge of exceeding a threshold associated with a specific return period.
+The notebook [*3_forecast_preprocessing.ipynb*](3_forecast_preprocessing.ipynb) computes the probability of the forecasted discharge of exceeding a threshold associated with a specific return period.
 
 The input data are:
 * The discharge forecast for the complete set of reporting points, numerical weather prediction (NWP) model and the complete study period. This data is saved in NetCDF format in a hard disk; due to its size it cannot be included in the GitHub repository.
@@ -26,7 +26,7 @@ The results are saved inside the repository as NetCDF, saving one file per repor
 
 ## 4 Calculating the confusion matrix
 
-The notebook [*4_confusion_matrix.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/4_confusion_matrix.ipynb) computes the hits (true positives, $TP$), misses (false negatives, $FN$) and false alarms (false positives, $FP$) for all the reporting points exceeding a minimum catchment area and the complete study period.
+The notebook [*4_confusion_matrix.ipynb*](4_confusion_matrix.ipynb) computes the hits (true positives, $TP$), misses (false negatives, $FN$) and false alarms (false positives, $FP$) for all the reporting points exceeding a minimum catchment area and the complete study period.
 
 The input data are the time series of probability of exceedance over a discharge threshold both for the reanalysis ("observed") and the forecast.
 
@@ -47,7 +47,7 @@ In any case, the result is a new set of NetCDF files (one for station) that cont
 
 ## 5 Selection of reporting points
 
-The notebook [*5_select_points.ipynb*](https://github.com/casadoj/EFAS_skill/blob/main/notebook/5_select_points.ipynb) does a selection of reporting points based on the correlation between the reanalysis discharge time series. The selection is done on a catchment basis. From every pair of reporting points with a Spearman correlation coefficient larger than a given value, either the upstream or downstream one is kept depending on the value of the attribute `upstream` in the configuration file.
+The notebook [*5_select_points.ipynb*](5_select_points.ipynb) does a selection of reporting points based on the correlation between the reanalysis discharge time series. The selection is done on a catchment basis. From every pair of reporting points with a Spearman correlation coefficient larger than a given value, either the upstream or downstream one is kept depending on the value of the attribute `upstream` in the configuration file.
 
 As a result, the notebook generates a folder for each catchment with a series of plots (hydrograph with flood events, correlation matrix, maps of reporting points...), a CSV file with the original and selected number of reporting points and observed events, and a PARQUET file with the table of attributes of the selected reporting points.
 
@@ -64,10 +64,16 @@ The main inputs are the confusion matrices computed in [notebook 4](4_confusion_
 The outputs of the notebook are numerous:
 
 * Plots including maps, histograms, line plots and the Röbber diagram.
-* A `pickle` file that contains a dictionary with the optimised criteria for each lead time and model
+* A `pickle` file that contains a dictionary with the optimised criteria for each lead time and model.
 * A `parquet` file with the selected reporting points and their skill with the optimal criteria.
 * A `NetCDF` file with the skill matrix.
 
 This notebook can be run both for the **NWP** experiment —individual analysis of the Numerical Weather Prediction models— of the **COMB** experiment —analysis of different combination of those models—. The parameters controling the computations are in the `skill` section of the configuration file.
 
 ## 7 Summarize results
+
+This notebook creates a table comparing the optimised criteria and the associated skill for every `leadtime` and `model` defined in the configuration file. If several f-scores were tested, it will load all the results and compare results depending on the target f-score.
+
+The inputs are the points selected in [notebook 5](5_select_points.ipynb), the confusion matrices calculated in notebook [notebook_4](4_confusion_matrix.ipynb), and the notification criteria optimised in [notebook_6](6_skill.ipynb).
+
+The output of this notebook is a comparative table exported as a CSV file.
