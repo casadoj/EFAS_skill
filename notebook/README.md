@@ -53,4 +53,21 @@ As a result, the notebook generates a folder for each catchment with a series of
 
 ## 6 Compute skill
 
+This notebooks computes the notification skill in terms of precision, recall and the target metric —the $f_\beta$ score—, and optimises the notification criteria to maximise this latter metric.
+
+The main inputs are the confusion matrices computed in [notebook 4](4_confusion_matrix.ipynb) and the reporting points selected in [notebook 5](5_select_points.ipynb).
+
+1. Once the skill metrics are computed for all combinations of model, lead time, probability threshold and persistence, the first step is a visual analysis of the results. Several plots compare the influence of each of these dimensions on the notification skill of the system. 
+2. After the exploration, it searches for optimal notification criteria (probability threshold and persistence) for each lead time and model. The results of the optimization are compared with the benchmark in several plots, includint maps, line plots and the Röbber diagram.
+3. Finally, the notebooks explores the influence of catchment area in the notification skill. First, it analyses the change in skill with catchment area for a fixed notification criteria. Second, the optimization in point 2 is repeated for several catchment areas, trying to find whether a area-depending threshold enhances skill.
+
+The outputs of the notebook are numerous:
+
+* Plots including maps, histograms, line plots and the Röbber diagram.
+* A `pickle` file that contains a dictionary with the optimised criteria for each lead time and model
+* A `parquet` file with the selected reporting points and their skill with the optimal criteria.
+* A `NetCDF` file with the skill matrix.
+
+This notebook can be run both for the **NWP** experiment —individual analysis of the Numerical Weather Prediction models— of the **COMB** experiment —analysis of different combination of those models—. The parameters controling the computations are in the `skill` section of the configuration file.
+
 ## 7 Summarize results
