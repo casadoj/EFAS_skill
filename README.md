@@ -7,13 +7,13 @@ Analysis of the skill of [EFAS (Europen Flood Awareness System)](https://www.efa
 
 The repository contains seven folders:
 
-* [conf](https://github.com/casadoj/EFAS_skill/tree/conf) contains the configuration file (_config.yml_) used by all notebooks.
-* [data](https://github.com/casadoj/EFAS_skill/tree/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
-* [docs](https://github.com/casadoj/EFAS_skill/tree/docs) contains several documents associated to the development of the repository: the EGU documents, presentations in meetings...
-* [env](https://github.com/casadoj/EFAS_skill/tree/env) contains the file _environment.yml_ with the Conda environment used to run this repository.
-* [notebook](https://github.com/casadoj/EFAS_skill/tree/notebook) contains the notebooks used to develop the analysis.
-* [py](https://github.com/casadoj/EFAS_skill/tree/py) contains Python files with functions created during the analysis.
-* [results](https://github.com/casadoj/EFAS_skill/tree/results) is used to save datasets and plots produced by running the notebooks.
+* [conf](https://github.com/casadoj/EFAS_skill/tree/main/conf) contains the configuration file (_config.yml_) used by all notebooks.
+* [data](https://github.com/casadoj/EFAS_skill/tree/main/data) contains the original data used in the analysis (whenever the size is suitable to be stored in GitHub).
+* [docs](https://github.com/casadoj/EFAS_skill/tree/main/docs) contains several documents associated to the development of the repository: the EGU documents, presentations in meetings...
+* [env](https://github.com/casadoj/EFAS_skill/tree/main/env) contains the file _environment.yml_ with the Conda environment used to run this repository.
+* [notebook](https://github.com/casadoj/EFAS_skill/tree/main/notebook) contains the notebooks used to develop the analysis.
+* [py](https://github.com/casadoj/EFAS_skill/tree/main/py) contains Python files with functions created during the analysis.
+* [results](https://github.com/casadoj/EFAS_skill/tree/main/results) is used to save datasets and plots produced by running the notebooks.
 
 
 ## 2 Data
@@ -22,7 +22,7 @@ The analysis is limited to the [EFAS fixed reporting points](https://github.com/
 
 The original datasets used for the study are:
 
-* EFAS v4 discharge reanalysis (_water balance_). This discharge data was downloaded from the [Copernicus Climate Data Store](https://cds.climate.copernicus.eu/#!/home) (CDS) for the complete EFAS domain, and then the time series specific to each reporting point was extracted and saved as NetCDF files in the [_data/discharge/reanalysis/_](https://github.com/casadoj/EFAS_skill/tree/data/discharge/reanalysis) folder. Due to file size limitations in GitHub, the original files downloaded from the CDS are not in the repository.
+* EFAS v4 discharge reanalysis (_water balance_). This discharge data was downloaded from the [Copernicus Climate Data Store](https://cds.climate.copernicus.eu/#!/home) (CDS) for the complete EFAS domain, and then the time series specific to each reporting point was extracted and saved as NetCDF files in the [_data/discharge/reanalysis/_](https://github.com/casadoj/EFAS_skill/tree/main/data/discharge/reanalysis) folder. Due to file size limitations in GitHub, the original files downloaded from the CDS are not in the repository.
 * EFAS v4 discharge forecast. This data was extracted by Corentin from the Meteorological Archival and Retrival System (MARS) and provided as NetCDF files for each forecast date and model (COSMO, ECMWF-HRES, ECMWF-ENS, DWD). Due to the size of these files, the original files are not included in the repository.
 * The [discharge return periods](https://github.com/casadoj/EFAS_skill/blob/data/thresholds/return_levels.nc) associated to each reporting point. Even though the data set contains several return periods (1.5, 2, 5, 10, 20 years, ...), the analysis only uses the 5-year return period.
 
