@@ -47,7 +47,7 @@ skill:
         persistence: 3/3
     leadtime: 60
     area: 2000
-    beta: 1
+    beta: 0.8
     optimization:
         kfold: 10
         train_size: 0.707
