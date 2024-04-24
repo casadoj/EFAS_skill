@@ -1463,6 +1463,7 @@ def roebber_diagram(
         fig, ax = plt.subplots(figsize=figsize)
     fs = ax.get_xticklabels()[0].get_fontsize()
     ax.plot([0, 1], [0, 1], lw=lw, c='k', ls='--', dashes=dashes)
+    ax.text(lim[1] + .01, lim[1] + .01, '1.0', ha='left', va='bottom', fontsize=fs)
 
     metric_values = np.arange(.2, 1., .2)
     P = np.linspace(0, 1, 101)
