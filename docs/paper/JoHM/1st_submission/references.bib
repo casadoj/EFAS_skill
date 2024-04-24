@@ -1,0 +1,644 @@
+%
+% JOURNAL ABBREVIATIONS
+%
+@STRING{AMS 	= "Amer.\ Meteor.\ Soc."}
+@STRING{AGU 	= "Amer.\ Geophys.\ Union"}
+@STRING{AIP 	= "Amer. Inst. Phys."}
+@STRING{ADGEO     = "Adv.\ Geosci."}
+@STRING{AFM       = "Agric.\ For.\ Meteor."}
+@STRING{AM        = "Ann.\ Meteor."}
+@STRING{AN        = "Astrophys.\ Norv."}		% Astrophysica Norvegica
+@STRING{AO        = "Atmos.--Ocean"}			% Atmosphere--Ocean, published by Canadian Meteorological Society (CMOS)
+@STRING{AR        = "Atmos.\ Res."}			% Atmospheric Research
+@STRING{ARFM      = "Annu.\ Rev.\ Fluid Mech."}
+@STRING{AUMET     = "Aust.\ Meteor.\ Mag."}
+@STRING{BAMS      = "Bull.\ Amer.\ Meteor.\ Soc."}
+@STRING{CAP       = "Contrib.\ Atmos.\ Phys."}
+@STRING{CC        = "Climate Change"}      % Climate Change 
+@STRING{CCH       = "Climatic Change"}			% Climatic Change
+@STRING{CDYN      = "Climate Dyn."}
+@STRING{CHAOS     = "Chaos"}
+@STRING{COL       = "Collier's"}
+@STRING{CRS       = "Cont.\ Shelf Res."}
+@STRING{DAO       = "Dyn.\ Atmos.\ Oceans"}
+@STRING{ECO       = "Ecology"}
+@STRING{EI        = "Earth Interact."}
+@STRING{GA        = "Geophysica"}			% Geophysica, published by Geophysical Society of Finland 
+@STRING{GEOMAG    = "Geophys.\ Mag."}
+@STRING{GN        = "Geophys.\ Norv."}			% Geophysica Norvegica
+@STRING{GRL       = "Geophys.\ Res.\ Lett."}
+@STRING{GEOINT    = "Geofis.\ Int."}			% Geofisica Internacional (Mexican journal -- vols. 3--5 contained proceedings from a hurricane conference
+@STRING{GEOPUB    = "Geofys.\ Publ."}
+@STRING{GPC       = "Global Planet.\ Change"}
+@STRING{HP        = "Health Phys."}
+@STRING{IAOP      = "Izv.\ Atmos.\ Ocean.\ Phys.\ (Engl.\ Transl.)"}
+@STRING{IJC       = "Int.\ J.\ Climatol."}
+@STRING{JAM       = "J.\ Appl.\ Meteor."}		% renamed to name below in 2006
+@STRING{JAMC      = "J.\ Appl.\ Meteor.\ Climatol."}  	% Journal of Applied Meteorology and Climatology (this journal used to be called the Journal of Applied Meteorology before 2006)
+@STRING{JAS       = "J.\ Atmos.\ Sci."}
+@STRING{JAOT      = "J.\ Atmos.\ Oceanic Technol."}
+@STRING{JCAM      = "J.\ Climate Appl.\ Meteor."}	% from 1983--87, now JAMC
+@STRING{JCLI      = "J.\ Climate"}
+@STRING{JCR       = "J.\ Coastal Res."}
+@STRING{JFM       = "J.\ Fluid\ Mech."}
+@STRING{JEM       = "J.\ Eng.\ Math."}			% Journal of Engineering Mathematics
+@STRING{JGR       = "J.\ Geophys.\ Res."}
+@STRING{JHM       = "J.\ Hydrometeor."}
+@STRING{JMS       = "J.\ Mar.\ Syst."}
+@STRING{JM        = "J.\ Meteor."}
+@STRING{JMR       = "J.\ Mar.\ Res."}
+@STRING{JMSJ      = "J.\ Meteor.\ Soc.\ Japan"}
+@STRING{JPO       = "J.\ Phys.\ Oceanogr."}
+@STRING{JOCEAN    = "J.\ Oceanogr."}			% Journal of Oceanography
+@STRING{JOSJ      = "J.\ Oceanogr.\ Soc.\ Japan"}
+@STRING{JSE       = "J.\ Struct.\ Eng."}	% Journal of Structural Engineering at ASCE
+@STRING{JTM       = "J.\ Tropical Meteor."}
+@STRING{JWEIA     = "J.\ Wind Eng.\ Ind.\ Aerodyn."}
+@STRING{MA        = "Meteor.\ Appl."}
+@STRING{MAP       = "Meteor.\ Atmos.\ Phys."}
+@STRING{METMON    = "Meteor.\ Monogr."}
+@STRING{METZEIT   = "Meteor.\ Z."}
+@STRING{MWL       = "Mar.\ Wea.\ Log"}
+@STRING{MWR       = "Mon.\ Wea.\ Rev."}
+@STRING{NAT       = "Nature"}
+@STRING{NHR       = "Nat.\ Hazards Rev."}
+@STRING{NWD       = "Natl.\ Weather Dig."}
+@STRING{OA        = "Oceanol. Aeta"}
+@STRING{OCEAN     = "Oceanography"}                	% a quarterly journal of The Oceanography Society
+@STRING{PAG       = "Pure Appl.\ Geophys."}
+@STRING{PF        = "Phys.\ Fluids"}
+@STRING{PHYSD     = "Physica D"}
+@STRING{PMG       = "Pap.\ Meteor.\ Geophys."}	% Papers in Meteorology and Geophysics
+@STRING{PNAS      = "Proc.\ Natl.\ Acad.\ Sci.\ (USA)"}
+@STRING{PRE       = "Phys.\ Rev.\ E"}
+@STRING{PRSA      = "Proc.\ Roy.\ Soc."}
+@STRING{PT        = "Phys.\ Today"}
+@STRING{PTRS      = "Philos.\ Trans.\ Roy.\ Soc.\ London"}
+@STRING{QJRMS     = "Quart.\ J.\ Roy.\ Meteor.\ Soc."}
+@STRING{RGEO      = "Rev. Geophys."}
+@STRING{SCI       = "Science"}
+@STRING{SOLA      = "SOLA"}				% Scientific Online Letters on the Atmosphere
+@STRING{TAGU      = "Eos, Trans.\ Amer.\ Geophys.\ Union"}
+@STRING{TELLUS    = "Tellus"}
+@STRING{TCFD      = "Theor.\ Comput.\ Fluid Dyn."}
+@STRING{WEA       = "Weather"}
+@STRING{WW        = "Weatherwise"}
+@STRING{WF        = "Wea.\ Forecasting"}
+@STRING{WMOB      = "WMO Bull."}
+
+@article{Alfieri2014,
+    author = {L. Alfieri and F. Pappenberger and F. Wetterhall and T. Haiden and D. Richardson and P. Salamon},
+    title = {Evaluation of ensemble streamflow predictions in Europe}, 
+    journal = {Journal of Hydrology},
+    year = {2014},
+    month = {6},
+    pages = {913-922},
+    volume = {517},
+    doi = {10.1016/j.jhydrol.2014.06.035},
+    issn = {00221694}
+}
+
+@article{Alfieri2017,
+	author = {L. Alfieri and B. Bisselink and F. Dottori and G. Naumann and A.P.J. De Roo and P. Salamon and K. Wyser and L. Feyen},
+	title = {Global projections of river flood risk in a warmer world},
+	journal = {Earth's Future},
+	year = {2017},
+	month = {feb},
+	number = {2},
+	pages = {171-182},
+	volume = {5},
+	doi = {10.1002/2016EF000485},
+	issn = {23284277}
+}
+
+@article{Bartholmes2005,
+    author = {J. Bartholmes and E. Todini},
+    title = {{Coupling meteorological and hydrological models for flood forecasting}},
+    journal = {Hydrology and Earth System Sciences},
+    year = {2005},
+    number = {4},
+    volume = {9},
+    pages = {333-346},
+    doi = {10.5194/hess-9-333-2005}
+}
+
+@article{Bartholmes2009,
+    author = {J.C. Bartholmes and J. Thielen and M.H. Ramos and S. Gentilini},
+    title = {The european flood alert system EFAS – Part 2: Statistical skill assessment of probabilistic and deterministic operational forecasts},
+    journal = {Hydrology and Earth System Sciences},
+    year = {2009},
+    volume = {13},
+    pages = {141-153},
+    doi = {10.5194/hess-13-141-2009}
+}
+
+@article{Bauer2015,
+	author = {P. Bauer and A. Thorpe and G. Brunet},
+    title = {{The quiet revolution of numerical weather prediction}},
+	journal = NAT,
+    year = {2015},
+	month = {sep},
+	number = {7567},
+	pages = {47-55},
+	volume = {525},
+	doi = {10.1038/nature14956},
+	issn = {14764687}
+}
+
+@article{Bouttier2024,
+	author = {F. Bouttier and H. Marchal},
+	title = {{Probabilistic short-range forecasts of high precipitation events: optimal decision thresholds and predictability limits}},
+    journal = {EGUsphere [preprint]},
+    year = {2024},
+    doi = {10.5194/egusphere-2023-3111},
+	url = {https://doi.org/10.5194/egusphere-2023-3111}
+}
+
+@article{Brier1950,
+   author = {G.W. Brier},
+    title = {Verification of forecasts expressed in terms of probability},
+   journal = {Monthly Weather Review},
+   year = {1950},
+   issue = {1},  
+   volume = {78}
+}
+
+@article{Buizza2008,
+	author = {R. Buizza},
+	title = {{The value of probabilistic prediction}},
+	journal = {Atmospheric Science Letters},
+    year = {2008},
+	month = {apr},
+	number = {2},
+	pages = {36--42},
+	publisher = {Wiley},
+	volume = {9},
+	doi = {10.1002/asl.170},
+	issn = {1530-261X}
+}
+
+@misc{Burek2013a,
+    author = {P. Burek and J. van der Knijff and A.P.J. De Roo},
+    title = {LISFLOOD. Distributed Water Balance and Flood Simulation Model},
+    year = {2013},
+    city = {Luxembourg},
+    doi = {10.2788/24719},
+    isbn = {879-92-79-33190-9},
+    issn = {1831-9424},
+    publisher = {{Joint Research Centre - European Commission}}
+}
+@article{Cloke2009,
+    author = {H.L. Cloke and F. Pappenberger},
+    title = {Ensemble flood forecasting: A review},
+    journal = {Journal of Hydrology},
+    year = {2009},
+    issue = {3-4},
+    month = {9},
+    pages = {613-626},
+    volume = {375},
+    doi = {10.1016/j.jhydrol.2009.06.005},
+    issn = {00221694}
+}
+
+@article{Cloke2017,
+   author = {H.L. Cloke and F. Pappenberger and P.J. Smith and F. Wetterhall},
+   title = {How do i know if I've improved my continental scale flood early warning system?},
+   journal = {Environmental Research Letters},
+   issue = {4},
+   month = {3},
+   publisher = {Institute of Physics Publishing},
+   volume = {12},
+   year = {2017},
+   doi = {10.1088/1748-9326/aa625a},
+   issn = {17489326}
+}
+
+@article{Dasgupta2023,
+    author = {A. Dasgupta and L. Arnal and R. Emerton and S. Harrigan and G. Matthews and A. and K. O'Regan and T. Pérez-Ciria and E. Valdez and B. van Osnabrugge and M. Werner and C. Buontempo and H.L. Cloke and F. Pappenberger and I.G. Pechlivanidis and C. Prudhomme and M.H. Ramos and P. Salamon},
+    title = {{Connecting hydrological modelling and forecasting from global to local scales: Perspectives from an international joint virtual workshop}},
+    journal = {Journal of Flood Risk Management},
+    year = {2023},
+    doi = {10.1111/jfr3.12880},
+    issn = {1753318X}
+}
+
+@article{Demeritt2013,
+   author = {D. Demeritt and S. Nobert and H.L. Cloke and F. Pappenberger},
+   title = {The European Flood Alert System and the communication, perception, and use of ensemble predictions for operational flood risk management},
+   journal = {Hydrological Processes},
+   year = {2013},
+   issue = {1},
+   pages = {147-157},
+   volume = {27},
+   doi = {10.1002/hyp.9419},
+   issn = {08856087}
+}
+
+@article{DeRoo2000,
+   author = {A.P.J. {De Roo} and C.G. Wesseling and W.P.A. Van Deursen},
+   title = {Physically based river basin modelling within a GIS: The LISFLOOD model},
+   journal = {Hydrological Processes},
+   year = {2000},
+   issue = {11-12},
+   pages = {1981-1992},
+   volume = {14},
+   doi = {10.1002/1099-1085(20000815/30)14:11/12<1981::aid-hyp49>3.0.co;2-f},
+   issn = {08856087}
+}
+
+@article{DeRoo2003,
+    author = {A.P.J. {De Roo} and B. Gouweleeuw and J. Thielen and J. Bartholmes and P. Bongioannini-Cerlini and E. Todini and P.D. Bates and M. Horritt and N. Hunter and K. Beven and F. Pappenberger and E. Heise and G. Rivin and M. Hils and A. Hollingsworth and B. Holst and J. Kwadijk and P. Reggiani and M. van Dijk and K. Sattler and E. Sprokkereef},
+    title = {{Development of a european flood forecasting system}},
+    journal = {International Journal of River Basin Management},
+    year = {2003},
+    issn = {18142060},
+    number = {1},
+    pages = {49--59},
+    volume = {1},
+    doi = {10.1080/15715124.2003.9635192}
+}
+
+@article{Diomede2008,
+	author = {T. Diomede and S. Davolio and C. Marsigli and M.M. Miglietta and A. Moscatello and P. Papetti and T. Paccagnella and A. Buzzi and P. Malguzzi},
+	title = {{Discharge prediction based on multi-model precipitation forecasts}},
+	journal = MAP,
+	year = {2008},
+	number = {3-4},
+	pages = {245--265},
+	volume = {101},
+    doi = {10.1007/s00703-007-0285-0},
+	issn = {01777971}
+}
+
+@techreport{EEA2023,
+	author = {EEA},
+	title = {{Economic losses from weather- and climate-related extremes in Europe}},
+	institution = {European Environmental Agency - European Union},
+	year = {2023},
+	month = {oct},
+	url = {https://www.eea.europa.eu/en/analysis/indicators/economic-losses-from-climate-related?activeAccordion=ecdb3bcf-bbe9-4978-b5cf-0b136399d9f8}
+}
+
+@misc{EFASv4.0,
+	author = {{JRC}},
+	title = {{European Flood Awareness System v4.0}},
+	year = {2020},
+	month = {jun},
+	url = {https://confluence.ecmwf.int/display/CEMS/EFAS+v4.0},
+	urldate = {2024-01-10},
+    publisher = {{Joint Research Centre - European Commission}}
+}
+
+@misc{EFASv5.0,
+	author = {{JRC}},
+	title = {{European Flood Awareness System v5.0}},
+	year = {2023},
+	url = {https://confluence.ecmwf.int/display/CEMS/Latest+operational+EFAS+release},
+	urldate = {2024-01-19},
+    publisher = {{Joint Research Centre - European Commission}}
+}
+
+@article{Gupta2009,
+   author = {H.V. Gupta and H. Kling and K.K. Yilmaz and G.F. Martínez},
+   title = {Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling},
+   journal = {Journal of Hydrology},
+   year = {2009},
+   issue = {1-2},
+   month = {10},
+   pages = {80-91},
+   volume = {377},
+   doi = {10.1016/J.JHYDROL.2009.08.003},
+   issn = {0022-1694}
+}
+
+@article{Hall2021,
+   author = {L. Hall},
+   title = {Integrating Measures of Model Performance and Forecast Skill into European Flood Awareness System (EFAS) Notifications},
+   year = {2021}
+}
+
+@book{Hanssen1965,
+  author={A.W. Hanssen and W.J.A. Kuipers},
+  title={On the Relationship Between the Frequency of Rain and Various Meteorological Parameters},
+  series={Koninklijk Nederlands Meterologisch Instituut. Mededelingen en Verhandelingen},
+  year={1965},
+  publisher={Staatsdrukkerij- en Uitgeverijbedrijf}
+}
+
+@incollection{IPCC2023,
+	author = {M.A. Caretta and A. Mukherji and M. Arfanuzzaman and R.A. Betts and A. Gelfan and Y. Hirabayashi and T.K. Lissner and E. Lopez Gunn and J. Liu and R. Morgan and S. Mwanga and S. Supratid},
+	year = {2023},
+	title = {{Water}},
+    booktitle = {Climate Change 2022 – Impacts, Adaptation and Vulnerability},
+	publisher = {Cambridge University Press},
+    editor = {H.O. Pörtner and D.C. Roberts and M. Tignor and E.S. Poloczanska and K. Mintenbeck and A. Alegría and M. Craig and S. Langsdorf and S. Löschke and V. Möller and A. Okem and B. Rama},
+	pages = {551-712},
+    doi = {10.1017/9781009325844.006}
+}
+
+@article{Kling2012,
+	author = {H. Kling and M. Fuchs and M. Paulin},
+	title = {{Runoff conditions in the upper Danube basin under an ensemble of climate change scenarios}},
+	journal = {Journal of Hydrology},
+	year = {2012},
+	month = {mar},
+	pages = {264-277},
+	volume = {424-425},
+    doi = {10.1016/j.jhydrol.2012.01.011},
+	issn = {00221694}
+}
+
+@article{Knoben2019,
+   author = {W.J.M. Knoben and J.E. Freer and R.A. Woods},
+   title = {Technical note: Inherent benchmark or not? Comparing Nash-Sutcliffe and Kling-Gupta efficiency scores},
+   journal = {Hydrology and Earth System Sciences},
+   year = {2019},
+   issue = {10},
+   month = {10},
+   pages = {4323-4331},
+   volume = {23},
+   doi = {10.5194/hess-23-4323-2019},
+   issn = {16077938}
+}
+
+@article{Lavers2020,
+    author = {D.A. Lavers and M.H. Ramos and L. Magnusson and I. Pechlivanidis and B. Klein and C. Prudhomme and L. Arnal and L. Crochemore and B. van den Hurk and A.H. Weerts and S. Harrigan and H.L. Cloke and D.S. Richardson and F. Pappenberger},
+    title = {{A vision for hydrological prediction}},
+    journal = {Atmosphere},
+    year = {2020},
+    month = {mar},
+    number = {3},
+    volume = {11},
+    doi = {10.3390/atmos11030237},
+    issn = {20734433}
+}
+
+@article{LeClerc2015,
+	author = {J. LeClerc and S. Joslyn},
+	title = {{The cry wolf effect and weather-related decision making}},
+	journal = {Risk Analysis},
+	year = {2015},
+	month = {mar},
+	number = {3},
+	pages = {385-395},
+	volume = {35},
+	doi = {10.1111/risa.12336},
+	issn = {15396924}
+}
+
+@article{Legg2004,
+	author = {T.P. Legg and K.R. Mylne},
+	title = {{Early Warnings of Severe Weather from Ensemble Forecast Information}},
+	year = {2004},
+	journal = WF,
+	number = {5},
+	pages = {891-906},
+	volume = {19},
+}
+
+@article{Molteni1996,
+	author = {F. Molteni and R. Buizza and T.N. Palmer and T. Petroliagis},
+	title = {{The ECMWF Ensemble Prediction System: Methodology and validation}},
+	journal = QJRMS,
+	year = {1996},
+	pages = {73-119},
+	volume = {122},
+	doi = {https://doi.org/10.1002/qj.49712252905}
+}
+
+@article{Nevo2022,
+	author = {S. Nevo and E. Morin and A.G. Rosenthal and A. Metzger and C. Barshai and D. Weitzner and D. Voloshin and F. Kratzert and G. Elidan and G. Dror and G. Begelman and G. Nearing and G. Shalev and H. Noga and I. Shavitt and L. Yuklea and M. Royz and N. Giladi and N.P. Levi and O. Reich and O. Gilon and R. Maor and S. Timnat and T. Shechter and V. Anisimov and Y. Gigi and Y. Levin and Z. Moshe and Z. Ben-Haim and A. Hassidim and Y. Matias},
+	title = {{Flood forecasting with machine learning models in an operational framework}},
+	journal = {Hydrology and Earth System Sciences},
+	year = {2022},
+	month = {aug},
+	number = {15},
+	pages = {4013-4032},
+	volume = {26},
+	doi = {10.5194/hess-26-4013-2022},
+	issn = {16077938}
+}
+
+@article{Pagano2014,
+   author = {T.C. Pagano and A.W. Wood and M.H. Ramos and H.L. Cloke and F. Pappenberger and M.P. Clark and M. Cranston and D. Kavetski and T. Mathevet and S. Sorooshian and J.S. Verkade},
+   title = {Challenges of Operational River Forecasting},
+   journal = JHM,
+   year = {2014},
+   issue = {4},
+   month = {8},
+   pages = {1692-1707},
+   volume = {15},
+   doi = {10.1175/jhm-d-13-0188.1},
+   issn = {1525-755X}
+}
+
+@article{Pappenberger2005,
+    author = {F. Pappenberger and K.J. Beven and N.M. Hunter and P.D. Bates and B.T. Gouweleeuw and J. Thielen and A.P.J. De Roo},
+    title = {{Cascading model uncertainty from medium range weather forecasts (10 days) through a rainfall-runoff model to flood inundation predictions within the European Flood Forecasting System (EFFS)}},
+    journal = {Hydrology and Earth System Sciences},
+    year = {2005},
+    number = {4},
+    pages = {381-393},
+    volume = {9},
+    doi = {10.5194/hess-9-381-2005}
+}
+
+@article{Pappenberger2008a,
+   author = {F. Pappenberger and K. Scipal and R. Buizza},
+   title = {Hydrological aspects of meteorological verification},
+   journal = {Atmospheric Science Letters},
+   year = {2008},
+   issue = {2},
+   month = {4},
+   pages = {43-52},
+   volume = {9},
+   doi = {10.1002/asl.171},
+   issn = {1530-261X}
+}
+
+@article{Pappenberger2008b,
+    author = {F. Pappenberger and J. Bartholmes and J. Thielen and H.L. Cloke and R. Buizza and A.P.J. De Roo},
+    title = {{New dimensions in early flood warning across the globe using grand-ensemble weather predictions}},
+    journal = GRL,
+    year = {2008},
+    month = {may},
+    number = {10},
+    volume = {35},
+    doi = {10.1029/2008GL033837},
+    issn = {00948276},
+}
+
+@article{Pappenberger2015a,
+	author = {F. Pappenberger and M.H. Ramos and H.L. Cloke and F. Wetterhall and L. Alfieri and K. Bogner and A. Mueller and P. Salamon},
+	title = {{How do I know if my forecasts are better? Using benchmarks in hydrological ensemble prediction}},
+	journal = {Journal of Hydrology},
+	year = {2015},
+	month = {mar},
+	pages = {697-713},
+	volume = {522},
+	doi = {10.1016/j.jhydrol.2015.01.024},
+	issn = {00221694}
+}
+
+@article{Pappenberger2015b,
+	author = {F. Pappenberger and H.L. Cloke and D.J. Parker and F. Wetterhall and D.S. Richardson and J. Thielen},
+	title = {{The monetary benefit of early flood warnings in Europe}},
+	journal = {Environmental Science and Policy},
+	year = {2015},
+	month = {aug},
+	pages = {278--291},
+	publisher = {Elsevier Ltd},
+	volume = {51},
+    doi = {10.1016/j.envsci.2015.04.016},
+	issn = {18736416}
+}
+
+@article{Paprotny2018,
+	author = {D. Paprotny and A. Sebastian and O. Morales-Nápoles and S.N. Jonkman},
+	title = {{Trends in flood losses in Europe over the past 150 years}},
+	journal = {Nature Communications},
+	year = {2018},
+	month = {dec},
+	number = {1},
+	pmid = {29844471},
+	volume = {9},
+	doi = {10.1038/s41467-018-04253-1},
+	issn = {20411723}
+}
+
+@incollection{Pechlivanidis2014,
+    author = {I.G. Pechlivanidis and T. Bosshard and H. Spangmyr and G. Lindström and D. Gustafsson and B. Arheimer},
+    year = {2014},
+    title = {{Uncertainty in the Swedish Operational Hydrological Forecasting Systems}},
+    booktitle = {Vulnerability, Uncertainty, and Risk},
+    publisher = {American Society of Civil Engineers},
+    pages = {253-262},
+    doi = {10.1061/9780784413609.026},
+    isbn = {9780784413609},
+}
+
+@article{Ramos2007,
+   author = {M.H. Ramos and J. Bartholmes and J. Thielen-del Pozo},
+   title = {Development of decision support products based on ensemble forecasts in the European flood alert system},
+   journal = {Atmospheric Science Letters},
+   year = {2007},
+   issue = {4},
+   month = {10},
+   pages = {113-119},
+   volume = {8},
+   doi = {10.1002/asl.161},
+   issn = {1530261X}
+}
+
+@article{Raynaud2015,
+   author = {D. Raynaud and J. Thielen and P. Salamon and P. Burek and S. Anquetin and L. Alfieri},
+   title = {A dynamic runoff co-efficient to improve flash flood early warning in Europe: Evaluation on the 2013 central European floods in Germany},
+   journal = MA,
+   year = {2015},
+   issue = {3},
+   month = {7},
+   pages = {410-418},
+   volume = {22},
+   doi = {10.1002/met.1469},
+   issn = {14698080}
+}
+
+@article{Roebber2009,
+   author = {P.J. Roebber},
+   title = {Visualizing multiple measures of forecast quality},
+   journal = WF,
+   year = {2009},
+   issue = {2},
+   month = {4},
+   pages = {601-608},
+   volume = {24},
+   doi = {10.1175/2008WAF2222159.1},
+   issn = {08828156}
+}
+
+@article{Roulin2005,
+    author = {E. Roulin and S. Vannitsem},
+    title = {{Skill of Medium-Range Hydrological Ensemble Predictions}},
+    journal = JHM,
+    year = {2005},
+    doi = {10.1175/JHM436.1},
+    number = {5},
+    pages = {729-744},
+    volume = {6}
+}
+
+@article{Skoien2021,
+   author = {J.O. Skøien and K. Bogner and P. Salamon and F. Wetterhall},
+   title = {On the Implementation of Postprocessing of Runoff Forecast Ensembles},
+   journal = JHM,
+   year = {2021},
+   issue = {10},
+   month = {10},
+   pages = {2731-2749},
+   volume = {22},
+   doi = {10.1175/JHM-D-21-0008.1},
+   issn = {15257541}
+}
+
+@article{Thielen2009a,
+   author = {J. Thielen and J. Bartholmes and M.H Ramos and A.P.J. De Roo},
+   title = {The European Flood Alert System – Part 1: Concept and development},
+   journal = {Hydrology and Earth System Sciences},
+   year = {2009},
+   doi = {10.5194/hess-13-125-2009},
+   pages = {125-140},
+   volume = {13}
+}
+
+@article{Thielen2009b,
+   author = {J. Thielen and K. Bogner and F. Pappenberger and M. Kalas and M. del Medico and A.P.J. De Roo},
+   title = {Monthly-, medium-, and short-range flood warning: Testing the limits of predictability},
+   journal = MA,
+   year = {2009},
+   issue = {1},
+   pages = {77-90},
+   volume = {16},
+   doi = {10.1002/met.140},
+   issn = {14698080}
+}
+
+@techreport{UN2023,
+	author = {P. Egerton and J. Stander and L. Paterson and R. Devillier and A. Champagne-Fall and C. Honore and E. Allis and G. Love and R. Nitu and L. Stuart and F. Kaya and L. Santamaria and G. Teruggi and P. Taalas and A. Rea and F. Lucio and J. Harding and M. Repnik and J. Luterbacher and A. Alexieva and H. Gonsior and S. Uhlenbrook and J. Cullmann and N. Lombardi and D. Dunja and D. Pfister and Z. Zommers and H. Escobar Rodriguez and A. Jacob and K. Keo},
+	year = {2023},
+	title = {{Early warnings for all. Executive action plan 2023-2027}},
+	institution = {United Nations},
+	url = {https://www.un.org/en/climatechange/early-warnings-for-all},
+}
+
+@article{Wetterhall2013,
+   author = {F. Wetterhall and F. Pappenberger and L. Alfieri and H. L. Cloke and J. Thielen-Del Pozo and S. Balabanova and J. Daňhelka and A. Vogelbacher and P. Salamon and I. Carrasco and A. J. Cabrera-Tordera and M. Corzo-Toscano and M. Garcia-Padilla and R. J. Garcia-Sanchez and C. Ardilouze and S. Jurela and B. Terek and A. Csik and J. Casey and G. Stankunavičius and V. Ceres and E. Sprokkereef and J. Stam and E. Anghel and D. Vladikovic and C. Alionte Eklund and N. Hjerdt and H. Djerv and F. Holmberg and J. Nilsson and K. Nyström and M. Sušnik and M. Hazlinger and M. Holubecka},
+   title = {{HESS Opinions "Forecaster priorities for improving probabilistic flood forecasts"}},
+   journal = {Hydrology and Earth System Sciences},
+   year = {2013},
+   issue = {11},
+   pages = {4389-4399},
+   publisher = {European Geosciences Union},
+   volume = {17},
+   doi = {10.5194/hess-17-4389-2013},
+   issn = {16077938}
+}
+
+@techreport{WMO2021,
+	address = {Geneva},
+	author = {WMO},
+	institution = {World Meteorological Organization},
+	title = {{WMO Atlas of mortality and economic losses from weather, climate and water extremes (1970-2019)}},
+	year = {2021}
+}
+
+@article{Yang2020,
+	author = {S.C. Yang and T.H. Yang and Y.C. Chang and C.H. Chen and M.Y. Lin and J.Y. Ho and K.T. Lee},
+	title = {{Development of a hydrological ensemble prediction system to assist with decision-making for floods during typhoons}},
+	journal = {Sustainability},
+	year = {2020},
+	month = {may},
+	number = {10},
+	volume = {12},
+	doi = {10.3390/su12104258},
+	issn = {20711050}
+}
