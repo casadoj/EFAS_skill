@@ -142,4 +142,4 @@ This [Confluence page](https://efascom.smhi.se/confluence/pages/viewpage.action?
 
 ## 5 Citation
 
-Casado-Rodríguez, J., Carton de Wiart, C., Grimaldi, S., Zsoter, E., Baugh, C., Bosshard, N., Mikuličkova, M., Pechlivanidis, I., Prudhomme, C., Salamon, P. Optimizing warnings for hydrologic ensemble prediction systems for improved decision-making. Journal of Hydrometeorlogy, 2025.https:/doi.org/10.1175/JHM-D-24-0054.1
+Casado-Rodríguez, J., Carton de Wiart, C., Grimaldi, S., Zsoter, E., Baugh, C., Bosshard, N., Mikuličkova, M., Pechlivanidis, I., Prudhomme, C., Salamon, P. Optimizing warnings for hydrologic ensemble prediction systems for improved decision-making. Journal of Hydrometeorlogy, 2025. https:/doi.org/10.1175/JHM-D-24-0054.1
