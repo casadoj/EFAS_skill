@@ -1,3 +1,5 @@
+<img src="./images/copernicus_logo.png" alt="Logo Copernicus" width="280" align="center"><img src="./images/copernicus_emergency_management.png" alt="Logo CEMS" width="200" align="center">
+
 # EFAS skill assessment
 
 Analysis of the skill of [EFAS (Europen Flood Awareness System)](https://www.efas.eu/en) formal flood notifications since the deployment of EFAS v4 (October 2020).
@@ -138,15 +140,6 @@ There are [2 extra notebooks](./notebook/extra/) that were used to explain the w
 This [Confluence page](https://efascom.smhi.se/confluence/pages/viewpage.action?spaceKey=EJ&title=EFAS+skill+assessment) is a report of the complete study, including the analysis of the results. A PDF version can be found in the folder [docs](./docs/Confluence_report.pdf).
 
 
+## 5 Citation
 
-
-
-
-
-
-
-
-
-
-
-
+Casado-Rodríguez, J., Carton de Wiart, C., Grimaldi, S., Zsoter, E., Baugh, C., Bosshard, N., Mikuličkova, M., Pechlivanidis, I., Prudhomme, C., Salamon, P. Optimizing warnings for hydrologic ensemble prediction systems for improved decision-making. Journal of Hydrometeorlogy, 2025.https:/doi.org/10.1175/JHM-D-24-0054.1
